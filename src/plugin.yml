@@ -1,0 +1,8 @@
+name: Marriage
+version: 1.0-DEV.1
+main: me.lenis0012.mr.Marriage
+dev-url: http://dev.bukkit.org/server-mods/marriage-reloaded/
+commands:
+  marry:
+    description: Marriage main command.
+    usage: /marry <args>
