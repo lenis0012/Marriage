@@ -52,6 +52,9 @@ public class MarryCMD implements CommandExecutor
 		else if(args[0].equalsIgnoreCase("sethome"))
 			SethomeCommand.perform(player, plugin);
 		
+		else if(args[0].equalsIgnoreCase("list"))
+			listCommand.perform(player, plugin, args);
+		
 		else if(args.length == 1)
 			MarryCommand.request(player, args, plugin);
 		
