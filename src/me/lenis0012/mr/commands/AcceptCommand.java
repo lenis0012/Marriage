@@ -22,7 +22,7 @@ public class AcceptCommand
 				{
 					String user = op.getName();
 					String name = player.getName();
-					Bukkit.getServer().broadcastMessage(ChatColor.GREEN + user + " has married with " + name);
+					Bukkit.getServer().broadcastMessage(ChatColor.GREEN + user + " and " + name + " are now married!");
 					cfg.set("Married." + name, user);
 					cfg.set("Married." + user, name);
 					List<String> list = cfg.getStringList("partners");
@@ -32,10 +32,10 @@ public class AcceptCommand
 					MarryCommand.req.remove(name);
 					return;
 				}
-				player.sendMessage(ChatColor.RED + "Player that requested you is not online");
+				player.sendMessage(ChatColor.RED + "Player that has sent you a marriage is not online");
 				return;
 			}
 		}
-		player.sendMessage(ChatColor.RED + "You dont got a request!");
+		player.sendMessage(ChatColor.RED + "You haven't got a request!");
 	}
 }
