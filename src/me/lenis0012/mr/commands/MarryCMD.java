@@ -25,11 +25,11 @@ public class MarryCMD implements CommandExecutor
 			player = (Player)sender;
 		}else
 		{
-			log.info("Command only availeble as player.");
+			log.info("Command only available as player.");
 		}
 		
 		if(args.length == 0)
-			InfoCommand.showInfo(player);
+			InfoCommand.showInfo(player, plugin);
 		
 		else if(args[0].equalsIgnoreCase("accept"))
 			AcceptCommand.Accept(player, plugin);

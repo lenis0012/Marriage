@@ -30,13 +30,13 @@ public class listCommand
 		{
 			maxPage = array.length / 10;
 		}else
-			maxPage = Integer.valueOf(String.valueOf(array.length).replace(String.valueOf(array.length).substring(array.length - 1), "") + 1);
+			maxPage = Integer.valueOf(String.valueOf(array.length).replace(String.valueOf(array.length).substring(String.valueOf(array.length).length() - 1), "") + 1);
 		String pages = ChatColor.GOLD + "Page "+String.valueOf(page)+"/"+String.valueOf(maxPage);
 		player.sendMessage(pages);
 		player.sendMessage(ChatColor.BLUE+"Partners:");
 		int i = page * 10 - 10;
 		int j = i;
-		while(i <= j)
+		while(i <= j && i < array.length)
 		{
 			String p1 = array[i];
 			String p2 = plugin.getCustomConfig().getString("Married."+array[i]);

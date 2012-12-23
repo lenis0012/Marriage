@@ -5,6 +5,7 @@ import me.lenis0012.mr.Marriage;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -35,11 +36,19 @@ public class GiftCommand
 			return;
 		}
 		
-		player.sendMessage(ChatColor.GREEN + "Gift sended");
 		ItemStack it = player.getItemInHand();
-		String item = it.getType().toString().toLowerCase();
-		op.sendMessage(ChatColor.GREEN + "You got a '"+item+"' from your partner");
-		op.getInventory().addItem(it);
-		player.setItemInHand(null);
+		if(it != null)
+		{
+			if(it.getType() != Material.AIR)
+			{
+				player.sendMessage(ChatColor.GREEN + "Gift sended");
+				String item = it.getType().toString().toLowerCase();
+				op.sendMessage(ChatColor.GREEN + "You got a '"+item+"' from your partner");
+				op.getInventory().addItem(it);
+				player.setItemInHand(null);
+			}else
+				player.sendMessage(ChatColor.RED+"Invalid item in your hand");
+		}else
+			player.sendMessage(ChatColor.RED+"Invalid item in your hand");
 	}
 }

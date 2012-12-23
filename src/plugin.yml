@@ -1,8 +1,27 @@
 name: Marriage
-version: 1.0-DEV.2
+version: 1.0
 main: me.lenis0012.mr.Marriage
+authors: [lenis0012]
 dev-url: http://dev.bukkit.org/server-mods/marriage-reloaded/
 commands:
   marry:
     description: Marriage main command.
     usage: /marry <args>
+permissions:
+  marry.*:
+    description: Allows all Marriage Commands
+    children:
+       marry.marry:
+          description: Allows to marry with players
+       marry.chat:
+          description: Allows to chat with your partner
+       marry.tp:
+          description: Allows to tp to your partner
+       marry.home:
+          description: Allows to tp to your home if set
+       marry.sethome:
+          description: Allwos to set your Marriage home
+       marry.gift:
+          description: Allows to gift itesm to your partner
+       marry.chat:
+          description: Allows to chat with your partner
