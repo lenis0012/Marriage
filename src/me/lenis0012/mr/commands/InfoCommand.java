@@ -8,8 +8,9 @@ import org.bukkit.entity.Player;
 
 public class InfoCommand
 {
-	public static void showInfo(Player player, Marriage plugin)
+	public static void showInfo(Player player)
 	{
+		Marriage plugin = Marriage.instance;
 		ChatColor g = ChatColor.GRAY;
 		ChatColor l = ChatColor.GREEN;
 		ChatColor r = ChatColor.RED;

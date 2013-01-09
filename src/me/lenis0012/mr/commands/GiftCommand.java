@@ -2,6 +2,7 @@ package me.lenis0012.mr.commands;
 
 import me.lenis0012.mr.MPlayer;
 import me.lenis0012.mr.Marriage;
+import me.lenis0012.mr.util.EcoUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,8 +12,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class GiftCommand
 {
-	public static void perfom(Player player, Marriage plugin)
+	public static void perfom(Player player)
 	{
+		Marriage plugin = Marriage.instance;
 		MPlayer mp = new MPlayer(player);
 		if(!mp.isMarried())
 		{
@@ -34,6 +36,14 @@ public class GiftCommand
 		{
 			player.sendMessage(ChatColor.RED + "No permission.");
 			return;
+		}
+		if(plugin.eco) {
+			double a = EcoUtil.getPriceFromConfig("gift");
+			if(a != 0.0) {
+				if(EcoUtil.withrawMoneyIfEnough(player, a)) {
+					return;
+				}
+			}
 		}
 		
 		ItemStack it = player.getItemInHand();

@@ -2,7 +2,8 @@ package me.lenis0012.mr.listeners;
 
 import me.lenis0012.mr.MPlayer;
 import me.lenis0012.mr.Marriage;
-
+import net.minecraft.server.v1_4_6.Entity;
+import net.minecraft.server.v1_4_6.EntityLiving;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,10 +11,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class ChatListener implements Listener
-{
+public class PlayerListener implements Listener {
 	private Marriage plugin;
-	public ChatListener(Marriage i) { plugin = i; }
+	public PlayerListener(Marriage i) { plugin = i; }
 	
 	@EventHandler (priority = EventPriority.LOWEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event)
@@ -46,5 +46,8 @@ public class ChatListener implements Listener
 			plugin.getLogger().info("[Marriage] Chat: "+pname+": "+message);
 			event.setCancelled(true);
 		}
+		
+		EntityLiving cp = (EntityLiving)player;
+		cp.getControllerLook().a((Entity)player, 10, cp.bp());
 	}
 }

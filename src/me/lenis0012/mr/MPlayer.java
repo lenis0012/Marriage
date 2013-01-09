@@ -1,21 +1,19 @@
 package me.lenis0012.mr;
 
-import java.io.File;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class MPlayer
 {
 	private String name = null;
 	private FileConfiguration cfg;
-	private File file = null;
+	private Marriage plugin;
 	
 	public MPlayer(Player player)
 	{
+		plugin = Marriage.instance;
 		this.name = player.getName();
-		this.file = new File("plugins/Marriage/data.yml");
-		this.cfg = YamlConfiguration.loadConfiguration(file);
+		this.cfg = plugin.getCustomConfig();
 	}
 	
 	public boolean isMarried()
@@ -32,5 +30,15 @@ public class MPlayer
 			return par1Str;
 		}
 		return "";
+	}
+	
+	public void setPartner(String user) {
+		cfg.set("Married." + name, user);
+		cfg.set("Married." + user, name);
+		save();
+	}
+	
+	private void save() {
+		plugin.saveCustomConfig();
 	}
 }

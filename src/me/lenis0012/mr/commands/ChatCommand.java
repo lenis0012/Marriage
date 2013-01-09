@@ -6,11 +6,13 @@ import org.bukkit.entity.Player;
 
 import me.lenis0012.mr.MPlayer;
 import me.lenis0012.mr.Marriage;
+import me.lenis0012.mr.util.EcoUtil;
 
 public class ChatCommand
 {
-	public static void perform(Player player, Marriage plugin)
+	public static void perform(Player player)
 	{
+		Marriage plugin = Marriage.instance;
 		MPlayer mp = new MPlayer(player);
 		if(!mp.isMarried())
 		{
@@ -32,6 +34,14 @@ public class ChatCommand
 		{
 			player.sendMessage(ChatColor.RED + "No permission.");
 			return;
+		}
+		if(plugin.eco) {
+			double a = EcoUtil.getPriceFromConfig("chat");
+			if(a != 0.0) {
+				if(EcoUtil.withrawMoneyIfEnough(player, a)) {
+					return;
+				}
+			}
 		}
 		
 		String user = player.getName();

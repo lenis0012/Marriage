@@ -3,17 +3,22 @@ package me.lenis0012.mr;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import me.lenis0012.mr.commands.MarryCMD;
-import me.lenis0012.mr.listeners.ChatListener;
+import me.lenis0012.mr.listeners.PlayerListener;
+import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Marriage extends JavaPlugin
@@ -22,6 +27,11 @@ public class Marriage extends JavaPlugin
 	private FileConfiguration customConfig = null;
     private File customConfigFile = null;
     public List<String> chat =  new ArrayList<String>();
+    public static Marriage instance;
+    public HashMap<String, String> req = new HashMap<String, String>();
+    public Economy economy;
+    public Logger log = Logger.getLogger("Minecraft");
+    public boolean eco = false;
 	
 	@Override
 	public void onEnable()
@@ -29,18 +39,24 @@ public class Marriage extends JavaPlugin
 		FileConfiguration config = this.getConfig();
 		PluginManager pm = this.getServer().getPluginManager();
 		
-		pm.registerEvents(new ChatListener(this), this);
+		//register events/commands
+		pm.registerEvents(new PlayerListener(this), this);
 		getCommand("marry").setExecutor(new MarryCMD(this));
 		
+		//setup config.yml
 		config.addDefault("settings.private-chat.format", "&a[Partner] &7{Player}&f: &a{Message}");
+		config.addDefault("price.{command name}", 10.0);
+		config.addDefault("price.marry", 0.0);
 		config.options().copyDefaults(true);
 		this.saveConfig();
 		
+		//setup data.yml
 		FileConfiguration cfg = this.getCustomConfig();
 		cfg.addDefault("partners", partners);
 		cfg.options().copyDefaults(true);
 		this.saveCustomConfig();
 		
+		//setup metrics
 		try
 		{
 			Metrics metrics = new Metrics(this);
@@ -48,6 +64,18 @@ public class Marriage extends JavaPlugin
 		} catch(Exception e)
 		{
 			this.getLogger().info("[Marriage] Failed sending stats to mcstats.org");
+		}
+		
+		//setup instance
+		instance  = (Marriage)pm.getPlugin("Marriage");
+		//setup vault
+		Plugin vault = pm.getPlugin("Vault");
+		if(vault != null) {
+			if(this.setupEconomy()) {
+				String s = economy.getName();
+				log.info("[Marriage] Hooked with "+s+" using Vault");
+				eco = true;
+			}
 		}
 	}
 	
@@ -128,4 +156,13 @@ public class Marriage extends JavaPlugin
 		message = message.replaceAll("&r", ChatColor.WHITE.toString());
 		return message;
 	}
+	
+    private boolean setupEconomy() {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+        }
+
+        return (economy != null);
+    }
 }

@@ -1,17 +1,16 @@
 package me.lenis0012.mr.commands;
 
-import java.util.WeakHashMap;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import me.lenis0012.mr.MPlayer;
 import me.lenis0012.mr.Marriage;
+import me.lenis0012.mr.util.EcoUtil;
 
 public class MarryCommand
 {
-	public static WeakHashMap<String, String> req = new WeakHashMap<String, String>();
-	
-	public static void request(Player player, String[] args, Marriage plugin)
+	public static void request(Player player, String[] args)
 	{
+		Marriage plugin = Marriage.instance;
 		Player op = plugin.getPlayer(args[0]);
 		if(op != null)
 		{
@@ -39,12 +38,20 @@ public class MarryCommand
 					player.sendMessage(ChatColor.RED + op.getName() + " is already married.");
 					return;
 				}
+				if(plugin.eco) {
+					double a = EcoUtil.getPriceFromConfig("marry");
+					if(a != 0.0) {
+						if(EcoUtil.withrawMoneyIfEnough(player, a)) {
+							return;
+						}
+					}
+				}
 				
 				player.sendMessage(ChatColor.GREEN + "Request sended.");
 				op.sendMessage(ChatColor.GREEN + player.getName() + " would like to marry with you.");
 				op.sendMessage(ChatColor.GREEN + "Type " + ChatColor.LIGHT_PURPLE + "/marry accept "
 				+ ChatColor.GREEN + "to accept");
-				req.put(op.getName(), player.getName());
+				plugin.req.put(op.getName().toLowerCase(), player.getName());
 				return;
 			}
 		}

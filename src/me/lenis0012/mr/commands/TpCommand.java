@@ -2,6 +2,7 @@ package me.lenis0012.mr.commands;
 
 import me.lenis0012.mr.MPlayer;
 import me.lenis0012.mr.Marriage;
+import me.lenis0012.mr.util.EcoUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,8 +10,9 @@ import org.bukkit.entity.Player;
 
 public class TpCommand
 {
-	public static void perfrom(Player player, Marriage plugin)
+	public static void perfrom(Player player)
 	{
+		Marriage plugin = Marriage.instance;
 		MPlayer mp = new MPlayer(player);
 		if(!mp.isMarried())
 		{
@@ -32,6 +34,14 @@ public class TpCommand
 		{
 			player.sendMessage(ChatColor.RED + "No permission.");
 			return;
+		}
+		if(plugin.eco) {
+			double a = EcoUtil.getPriceFromConfig("tp");
+			if(a != 0.0) {
+				if(EcoUtil.withrawMoneyIfEnough(player, a)) {
+					return;
+				}
+			}
 		}
 		
 		player.sendMessage(ChatColor.GREEN + "Teleporting...");

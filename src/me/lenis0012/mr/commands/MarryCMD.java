@@ -29,34 +29,34 @@ public class MarryCMD implements CommandExecutor
 		}
 		
 		if(args.length == 0)
-			InfoCommand.showInfo(player, plugin);
+			InfoCommand.showInfo(player);
 		
 		else if(args[0].equalsIgnoreCase("accept"))
-			AcceptCommand.Accept(player, plugin);
+			AcceptCommand.Accept(player);
 		
 		else if(args[0].equalsIgnoreCase("tp"))
-			TpCommand.perfrom(player, plugin);
+			TpCommand.perfrom(player);
 		
 		else if(args[0].equalsIgnoreCase("gift"))
-			GiftCommand.perfom(player, plugin);
+			GiftCommand.perfom(player);
 		
 		else if(args[0].equalsIgnoreCase("divorce"))
-			DivorceCommand.perfrom(player, plugin);
+			DivorceCommand.perfrom(player);
 		
 		else if(args[0].equalsIgnoreCase("chat"))
-			ChatCommand.perform(player, plugin);
+			ChatCommand.perform(player);
 		
 		else if(args[0].equalsIgnoreCase("home"))
-			HomeCommand.perform(player, plugin);
+			HomeCommand.perform(player);
 		
 		else if(args[0].equalsIgnoreCase("sethome"))
-			SethomeCommand.perform(player, plugin);
+			SethomeCommand.perform(player);
 		
 		else if(args[0].equalsIgnoreCase("list"))
-			listCommand.perform(player, plugin, args);
+			listCommand.perform(player, args);
 		
 		else if(args.length == 1)
-			MarryCommand.request(player, args, plugin);
+			MarryCommand.request(player, args);
 		
 		return true;
 	}

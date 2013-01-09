@@ -9,8 +9,9 @@ import org.bukkit.entity.Player;
 
 public class listCommand 
 {
-	public static void perform(Player player, Marriage plugin, String[] args)
+	public static void perform(Player player, String[] args)
 	{
+		Marriage plugin = Marriage.instance;
 		int page = 1;
 		if(args.length == 2)
 			page = Integer.valueOf(args[1]);

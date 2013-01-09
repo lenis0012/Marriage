@@ -1,7 +1,7 @@
 name: Marriage
-version: 1.0
+version: 1.01
 main: me.lenis0012.mr.Marriage
-authors: [lenis0012]
+author: lenis0012
 dev-url: http://dev.bukkit.org/server-mods/marriage-reloaded/
 commands:
   marry:

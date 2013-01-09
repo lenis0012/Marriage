@@ -9,13 +9,14 @@ import org.bukkit.entity.Player;
 
 public class AcceptCommand
 {
-	public static void Accept(Player player, Marriage plugin)
+	public static void Accept(Player player)
 	{
+		Marriage plugin = Marriage.instance;
 		FileConfiguration cfg = plugin.getCustomConfig();
 		
-		if(MarryCommand.req.containsKey(player.getName()))
+		if(plugin.req.containsKey(player.getName()))
 		{
-			Player op = plugin.getPlayer(MarryCommand.req.get(player.getName()));
+			Player op = plugin.getPlayer(plugin.req.get(player.getName().toLowerCase()));
 			if(op != null)
 			{
 				if(op.isOnline())
@@ -29,7 +30,7 @@ public class AcceptCommand
 					list.add(user);
 					cfg.set("partners", list);
 					plugin.saveCustomConfig();
-					MarryCommand.req.remove(name);
+					plugin.req.remove(name);
 					return;
 				}
 				player.sendMessage(ChatColor.RED + "Player that requested you is not online");

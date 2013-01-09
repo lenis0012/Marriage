@@ -2,6 +2,7 @@ package me.lenis0012.mr.commands;
 
 import me.lenis0012.mr.MPlayer;
 import me.lenis0012.mr.Marriage;
+import me.lenis0012.mr.util.EcoUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,8 +12,9 @@ import org.bukkit.entity.Player;
 
 public class HomeCommand
 {
-	public static void perform(Player player, Marriage plugin)
+	public static void perform(Player player)
 	{
+		Marriage plugin = Marriage.instance;
 		MPlayer mp = new MPlayer(player);
 		if(!mp.isMarried())
 		{
@@ -29,6 +31,14 @@ public class HomeCommand
 		{
 			player.sendMessage(ChatColor.RED + "Home not set");
 			return;
+		}
+		if(plugin.eco) {
+			double a = EcoUtil.getPriceFromConfig("home");
+			if(a != 0.0) {
+				if(EcoUtil.withrawMoneyIfEnough(player, a)) {
+					return;
+				}
+			}
 		}
 		
 		World world = Bukkit.getServer().getWorld(plugin.getCustomConfig().getString("home."+user+".world"));
