@@ -12,6 +12,7 @@ import me.lenis0012.mr.commands.MarryCMD;
 import me.lenis0012.mr.listeners.PlayerListener;
 import net.milkbowl.vault.economy.Economy;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -81,9 +82,14 @@ public class Marriage extends JavaPlugin
 	
 	public Player getPlayer(String name)
 	{
+		Player t = Bukkit.getServer().getPlayer(name);
+		if(t != null)
+			if(t.isOnline())
+				return t;
+		
 		for(Player player : this.getServer().getOnlinePlayers())
 		{
-			if(player.getName().toLowerCase().startsWith(name))
+			if(player.getName().toLowerCase().startsWith(name) || player.getName().startsWith(name))
 			{
 				return player;
 			}
@@ -91,7 +97,15 @@ public class Marriage extends JavaPlugin
 		
 		for(Player player : this.getServer().getOnlinePlayers())
 		{
-			if(player.getName().toLowerCase().contains(name))
+			if(player.getName().toLowerCase().endsWith(name) || player.getName().endsWith(name))
+			{
+				return player;
+			}
+		}
+		
+		for(Player player : this.getServer().getOnlinePlayers())
+		{
+			if(player.getName().toLowerCase().contains(name) || player.getName().contains(name))
 			{
 				return player;
 			}

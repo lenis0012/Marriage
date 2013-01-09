@@ -16,7 +16,7 @@ public class AcceptCommand
 		
 		if(plugin.req.containsKey(player.getName()))
 		{
-			Player op = plugin.getPlayer(plugin.req.get(player.getName().toLowerCase()));
+			Player op = Bukkit.getServer().getPlayer(plugin.req.get(player.getName().toLowerCase()));
 			if(op != null)
 			{
 				if(op.isOnline())

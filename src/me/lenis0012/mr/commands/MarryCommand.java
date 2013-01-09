@@ -51,7 +51,7 @@ public class MarryCommand
 				op.sendMessage(ChatColor.GREEN + player.getName() + " would like to marry with you.");
 				op.sendMessage(ChatColor.GREEN + "Type " + ChatColor.LIGHT_PURPLE + "/marry accept "
 				+ ChatColor.GREEN + "to accept");
-				plugin.req.put(op.getName().toLowerCase(), player.getName());
+				plugin.req.put(op.getName(), player.getName());
 				return;
 			}
 		}
