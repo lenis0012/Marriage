@@ -1,11 +1,8 @@
 package me.lenis0012.mr.commands;
 
-import java.util.List;
-
 import me.lenis0012.mr.MPlayer;
 import me.lenis0012.mr.Marriage;
 import me.lenis0012.mr.util.EcoUtil;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -33,17 +30,7 @@ public class DivorceCommand
 		String user = player.getName();
 		String partner = mp.getPartner();
 		
-		plugin.getCustomConfig().set("Married."+user, null);
-		plugin.getCustomConfig().set("Married."+partner, null);
-		plugin.getCustomConfig().set("home."+user, null);
-		plugin.getCustomConfig().set("home."+partner, null);
-		List<String> list = plugin.getCustomConfig().getStringList("partners");
-		if(list.contains(user))
-			list.remove(user);
-		if(list.contains(partner))
-			list.remove(partner);
-		plugin.getCustomConfig().set("partners", list);
-		plugin.saveCustomConfig();
+		mp.divorce();
 		Bukkit.getServer().broadcastMessage(ChatColor.RED+user+" divorced with "+partner);
 	}
 }

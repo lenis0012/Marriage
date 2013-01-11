@@ -2,8 +2,6 @@ package me.lenis0012.mr.listeners;
 
 import me.lenis0012.mr.MPlayer;
 import me.lenis0012.mr.Marriage;
-import net.minecraft.server.v1_4_6.Entity;
-import net.minecraft.server.v1_4_6.EntityLiving;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,8 +44,5 @@ public class PlayerListener implements Listener {
 			plugin.getLogger().info("[Marriage] Chat: "+pname+": "+message);
 			event.setCancelled(true);
 		}
-		
-		EntityLiving cp = (EntityLiving)player;
-		cp.getControllerLook().a((Entity)player, 10, cp.bp());
 	}
 }

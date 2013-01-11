@@ -24,25 +24,21 @@ public class listCommand
 			return;
 		}
 		
-		String[] array = list.toArray(new String[list.size()]);
+		String[] array = list.toArray(new String[list.size() - 1]);
 		
 		int maxPage = 0;
 		if(String.valueOf(array.length).endsWith("0"))
 		{
 			maxPage = array.length / 10;
 		}else
-			maxPage = Integer.valueOf(String.valueOf(array.length).replace(String.valueOf(array.length).substring(String.valueOf(array.length).length() - 1), "") + 1);
+			maxPage = Integer.valueOf(((Double) ((double)(array.length / 10))).intValue() + 1);
 		String pages = ChatColor.GOLD + "Page "+String.valueOf(page)+"/"+String.valueOf(maxPage);
 		player.sendMessage(pages);
 		player.sendMessage(ChatColor.BLUE+"Partners:");
-		int i = page * 10 - 10;
-		int j = i;
-		while(i <= j && i < array.length)
+		for(String p1 : array)
 		{
-			String p1 = array[i];
-			String p2 = plugin.getCustomConfig().getString("Married."+array[i]);
+			String p2 = plugin.getCustomConfig().getString("Married."+p1);
 			player.sendMessage(ChatColor.GREEN+p1 +" "+ChatColor.WHITE+"+ "+ChatColor.GREEN+p2);
-			i++;
 		}
 	}
 }
