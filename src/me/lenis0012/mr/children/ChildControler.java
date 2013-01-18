@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 @SuppressWarnings("unused")
 public class ChildControler implements Child {
-	private Mind mind;
+	private Brain brain;
 	private EntityLiving cbEntity;
 	private LivingEntity entity;
 	private Player owner;
@@ -20,7 +20,7 @@ public class ChildControler implements Child {
 	protected Location loc;
 	
 	public ChildControler(int id, Player owner) {
-		this.mind = new Mind(this);
+		this.brain = new Brain(this);
 		this.manager = ChildManager.getInstance();
 		this.owner = owner;
 	}
@@ -63,8 +63,8 @@ public class ChildControler implements Child {
 	}
 
 	@Override
-	public Mind getMind() {
-		return mind;
+	public Brain getBrain() {
+		return brain;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package me.lenis0012.mr.children;
 
+import net.minecraft.server.v1_4_R1.EntityPlayer;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
@@ -22,29 +24,37 @@ public class ChildCommand implements CommandExecutor {
 				Child child = manager.createChild(player);
 				child.spawn(player.getLocation());
 				FollowCell cell = new FollowCell(child, player);
-				child.getMind().addBrainCell(cell);
+				child.getBrain().addBrainCell(cell);
 				player.sendMessage(ChatColor.GREEN+"Your got a baby");
 			} else if(args[0].equalsIgnoreCase("stay")) {
 				if(hasChild(player)) {
 					Child child = getChild(player);
+					
 					this.removeFollowCells(child);
+					
+					LookAtClosestCell cell = new LookAtClosestCell(child, EntityPlayer.class);
+					child.getBrain().addBrainCell(cell);
 					child.setStaying(true);
 					player.sendMessage(ChatColor.GREEN+"Your child is now staying");
 				}
 			} else if(args[0].equalsIgnoreCase("follow")) {
 				if(hasChild(player)) {
 					Child child = getChild(player);
+					
+					this.removeLookAtClosestCells(child);
 					if(child.isStaying())
 						child.setStaying(false);
 					
 					FollowCell cell = new FollowCell(child, player);
-					child.getMind().addBrainCell(cell);
+					child.getBrain().addBrainCell(cell);
 					player.sendMessage(ChatColor.GREEN+"Your child is now following you");
 				}
 			} else if (args[0].equalsIgnoreCase("explore")) {
 				if(hasChild(player)) {
 					Child child = getChild(player);
+					
 					this.removeFollowCells(child);
+					this.removeLookAtClosestCells(child);
 					if(child.isStaying())
 						child.setStaying(false);
 					
@@ -74,7 +84,11 @@ public class ChildCommand implements CommandExecutor {
 	}
 	
 	public void removeFollowCells(Child child) {
-		child.getMind().removeBrainCellWithType("follow");
+		child.getBrain().removeBrainCellWithType("follow");
+	}
+	
+	public void removeLookAtClosestCells(Child child) {
+		child.getBrain().removeBrainCellWithType("lookatclosest");
 	}
 	
 	public boolean hasChild(Player player) {

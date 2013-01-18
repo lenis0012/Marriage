@@ -26,7 +26,7 @@ public interface Child {
 	 * 
 	 * @return childs mind
 	 */
-	public Mind getMind();
+	public Brain getBrain();
 	
 	/**
 	 * Get the chidld as an enity

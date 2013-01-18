@@ -6,12 +6,12 @@ import java.util.List;
 
 import org.bukkit.entity.Villager;
 
-public class Mind {
+public class Brain {
 	private List<BrainCell> cells = new ArrayList<BrainCell>();
 	private ChildControler child;
 	private Villager villager = null;
 	
-	public Mind(ChildControler child) {
+	public Brain(ChildControler child) {
 		this.child = child;
 	}
 	

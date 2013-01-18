@@ -45,7 +45,7 @@ public class EntityChild extends EntityVillager {
 		super.j_();
 		
 		//update the childs mind
-		child.getMind().update();
+		child.getBrain().update();
 	}
 	
 	//player interacting with entity
