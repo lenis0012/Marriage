@@ -1,13 +1,13 @@
 package me.lenis0012.mr.children;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.entity.Villager;
 
 public class Mind {
 	private List<BrainCell> cells = new ArrayList<BrainCell>();
-	private List<BrainCell> freeCells = new ArrayList<BrainCell>();
 	private ChildControler child;
 	private Villager villager = null;
 	
@@ -20,7 +20,9 @@ public class Mind {
 			if(villager == null)
 				villager = (Villager)child.getBukkitEnitity();
 			
-			for(BrainCell cell : cells) {
+			Iterator<BrainCell> it = cells.iterator();
+			while(it.hasNext()) {
+				BrainCell cell = it.next();
 				cell.onUpdate();
 			}
 			
@@ -36,20 +38,25 @@ public class Mind {
 	public void addBrainCell(BrainCell cell) {
 		if(!cells.contains(cell)) {
 			cells.add(cell);
-			freeCells.add(cell);
 			cell.onCreate();
 		}
 	}
 	
 	public void removeBrainCell(BrainCell cell) {
-		if(cells.contains(cell)) {
-			cells.remove(cell);
-			freeCells.remove(cell);
-			cell.onRemove();
+		Iterator<BrainCell> it = cells.iterator();
+		while(it.hasNext()) {
+			BrainCell c = it.next();
+			if(cell == c)
+				it.remove();
 		}
 	}
 	
-	public List<BrainCell> getBrainCells() {
-		return this.freeCells;
+	public void removeBrainCellWithType(String type) {
+		Iterator<BrainCell> it = cells.iterator();
+		while(it.hasNext()) {
+			BrainCell c = it.next();
+			if(c.getType().equalsIgnoreCase(type))
+				it.remove();
+		}
 	}
 }

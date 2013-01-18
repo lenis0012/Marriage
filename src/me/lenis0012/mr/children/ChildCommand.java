@@ -74,10 +74,7 @@ public class ChildCommand implements CommandExecutor {
 	}
 	
 	public void removeFollowCells(Child child) {
-		for(BrainCell cell : child.getMind().getBrainCells()) {
-			if(cell.getType().equalsIgnoreCase("follow"))
-				child.getMind().removeBrainCell(cell);
-		}
+		child.getMind().removeBrainCellWithType("follow");
 	}
 	
 	public boolean hasChild(Player player) {
