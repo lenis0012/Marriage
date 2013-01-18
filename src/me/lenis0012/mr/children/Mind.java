@@ -6,7 +6,8 @@ import java.util.List;
 import org.bukkit.entity.Villager;
 
 public class Mind {
-	public List<BrainCell> cells = new ArrayList<BrainCell>();
+	private List<BrainCell> cells = new ArrayList<BrainCell>();
+	private List<BrainCell> freeCells = new ArrayList<BrainCell>();
 	private ChildControler child;
 	private Villager villager = null;
 	
@@ -35,6 +36,7 @@ public class Mind {
 	public void addBrainCell(BrainCell cell) {
 		if(!cells.contains(cell)) {
 			cells.add(cell);
+			freeCells.add(cell);
 			cell.onCreate();
 		}
 	}
@@ -42,7 +44,12 @@ public class Mind {
 	public void removeBrainCell(BrainCell cell) {
 		if(cells.contains(cell)) {
 			cells.remove(cell);
+			freeCells.remove(cell);
 			cell.onRemove();
 		}
+	}
+	
+	public List<BrainCell> getBrainCells() {
+		return this.freeCells;
 	}
 }

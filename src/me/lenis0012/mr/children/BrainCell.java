@@ -4,4 +4,5 @@ public interface BrainCell {
 	public void onUpdate();
 	public void onRemove();
 	public void onCreate();
+	public String getType();
 }

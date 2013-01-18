@@ -44,6 +44,10 @@ public class FollowCell implements BrainCell {
 		}
 	}
 	
+	public String getType() {
+		return "Follow";
+	}
+	
 	private void follow() {
 		PathEntity path = entity.world.findPath(entity, target, 20, true, false, false, true);
 		((EntityCreature)entity).setPathEntity(path);
