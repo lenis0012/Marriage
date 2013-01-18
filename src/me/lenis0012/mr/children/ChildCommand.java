@@ -1,6 +1,7 @@
 package me.lenis0012.mr.children;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,6 +27,7 @@ public class ChildCommand implements CommandExecutor {
 			} else if(args[0].equalsIgnoreCase("stay")) {
 				if(hasChild(player)) {
 					Child child = getChild(player);
+					this.removeFollowCells(child);
 					child.setStaying(true);
 					player.sendMessage(ChatColor.GREEN+"Your child is now staying");
 				}
@@ -39,9 +41,44 @@ public class ChildCommand implements CommandExecutor {
 					child.getMind().addBrainCell(cell);
 					player.sendMessage(ChatColor.GREEN+"Your child is now following you");
 				}
+			} else if (args[0].equalsIgnoreCase("explore")) {
+				if(hasChild(player)) {
+					Child child = getChild(player);
+					this.removeFollowCells(child);
+					if(child.isStaying())
+						child.setStaying(false);
+					
+					player.sendMessage(ChatColor.GREEN+"Your child is now exploring");
+				}
+			} else if (args[0].equalsIgnoreCase("tphere")) {
+				if(hasChild(player)) {
+					Child child = getChild(player);
+					if(child.isSpawned()) {
+						child.getBukkitEnitity().teleport(player);
+						player.sendMessage(ChatColor.GREEN+"Your child has been teleported to you");
+					} else {
+						Chunk c = child.getLocation().getChunk();
+						c.load();
+						if(child.isSpawned()) {
+							child.getBukkitEnitity().teleport(player);
+							player.sendMessage(ChatColor.GREEN+"Your child has been teleported to you");
+						} else {
+							player.sendMessage(ChatColor.GREEN+"Your child is not alive");
+						}
+						c.unload();
+					}
+				}
 			}
 		}
 		return true;
+	}
+	
+	public void removeFollowCells(Child child) {
+		for(BrainCell cell : child.getMind().cells) {
+			if(cell instanceof FollowCell) {
+				child.getMind().removeBrainCell(cell);
+			}
+		}
 	}
 	
 	public boolean hasChild(Player player) {
