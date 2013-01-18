@@ -1,5 +1,6 @@
 package me.lenis0012.mr.children;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,11 +16,46 @@ public class ChildCommand implements CommandExecutor {
 		}
 		ChildManager manager = ChildManager.getInstance();
 		Player player = (Player)sender;
-		Child child = manager.createChild(player);
-		child.spawn(player.getLocation());
-		FollowCell cell = new FollowCell(child, player);
-		child.getMind().addBrainCell(cell);
+		if(args.length >= 1) {
+			if(args[0].equalsIgnoreCase("breed")) {
+				Child child = manager.createChild(player);
+				child.spawn(player.getLocation());
+				FollowCell cell = new FollowCell(child, player);
+				child.getMind().addBrainCell(cell);
+				player.sendMessage(ChatColor.GREEN+"Your got a baby");
+			} else if(args[0].equalsIgnoreCase("stay")) {
+				if(hasChild(player)) {
+					Child child = getChild(player);
+					child.setStaying(true);
+					player.sendMessage(ChatColor.GREEN+"Your child is now staying");
+				}
+			} else if(args[0].equalsIgnoreCase("follow")) {
+				if(hasChild(player)) {
+					Child child = getChild(player);
+					if(child.isStaying())
+						child.setStaying(false);
+					
+					FollowCell cell = new FollowCell(child, player);
+					child.getMind().addBrainCell(cell);
+					player.sendMessage(ChatColor.GREEN+"Your child is now following you");
+				}
+			}
+		}
 		return true;
 	}
-
+	
+	public boolean hasChild(Player player) {
+		ChildManager manager = ChildManager.getInstance();
+		String name = player.getName();
+		return manager.parents.containsKey(name);
+	}
+	
+	public Child getChild(Player player) {
+		ChildManager manager = ChildManager.getInstance();
+		String name = player.getName();
+		if(hasChild(player)) {
+			return manager.parents.get(name);
+		}
+		return null;
+	}
 }

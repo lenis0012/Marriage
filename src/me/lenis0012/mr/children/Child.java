@@ -65,6 +65,13 @@ public interface Child {
 	public Location getLocation();
 	
 	/**
+	 * Check if the child is a baby
+	 * 
+	 * @return baby?
+	 */
+	public boolean isBaby();
+	
+	/**
 	 * Spawn the child
 	 * 
 	 * @param loc location to spawn the child
@@ -77,4 +84,16 @@ public interface Child {
 	 * @param value	entity should stay?
 	 */
 	public void setStaying(boolean value);
+	
+	/**
+	 * Set if the child is a baby or not
+	 * 
+	 * @param value baby or not?
+	 */
+	public void setBaby(boolean value);
+	
+	/**
+	 * Despawn the child
+	 */
+	public void deSpawn();
 }

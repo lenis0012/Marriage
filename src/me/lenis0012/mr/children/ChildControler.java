@@ -16,16 +16,17 @@ public class ChildControler implements Child {
 	private LivingEntity entity;
 	private Player owner;
 	private ChildManager manager;
-	private boolean spawned = false, staying = false;
+	private boolean spawned = false, staying = false, baby = true;
+	protected Location loc;
 	
 	public ChildControler(int id, Player owner) {
-		this.mind = new Mind();
+		this.mind = new Mind(this);
 		this.manager = ChildManager.getInstance();
 		this.owner = owner;
 	}
 	
 	public void spawn(Location loc) {
-		if(this.isSpawned())
+		if(this.isSpawned() || !loc.getChunk().isLoaded())
 			return;
 		
 		try {
@@ -35,9 +36,15 @@ public class ChildControler implements Child {
 			ws.addEntity(this.cbEntity);
 			this.entity = (LivingEntity)this.cbEntity.getBukkitEntity();
 			this.spawned = true;
+			this.loc = loc;
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void deSpawn() {
+		this.spawned = false;
+		this.getBukkitEnitity().remove();
 	}
 
 	@Override
@@ -75,8 +82,18 @@ public class ChildControler implements Child {
 		return 0.25F;
 	}
 	
+	@Override
+	public void setBaby(boolean value) {
+		this.baby = value;
+	}
+	
+	@Override
+	public boolean isBaby() {
+		return this.baby;
+	}
+	
 	public Location getLocation() {
-		return this.entity.getLocation();
+		return this.loc;
 	}
 	
 	@Override
