@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import me.lenis0012.mr.children.ChildManager;
 import me.lenis0012.mr.commands.MarryCMD;
 import me.lenis0012.mr.listeners.PlayerListener;
 import net.milkbowl.vault.economy.Economy;
@@ -69,6 +70,8 @@ public class Marriage extends JavaPlugin
 		
 		//setup instance
 		instance  = (Marriage)pm.getPlugin("Marriage");
+		ChildManager manager = new ChildManager(this);
+		manager.setInstance(manager);
 		//setup vault
 		Plugin vault = pm.getPlugin("Vault");
 		if(vault != null) {
