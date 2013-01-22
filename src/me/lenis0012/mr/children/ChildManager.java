@@ -1,9 +1,11 @@
 package me.lenis0012.mr.children;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -11,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.bergerkiller.bukkit.common.reflection.classes.EntityTypesRef;
@@ -41,6 +44,7 @@ public class ChildManager {
 		return instance;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public void registerChildren() {
 		if(!added) {
 			try {
@@ -48,21 +52,24 @@ public class ChildManager {
 				String cbType = "Villager";
 				int cbID = EntityType.VILLAGER.getTypeId();
 				
-				//Old reflection system
-				/*//data format start
-				Class[] tmp = new Class[3];
-				tmp[0] = Class.class;
-				tmp[1] = String.class;
-				tmp[2] = int.class;
-				//data format end
+				Plugin bkc = Bukkit.getServer().getPluginManager().getPlugin("BKCommonLib");
+				if(bkc != null)
+					EntityTypesRef.register(cbClass, cbType, cbID);
+				else {
+					//data format start
+					Class[] tmp = new Class[3];
+					tmp[0] = Class.class;
+					tmp[1] = String.class;
+					tmp[2] = int.class;
+					//data format end
+					
+					Method entities = net.minecraft.server.v1_4_R1.EntityTypes.class.getDeclaredMethod("a", tmp);
+					entities.setAccessible(true);
+					
+					//write custom data to the entity list
+					entities.invoke(entities, cbClass, cbType, cbID);
+				} 
 				
-				Method entities = net.minecraft.server.v1_4_R1.EntityTypes.class.getDeclaredMethod("a", tmp);
-				
-				//write custom data to the entity list
-				entities.invoke(entities, cbClass, cbType, cbID);*/
-				
-				//new reflection system, from BKCommonLib
-				EntityTypesRef.register(cbClass, cbType, cbID);
 				this.added = true;
 			} catch(Exception e) {
 				e.printStackTrace();

@@ -1,8 +1,10 @@
-package me.lenis0012.mr.children;
+package me.lenis0012.mr.children.thinking;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import me.lenis0012.mr.children.ChildControler;
 
 import org.bukkit.entity.Villager;
 

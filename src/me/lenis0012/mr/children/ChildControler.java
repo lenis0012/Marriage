@@ -1,5 +1,6 @@
 package me.lenis0012.mr.children;
 
+import me.lenis0012.mr.children.thinking.Brain;
 import net.minecraft.server.v1_4_R1.EntityLiving;
 import net.minecraft.server.v1_4_R1.World;
 import net.minecraft.server.v1_4_R1.WorldServer;
@@ -17,7 +18,7 @@ public class ChildControler implements Child {
 	private Player owner;
 	private ChildManager manager;
 	private boolean spawned = false, staying = false, baby = true;
-	protected Location loc;
+	public Location loc;
 	
 	public ChildControler(int id, Player owner) {
 		this.brain = new Brain(this);

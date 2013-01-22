@@ -1,5 +1,7 @@
 package me.lenis0012.mr.children;
 
+import me.lenis0012.mr.children.thinking.FollowCell;
+import me.lenis0012.mr.children.thinking.LookAtClosestCell;
 import net.minecraft.server.v1_4_R1.EntityPlayer;
 
 import org.bukkit.ChatColor;

@@ -1,4 +1,4 @@
-package me.lenis0012.mr.children;
+package me.lenis0012.mr.children.thinking;
 
 public interface BrainCell {
 	public void onUpdate();

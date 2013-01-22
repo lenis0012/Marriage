@@ -1,8 +1,9 @@
-package me.lenis0012.mr.children;
+package me.lenis0012.mr.children.thinking;
 
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 
+import me.lenis0012.mr.children.Child;
 import net.minecraft.server.v1_4_R1.EntityCreature;
 import net.minecraft.server.v1_4_R1.EntityLiving;
 import net.minecraft.server.v1_4_R1.PathEntity;
@@ -49,7 +50,7 @@ public class FollowCell implements BrainCell {
 	}
 	
 	private void follow() {
-		PathEntity path = entity.world.findPath(entity, target, 20, true, false, false, true);
+		PathEntity path = CustomPath.createPath(entity, target);
 		((EntityCreature)entity).setPathEntity(path);
 	}
 }

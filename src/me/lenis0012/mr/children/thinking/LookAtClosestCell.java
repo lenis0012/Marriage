@@ -1,5 +1,6 @@
-package me.lenis0012.mr.children;
+package me.lenis0012.mr.children.thinking;
 
+import me.lenis0012.mr.children.Child;
 import net.minecraft.server.v1_4_R1.Entity;
 import net.minecraft.server.v1_4_R1.EntityHuman;
 import net.minecraft.server.v1_4_R1.EntityLiving;
