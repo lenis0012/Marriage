@@ -24,7 +24,7 @@ public class ChildCommand implements CommandExecutor {
 		if(args.length >= 1) {
 			if(args[0].equalsIgnoreCase("breed")) {
 				Child child = manager.createChild(player);
-				child.spawn(player.getLocation());
+				child.spawn(player.getLocation(), true);
 				FollowCell cell = new FollowCell(child, player);
 				child.getBrain().addBrainCell(cell);
 				player.sendMessage(ChatColor.GREEN+"Your got a baby");

@@ -44,6 +44,10 @@ public class Brain {
 		}
 	}
 	
+	public List<BrainCell> getCells() {
+		return this.cells;
+	}
+	
 	public void removeBrainCell(BrainCell cell) {
 		Iterator<BrainCell> it = cells.iterator();
 		while(it.hasNext()) {

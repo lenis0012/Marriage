@@ -44,7 +44,7 @@ public class LookAtClosestCell implements BrainCell {
 		if(!child.isStaying())
 			return;
 		
-		Entity target = getClosestEntity(type, 15);
+		Entity target = getClosestEntity(type, 10);
 		entity.getControllerLook().a(target, 10, entity.bp());
 	}
 	
@@ -55,5 +55,11 @@ public class LookAtClosestCell implements BrainCell {
 		else
 			e = entity.world.a(type, entity.boundingBox.grow(distance, 3, distance), entity);
 		return e;
+	}
+	
+	
+	@Override
+	public boolean canContinue() {
+		return true;
 	}
 }

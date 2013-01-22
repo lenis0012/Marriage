@@ -1,6 +1,9 @@
 package me.lenis0012.mr.children;
 
 import me.lenis0012.mr.children.thinking.Brain;
+import me.lenis0012.mr.children.thinking.BrainCell;
+import me.lenis0012.mr.children.thinking.SwimCell;
+import me.lenis0012.mr.util.PositionUtil;
 import net.minecraft.server.v1_4_R1.EntityLiving;
 import net.minecraft.server.v1_4_R1.World;
 import net.minecraft.server.v1_4_R1.WorldServer;
@@ -26,7 +29,7 @@ public class ChildControler implements Child {
 		this.owner = owner;
 	}
 	
-	public void spawn(Location loc) {
+	public void spawn(Location loc, boolean addCells) {
 		if(this.isSpawned() || !loc.getChunk().isLoaded())
 			return;
 		
@@ -38,14 +41,40 @@ public class ChildControler implements Child {
 			this.entity = (LivingEntity)this.cbEntity.getBukkitEntity();
 			this.spawned = true;
 			this.loc = loc;
+			if(addCells)
+				this.attachDefaultBrainCells();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void deSpawn() {
-		this.spawned = false;
-		this.getBukkitEnitity().remove();
+	@Override
+	public void move(Location loc) {
+		if(this.isSpawned())
+			PositionUtil.move(cbEntity, loc, getSpeed());
+	}
+	
+	@Override
+	public void move(LivingEntity target) {
+		if(this.isSpawned())
+			PositionUtil.move(cbEntity, PositionUtil.getEntity(target) , getSpeed());
+	}
+	
+	public void attachDefaultBrainCells() {
+		getBrain().addBrainCell(new SwimCell(this));
+	}
+	
+	@Override
+	public void deSpawn(boolean removeCells) {
+		if(this.isSpawned()) {
+			if(removeCells) {
+				for(BrainCell cell : getBrain().getCells()) {
+					getBrain().removeBrainCell(cell);
+				}
+			}
+			this.spawned = false;
+			this.getBukkitEnitity().remove();
+		}
 	}
 
 	@Override

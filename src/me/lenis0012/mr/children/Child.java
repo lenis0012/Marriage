@@ -77,7 +77,7 @@ public interface Child {
 	 * 
 	 * @param loc location to spawn the child
 	 */
-	public void spawn(Location loc);
+	public void spawn(Location loc, boolean addCells);
 	
 	/**
 	 * Set if the entity should stay
@@ -96,5 +96,19 @@ public interface Child {
 	/**
 	 * Despawn the child
 	 */
-	public void deSpawn();
+	public void deSpawn(boolean removeCells);
+	
+	/**
+	 * move the child
+	 * 
+	 * @param target target to move to
+	 */
+	public void move(LivingEntity target);
+	
+	/**
+	 * Move the child
+	 * 
+	 * @param loc location to move to
+	 */
+	public void move(Location loc);
 }

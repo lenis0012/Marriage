@@ -5,4 +5,5 @@ public interface BrainCell {
 	public void onRemove();
 	public void onCreate();
 	public String getType();
+	public boolean canContinue();
 }

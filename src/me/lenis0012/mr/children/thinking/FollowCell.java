@@ -4,9 +4,8 @@ import org.bukkit.craftbukkit.v1_4_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 
 import me.lenis0012.mr.children.Child;
-import net.minecraft.server.v1_4_R1.EntityCreature;
+import me.lenis0012.mr.util.PositionUtil;
 import net.minecraft.server.v1_4_R1.EntityLiving;
-import net.minecraft.server.v1_4_R1.PathEntity;
 
 public class FollowCell implements BrainCell {
 	private Child child;
@@ -24,9 +23,7 @@ public class FollowCell implements BrainCell {
 		if(child.isStaying() || target == entity)
 			return;
 		
-		if(!entity.getNavigation().a(target, child.getSpeed())) {
-			this.follow();
-		}
+		PositionUtil.move(entity, target, child.getSpeed());
 	}
 
 	@Override
@@ -36,21 +33,14 @@ public class FollowCell implements BrainCell {
 	}
 
 	@Override
-	public void onCreate() {
-		if(child.isStaying() || target == entity)
-			return;
-		
-		if(!entity.getNavigation().a(target, child.getSpeed())) {
-			this.follow();
-		}
-	}
+	public void onCreate() {}
 	
 	public String getType() {
 		return "Follow";
 	}
 	
-	private void follow() {
-		PathEntity path = CustomPath.createPath(entity, target);
-		((EntityCreature)entity).setPathEntity(path);
+	@Override
+	public boolean canContinue() {
+		return true;
 	}
 }

@@ -3,6 +3,7 @@ package me.lenis0012.mr.children;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import me.lenis0012.mr.events.ChildDeathEvent;
 import me.lenis0012.mr.events.PlayerInteractChildEvent;
 import net.minecraft.server.v1_4_R1.EntityHuman;
 import net.minecraft.server.v1_4_R1.EntityPlayer;
@@ -60,5 +61,12 @@ public class EntityChild extends EntityVillager {
 				return false;
 		}
 		return super.a(entity);
+	}
+	
+	@Override
+	public void die() {
+		ChildDeathEvent ev = new ChildDeathEvent(child);
+		Bukkit.getServer().getPluginManager().callEvent(ev);
+		super.die();
 	}
 }

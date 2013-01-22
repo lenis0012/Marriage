@@ -94,7 +94,7 @@ public class ChildManager {
 			if(toRender.containsKey(c)) {
 				List<Child> list = toRender.get(c);
 				for(Child child : list) {
-					child.spawn(child.getLocation());
+					child.spawn(child.getLocation(), false);
 					list.remove(child);
 				}
 				toRender.put(c, list);
