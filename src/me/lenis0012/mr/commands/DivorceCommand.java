@@ -12,7 +12,7 @@ public class DivorceCommand
 	public static void perfrom(Player player)
 	{
 		Marriage plugin = Marriage.instance;
-		MPlayer mp = new MPlayer(player);
+		MPlayer mp = plugin.getMPlayer(player);
 		if(!mp.isMarried())
 		{
 			player.sendMessage(ChatColor.RED+"You are not married");

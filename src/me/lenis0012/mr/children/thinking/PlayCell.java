@@ -28,10 +28,13 @@ public class PlayCell implements BrainCell {
 			if(villager.e(friend) > 4)
 				PositionUtil.move(villager, friend, child.getSpeed());
 			else if(villager.getNavigation().f()) {
-				Vec3D vec = PositionUtil.getRandom(villager, 16, 3);
+				Vec3D vec1 = PositionUtil.getRandom(villager, 16, 3);
+				Vec3D vec2 = PositionUtil.getRandom(friend, 16, 3);
 				
-				if(vec != null)
-					PositionUtil.move(villager, new Location(child.getBukkitEnitity().getWorld(), vec.c, vec.d, vec.e), child.getSpeed());
+				if(vec1 != null)
+					PositionUtil.move(villager, new Location(child.getBukkitEnitity().getWorld(), vec1.c, vec1.d, vec1.e), child.getSpeed());
+				if(vec2 != null)
+					PositionUtil.move(friend, new Location(child.getBukkitEnitity().getWorld(), vec2.c, vec2.d, vec2.e), child.getSpeed());
 			}
 		} else {
 			if(count >= 20)

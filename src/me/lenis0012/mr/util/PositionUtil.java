@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_4_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 
+import me.lenis0012.mr.children.thinking.CustomPath;
 import net.minecraft.server.v1_4_R1.EntityCreature;
 import net.minecraft.server.v1_4_R1.EntityLiving;
 import net.minecraft.server.v1_4_R1.MathHelper;
@@ -28,7 +29,7 @@ public class PositionUtil {
 		int z = MathHelper.floor(loc.getZ());
 		
 		if(!entity.getNavigation().a(x, y, z, speed)) {
-			PathEntity path = entity.world.a(entity, x,  y, z, 20, true, false, false, true);
+			PathEntity path = CustomPath.createPath(entity, x, y, z);
 			return moveTo(entity, path, speed);
 		}
 		return true;
@@ -36,7 +37,7 @@ public class PositionUtil {
 	
 	public static boolean move(EntityLiving entity, EntityLiving to, float speed) {
 		if(!entity.getNavigation().a(to, speed)) {
-			PathEntity path = entity.world.findPath(entity, to, 20, true, false, false, true);
+			PathEntity path = CustomPath.createPath(entity, to);
 			return moveTo(entity, path, speed);
 		}
 		return true;

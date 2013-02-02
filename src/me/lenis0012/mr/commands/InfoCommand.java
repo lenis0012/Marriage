@@ -27,7 +27,7 @@ public class InfoCommand
 		player.sendMessage(l+"/marry sethome "+g+"- Set your marriage home");
 		player.sendMessage(l+"/marry home "+g+"- Go to your marriage home");
 		
-		MPlayer mp = new MPlayer(player);
+		MPlayer mp = plugin.getMPlayer(player);
 		if(mp.isMarried())
 		{
 			player.sendMessage(g+"Married: "+l+mp.getPartner());

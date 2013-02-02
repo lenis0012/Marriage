@@ -5,7 +5,6 @@ import net.minecraft.server.v1_4_R1.EntityLiving;
 
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 
 public interface Child {
 	/**
@@ -28,6 +27,13 @@ public interface Child {
 	 * @return childs mind
 	 */
 	public Brain getBrain();
+	
+	/**
+	 * Getthe id of the child
+	 * 
+	 * @return id
+	 */
+	public int getID();
 	
 	/**
 	 * Get the chidld as an enity
@@ -56,7 +62,7 @@ public interface Child {
 	 * 
 	 * @return owner
 	 */
-	public Player getOwner();
+	public String getParent();
 	
 	/**
 	 * Get the childs location
@@ -111,4 +117,9 @@ public interface Child {
 	 * @param loc location to move to
 	 */
 	public void move(Location loc);
+	
+	/**
+	 * save the child to the childs.yml
+	 */
+	public void save();
 }

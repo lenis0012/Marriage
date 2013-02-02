@@ -14,7 +14,7 @@ public class SethomeCommand
 	public static void perform(Player player)
 	{
 		Marriage plugin = Marriage.instance;
-		MPlayer mp = new MPlayer(player);
+		MPlayer mp = plugin.getMPlayer(player);
 		if(!mp.isMarried())
 		{
 			player.sendMessage(ChatColor.RED + "You dont have a partner.");

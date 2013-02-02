@@ -15,7 +15,7 @@ public class GiftCommand
 	public static void perfom(Player player)
 	{
 		Marriage plugin = Marriage.instance;
-		MPlayer mp = new MPlayer(player);
+		MPlayer mp = plugin.getMPlayer(player);
 		if(!mp.isMarried())
 		{
 			player.sendMessage(ChatColor.RED + "You dont have a partner.");

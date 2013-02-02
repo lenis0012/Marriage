@@ -11,18 +11,21 @@ public class LookAtClosestCell implements BrainCell {
 	private Child child;
 	private EntityLiving entity;
 	private int counter = 0;
+	private int extra;
 	
 	public LookAtClosestCell(Child child, Class<? extends EntityLiving> type) {
 		this.type = type;
 		this.child = child;
 		this.entity = child.getHandle();
+		this.extra = entity.aB().nextInt(120);
 	}
 	
 	@Override
 	public void onUpdate() {
-		if(counter >= 20) {
+		if(counter >= 20 + extra) {
 			this.lookAt();
 			counter = 0;
+			this.extra = entity.aB().nextInt(20);
 		} else
 			counter++;
 	}

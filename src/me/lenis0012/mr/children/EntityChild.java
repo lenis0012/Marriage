@@ -25,6 +25,11 @@ public class EntityChild extends EntityVillager {
 	//entity moving
 	@Override
 	public void move(double x, double y, double z) {
+		if(child == null) {
+			this.getBukkitEntity().remove();
+			return;
+		}
+		
 		if(child.isStaying())
 			return;
 		
@@ -34,6 +39,11 @@ public class EntityChild extends EntityVillager {
 	//entity being pushed
 	@Override
 	public void g(double x, double y, double z) {
+		if(child == null) {
+			this.getBukkitEntity().remove();
+			return;
+		}
+		
 		if(child.isStaying())
 			return;
 		
@@ -43,6 +53,13 @@ public class EntityChild extends EntityVillager {
 	//entity reponse on tick loop
 	@Override
 	public void j_() {
+		if(child == null) {
+			this.getBukkitEntity().remove();
+			return;
+		}
+		
+		if(this.ticksLived > 20)
+			this.ticksLived--;
 		super.j_();
 		
 		//update the childs mind
@@ -52,6 +69,11 @@ public class EntityChild extends EntityVillager {
 	//player interacting with entity
 	@Override
 	public boolean a(EntityHuman entity) {
+		if(child == null) {
+			this.getBukkitEntity().remove();
+			return super.a(entity);
+		}
+		
 		if(entity instanceof EntityPlayer) {
 			EntityPlayer ep = (EntityPlayer)entity;
 			Player player = ep.getBukkitEntity();
@@ -65,8 +87,13 @@ public class EntityChild extends EntityVillager {
 	
 	@Override
 	public void die() {
+		if(child == null) {
+			this.getBukkitEntity().remove();
+			return;
+		}
+		
 		ChildDeathEvent ev = new ChildDeathEvent(child);
 		Bukkit.getServer().getPluginManager().callEvent(ev);
-		super.die();
+		child.deSpawn(true);
 	}
 }

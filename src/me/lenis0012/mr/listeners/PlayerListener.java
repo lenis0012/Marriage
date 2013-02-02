@@ -18,7 +18,7 @@ public class PlayerListener implements Listener {
 	{
 		Player player = event.getPlayer();
 		String pname = player.getName();
-		MPlayer mp = new MPlayer(player);
+		MPlayer mp = plugin.getMPlayer(player);
 		
 		if(plugin.chat.contains(pname))
 		{

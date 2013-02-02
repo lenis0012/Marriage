@@ -21,7 +21,7 @@ public class AcceptCommand
 				{
 					String user = op.getName();
 					String name = player.getName();
-					MPlayer mp = new MPlayer(player);
+					MPlayer mp = plugin.getMPlayer(player);
 					mp.setPartner(user);
 					
 					Bukkit.getServer().broadcastMessage(ChatColor.GREEN + user + " has married with " + name);

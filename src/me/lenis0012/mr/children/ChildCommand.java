@@ -5,7 +5,6 @@ import me.lenis0012.mr.children.thinking.LookAtClosestCell;
 import net.minecraft.server.v1_4_R1.EntityPlayer;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,65 +20,78 @@ public class ChildCommand implements CommandExecutor {
 		}
 		ChildManager manager = ChildManager.getInstance();
 		Player player = (Player)sender;
+		Owner owner = manager.getOwner(player);
+		
+		if(!player.hasPermission("marry.child")) {
+			player.sendMessage(ChatColor.RED + "No permission");
+			return true;
+		}
+		
 		if(args.length >= 1) {
 			if(args[0].equalsIgnoreCase("breed")) {
-				Child child = manager.createChild(player);
-				child.spawn(player.getLocation(), true);
-				FollowCell cell = new FollowCell(child, player);
-				child.getBrain().addBrainCell(cell);
-				player.sendMessage(ChatColor.GREEN+"Your got a baby");
+				if(owner.isMarried()) {
+					Child child = manager.createChild(owner.getName());
+					child.spawn(player.getLocation(), true);
+					FollowCell cell = new FollowCell(child, player);
+					child.getBrain().addBrainCell(cell);
+					player.sendMessage(ChatColor.GREEN+"You got a baby");
+				} else
+					owner.sendMessage(ChatColor.RED+"You aren't married");
 			} else if(args[0].equalsIgnoreCase("stay")) {
 				if(hasChild(player)) {
 					Child child = getChild(player);
 					
-					this.removeFollowCells(child);
-					
-					LookAtClosestCell cell = new LookAtClosestCell(child, EntityPlayer.class);
-					child.getBrain().addBrainCell(cell);
-					child.setStaying(true);
-					player.sendMessage(ChatColor.GREEN+"Your child is now staying");
-				}
+					if(child.isSpawned()) {
+						this.removeFollowCells(child);
+						
+						LookAtClosestCell cell = new LookAtClosestCell(child, EntityPlayer.class);
+						child.getBrain().addBrainCell(cell);
+						child.setStaying(true);
+						player.sendMessage(ChatColor.GREEN+"Your child is now staying");
+					} else
+						player.sendMessage(ChatColor.RED+"Your child is not spawned");
+				} else
+					player.sendMessage(ChatColor.RED+"You do not have a child");
 			} else if(args[0].equalsIgnoreCase("follow")) {
 				if(hasChild(player)) {
 					Child child = getChild(player);
 					
-					this.removeLookAtClosestCells(child);
-					if(child.isStaying())
-						child.setStaying(false);
-					
-					FollowCell cell = new FollowCell(child, player);
-					child.getBrain().addBrainCell(cell);
-					player.sendMessage(ChatColor.GREEN+"Your child is now following you");
-				}
+					if(child.isSpawned()) {
+						this.removeLookAtClosestCells(child);
+						if(child.isStaying())
+							child.setStaying(false);
+						
+						FollowCell cell = new FollowCell(child, player);
+						child.getBrain().addBrainCell(cell);
+						player.sendMessage(ChatColor.GREEN+"Your child is now following you");
+					} else
+						player.sendMessage(ChatColor.RED+"Your child is not spawned");
+				} else
+					player.sendMessage(ChatColor.RED+"You do not have a child");
 			} else if (args[0].equalsIgnoreCase("explore")) {
 				if(hasChild(player)) {
 					Child child = getChild(player);
 					
-					this.removeFollowCells(child);
-					this.removeLookAtClosestCells(child);
-					if(child.isStaying())
-						child.setStaying(false);
-					
-					player.sendMessage(ChatColor.GREEN+"Your child is now exploring");
-				}
+					if(child.isSpawned()) {
+						this.removeFollowCells(child);
+						this.removeLookAtClosestCells(child);
+						if(child.isStaying())
+							child.setStaying(false);
+						
+						player.sendMessage(ChatColor.GREEN+"Your child is now exploring");
+					} else
+						player.sendMessage(ChatColor.RED+"Your child is not spawned");
+				} else
+					player.sendMessage(ChatColor.RED+"You do not have a child");
 			} else if (args[0].equalsIgnoreCase("tphere")) {
 				if(hasChild(player)) {
 					Child child = getChild(player);
-					if(child.isSpawned()) {
-						child.getBukkitEnitity().teleport(player);
-						player.sendMessage(ChatColor.GREEN+"Your child has been teleported to you");
-					} else {
-						Chunk c = child.getLocation().getChunk();
-						c.load();
-						if(child.isSpawned()) {
-							child.getBukkitEnitity().teleport(player);
-							player.sendMessage(ChatColor.GREEN+"Your child has been teleported to you");
-						} else {
-							player.sendMessage(ChatColor.GREEN+"Your child is not alive");
-						}
-						c.unload();
-					}
-				}
+					if(child.isSpawned())
+						child.deSpawn(true);
+					child.spawn(player.getLocation(), true);
+					player.sendMessage(ChatColor.GREEN+"Your child has teleported to you");
+				} else
+					player.sendMessage(ChatColor.RED+"You do not have a child");
 			}
 		}
 		return true;

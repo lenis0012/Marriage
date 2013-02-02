@@ -2,6 +2,7 @@ package me.lenis0012.mr.children;
 
 import me.lenis0012.mr.children.thinking.Brain;
 import me.lenis0012.mr.children.thinking.BrainCell;
+import me.lenis0012.mr.children.thinking.PlayCell;
 import me.lenis0012.mr.children.thinking.SwimCell;
 import me.lenis0012.mr.util.PositionUtil;
 import net.minecraft.server.v1_4_R1.EntityLiving;
@@ -18,12 +19,14 @@ public class ChildControler implements Child {
 	private Brain brain;
 	private EntityLiving cbEntity;
 	private LivingEntity entity;
-	private Player owner;
+	private String owner;
 	private ChildManager manager;
 	private boolean spawned = false, staying = false, baby = true;
 	public Location loc;
+	private int id;
 	
-	public ChildControler(int id, Player owner) {
+	public ChildControler(int id, String owner) {
+		this.id = id;
 		this.brain = new Brain(this);
 		this.manager = ChildManager.getInstance();
 		this.owner = owner;
@@ -43,9 +46,20 @@ public class ChildControler implements Child {
 			this.loc = loc;
 			if(addCells)
 				this.attachDefaultBrainCells();
+			save();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public int getID() {
+		return id;
+	}
+	
+	@Override
+	public void save() {
+		ChildConfiguration.save(this);
 	}
 	
 	@Override
@@ -62,6 +76,7 @@ public class ChildControler implements Child {
 	
 	public void attachDefaultBrainCells() {
 		getBrain().addBrainCell(new SwimCell(this));
+		getBrain().addBrainCell(new PlayCell(this));
 	}
 	
 	@Override
@@ -109,7 +124,7 @@ public class ChildControler implements Child {
 
 	@Override
 	public float getSpeed() {
-		return 0.25F;
+		return 0.3F;
 	}
 	
 	@Override
@@ -127,7 +142,7 @@ public class ChildControler implements Child {
 	}
 	
 	@Override
-	public Player getOwner() {
+	public String getParent() {
 		return this.owner;
 	}
 }

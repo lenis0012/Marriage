@@ -2,6 +2,7 @@ package me.lenis0012.mr.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
 import me.lenis0012.mr.MPlayer;
 import me.lenis0012.mr.Marriage;
 import me.lenis0012.mr.util.EcoUtil;
@@ -16,8 +17,8 @@ public class MarryCommand
 		{
 			if(op.isOnline())
 			{
-				MPlayer mp = new MPlayer(op);
-				MPlayer tp = new MPlayer(player);
+				MPlayer mp = plugin.getMPlayer(op);
+				MPlayer tp = plugin.getMPlayer(player);
 				if(!player.hasPermission("marry.marry") && !player.hasPermission("marry.*"))
 				{
 					player.sendMessage(ChatColor.RED + "No permission.");

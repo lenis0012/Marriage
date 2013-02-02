@@ -1,26 +1,28 @@
 package me.lenis0012.mr.children;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import me.lenis0012.mr.children.ChildConfiguration.ChildInfo;
+import me.lenis0012.mr.util.ReflectionUtil;
+import net.minecraft.server.v1_4_R1.EntityPlayer;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.craftbukkit.v1_4_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_4_R1.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.bergerkiller.bukkit.common.reflection.classes.EntityTypesRef;
 
 public class ChildManager {
 	private JavaPlugin plugin;
-	private boolean added = false;
 	private static ChildManager instance;
 	public static List<Child> children = new ArrayList<Child>();
 	public HashMap<String, Child> parents = new HashMap<String, Child>();
@@ -28,6 +30,7 @@ public class ChildManager {
 	public ChildManager(JavaPlugin plugin) {
 		this.plugin = plugin;
 		this.start();
+		instance = this;
 	}
 	
 	public void start() {
@@ -36,51 +39,58 @@ public class ChildManager {
 		this.registerChildren();
 	}
 	
-	public void setInstance(ChildManager manager) {
-		instance = manager;
+	public void stop() {
+		for(Child child : children) {
+			child.save();
+			if(child.isSpawned())
+				child.deSpawn(true);
+		}
 	}
 	
 	public static ChildManager getInstance() {
 		return instance;
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public void registerChildren() {
-		if(!added) {
-			try {
-				Class<?> cbClass = EntityChild.class;
-				String cbType = "Villager";
-				int cbID = EntityType.VILLAGER.getTypeId();
-				
-				Plugin bkc = Bukkit.getServer().getPluginManager().getPlugin("BKCommonLib");
-				if(bkc != null)
-					EntityTypesRef.register(cbClass, cbType, cbID);
-				else {
-					//data format start
-					Class[] tmp = new Class[3];
-					tmp[0] = Class.class;
-					tmp[1] = String.class;
-					tmp[2] = int.class;
-					//data format end
-					
-					Method entities = net.minecraft.server.v1_4_R1.EntityTypes.class.getDeclaredMethod("a", tmp);
-					entities.setAccessible(true);
-					
-					//write custom data to the entity list
-					entities.invoke(entities, cbClass, cbType, cbID);
-				} 
-				
-				this.added = true;
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
+	public Owner getOwner(Player player) {
+		CraftPlayer cp = (CraftPlayer)player;
+		EntityPlayer ep = cp.getHandle();
+		CraftServer cs = (CraftServer)Bukkit.getServer();
+		
+		return new IOwner(cs, ep);
 	}
 	
-	public Child createChild(Player owner) {
-		Child child = new ChildControler(1, owner);
+	public void registerChildren() {
+		Class<?> cbClass = EntityChild.class;
+		String cbType = "Villager";
+		int cbID = EntityType.VILLAGER.getTypeId();
+		ReflectionUtil.registerEntityType(cbClass, cbType, cbID);
+	}
+	
+	public Child loadChild(Owner owner) {
+		String name = owner.getName();
+		ChildInfo info = ChildConfiguration.getChild(ChildConfiguration.getFromOwner(name));
+		
+		return loadChild(info);
+	}
+	
+	public Child loadChild(ChildInfo info) {
+		Child child = this.createChild(info.owner);
+		child.setBaby(info.isBaby);
+		if(info.pos.getChunk().isLoaded())
+			child.spawn(info.pos, true);
+		
+		return child;
+	}
+	
+	private int getNextFree() {
+		return ChildConfiguration.getNextfreeID();
+	}
+	
+	public Child createChild(String owner) {
+		Child child = new ChildControler(this.getNextFree(), owner);
 		children.add(child);
-		parents.put(owner.getName(), child);
+		parents.put(owner, child);
+		
 		return child;
 	}
 	
@@ -122,6 +132,22 @@ public class ChildManager {
 				toRender.put(c, list);
 			else if(toRender.containsKey(c)) {
 				toRender.remove(c);
+			}
+		}
+		
+		@EventHandler
+		public void onPlayerJoin(PlayerJoinEvent event) {
+			Player player = event.getPlayer();
+			ChildManager manager = ChildManager.getInstance();
+			Owner owner = manager.getOwner(player);
+			if(owner.hasChild()) {
+				Child child = owner.getChild();
+				if(child != null) {
+					manager.parents.put(player.getName(), child);
+					if(!child.isSpawned()) {
+						child.spawn(player.getLocation(), true);
+					}
+				}
 			}
 		}
 	}
