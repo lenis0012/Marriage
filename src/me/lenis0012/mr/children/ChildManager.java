@@ -75,9 +75,8 @@ public class ChildManager {
 	
 	public Child loadChild(ChildInfo info) {
 		Child child = this.createChild(info.owner);
+		child.spawn(info.pos, true);
 		child.setBaby(info.isBaby);
-		if(info.pos.getChunk().isLoaded())
-			child.spawn(info.pos, true);
 		
 		return child;
 	}

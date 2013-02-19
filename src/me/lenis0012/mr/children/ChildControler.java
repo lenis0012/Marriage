@@ -83,9 +83,7 @@ public class ChildControler implements Child {
 	public void deSpawn(boolean removeCells) {
 		if(this.isSpawned()) {
 			if(removeCells) {
-				for(BrainCell cell : getBrain().getCells()) {
-					getBrain().removeBrainCell(cell);
-				}
+				getBrain().removeAllBrainCells();
 			}
 			this.spawned = false;
 			this.getBukkitEnitity().remove();

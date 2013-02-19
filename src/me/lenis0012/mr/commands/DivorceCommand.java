@@ -29,6 +29,17 @@ public class DivorceCommand
 		
 		String user = player.getName();
 		String partner = mp.getPartner();
+		Player op = Bukkit.getPlayer(partner);
+		
+		//Chat fix start
+		if(mp.isChatting())
+			mp.setChatting(false);
+		if(op != null && op.isOnline()) {
+			MPlayer omp = plugin.getMPlayer(op);
+			if(omp.isChatting())
+				omp.setChatting(false);
+		}
+		//chat fix end
 		
 		mp.divorce();
 		Bukkit.getServer().broadcastMessage(ChatColor.RED+user+" divorced with "+partner);

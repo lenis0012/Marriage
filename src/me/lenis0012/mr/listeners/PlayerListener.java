@@ -20,7 +20,7 @@ public class PlayerListener implements Listener {
 		String pname = player.getName();
 		MPlayer mp = plugin.getMPlayer(player);
 		
-		if(plugin.chat.contains(pname))
+		if(mp.isChatting())
 		{
 			Player partner = Bukkit.getServer().getPlayer(mp.getPartner());
 			if(partner == null)

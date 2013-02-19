@@ -44,16 +44,14 @@ public class ChatCommand
 			}
 		}
 		
-		String user = player.getName();
-		
-		if(plugin.chat.contains(user))
+		if(mp.isChatting())
 		{
-			plugin.chat.remove(user);
+			mp.setChatting(false);
 			player.sendMessage(ChatColor.RED+"Left partner chat");
 		}
 		else
 		{
-			plugin.chat.add(user);
+			mp.setChatting(true);
 			player.sendMessage(ChatColor.GREEN+"Joined partner chat");
 		}
 	}

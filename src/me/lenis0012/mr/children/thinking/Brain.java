@@ -91,4 +91,12 @@ public class Brain {
 			}
 		}
 	}
+	
+	public void removeAllBrainCells() {
+		Iterator<BrainCell> it = cells.iterator();
+		while(it.hasNext()) {
+			it.next();
+			it.remove();
+		}
+	}
 }

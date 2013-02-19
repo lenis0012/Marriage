@@ -14,27 +14,27 @@ import net.minecraft.server.v1_4_R1.PathEntity;
 import net.minecraft.server.v1_4_R1.Vec3D;
 
 public class PositionUtil {
-	
+
 	public static Vec3D getRandom(EntityLiving entity, int x, int z) {
 		return getVector(entity, x, z, (Vec3D) null);
 	}
-	
+
 	public static EntityLiving getEntity(LivingEntity entity) {
 		return ((CraftLivingEntity)entity).getHandle();
 	}
-	
+
 	public static boolean move(EntityLiving entity, Location loc, float speed) {
 		int x = MathHelper.floor(loc.getX());
 		int y = (int) loc.getY();
 		int z = MathHelper.floor(loc.getZ());
-		
+
 		if(!entity.getNavigation().a(x, y, z, speed)) {
 			PathEntity path = CustomPath.createPath(entity, x, y, z);
 			return moveTo(entity, path, speed);
 		}
 		return true;
 	}
-	
+
 	public static boolean move(EntityLiving entity, EntityLiving to, float speed) {
 		if(!entity.getNavigation().a(to, speed)) {
 			PathEntity path = CustomPath.createPath(entity, to);
@@ -42,14 +42,14 @@ public class PositionUtil {
 		}
 		return true;
 	}
-	
+
 	private static boolean moveTo(EntityLiving entity, PathEntity path, float speed) {
 		if(entity instanceof EntityCreature)
 			((EntityCreature)entity).setPathEntity(path);
-		
+
 		return entity.getNavigation().a(path, speed);
 	}
-	
+
 	private static Vec3D getVector(EntityLiving entity, int x, int z, Vec3D vec) {
 		Random random = entity.aB();
         boolean flag = false;

@@ -73,10 +73,12 @@ public class ChildConfiguration {
 		String name = owner.getName();
 		String partner = owner.getPartner();
 		
-		for(String id : getChildren()) {
-			String check = (String)getVariable(Integer.valueOf(id), "owner");
-			if(check.equalsIgnoreCase(name) || check.equalsIgnoreCase(partner))
-				return true;
+		if(getChildren() != null) {
+			for(String id : getChildren()) {
+				String check = (String)getVariable(Integer.valueOf(id), "owner");
+				if(check.equalsIgnoreCase(name) || check.equalsIgnoreCase(partner))
+					return true;
+			}
 		}
 		
 		return false;

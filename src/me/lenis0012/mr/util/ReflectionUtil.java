@@ -4,16 +4,17 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_4_R1.EntityTypes;
-
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 import com.bergerkiller.bukkit.common.reflection.classes.EntityTypesRef;
 
+import net.minecraft.server.v1_4_R1.EntityTypes;
+
+
 public class ReflectionUtil {
 	private static List<Class<?>> addedClasses = new ArrayList<Class<?>>();
-	
+
 	@SuppressWarnings("rawtypes")
 	public static void registerEntityType(Class<?> cbClass, String cbType, int cbID) {
 		if(!addedClasses.contains(cbClass)) {
@@ -28,14 +29,14 @@ public class ReflectionUtil {
 					tmp[1] = String.class;
 					tmp[2] = int.class;
 					//data format end
-					
+
 					Method entities = EntityTypes.class.getDeclaredMethod("a", tmp);
 					entities.setAccessible(true);
-					
+
 					//write custom data to the entity list
 					entities.invoke(entities, cbClass, cbType, cbID);
-				} 
-				
+				}
+
 				addedClasses.add(cbClass);
 			} catch(Exception e) {
 				e.printStackTrace();

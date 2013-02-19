@@ -12,6 +12,7 @@ public class SimpleMPlayer extends CraftPlayer implements MPlayer {
 	private String name;
 	private FileConfiguration cfg;
 	private Marriage plugin;
+	private boolean chatting = false;
 	
 	public SimpleMPlayer(CraftServer server, EntityPlayer entity) {
 		super(server, entity);
@@ -62,5 +63,15 @@ public class SimpleMPlayer extends CraftPlayer implements MPlayer {
 	
 	private void save() {
 		plugin.saveCustomConfig();
+	}
+
+	@Override
+	public void setChatting(boolean value) {
+		this.chatting = value;
+	}
+
+	@Override
+	public boolean isChatting() {
+		return chatting;
 	}
 }

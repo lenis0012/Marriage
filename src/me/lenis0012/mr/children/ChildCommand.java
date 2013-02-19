@@ -1,8 +1,6 @@
 package me.lenis0012.mr.children;
 
 import me.lenis0012.mr.children.thinking.FollowCell;
-import me.lenis0012.mr.children.thinking.LookAtClosestCell;
-import net.minecraft.server.v1_4_R1.EntityPlayer;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -44,8 +42,6 @@ public class ChildCommand implements CommandExecutor {
 					if(child.isSpawned()) {
 						this.removeFollowCells(child);
 						
-						LookAtClosestCell cell = new LookAtClosestCell(child, EntityPlayer.class);
-						child.getBrain().addBrainCell(cell);
 						child.setStaying(true);
 						player.sendMessage(ChatColor.GREEN+"Your child is now staying");
 					} else
@@ -57,7 +53,6 @@ public class ChildCommand implements CommandExecutor {
 					Child child = getChild(player);
 					
 					if(child.isSpawned()) {
-						this.removeLookAtClosestCells(child);
 						if(child.isStaying())
 							child.setStaying(false);
 						
@@ -74,7 +69,6 @@ public class ChildCommand implements CommandExecutor {
 					
 					if(child.isSpawned()) {
 						this.removeFollowCells(child);
-						this.removeLookAtClosestCells(child);
 						if(child.isStaying())
 							child.setStaying(false);
 						
@@ -89,6 +83,7 @@ public class ChildCommand implements CommandExecutor {
 					if(child.isSpawned())
 						child.deSpawn(true);
 					child.spawn(player.getLocation(), true);
+					child.setBaby(true);
 					player.sendMessage(ChatColor.GREEN+"Your child has teleported to you");
 				} else
 					player.sendMessage(ChatColor.RED+"You do not have a child");
@@ -99,10 +94,6 @@ public class ChildCommand implements CommandExecutor {
 	
 	public void removeFollowCells(Child child) {
 		child.getBrain().removeBrainCellWithType("follow");
-	}
-	
-	public void removeLookAtClosestCells(Child child) {
-		child.getBrain().removeBrainCellWithType("lookatclosest");
 	}
 	
 	public boolean hasChild(Player player) {
