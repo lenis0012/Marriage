@@ -3,15 +3,15 @@ package me.lenis0012.mr.util;
 import java.util.Random;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_5_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 
 import me.lenis0012.mr.children.thinking.CustomPath;
-import net.minecraft.server.v1_4_R1.EntityCreature;
-import net.minecraft.server.v1_4_R1.EntityLiving;
-import net.minecraft.server.v1_4_R1.MathHelper;
-import net.minecraft.server.v1_4_R1.PathEntity;
-import net.minecraft.server.v1_4_R1.Vec3D;
+import net.minecraft.server.v1_5_R1.EntityCreature;
+import net.minecraft.server.v1_5_R1.EntityLiving;
+import net.minecraft.server.v1_5_R1.MathHelper;
+import net.minecraft.server.v1_5_R1.PathEntity;
+import net.minecraft.server.v1_5_R1.Vec3D;
 
 public class PositionUtil {
 
@@ -51,7 +51,7 @@ public class PositionUtil {
 	}
 
 	private static Vec3D getVector(EntityLiving entity, int x, int z, Vec3D vec) {
-		Random random = entity.aB();
+		Random random = entity.aE();
         boolean flag = false;
         int k = 0;
         int l = 0;
@@ -59,10 +59,10 @@ public class PositionUtil {
         float f = -99999.0F;
         boolean flag1;
 
-        if (entity.aM())
+        if (entity.aP())
         {
-            double d0 = (double) (entity.aJ().e(MathHelper.floor(entity.locX), MathHelper.floor(entity.locY), MathHelper.floor(entity.locZ)) + 4.0F);
-            double d1 = (double) (entity.aK() + (float) x);
+            double d0 = (double) (entity.aM().e(MathHelper.floor(entity.locX), MathHelper.floor(entity.locY), MathHelper.floor(entity.locZ)) + 4.0F);
+            double d1 = (double) (entity.aN() + (float) x);
 
             flag1 = d0 < d1 * d1;
         }
@@ -80,9 +80,9 @@ public class PositionUtil {
                 k1 += MathHelper.floor(entity.locX);
                 l1 += MathHelper.floor(entity.locY);
                 i2 += MathHelper.floor(entity.locZ);
-                if (!flag1 || entity.e(k1, l1, i2))
+                if (!flag1 || entity.d(k1, l1, i2))
                 {
-                    float f1 = 0.5F - entity.world.p(k1, l1, i2);
+                    float f1 = 0.5F - entity.world.q(k1, l1, i2);
 
                     if (f1 > f)
                     {

@@ -1,11 +1,11 @@
 package me.lenis0012.mr.children.thinking;
 
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_5_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 
 import me.lenis0012.mr.children.Child;
 import me.lenis0012.mr.util.PositionUtil;
-import net.minecraft.server.v1_4_R1.EntityLiving;
+import net.minecraft.server.v1_5_R1.EntityLiving;
 
 public class FollowCell implements BrainCell {
 	private Child child;

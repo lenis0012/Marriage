@@ -12,14 +12,14 @@ import me.lenis0012.mr.children.ChildManager;
 import me.lenis0012.mr.commands.MarryCMD;
 import me.lenis0012.mr.listeners.PlayerListener;
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_4_R1.EntityPlayer;
+import net.minecraft.server.v1_5_R1.EntityPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_4_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_5_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_5_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;

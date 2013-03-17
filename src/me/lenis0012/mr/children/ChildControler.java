@@ -5,12 +5,12 @@ import me.lenis0012.mr.children.thinking.BrainCell;
 import me.lenis0012.mr.children.thinking.PlayCell;
 import me.lenis0012.mr.children.thinking.SwimCell;
 import me.lenis0012.mr.util.PositionUtil;
-import net.minecraft.server.v1_4_R1.EntityLiving;
-import net.minecraft.server.v1_4_R1.World;
-import net.minecraft.server.v1_4_R1.WorldServer;
+import net.minecraft.server.v1_5_R1.EntityLiving;
+import net.minecraft.server.v1_5_R1.World;
+import net.minecraft.server.v1_5_R1.WorldServer;
 
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_4_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_5_R1.CraftWorld;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 

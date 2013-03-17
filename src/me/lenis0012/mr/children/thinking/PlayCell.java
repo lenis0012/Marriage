@@ -7,8 +7,8 @@ import org.bukkit.Location;
 
 import me.lenis0012.mr.children.Child;
 import me.lenis0012.mr.util.PositionUtil;
-import net.minecraft.server.v1_4_R1.EntityVillager;
-import net.minecraft.server.v1_4_R1.Vec3D;
+import net.minecraft.server.v1_5_R1.EntityVillager;
+import net.minecraft.server.v1_5_R1.Vec3D;
 
 public class PlayCell implements BrainCell {
 	private EntityVillager villager;

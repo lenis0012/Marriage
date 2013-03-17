@@ -9,7 +9,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.bergerkiller.bukkit.common.reflection.classes.EntityTypesRef;
 
-import net.minecraft.server.v1_4_R1.EntityTypes;
+import net.minecraft.server.v1_5_R1.EntityTypes;
 
 
 public class ReflectionUtil {

@@ -4,10 +4,10 @@ import java.util.Random;
 
 import org.bukkit.Location;
 
-import net.minecraft.server.v1_4_R1.EntityCreature;
-import net.minecraft.server.v1_4_R1.EntityLiving;
-import net.minecraft.server.v1_4_R1.MathHelper;
-import net.minecraft.server.v1_4_R1.Vec3D;
+import net.minecraft.server.v1_5_R1.EntityCreature;
+import net.minecraft.server.v1_5_R1.EntityLiving;
+import net.minecraft.server.v1_5_R1.MathHelper;
+import net.minecraft.server.v1_5_R1.Vec3D;
 import me.lenis0012.mr.children.Child;
 import me.lenis0012.mr.util.PositionUtil;
 
@@ -71,9 +71,9 @@ public class AvoidSunCell implements BrainCell {
 		
 		if(entity instanceof EntityCreature) {
 			EntityCreature ec = (EntityCreature) entity;
-			return !entity.world.k(x, y, z) && ec.a(x, y, z) < 0.0F;
+			return !entity.world.l(x, y, z) && ec.a(x, y, z) < 0.0F;
 		} else {
-			return !entity.world.k(x, y, z) && (0.5F - entity.world.p(x, y, z)) < 0.0F;
+			return !entity.world.l(x, y, z) && (0.5F - entity.world.q(x, y, z)) < 0.0F;
 		}
 	}
 	
@@ -91,7 +91,7 @@ public class AvoidSunCell implements BrainCell {
 	
 	public Vec3D searchShadow() {
 		try {
-			Random random = entity.aB();
+			Random random = entity.aE();
 			for(int i = 0; i < 10; i++) {
 				int x = MathHelper.floor(entity.locX + random.nextInt(20) - 10);
 				int y = MathHelper.floor(entity.boundingBox.b + random.nextInt(6) - 3);
@@ -99,10 +99,10 @@ public class AvoidSunCell implements BrainCell {
 				
 				if(entity instanceof EntityCreature) {
 					EntityCreature ec = (EntityCreature) entity;
-					if(!entity.world.k(x, y, z) && ec.a(x, y, z) < 0.0F)
+					if(!entity.world.l(x, y, z) && ec.a(x, y, z) < 0.0F)
 						return entity.world.getVec3DPool().create(x, y, z);
 				} else {
-					if(!entity.world.k(x, y, z) && (0.5F - entity.world.p(x, y, z)) < 0.0F)
+					if(!entity.world.l(x, y, z) && (0.5F - entity.world.q(x, y, z)) < 0.0F)
 						return entity.world.getVec3DPool().create(x, y, z);
 				}
 			}

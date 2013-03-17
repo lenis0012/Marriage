@@ -6,12 +6,12 @@ import java.util.List;
 
 import me.lenis0012.mr.children.ChildConfiguration.ChildInfo;
 import me.lenis0012.mr.util.ReflectionUtil;
-import net.minecraft.server.v1_4_R1.EntityPlayer;
+import net.minecraft.server.v1_5_R1.EntityPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.craftbukkit.v1_4_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_5_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_5_R1.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

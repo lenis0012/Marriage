@@ -2,11 +2,11 @@ package me.lenis0012.mr;
 
 import java.util.List;
 
-import net.minecraft.server.v1_4_R1.EntityPlayer;
+import net.minecraft.server.v1_5_R1.EntityPlayer;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_4_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_5_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_5_R1.entity.CraftPlayer;
 
 public class SimpleMPlayer extends CraftPlayer implements MPlayer {
 	private String name;

@@ -1,6 +1,6 @@
 package me.lenis0012.mr.children.thinking;
 
-import net.minecraft.server.v1_4_R1.EntityLiving;
+import net.minecraft.server.v1_5_R1.EntityLiving;
 import me.lenis0012.mr.children.Child;
 
 public class SwimCell implements BrainCell {
@@ -13,13 +13,13 @@ public class SwimCell implements BrainCell {
 	}
 	
 	private boolean canExecute() {
-		return child.isSpawned() && (entity.H() || entity.J());
+		return child.isSpawned() && (entity.G() || entity.I());
 	}
 	
 	@Override
 	public void onUpdate() {
 		if(this.canExecute()) {
-			if(entity.aB().nextFloat() < 0.8F)
+			if(entity.aE().nextFloat() < 0.8F)
 				entity.getControllerJump().a();
 		}
 	}

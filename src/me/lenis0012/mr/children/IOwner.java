@@ -1,9 +1,9 @@
 package me.lenis0012.mr.children;
 
 import me.lenis0012.mr.SimpleMPlayer;
-import net.minecraft.server.v1_4_R1.EntityPlayer;
+import net.minecraft.server.v1_5_R1.EntityPlayer;
 
-import org.bukkit.craftbukkit.v1_4_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_5_R1.CraftServer;
 
 public class IOwner extends SimpleMPlayer implements Owner {
 	private ChildManager manager;

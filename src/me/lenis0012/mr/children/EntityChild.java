@@ -5,10 +5,10 @@ import org.bukkit.entity.Player;
 
 import me.lenis0012.mr.events.ChildDeathEvent;
 import me.lenis0012.mr.events.PlayerInteractChildEvent;
-import net.minecraft.server.v1_4_R1.EntityHuman;
-import net.minecraft.server.v1_4_R1.EntityPlayer;
-import net.minecraft.server.v1_4_R1.EntityVillager;
-import net.minecraft.server.v1_4_R1.World;
+import net.minecraft.server.v1_5_R1.EntityHuman;
+import net.minecraft.server.v1_5_R1.EntityPlayer;
+import net.minecraft.server.v1_5_R1.EntityVillager;
+import net.minecraft.server.v1_5_R1.World;
 
 public class EntityChild extends EntityVillager {
 	Child child;
@@ -52,7 +52,7 @@ public class EntityChild extends EntityVillager {
 	
 	//entity reponse on tick loop
 	@Override
-	public void j_() {
+	public void l_() {
 		if(child == null) {
 			this.getBukkitEntity().remove();
 			return;
@@ -60,7 +60,7 @@ public class EntityChild extends EntityVillager {
 		
 		if(this.ticksLived > 20)
 			this.ticksLived--;
-		super.j_();
+		super.l_();
 		
 		//update the childs mind
 		child.getBrain().update();
@@ -68,10 +68,10 @@ public class EntityChild extends EntityVillager {
 	
 	//player interacting with entity
 	@Override
-	public boolean a(EntityHuman entity) {
+	public boolean a_(EntityHuman entity) {
 		if(child == null) {
 			this.getBukkitEntity().remove();
-			return super.a(entity);
+			return super.a_(entity);
 		}
 		
 		if(entity instanceof EntityPlayer) {
@@ -82,7 +82,7 @@ public class EntityChild extends EntityVillager {
 			if(ev.isCancelled())
 				return false;
 		}
-		return super.a(entity);
+		return super.a_(entity);
 	}
 	
 	@Override
