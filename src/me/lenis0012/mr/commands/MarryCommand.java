@@ -17,8 +17,8 @@ public class MarryCommand
 		{
 			if(op.isOnline())
 			{
-				MPlayer mp = plugin.getMPlayer(op);
-				MPlayer tp = plugin.getMPlayer(player);
+				MPlayer mp = plugin.getMPlayer(player);
+				MPlayer tp = plugin.getMPlayer(op);
 				if(!player.hasPermission("marry.marry") && !player.hasPermission("marry.*"))
 				{
 					player.sendMessage(ChatColor.RED + "No permission.");

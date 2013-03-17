@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,12 +39,22 @@ public class Marriage extends JavaPlugin
     public Logger log = Logger.getLogger("Minecraft");
     public boolean eco = false;
     ChildManager manager;
+    
+    public static String COMPAT_VERSION = "v1_5_R1";
+    public Map<String, PlayerConfig> configs = new HashMap<String, PlayerConfig>();
 	
 	@Override
-	public void onEnable()
-	{
+	public void onEnable() {
 		FileConfiguration config = this.getConfig();
 		PluginManager pm = this.getServer().getPluginManager();
+		
+		if(this.validVersion(COMPAT_VERSION)) {
+			log.info("[Marriage] Running on nms path: " + COMPAT_VERSION);
+		} else {
+			log.severe("[Marriage] Marriage is not compatible with the version of minecraft you are using!");
+			log.severe("Please update Marriage or wait for an update.");
+			return;
+		}
 		
 		//register events/commands
 		pm.registerEvents(new PlayerListener(this), this);
@@ -60,6 +71,10 @@ public class Marriage extends JavaPlugin
 		FileConfiguration cfg = this.getCustomConfig();
 		cfg.addDefault("partners", partners);
 		cfg.options().copyDefaults(true);
+		if(cfg.contains("Married"))
+			cfg.set("Married", null);
+		if(cfg.contains("home"))
+			cfg.set("home", null);
 		this.saveCustomConfig();
 		
 		//setup metrics
@@ -67,8 +82,7 @@ public class Marriage extends JavaPlugin
 		{
 			Metrics metrics = new Metrics(this);
 			metrics.start();
-		} catch(Exception e)
-		{
+		} catch(Exception e) {
 			this.getLogger().info("[Marriage] Failed sending stats to mcstats.org");
 		}
 		
@@ -91,31 +105,36 @@ public class Marriage extends JavaPlugin
 		manager.stop();
 	}
 	
-	public Player getPlayer(String name)
-	{
+	private boolean validVersion(String version) {
+		try {
+			Class.forName("net.minecraft.server." + version + ".World");
+			return true;
+		} catch (ClassNotFoundException e) {
+			return false;
+		}
+	}
+	
+	public Player getPlayer(String name) {
 		Player t = Bukkit.getServer().getPlayer(name);
 		if(t != null)
 			if(t.isOnline())
 				return t;
 		
-		for(Player player : this.getServer().getOnlinePlayers())
-		{
+		for(Player player : this.getServer().getOnlinePlayers()) {
 			if(player.getName().toLowerCase().startsWith(name) || player.getName().startsWith(name))
 			{
 				return player;
 			}
 		}
 		
-		for(Player player : this.getServer().getOnlinePlayers())
-		{
+		for(Player player : this.getServer().getOnlinePlayers()) {
 			if(player.getName().toLowerCase().endsWith(name) || player.getName().endsWith(name))
 			{
 				return player;
 			}
 		}
 		
-		for(Player player : this.getServer().getOnlinePlayers())
-		{
+		for(Player player : this.getServer().getOnlinePlayers()) {
 			if(player.getName().toLowerCase().contains(name) || player.getName().contains(name))
 			{
 				return player;
@@ -133,8 +152,32 @@ public class Marriage extends JavaPlugin
 		return new SimpleMPlayer(server, ep);
 	}
 	
-	public void reloadCustomConfig()
-	{
+	public PlayerConfig getConfig(String name) {
+		if(configs.containsKey(name))
+			return configs.get(name);
+		
+		PlayerConfig cfg = this.getPlayerConfig(name);
+		configs.put(name, cfg);
+		return cfg;
+	}
+	
+	public PlayerConfig getPlayerConfig(String name) {
+		File dir = new File(this.getDataFolder(), "playerdata");
+		dir.mkdirs();
+		File file = new File(dir, name+".yml");
+		
+		if(!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				log.log(Level.SEVERE, "[Marriage] Could not create data file for player '" +name + "'", e);
+			}
+		}
+		
+		return new PlayerConfig(file);
+	}
+	
+	public void reloadCustomConfig() {
 	    if (customConfigFile == null)
 	    {
 	    	customConfigFile = new File(getDataFolder(), "data.yml");
@@ -147,8 +190,7 @@ public class Marriage extends JavaPlugin
 	    }
 	}
 
-	public FileConfiguration getCustomConfig()
-	{
+	public FileConfiguration getCustomConfig() {
 	    if (customConfig == null)
 	    {
 	        this.reloadCustomConfig();
@@ -156,8 +198,7 @@ public class Marriage extends JavaPlugin
 	    return customConfig;
 	}
 
-	public void saveCustomConfig()
-	{
+	public void saveCustomConfig() {
 	    if (customConfig == null || customConfigFile == null)
 	    {
 	    	return;
@@ -168,8 +209,7 @@ public class Marriage extends JavaPlugin
 	        this.getLogger().log(Level.SEVERE, "Could not save config to " + customConfigFile, ex);}
 	}
 	
-	public String fixColors(String message)
-	{
+	public String fixColors(String message) {
 		message = message.replaceAll("&0", ChatColor.BLACK.toString());
 		message = message.replaceAll("&1", ChatColor.DARK_BLUE.toString());
 		message = message.replaceAll("&2", ChatColor.DARK_GREEN.toString());

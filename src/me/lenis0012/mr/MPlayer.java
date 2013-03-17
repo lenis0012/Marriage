@@ -1,5 +1,6 @@
 package me.lenis0012.mr;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public interface MPlayer extends Player {
@@ -43,4 +44,25 @@ public interface MPlayer extends Player {
 	 * @return player 	chatting?
 	 */
 	public boolean isChatting();
+	
+	/**
+	 * Set the player's home
+	 * 
+	 * @param loc Location
+	 */
+	public void setHome(Location loc);
+	
+	/**
+	 * Get the player's home
+	 * 
+	 * @return Location
+	 */
+	public Location getHome();
+	
+	/**
+	 * Get the player's config file
+	 * 
+	 * @return Config
+	 */
+	public PlayerConfig getConfig();
 }

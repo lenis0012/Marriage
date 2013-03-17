@@ -4,10 +4,8 @@ import me.lenis0012.mr.MPlayer;
 import me.lenis0012.mr.Marriage;
 import me.lenis0012.mr.util.EcoUtil;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class HomeCommand
@@ -21,13 +19,13 @@ public class HomeCommand
 			player.sendMessage(ChatColor.RED + "You dont have a partner.");
 			return;
 		}
-		String user = player.getName();
+		Location home = mp.getHome();
 		if(!player.hasPermission("marry.home") && !player.hasPermission("marry.*"))
 		{
 			player.sendMessage(ChatColor.RED + "No permission.");
 			return;
 		}
-		if(plugin.getCustomConfig().getString("home."+user+".world") == null)
+		if(home == null)
 		{
 			player.sendMessage(ChatColor.RED + "Home not set");
 			return;
@@ -41,13 +39,6 @@ public class HomeCommand
 			}
 		}
 		
-		World world = Bukkit.getServer().getWorld(plugin.getCustomConfig().getString("home."+user+".world"));
-		int x = plugin.getCustomConfig().getInt("home."+user+".x");
-		int y = plugin.getCustomConfig().getInt("home."+user+".y");
-		int z = plugin.getCustomConfig().getInt("home."+user+".z");
-		float yaw = Float.valueOf(plugin.getCustomConfig().getString("home."+user+".yaw"));
-		float pitch = Float.valueOf(plugin.getCustomConfig().getString("home."+user+".pitch"));
-		Location home = new Location(world, x, y, z, yaw, pitch);
 		player.teleport(home);
 		player.sendMessage(ChatColor.GREEN+"Teleporing to home...");
 	}

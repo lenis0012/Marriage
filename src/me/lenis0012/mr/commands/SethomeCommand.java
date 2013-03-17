@@ -20,7 +20,6 @@ public class SethomeCommand
 			player.sendMessage(ChatColor.RED + "You dont have a partner.");
 			return;
 		}
-		String user = player.getName();
 		String partner = mp.getPartner();
 		if(!player.hasPermission("marry.sethome") && !player.hasPermission("marry.*"))
 		{
@@ -37,25 +36,7 @@ public class SethomeCommand
 		}
 		
 		Location loc = player.getLocation();
-		int x = loc.getBlockX();
-		int y = loc.getBlockY();
-		int z = loc.getBlockZ();
-		String yaw = String.valueOf(loc.getYaw());
-		String pitch = String.valueOf(loc.getPitch());
-		String world = loc.getWorld().getName();
-		plugin.getCustomConfig().set("home."+user+".world", world);
-		plugin.getCustomConfig().set("home."+user+".x", x);
-		plugin.getCustomConfig().set("home."+user+".y", y);
-		plugin.getCustomConfig().set("home."+user+".z", z);
-		plugin.getCustomConfig().set("home."+user+".yaw", yaw);
-		plugin.getCustomConfig().set("home."+user+".pitch", pitch);
-		plugin.getCustomConfig().set("home."+partner+".world", world);
-		plugin.getCustomConfig().set("home."+partner+".x", x);
-		plugin.getCustomConfig().set("home."+partner+".y", y);
-		plugin.getCustomConfig().set("home."+partner+".z", z);
-		plugin.getCustomConfig().set("home."+partner+".yaw", yaw);
-		plugin.getCustomConfig().set("home."+partner+".pitch", pitch);
-		plugin.saveCustomConfig();
+		mp.setHome(loc);
 		
 		player.sendMessage(ChatColor.GREEN+"Home set");
 		Player op = Bukkit.getPlayer(partner);

@@ -4,15 +4,18 @@ import java.util.List;
 
 import net.minecraft.server.v1_5_R1.EntityPlayer;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_5_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_5_R1.entity.CraftPlayer;
 
 public class SimpleMPlayer extends CraftPlayer implements MPlayer {
 	private String name;
-	private FileConfiguration cfg;
 	private Marriage plugin;
 	private boolean chatting = false;
+	private FileConfiguration cfg;
 	
 	public SimpleMPlayer(CraftServer server, EntityPlayer entity) {
 		super(server, entity);
@@ -22,14 +25,13 @@ public class SimpleMPlayer extends CraftPlayer implements MPlayer {
 	}
 	
 	public boolean isMarried() {
-		String par1Str = cfg.getString("Married." + name);
+		String par1Str = getConfig().getString("partner");
 		return par1Str != null && par1Str != "";
 	}
 	
 	public String getPartner() {
-		if(isMarried())
-		{
-			String par1Str = cfg.getString("Married." + name);
+		if(isMarried()) {
+			String par1Str = getConfig().getString("partner");
 			return par1Str;
 		}
 		return "";
@@ -38,10 +40,14 @@ public class SimpleMPlayer extends CraftPlayer implements MPlayer {
 	public void setPartner(String user) {
 		List<String> list =  cfg.getStringList("partners");
 		list.add(user);
-		cfg.set("Married." + name, user);
-		cfg.set("Married." + user, name);
+		PlayerConfig cfg = this.getConfig();
+		PlayerConfig partner_cfg = plugin.getConfig(user);
+		cfg.set("partner", user);
+		partner_cfg.set("partner", name);
 		cfg.set("partners", list);
 		save();
+		cfg.save();
+		partner_cfg.save();
 	}
 	
 	public void divorce() {
@@ -52,12 +58,17 @@ public class SimpleMPlayer extends CraftPlayer implements MPlayer {
 				list.remove(name);
 			if(list.contains(partner))
 				list.remove(partner);
-			cfg.set("Married."+name, null);
-			cfg.set("Married."+partner, null);
-			cfg.set("home."+name, null);
-			cfg.set("home."+partner, null);
+			
+			PlayerConfig cfg = this.getConfig();
+			PlayerConfig partner_cfg = plugin.getConfig(getPartner());
+			cfg.set("partner", null);
+			cfg.set("home", null);
+			partner_cfg.set("partner", null);
+			partner_cfg.set("home", null);
 			cfg.set("partners", list);
 			save();
+			cfg.save();
+			partner_cfg.save();
 		}
 	}
 	
@@ -73,5 +84,55 @@ public class SimpleMPlayer extends CraftPlayer implements MPlayer {
 	@Override
 	public boolean isChatting() {
 		return chatting;
+	}
+
+	@Override
+	public void setHome(Location loc) {
+		PlayerConfig cfg = this.getConfig();
+		PlayerConfig partner_cfg = plugin.getConfig(getPartner());
+		String world = loc.getWorld().getName();
+		double x = loc.getX();
+		double y = loc.getY();
+		double z = loc.getZ();
+		float yaw = loc.getYaw();
+		float pitch = loc.getPitch();
+		cfg.set("home.world", world);
+		cfg.set("home.x", x);
+		cfg.set("home.y", y);
+		cfg.set("home.z", z);
+		cfg.set("home.yaw", yaw);
+		cfg.set("home.pitch", pitch);
+		partner_cfg.set("home.world", world);
+		partner_cfg.set("home.x", x);
+		partner_cfg.set("home.y", y);
+		partner_cfg.set("home.z", z);
+		partner_cfg.set("home.yaw", yaw);
+		partner_cfg.set("home.pitch", pitch);
+		cfg.save();
+		partner_cfg.save();
+	}
+
+	@Override
+	public Location getHome() {
+		PlayerConfig cfg = this.getConfig();
+		if(!cfg.contains("home"))
+			return null;
+		
+		World world = Bukkit.getWorld(cfg.getString("home.world"));
+		double x = cfg.getDouble("home.x");
+		double y = cfg.getDouble("home.y");
+		double z = cfg.getDouble("home.z");
+		float yaw = cfg.getInt("home.yaw");
+		float pitch = cfg.getInt("home.pitch");
+		
+		if(world != null)
+			return new Location(world, x, y, z, yaw, pitch);
+		else
+			return null;
+	}
+
+	@Override
+	public PlayerConfig getConfig() {
+		return plugin.getConfig(name);
 	}
 }
