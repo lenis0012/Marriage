@@ -1,7 +1,7 @@
-package me.lenis0012.mr.children.thinking;
+package me.lenis0012.mr.child.thinking;
 
 import net.minecraft.server.v1_5_R2.EntityLiving;
-import me.lenis0012.mr.children.Child;
+import me.lenis0012.mr.child.Child;
 
 public class SwimCell implements BrainCell {
 	private Child child;
@@ -12,15 +12,13 @@ public class SwimCell implements BrainCell {
 		this.entity = child.getHandle();
 	}
 	
-	private boolean canExecute() {
-		return child.isSpawned() && (entity.G() || entity.I());
-	}
-	
+	@Override
+	public void onCreate() {}
+
 	@Override
 	public void onUpdate() {
-		if(this.canExecute()) {
-			if(entity.aE().nextFloat() < 0.8F)
-				entity.getControllerJump().a();
+		if(entity.aE().nextFloat() < 0.8F) {
+			entity.getControllerJump().a();
 		}
 	}
 
@@ -28,15 +26,12 @@ public class SwimCell implements BrainCell {
 	public void onRemove() {}
 
 	@Override
-	public void onCreate() {}
+	public boolean canExecute() {
+		return child.isSpawned() && (entity.G() || entity.I());
+	}
 
 	@Override
 	public String getType() {
 		return "Swim";
-	}
-	
-	@Override
-	public boolean canContinue() {
-		return true;
 	}
 }

@@ -4,10 +4,10 @@ import java.util.Random;
 
 import org.bukkit.Location;
 
-import net.minecraft.server.v1_5_R1.EntityCreature;
-import net.minecraft.server.v1_5_R1.EntityLiving;
-import net.minecraft.server.v1_5_R1.MathHelper;
-import net.minecraft.server.v1_5_R1.Vec3D;
+import net.minecraft.server.v1_5_R2.EntityCreature;
+import net.minecraft.server.v1_5_R2.EntityLiving;
+import net.minecraft.server.v1_5_R2.MathHelper;
+import net.minecraft.server.v1_5_R2.Vec3D;
 import me.lenis0012.mr.children.Child;
 import me.lenis0012.mr.util.PositionUtil;
 

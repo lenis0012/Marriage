@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_5_R1.EntityTypes;
+import net.minecraft.server.v1_5_R2.EntityTypes;
 
 
 public class ReflectionUtil {

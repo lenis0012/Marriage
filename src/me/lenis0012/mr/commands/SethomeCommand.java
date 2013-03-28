@@ -7,10 +7,10 @@ import me.lenis0012.mr.util.EcoUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SethomeCommand
-{
+public class SethomeCommand extends CommandBase {
 	public static void perform(Player player)
 	{
 		Marriage plugin = Marriage.instance;
@@ -47,5 +47,47 @@ public class SethomeCommand
 				op.sendMessage(ChatColor.GREEN+"Your partner has set your home");
 			}
 		}
+	}
+
+	@Override
+	public void perform(CommandSender sender, String[] args) {
+		Player player = (Player) sender;
+		MPlayer mp = plugin.getMPlayer(player);
+		String partner = mp.getPartner();
+		
+		if(!mp.isMarried()) {
+			player.sendMessage(ChatColor.RED + "You dont have a partner.");
+			return;
+		}
+		
+		if(plugin.eco) {
+			double a = EcoUtil.getPriceFromConfig("sethome");
+			if(a != 0.0) {
+				if(EcoUtil.withrawMoneyIfEnough(player, a)) {
+					return;
+				}
+			}
+		}
+		
+		Location loc = player.getLocation();
+		mp.setHome(loc);
+		
+		player.sendMessage(ChatColor.GREEN+"Home set");
+		Player op = Bukkit.getPlayer(partner);
+		if(op != null) {
+			if(op.isOnline()) {
+				op.sendMessage(ChatColor.GREEN+"Your partner has set your home");
+			}
+		}
+	}
+
+	@Override
+	public String getPermission() {
+		return "marry.sethome";
+	}
+
+	@Override
+	public boolean playersOnly() {
+		return true;
 	}
 }

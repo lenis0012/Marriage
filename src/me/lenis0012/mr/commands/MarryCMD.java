@@ -1,63 +1,41 @@
 package me.lenis0012.mr.commands;
 
-import java.util.logging.Logger;
-
-import me.lenis0012.mr.Marriage;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-public class MarryCMD implements CommandExecutor
-{
-	private Marriage plugin;
-	public MarryCMD(Marriage i) { plugin = i; }
+public class MarryCMD implements CommandExecutor {
+	private Map<String, CommandBase> commands = new HashMap<String, CommandBase>();
+	private MarryCommand marryCommand;
+	
+	public MarryCMD() {
+		this.marryCommand = new MarryCommand();
+		commands.put("accept", new AcceptCommand());
+		commands.put("chat", new ChatCommand());
+		commands.put("divorce", new DivorceCommand());
+		commands.put("gift", new GiftCommand());
+		commands.put("home", new HomeCommand());
+		commands.put("info", new InfoCommand());
+		commands.put("list", new ListCommand());
+		commands.put("reload", new ReloadCommand());
+		commands.put("sethome", new SethomeCommand());
+		commands.put("tp", new TpCommand());
+	}
 	
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmnd, String label, String[] args)
-	{
-		Logger log = plugin.getLogger();
-		
-		Player player = null;
-		if(sender instanceof Player)
-		{
-			player = (Player)sender;
-		}else
-		{
-			log.info("Command only available as player.");
-		}
-		
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		CommandBase command;
 		if(args.length == 0)
-			InfoCommand.showInfo(player);
+			command = commands.get("info");
+		else if(commands.containsKey(args[0]))
+			command = commands.get(args[0]);
+		else
+			command = this.marryCommand;
 		
-		else if(args[0].equalsIgnoreCase("accept"))
-			AcceptCommand.Accept(player);
-		
-		else if(args[0].equalsIgnoreCase("tp"))
-			TpCommand.perfrom(player);
-		
-		else if(args[0].equalsIgnoreCase("gift"))
-			GiftCommand.perfom(player);
-		
-		else if(args[0].equalsIgnoreCase("divorce"))
-			DivorceCommand.perfrom(player);
-		
-		else if(args[0].equalsIgnoreCase("chat"))
-			ChatCommand.perform(player);
-		
-		else if(args[0].equalsIgnoreCase("home"))
-			HomeCommand.perform(player);
-		
-		else if(args[0].equalsIgnoreCase("sethome"))
-			SethomeCommand.perform(player);
-		
-		else if(args[0].equalsIgnoreCase("list"))
-			listCommand.perform(player, args);
-		
-		else if(args.length == 1)
-			MarryCommand.request(player, args);
-		
+		command.execute(sender, args);
 		return true;
 	}
 

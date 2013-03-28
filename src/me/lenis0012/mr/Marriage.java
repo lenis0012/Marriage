@@ -3,9 +3,11 @@ package me.lenis0012.mr;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,14 +15,14 @@ import me.lenis0012.mr.children.ChildManager;
 import me.lenis0012.mr.commands.MarryCMD;
 import me.lenis0012.mr.listeners.PlayerListener;
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_5_R1.EntityPlayer;
+import net.minecraft.server.v1_5_R2.EntityPlayer;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_5_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_5_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_5_R2.CraftServer;
+import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -39,12 +41,14 @@ public class Marriage extends JavaPlugin
     public Logger log = Logger.getLogger("Minecraft");
     public boolean eco = false;
     ChildManager manager;
+    private Map<String, MPlayer> players = new WeakHashMap<String, MPlayer>();
     
-    public static String COMPAT_VERSION = "v1_5_R1";
+    public static String COMPAT_VERSION = "v1_5_R2";
     public Map<String, PlayerConfig> configs = new HashMap<String, PlayerConfig>();
 	
 	@Override
 	public void onEnable() {
+		instance = this;
 		FileConfiguration config = this.getConfig();
 		PluginManager pm = this.getServer().getPluginManager();
 		
@@ -58,7 +62,7 @@ public class Marriage extends JavaPlugin
 		
 		//register events/commands
 		pm.registerEvents(new PlayerListener(this), this);
-		getCommand("marry").setExecutor(new MarryCMD(this));
+		getCommand("marry").setExecutor(new MarryCMD());
 		
 		//setup config.yml
 		config.addDefault("settings.private-chat.format", "&a[Partner] &7{Player}&f: &a{Message}");
@@ -78,8 +82,7 @@ public class Marriage extends JavaPlugin
 		this.saveCustomConfig();
 		
 		//setup metrics
-		try
-		{
+		try {
 			Metrics metrics = new Metrics(this);
 			metrics.start();
 		} catch(Exception e) {
@@ -87,7 +90,6 @@ public class Marriage extends JavaPlugin
 		}
 		
 		//setup instance
-		instance  = this;
 		manager = new ChildManager(this);
 		//setup vault
 		Plugin vault = pm.getPlugin("Vault");
@@ -121,22 +123,19 @@ public class Marriage extends JavaPlugin
 				return t;
 		
 		for(Player player : this.getServer().getOnlinePlayers()) {
-			if(player.getName().toLowerCase().startsWith(name) || player.getName().startsWith(name))
-			{
+			if(player.getName().toLowerCase().startsWith(name) || player.getName().startsWith(name)) {
 				return player;
 			}
 		}
 		
 		for(Player player : this.getServer().getOnlinePlayers()) {
-			if(player.getName().toLowerCase().endsWith(name) || player.getName().endsWith(name))
-			{
+			if(player.getName().toLowerCase().endsWith(name) || player.getName().endsWith(name)) {
 				return player;
 			}
 		}
 		
 		for(Player player : this.getServer().getOnlinePlayers()) {
-			if(player.getName().toLowerCase().contains(name) || player.getName().contains(name))
-			{
+			if(player.getName().toLowerCase().contains(name) || player.getName().contains(name)) {
 				return player;
 			}
 		}
@@ -145,11 +144,20 @@ public class Marriage extends JavaPlugin
 	}
 	
 	public MPlayer getMPlayer(Player player) {
+		if(players.containsKey(player.getName()))
+			return players.get(player.getName());
+		
 		CraftPlayer cp = (CraftPlayer)player;
 		EntityPlayer ep = cp.getHandle();
 		CraftServer server = (CraftServer)Bukkit.getServer();
+		MPlayer mp = new SimpleMPlayer(server, ep);
+		players.put(player.getName(), mp);
 		
-		return new SimpleMPlayer(server, ep);
+		return mp;
+	}
+	
+	public Collection<MPlayer> getLoadedPlayers() {
+		return players.values();
 	}
 	
 	public PlayerConfig getConfig(String name) {

@@ -1,44 +1,38 @@
 package me.lenis0012.mr.commands;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.lenis0012.mr.MPlayer;
-import me.lenis0012.mr.Marriage;
 import me.lenis0012.mr.util.EcoUtil;
 
-public class MarryCommand
-{
-	public static void request(Player player, String[] args)
-	{
-		Marriage plugin = Marriage.instance;
+public class MarryCommand extends CommandBase {
+
+	@Override
+	public void perform(CommandSender sender, String[] args) {
+		Player player = (Player) sender;
 		Player op = plugin.getPlayer(args[0]);
-		if(op != null)
-		{
-			if(op.isOnline())
-			{
+		if(op != null) {
+			if(op.isOnline()) {
 				MPlayer mp = plugin.getMPlayer(player);
 				MPlayer tp = plugin.getMPlayer(op);
-				if(!player.hasPermission("marry.marry") && !player.hasPermission("marry.*"))
-				{
-					player.sendMessage(ChatColor.RED + "No permission.");
-					return;
-				}
-				if(args[0].equals(player.getName()))
-				{
+				
+				if(op.getName().equals(player.getName())) {
 					player.sendMessage(ChatColor.RED + "You may not marry yourself!");
 					return;
 				}
-				if(mp.isMarried())
-				{
+				
+				if(mp.isMarried()) {
 					player.sendMessage(ChatColor.RED + "You are already married.");
 					return;
 				}
-				if(tp.isMarried())
-				{
+				
+				if(tp.isMarried()) {
 					player.sendMessage(ChatColor.RED + op.getName() + " is already married.");
 					return;
 				}
+				
 				if(plugin.eco) {
 					double a = EcoUtil.getPriceFromConfig("marry");
 					if(a != 0.0) {
@@ -56,6 +50,17 @@ public class MarryCommand
 				return;
 			}
 		}
-		player.sendMessage(ChatColor.RED+"Invalid player");
+		
+		error(sender, "Invalid player");
+	}
+
+	@Override
+	public String getPermission() {
+		return "marry.marry";
+	}
+
+	@Override
+	public boolean playersOnly() {
+		return true;
 	}
 }

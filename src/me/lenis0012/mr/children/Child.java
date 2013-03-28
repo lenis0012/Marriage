@@ -1,7 +1,7 @@
 package me.lenis0012.mr.children;
 
 import me.lenis0012.mr.children.thinking.Brain;
-import net.minecraft.server.v1_5_R1.EntityLiving;
+import net.minecraft.server.v1_5_R2.EntityLiving;
 
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;

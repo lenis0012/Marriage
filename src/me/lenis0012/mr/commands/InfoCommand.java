@@ -1,39 +1,50 @@
 package me.lenis0012.mr.commands;
 
 import me.lenis0012.mr.MPlayer;
-import me.lenis0012.mr.Marriage;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class InfoCommand
-{
-	public static void showInfo(Player player)
-	{
-		Marriage plugin = Marriage.instance;
+public class InfoCommand extends CommandBase {
+
+	@Override
+	public void perform(CommandSender sender, String[] args) {
 		ChatColor g = ChatColor.GRAY;
 		ChatColor l = ChatColor.GREEN;
 		ChatColor r = ChatColor.RED;
-		player.sendMessage(g +"==========-{"+l+" Marriage "+g+"}-==========");
-		player.sendMessage(g+"Version: "+l+plugin.getDescription().getVersion());
-		player.sendMessage(g+"Authors: "+l+plugin.getDescription().getAuthors().toString().replace("[", "").replace("]", ""));
-		player.sendMessage(l+"/marry <player> "+g+"- Marry a player");
-		player.sendMessage(l+"/marry accept "+g+"- Accept a marriage request");
-		player.sendMessage(l+"/marry divorce "+g+"- Divorce your partner");
-		player.sendMessage(l+"/marry list "+g+"- See all married players");
-		player.sendMessage(l+"/marry tp "+g+"- Teleport to your partner");
-		player.sendMessage(l+"/marry gift "+g+"- Gift your partner the item in your hand");
-		player.sendMessage(l+"/marry chat "+g+"- Private chat with your partner");
-		player.sendMessage(l+"/marry sethome "+g+"- Set your marriage home");
-		player.sendMessage(l+"/marry home "+g+"- Go to your marriage home");
+		inform(sender, l + "==========-{"+l+" Marriage "+g+"}-==========");
+		inform(sender, l + "Version: "+l+plugin.getDescription().getVersion());
+		inform(sender, l + "Authors: "+l+plugin.getDescription().getAuthors().toString().replace("[", "").replace("]", ""));
+		inform(sender, l + "/marry <player> "+g+"- Marry a player");
+		inform(sender, l + "/marry accept "+g+"- Accept a marriage request");
+		inform(sender, l + "/marry divorce "+g+"- Divorce your partner");
+		inform(sender, l + "/marry list "+g+"- See all married players");
+		inform(sender, l + "/marry tp "+g+"- Teleport to your partner");
+		inform(sender, l + "/marry gift "+g+"- Gift your partner the item in your hand");
+		inform(sender, l + "/marry chat "+g+"- Private chat with your partner");
+		inform(sender, l + "/marry sethome "+g+"- Set your marriage home");
+		inform(sender, l + "/marry home "+g+"- Go to your marriage home");
+		inform(sender, l + "/marry reload"+g+" - Reload all config files");
 		
-		MPlayer mp = plugin.getMPlayer(player);
-		if(mp.isMarried())
-		{
-			player.sendMessage(g+"Married: "+l+mp.getPartner());
-		}else
-		{
-			player.sendMessage(g+"Married: "+r+"No");
+		if(this.isPlayer()) {
+			Player player = (Player) sender;
+			MPlayer mp = plugin.getMPlayer(player);
+			if(mp.isMarried()) {
+				inform(sender, "Married: "+l+mp.getPartner());
+			}else {
+				inform(sender, "Married: "+r+"No");
+			}
 		}
+	}
+
+	@Override
+	public String getPermission() {
+		return null;
+	}
+
+	@Override
+	public boolean playersOnly() {
+		return false;
 	}
 }

@@ -1,9 +1,8 @@
 name: Marriage
-version: 1.05
+version: 1.07
 main: me.lenis0012.mr.Marriage
 author: lenis0012
 dev-url: http://dev.bukkit.org/server-mods/marriage-reloaded/
-softdepend: [BKCommonLib]
 commands:
   marry:
     description: Marriage main command.
@@ -15,19 +14,28 @@ permissions:
   marry.*:
     description: Allows all Marriage Commands
     children:
-       marry.marry:
-          description: Allows to marry with players
-       marry.chat:
-          description: Allows to chat with your partner
-       marry.tp:
-          description: Allows to tp to your partner
-       marry.home:
-          description: Allows to tp to your home if set
-       marry.sethome:
-          description: Allwos to set your Marriage home
-       marry.gift:
-          description: Allows to gift itesm to your partner
-       marry.chat:
-          description: Allows to chat with your partner
-       marry.child:
-          description: Allows everything with children in marriage.
+      marry.admin:
+        description: Allows all admin commands
+        children:
+          marry.reload:
+            description:
+              Allows to reload the config files
+      marry.default:
+        description: Allows default player commands
+        children:
+          marry.marry:
+            description: Allows to marry with players
+          marry.chat:
+            description: Allows to chat with your partner
+          marry.tp:
+            description: Allows to tp to your partner
+          marry.home:
+            description: Allows to tp to your home if set
+          marry.sethome:
+            description: Allwos to set your Marriage home
+          marry.gift:
+            description: Allows to gift itesm to your partner
+          marry.chat:
+            description: Allows to chat with your partner
+          marry.child:
+            description: Allows everything with children in marriage.
