@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.lenis0012.mr.MPlayer;
+import me.lenis0012.mr.lang.Messages;
 import me.lenis0012.mr.util.EcoUtil;
 
 public class MarryCommand extends CommandBase {
@@ -19,17 +20,18 @@ public class MarryCommand extends CommandBase {
 				MPlayer tp = plugin.getMPlayer(op);
 				
 				if(op.getName().equals(player.getName())) {
-					player.sendMessage(ChatColor.RED + "You may not marry yourself!");
+					error(player, Messages.NOT_YOURSELF);
 					return;
 				}
 				
 				if(mp.isMarried()) {
-					player.sendMessage(ChatColor.RED + "You are already married.");
+					error(player, Messages.ALREADY_MARRIED);
 					return;
 				}
 				
 				if(tp.isMarried()) {
-					player.sendMessage(ChatColor.RED + op.getName() + " is already married.");
+					String msg = Messages.HAS_PARTNER.replace("{USER}", op.getName());
+					error(player, msg);
 					return;
 				}
 				
@@ -42,16 +44,16 @@ public class MarryCommand extends CommandBase {
 					}
 				}
 				
-				player.sendMessage(ChatColor.GREEN + "Request sended.");
-				op.sendMessage(ChatColor.GREEN + player.getName() + " would like to marry with you.");
-				op.sendMessage(ChatColor.GREEN + "Type " + ChatColor.LIGHT_PURPLE + "/marry accept "
-				+ ChatColor.GREEN + "to accept");
+				inform(player, Messages.REQUEST_SENT);
+				String cmd = ChatColor.LIGHT_PURPLE + "/marry accept" + ChatColor.GREEN;
+				String msg = Messages.REQUEST_RECEIVED.replace("{USER}", player.getName()).replace("{COMMAND}", cmd);
+				inform(player, msg);
 				plugin.req.put(op.getName(), player.getName());
 				return;
 			}
 		}
 		
-		error(sender, "Invalid player");
+		error(sender, Messages.INVALID_PLAYER);
 	}
 
 	@Override

@@ -1,11 +1,11 @@
 package me.lenis0012.mr.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.lenis0012.mr.MPlayer;
+import me.lenis0012.mr.lang.Messages;
 import me.lenis0012.mr.util.EcoUtil;
 
 public class ChatCommand extends CommandBase {
@@ -15,14 +15,14 @@ public class ChatCommand extends CommandBase {
 		Player player = (Player) sender;
 		MPlayer mp = plugin.getMPlayer(player);
 		if(!mp.isMarried()) {
-			player.sendMessage(ChatColor.RED + "You dont have a partner.");
+			error(player, Messages.NO_PARTNER);
 			return;
 		}
 		
 		Player op = Bukkit.getServer().getPlayer(mp.getPartner());
 		
 		if(op == null || !op.isOnline()) {
-			player.sendMessage(ChatColor.RED + "Your partner is not online");
+			error(player, Messages.NOT_ONLINE);
 			return;
 		}
 		
@@ -37,16 +37,15 @@ public class ChatCommand extends CommandBase {
 		
 		if(mp.isChatting()) {
 			mp.setChatting(false);
-			player.sendMessage(ChatColor.RED+"Left partner chat");
+			error(player, Messages.LEFT_CHAT);
 		} else {
 			mp.setChatting(true);
-			player.sendMessage(ChatColor.GREEN+"Joined partner chat");
+			inform(player, Messages.JOINED_CHAT);
 		}
 	}
 
 	@Override
 	public String getPermission() {
-		// TODO Auto-generated method stub
 		return "marry.chat";
 	}
 

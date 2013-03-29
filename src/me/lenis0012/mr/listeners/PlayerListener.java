@@ -49,6 +49,8 @@ public class PlayerListener implements Listener {
 			player.sendMessage(format);
 			plugin.getLogger().info("[Marriage] Chat: "+pname+": "+message);
 			event.setCancelled(true);
+			//HeroChat fix?
+			event.getRecipients().clear();
 		}
 	}
 	

@@ -1,6 +1,7 @@
 package me.lenis0012.mr.commands;
 
 import me.lenis0012.mr.MPlayer;
+import me.lenis0012.mr.lang.LangConfig;
 
 import org.bukkit.command.CommandSender;
 
@@ -12,6 +13,8 @@ public class ReloadCommand extends CommandBase {
 		inform(sender, "Reloaded config.yml!");
 		plugin.reloadCustomConfig();
 		inform(sender, "Reloaded data.yml!");
+		LangConfig.get().reload();
+		inform(sender, "Reloaded lang.yml!");
 		
 		for(MPlayer mp : plugin.getLoadedPlayers()) {
 			mp.getConfig().reload();

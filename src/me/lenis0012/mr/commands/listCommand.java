@@ -2,6 +2,9 @@ package me.lenis0012.mr.commands;
 
 import java.util.List;
 
+import me.lenis0012.mr.PlayerConfig;
+import me.lenis0012.mr.lang.Messages;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -15,9 +18,8 @@ public class ListCommand extends CommandBase {
 		
 		List<String> list = plugin.getCustomConfig().getStringList("partners");
 		
-		if(list.isEmpty())
-		{
-			error(sender, "There are no married players on this server");
+		if(list.isEmpty()) {
+			error(sender, Messages.NO_PARTNERS);
 			return;
 		}
 		
@@ -29,11 +31,12 @@ public class ListCommand extends CommandBase {
 			maxPage = array.length / 10;
 		}else
 			maxPage = Integer.valueOf(((Double) ((double)(array.length / 10))).intValue() + 1);
-		String pages = ChatColor.GOLD + "Page " + String.valueOf(page) + "/" + String.valueOf(maxPage);
+		String pages = ChatColor.GOLD + Messages.PAGE + " " + String.valueOf(page) + "/" + String.valueOf(maxPage);
 		inform(sender, pages);
-		inform(sender, ChatColor.BLUE+"Partners:");
+		inform(sender, ChatColor.BLUE+ Messages.PARTNERS + ":");
 		for(String p1 : array) {
-			String p2 = plugin.getCustomConfig().getString("Married." + p1);
+			PlayerConfig cfg = plugin.getPlayerConfig(p1);
+			String p2 = cfg.getString("partner");
 			inform(sender, p1 + ChatColor.WHITE+" + " + ChatColor.GREEN + p2);
 		}
 	}

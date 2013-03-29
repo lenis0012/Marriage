@@ -1,6 +1,7 @@
 package me.lenis0012.mr.commands;
 
 import me.lenis0012.mr.MPlayer;
+import me.lenis0012.mr.lang.Messages;
 import me.lenis0012.mr.util.EcoUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,7 +14,7 @@ public class DivorceCommand extends CommandBase {
 		Player player = (Player) sender;
 		MPlayer mp = plugin.getMPlayer(player);
 		if(!mp.isMarried()) {
-			player.sendMessage(ChatColor.RED+"You are not married");
+			error(player, Messages.NO_PARTNER);
 			return;
 		}
 		
@@ -41,7 +42,8 @@ public class DivorceCommand extends CommandBase {
 		//chat fix end
 		
 		mp.divorce();
-		Bukkit.getServer().broadcastMessage(ChatColor.RED+user+" divorced with "+partner);
+		String msg = Messages.DIVORCED.replace("{USER1}", user).replace("{USER2}", partner);
+		Bukkit.getServer().broadcastMessage(ChatColor.RED + msg);
 	}
 
 	@Override

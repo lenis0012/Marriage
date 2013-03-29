@@ -1,6 +1,8 @@
 package me.lenis0012.mr.commands;
 
 import me.lenis0012.mr.MPlayer;
+import me.lenis0012.mr.lang.Messages;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -19,15 +21,16 @@ public class AcceptCommand extends CommandBase {
 					MPlayer mp = plugin.getMPlayer((Player) sender);
 					mp.setPartner(user);
 					
-					Bukkit.getServer().broadcastMessage(ChatColor.GREEN + user + " has married with " + name);
+					String msg = Messages.MARRIED.replace("{USER1}", user).replace("{USER2}", name);
+					Bukkit.getServer().broadcastMessage(ChatColor.GREEN + msg);
 					plugin.req.remove(name);
 					return;
 				}
-				error(sender, "Player that requested you is not online");
+				error(sender, Messages.NOT_ONLINE);
 				return;
 			}
 		}
-		error(sender, "You dont got a request!");
+		error(sender, Messages.NO_REQUEST);
 	}
 
 	@Override

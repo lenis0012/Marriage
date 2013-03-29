@@ -11,7 +11,6 @@ import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import me.lenis0012.mr.children.ChildManager;
 import me.lenis0012.mr.commands.MarryCMD;
 import me.lenis0012.mr.listeners.PlayerListener;
 import net.milkbowl.vault.economy.Economy;
@@ -40,7 +39,6 @@ public class Marriage extends JavaPlugin
     public Economy economy;
     public Logger log = Logger.getLogger("Minecraft");
     public boolean eco = false;
-    ChildManager manager;
     private Map<String, MPlayer> players = new WeakHashMap<String, MPlayer>();
     
     public static String COMPAT_VERSION = "v1_5_R2";
@@ -89,8 +87,6 @@ public class Marriage extends JavaPlugin
 			this.getLogger().info("[Marriage] Failed sending stats to mcstats.org");
 		}
 		
-		//setup instance
-		manager = new ChildManager(this);
 		//setup vault
 		Plugin vault = pm.getPlugin("Vault");
 		if(vault != null) {
@@ -100,11 +96,6 @@ public class Marriage extends JavaPlugin
 				eco = true;
 			}
 		}
-	}
-	
-	@Override
-	public void onDisable() {
-		manager.stop();
 	}
 	
 	private boolean validVersion(String version) {
@@ -186,8 +177,7 @@ public class Marriage extends JavaPlugin
 	}
 	
 	public void reloadCustomConfig() {
-	    if (customConfigFile == null)
-	    {
+	    if (customConfigFile == null) {
 	    	customConfigFile = new File(getDataFolder(), "data.yml");
 	    }
 	    customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
@@ -199,22 +189,20 @@ public class Marriage extends JavaPlugin
 	}
 
 	public FileConfiguration getCustomConfig() {
-	    if (customConfig == null)
-	    {
+	    if (customConfig == null) {
 	        this.reloadCustomConfig();
 	    }
 	    return customConfig;
 	}
 
 	public void saveCustomConfig() {
-	    if (customConfig == null || customConfigFile == null)
-	    {
+	    if (customConfig == null || customConfigFile == null){
 	    	return;
-	    }
-	    try {
+	    } try {
 	        getCustomConfig().save(customConfigFile);
 	    } catch (IOException ex) {
-	        this.getLogger().log(Level.SEVERE, "Could not save config to " + customConfigFile, ex);}
+	        this.getLogger().log(Level.SEVERE, "Could not save config to " + customConfigFile, ex);
+	    }
 	}
 	
 	public String fixColors(String message) {

@@ -1,6 +1,7 @@
 package me.lenis0012.mr.commands;
 
 import me.lenis0012.mr.MPlayer;
+import me.lenis0012.mr.lang.Messages;
 import me.lenis0012.mr.util.EcoUtil;
 
 import org.bukkit.Bukkit;
@@ -19,12 +20,12 @@ public class GiftCommand extends CommandBase {
 		Player op = Bukkit.getServer().getPlayer(mp.getPartner());
 		
 		if(!mp.isMarried()) {
-			player.sendMessage(ChatColor.RED + "You dont have a partner.");
+			error(player, Messages.NO_PARTNER);
 			return;
 		}
 		
 		if(op == null || !op.isOnline()) {
-			player.sendMessage(ChatColor.RED + "Your partner is not online");
+			error(player, Messages.NOT_ONLINE);
 			return;
 		}
 		
@@ -40,15 +41,16 @@ public class GiftCommand extends CommandBase {
 		ItemStack it = player.getItemInHand();
 		if(it != null) {
 			if(it.getType() != Material.AIR) {
-				player.sendMessage(ChatColor.GREEN + "Gift sended");
+				inform(player, Messages.GIFT_SENT);
 				String item = it.getType().toString().toLowerCase();
-				op.sendMessage(ChatColor.GREEN + "You got a '"+item+"' from your partner");
+				String msg = Messages.GIFT_RECEIVED.replace("{ITEM}", item);
+				op.sendMessage(ChatColor.GREEN + msg);
 				op.getInventory().addItem(it);
 				player.setItemInHand(null);
 			}else
-				player.sendMessage(ChatColor.RED+"Invalid item in your hand");
+				error(player, Messages.INVALID_ITEM);
 		}else
-			player.sendMessage(ChatColor.RED+"Invalid item in your hand");
+			error(player, Messages.INVALID_ITEM);
 	}
 
 	@Override

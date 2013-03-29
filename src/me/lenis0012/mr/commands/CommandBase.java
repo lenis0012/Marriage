@@ -1,6 +1,7 @@
 package me.lenis0012.mr.commands;
 
 import me.lenis0012.mr.Marriage;
+import me.lenis0012.mr.lang.Messages;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -14,12 +15,12 @@ public abstract class CommandBase {
 		this.isPlayer = sender instanceof Player;
 		
 		if(this.playersOnly() && !this.isPlayer) {
-			error(sender, "You must be a player to execute this command");
+			error(sender, Messages.NO_CONSOLE);
 			return;
 		}
 		
 		if(this.getPermission() != null && !sender.hasPermission(this.getPermission())) {
-			error(sender, "Invalid permissions!");
+			error(sender, Messages.NO_PERMISSION);
 			return;
 		}
 		
