@@ -1,8 +1,10 @@
 package me.lenis0012.mr.util;
 
+import me.lenis0012.mr.Marriage;
+
 import org.bukkit.entity.Player;
 
-import me.lenis0012.mr.Marriage;
+
 
 public class EcoUtil {
 	private static String msg = "&7Removed &f${Price} &7from your balance";

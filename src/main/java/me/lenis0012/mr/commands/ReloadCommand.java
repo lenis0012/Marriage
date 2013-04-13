@@ -5,6 +5,7 @@ import me.lenis0012.mr.lang.LangConfig;
 
 import org.bukkit.command.CommandSender;
 
+
 public class ReloadCommand extends CommandBase {
 
 	@Override

@@ -23,7 +23,7 @@ public class PacketUtil {
 	public static void createHearts(Player player, Location loc) {
 		final DataWatcher tmp = new DataWatcher();
 		final EntityPlayer ep = ((CraftPlayer) player).getHandle();
-		final int entityId = Short.MAX_VALUE - random.nextInt(100);
+		final int entityId = Short.MAX_VALUE - 200 - random.nextInt(100);
 		tmp.a(0, Byte.valueOf((byte) 32)); //32
 		tmp.a(12, Integer.valueOf((int) 0));
 		

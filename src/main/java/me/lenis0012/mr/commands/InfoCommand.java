@@ -1,10 +1,12 @@
 package me.lenis0012.mr.commands;
 
+
 import me.lenis0012.mr.MPlayer;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
 
 public class InfoCommand extends CommandBase {
 

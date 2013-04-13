@@ -1,33 +1,35 @@
 package me.lenis0012.mr.commands;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import me.lenis0012.mr.MPlayer;
 import me.lenis0012.mr.lang.Messages;
 import me.lenis0012.mr.util.EcoUtil;
 
-public class ChatCommand extends CommandBase {
-	
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+
+public class HomeCommand extends CommandBase {
+
 	@Override
 	public void perform(CommandSender sender, String[] args) {
 		Player player = (Player) sender;
 		MPlayer mp = plugin.getMPlayer(player);
+		
 		if(!mp.isMarried()) {
 			error(player, Messages.NO_PARTNER);
 			return;
 		}
 		
-		Player op = Bukkit.getServer().getPlayer(mp.getPartner());
+		Location home = mp.getHome();
 		
-		if(op == null || !op.isOnline()) {
-			error(player, Messages.NOT_ONLINE);
+		if(home == null) {
+			error(player, Messages.NO_HOME);
 			return;
 		}
 		
 		if(plugin.eco) {
-			double a = EcoUtil.getPriceFromConfig("chat");
+			double a = EcoUtil.getPriceFromConfig("home");
 			if(a != 0.0) {
 				if(EcoUtil.withrawMoneyIfEnough(player, a)) {
 					return;
@@ -35,18 +37,13 @@ public class ChatCommand extends CommandBase {
 			}
 		}
 		
-		if(mp.isChatting()) {
-			mp.setChatting(false);
-			error(player, Messages.LEFT_CHAT);
-		} else {
-			mp.setChatting(true);
-			inform(player, Messages.JOINED_CHAT);
-		}
+		player.teleport(home);
+		inform(player, Messages.HOME_TP);
 	}
 
 	@Override
 	public String getPermission() {
-		return "marry.chat";
+		return "marry.home";
 	}
 
 	@Override

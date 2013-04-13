@@ -8,6 +8,7 @@ import me.lenis0012.mr.lang.Messages;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+
 public class ListCommand extends CommandBase {
 
 	@Override

@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
+
 public class PlayerListener implements Listener {
 	private Marriage plugin;
 	public PlayerListener(Marriage i) { plugin = i; }

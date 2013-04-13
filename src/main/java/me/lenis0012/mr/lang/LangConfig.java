@@ -5,10 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 
+
 import me.lenis0012.mr.Marriage;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+
 
 public class LangConfig extends YamlConfiguration {
 	private static LangConfig instance;

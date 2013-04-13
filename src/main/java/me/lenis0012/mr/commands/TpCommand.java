@@ -5,14 +5,12 @@ import me.lenis0012.mr.lang.Messages;
 import me.lenis0012.mr.util.EcoUtil;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-public class GiftCommand extends CommandBase {
 
+public class TpCommand extends CommandBase {
+	
 	@Override
 	public void perform(CommandSender sender, String[] args) {
 		Player player = (Player) sender;
@@ -30,7 +28,7 @@ public class GiftCommand extends CommandBase {
 		}
 		
 		if(plugin.eco) {
-			double a = EcoUtil.getPriceFromConfig("gift");
+			double a = EcoUtil.getPriceFromConfig("tp");
 			if(a != 0.0) {
 				if(EcoUtil.withrawMoneyIfEnough(player, a)) {
 					return;
@@ -38,24 +36,14 @@ public class GiftCommand extends CommandBase {
 			}
 		}
 		
-		ItemStack it = player.getItemInHand();
-		if(it != null) {
-			if(it.getType() != Material.AIR) {
-				inform(player, Messages.GIFT_SENT);
-				String item = it.getType().toString().toLowerCase();
-				String msg = Messages.GIFT_RECEIVED.replace("{ITEM}", item);
-				op.sendMessage(ChatColor.GREEN + msg);
-				op.getInventory().addItem(it);
-				player.setItemInHand(null);
-			}else
-				error(player, Messages.INVALID_ITEM);
-		}else
-			error(player, Messages.INVALID_ITEM);
+		inform(player, Messages.TELEPORTING + "...");
+		inform(op, Messages.PARTNER_TELEPORTING);
+		player.teleport(op.getLocation());
 	}
 
 	@Override
 	public String getPermission() {
-		return "marry.gift";
+		return "marry.tp";
 	}
 
 	@Override
