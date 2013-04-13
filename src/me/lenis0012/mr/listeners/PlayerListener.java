@@ -73,8 +73,8 @@ public class PlayerListener implements Listener {
 				if(mp.getPartner().equals(tname)) {
 					mp.sendMessage(ChatColor.GREEN + "You have kissed your partner!");
 					target.sendMessage(ChatColor.GREEN + "Your partner has kissed you!");
-					PacketUtil.createHearts(target, mp);
-					PacketUtil.createHearts(target, target);
+					PacketUtil.createHearts(target, target.getLocation());
+					PacketUtil.createHearts(mp, target.getLocation());
 					ingored.put(pname, System.currentTimeMillis() + 1500L);
 				}
 			}

@@ -59,7 +59,7 @@ public class LangConfig extends YamlConfiguration {
 	}
 	
 	public String getMessageWithDefault(String path, String def) {
-		if(this.contains(path))
+		if(this.contains("messages." + path))
 			return this.getString("messages." + path);
 		else {
 			this.set("messages." + path, def);
@@ -69,7 +69,7 @@ public class LangConfig extends YamlConfiguration {
 	}
 	
 	public String getWordWithDefault(String path, String def) {
-		if(this.contains(path))
+		if(this.contains("words." + path))
 			return this.getString("words." + path);
 		else {
 			this.set("words." + path, def);

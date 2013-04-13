@@ -23,18 +23,18 @@ public class ListCommand extends CommandBase {
 			return;
 		}
 		
-		String[] array = list.toArray(new String[list.size() - 1]);
-		
 		int maxPage = 0;
-		if(String.valueOf(array.length).endsWith("0"))
+		if(String.valueOf(list.size()).endsWith("0"))
 		{
-			maxPage = array.length / 10;
+			maxPage = list.size() / 10;
 		}else
-			maxPage = Integer.valueOf(((Double) ((double)(array.length / 10))).intValue() + 1);
+			maxPage = Integer.valueOf(((Double) ((double)(list.size() / 10))).intValue() + 1);
 		String pages = ChatColor.GOLD + Messages.PAGE + " " + String.valueOf(page) + "/" + String.valueOf(maxPage);
 		inform(sender, pages);
 		inform(sender, ChatColor.BLUE+ Messages.PARTNERS + ":");
-		for(String p1 : array) {
+		int msw = page > 1 ? 1 : 0;
+		for(int i = page * 10 - 10 - msw; i < page * 10 && i < list.size(); i++) {
+			String p1 = list.get(i);
 			PlayerConfig cfg = plugin.getPlayerConfig(p1);
 			String p2 = cfg.getString("partner");
 			inform(sender, p1 + ChatColor.WHITE+" + " + ChatColor.GREEN + p2);

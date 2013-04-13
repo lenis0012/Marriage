@@ -23,7 +23,7 @@ public class Messages {
 	public static final String NOT_YOURSELF = lang.getMessageWithDefault("not yourself", "You can't marry yourself!");
 	public static final String ALREADY_MARRIED = lang.getMessageWithDefault("already married", "You already married!");
 	public static final String HAS_PARTNER = lang.getMessageWithDefault("has partner", "{USER} already has a partner!");
-	public static final String REQUEST_RECEIVED = lang.getMessageWithDefault("request received", "{USER} wants to marry with you.\n type {COMMAND} to accept");
+	public static final String REQUEST_RECEIVED = lang.getMessageWithDefault("request received", "{USER} wants to marry with you.\ntype {COMMAND} to accept");
 	public static final String INVALID_PLAYER = lang.getMessageWithDefault("invalid player", "Invalid player!");
 	public static final String HOME_SET = lang.getMessageWithDefault("home set", "Home set!");
 	public static final String PARTNER_SETHOME = lang.getMessageWithDefault("partner sethome", "Your partner has set your home!");

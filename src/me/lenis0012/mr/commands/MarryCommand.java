@@ -47,7 +47,7 @@ public class MarryCommand extends CommandBase {
 				inform(player, Messages.REQUEST_SENT);
 				String cmd = ChatColor.LIGHT_PURPLE + "/marry accept" + ChatColor.GREEN;
 				String msg = Messages.REQUEST_RECEIVED.replace("{USER}", player.getName()).replace("{COMMAND}", cmd);
-				inform(player, msg);
+				inform(op, msg);
 				plugin.req.put(op.getName(), player.getName());
 				return;
 			}

@@ -38,13 +38,13 @@ public class SimpleMPlayer extends CraftPlayer implements MPlayer {
 	}
 	
 	public void setPartner(String user) {
-		List<String> list =  cfg.getStringList("partners");
+		List<String> list = cfg.getStringList("partners");
 		list.add(user);
 		PlayerConfig cfg = this.getConfig();
 		PlayerConfig partner_cfg = plugin.getConfig(user);
 		cfg.set("partner", user);
 		partner_cfg.set("partner", name);
-		cfg.set("partners", list);
+		plugin.getCustomConfig().set("partners", list);
 		save();
 		cfg.save();
 		partner_cfg.save();
@@ -65,7 +65,7 @@ public class SimpleMPlayer extends CraftPlayer implements MPlayer {
 			cfg.set("home", null);
 			partner_cfg.set("partner", null);
 			partner_cfg.set("home", null);
-			cfg.set("partners", list);
+			plugin.getCustomConfig().set("partners", list);
 			save();
 			cfg.save();
 			partner_cfg.save();
