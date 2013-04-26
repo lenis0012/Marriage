@@ -14,14 +14,10 @@ import java.util.logging.Logger;
 import me.lenis0012.mr.commands.MarryCMD;
 import me.lenis0012.mr.listeners.PlayerListener;
 import net.milkbowl.vault.economy.Economy;
-import net.minecraft.server.v1_5_R2.EntityPlayer;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_5_R2.CraftServer;
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
@@ -42,6 +38,7 @@ public class Marriage extends JavaPlugin
     private Map<String, MPlayer> players = new WeakHashMap<String, MPlayer>();
     
     public static String COMPAT_VERSION = "v1_5_R2";
+    public static boolean IS_COMPATIBLE = true;
     public Map<String, PlayerConfig> configs = new HashMap<String, PlayerConfig>();
 	
 	@Override
@@ -54,8 +51,8 @@ public class Marriage extends JavaPlugin
 			log.info("[Marriage] Running on nms path: " + COMPAT_VERSION);
 		} else {
 			log.severe("[Marriage] Marriage is not compatible with the version of minecraft you are using!");
-			log.severe("Please update Marriage or wait for an update.");
-			return;
+			log.severe("Marriage kissing will be disabled!");
+			IS_COMPATIBLE = false;
 		}
 		
 		//register events/commands
@@ -64,6 +61,8 @@ public class Marriage extends JavaPlugin
 		
 		//setup config.yml
 		config.addDefault("settings.private-chat.format", "&a[Partner] &7{Player}&f: &a{Message}");
+		config.addDefault("settings.chat-prefix.use", true);
+		config.addDefault("settings.chat-prefix.format", "&4&l<3&r {OLD_FORMAT}");
 		config.addDefault("price.{command name}", 10.0);
 		config.addDefault("price.marry", 0.0);
 		config.options().copyDefaults(true);
@@ -138,10 +137,7 @@ public class Marriage extends JavaPlugin
 		if(players.containsKey(player.getName()))
 			return players.get(player.getName());
 		
-		CraftPlayer cp = (CraftPlayer)player;
-		EntityPlayer ep = cp.getHandle();
-		CraftServer server = (CraftServer)Bukkit.getServer();
-		MPlayer mp = new SimpleMPlayer(server, ep);
+		MPlayer mp = new SimpleMPlayer(player.getName());
 		players.put(player.getName(), mp);
 		
 		return mp;
@@ -206,24 +202,7 @@ public class Marriage extends JavaPlugin
 	}
 	
 	public String fixColors(String message) {
-		message = message.replaceAll("&0", ChatColor.BLACK.toString());
-		message = message.replaceAll("&1", ChatColor.DARK_BLUE.toString());
-		message = message.replaceAll("&2", ChatColor.DARK_GREEN.toString());
-		message = message.replaceAll("&3", ChatColor.DARK_AQUA.toString());
-		message = message.replaceAll("&4", ChatColor.DARK_RED.toString());
-		message = message.replaceAll("&5", ChatColor.DARK_PURPLE.toString());
-		message = message.replaceAll("&6", ChatColor.GOLD.toString());
-		message = message.replaceAll("&7", ChatColor.GRAY.toString());
-		message = message.replaceAll("&8", ChatColor.DARK_GRAY.toString());
-		message = message.replaceAll("&9", ChatColor.BLUE.toString());
-		message = message.replaceAll("&a", ChatColor.GREEN.toString());
-		message = message.replaceAll("&b", ChatColor.AQUA.toString());
-		message = message.replaceAll("&c", ChatColor.RED.toString());
-		message = message.replaceAll("&d", ChatColor.LIGHT_PURPLE.toString());
-		message = message.replaceAll("&e", ChatColor.YELLOW.toString());
-		message = message.replaceAll("&f", ChatColor.WHITE.toString());
-		message = message.replaceAll("&r", ChatColor.WHITE.toString());
-		return message;
+		return message.replaceAll("&", "\247");
 	}
 	
     private boolean setupEconomy() {

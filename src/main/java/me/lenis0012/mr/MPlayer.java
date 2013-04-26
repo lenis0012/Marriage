@@ -1,9 +1,8 @@
 package me.lenis0012.mr;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
-public interface MPlayer extends Player {
+public interface MPlayer {
 	
 	/**
 	 * Check if a player is married

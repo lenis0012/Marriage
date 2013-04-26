@@ -31,6 +31,7 @@ public class PlayerListener implements Listener {
 		MPlayer mp = plugin.getMPlayer(player);
 		
 		if(mp.isChatting()) {
+			//Custom private chat
 			Player partner = Bukkit.getServer().getPlayer(mp.getPartner());
 			if(partner == null) {
 				mp.setChatting(false);
@@ -52,13 +53,25 @@ public class PlayerListener implements Listener {
 			event.setCancelled(true);
 			//HeroChat fix?
 			event.getRecipients().clear();
+		} else if(mp.isMarried()) {
+			//Replace chat with cusotm prefix
+			if(plugin.getConfig().getBoolean("settings.chat-prefix.use")) {
+				String format = plugin.getConfig().getString("settings.chat-prefix.format");
+				format = plugin.fixColors(format);
+				format = format.replace("{OLD_FORMAT}", event.getFormat());
+				event.setFormat(format);
+			}
 		}
 	}
 	
 	@EventHandler
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
-		MPlayer mp = plugin.getMPlayer(event.getPlayer());
-		String pname = mp.getName();
+		if(!Marriage.IS_COMPATIBLE)
+			return; //Prevent problems with mc version
+		
+		Player player = event.getPlayer();
+		MPlayer mp = plugin.getMPlayer(player);
+		String pname = player.getName();
 		
 		if(this.ingored.containsKey(pname)) {
 			long lastKiss = ingored.get(pname);
@@ -66,16 +79,16 @@ public class PlayerListener implements Listener {
 				return;
 		}
 		
-		if(mp.isSneaking() && mp.isMarried()) {
+		if(player.isSneaking() && mp.isMarried()) {
 			Entity entity = event.getRightClicked();
 			if(entity != null && entity instanceof Player) {
 				Player target = (Player) entity;
 				String tname = target.getName();
 				if(mp.getPartner().equals(tname)) {
-					mp.sendMessage(ChatColor.GREEN + "You have kissed your partner!");
+					player.sendMessage(ChatColor.GREEN + "You have kissed your partner!");
 					target.sendMessage(ChatColor.GREEN + "Your partner has kissed you!");
 					PacketUtil.createHearts(target, target.getLocation());
-					PacketUtil.createHearts(mp, target.getLocation());
+					PacketUtil.createHearts(player, target.getLocation());
 					ingored.put(pname, System.currentTimeMillis() + 1500L);
 				}
 			}

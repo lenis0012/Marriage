@@ -2,25 +2,20 @@ package me.lenis0012.mr;
 
 import java.util.List;
 
-import net.minecraft.server.v1_5_R2.EntityPlayer;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.craftbukkit.v1_5_R2.CraftServer;
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
 
-public class SimpleMPlayer extends CraftPlayer implements MPlayer {
+public class SimpleMPlayer implements MPlayer {
 	private String name;
 	private Marriage plugin;
 	private boolean chatting = false;
 	private FileConfiguration cfg;
 	
-	public SimpleMPlayer(CraftServer server, EntityPlayer entity) {
-		super(server, entity);
+	public SimpleMPlayer(String name) {
 		plugin = Marriage.instance;
-		this.name = this.getName();
+		this.name = name;
 		this.cfg = plugin.getCustomConfig();
 	}
 	

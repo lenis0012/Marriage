@@ -1,15 +1,14 @@
 name: Marriage
-version: 1.08
+version: 1.09
 main: me.lenis0012.mr.Marriage
 author: lenis0012
+description: A plugin wich provides the function to start a relationship in minecraft.
 dev-url: http://dev.bukkit.org/server-mods/marriage-reloaded/
+softdepend: [Vault]
 commands:
   marry:
     description: Marriage main command.
     usage: /marry <args>
-  child:
-    description: Marriage child command
-    usage: /child <args>
 permissions:
   marry.*:
     description: Allows all Marriage Commands
