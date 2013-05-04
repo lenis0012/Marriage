@@ -24,7 +24,7 @@ public class PlayerListener implements Listener {
 	
 	private Map<String, Long> ingored = new HashMap<String, Long>();
 	
-	@EventHandler (priority = EventPriority.LOWEST)
+	@EventHandler (priority = EventPriority.HIGHEST)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		String pname = player.getName();

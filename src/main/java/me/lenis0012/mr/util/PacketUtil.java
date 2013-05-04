@@ -4,16 +4,16 @@ import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.logging.Level;
 
-import net.minecraft.server.v1_5_R2.DataWatcher;
-import net.minecraft.server.v1_5_R2.EntityPlayer;
-import net.minecraft.server.v1_5_R2.MathHelper;
-import net.minecraft.server.v1_5_R2.Packet24MobSpawn;
-import net.minecraft.server.v1_5_R2.Packet29DestroyEntity;
-import net.minecraft.server.v1_5_R2.Packet38EntityStatus;
+import net.minecraft.server.v1_5_R3.DataWatcher;
+import net.minecraft.server.v1_5_R3.EntityPlayer;
+import net.minecraft.server.v1_5_R3.MathHelper;
+import net.minecraft.server.v1_5_R3.Packet24MobSpawn;
+import net.minecraft.server.v1_5_R3.Packet29DestroyEntity;
+import net.minecraft.server.v1_5_R3.Packet38EntityStatus;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_5_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_5_R3.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
@@ -24,8 +24,8 @@ public class PacketUtil {
 		final DataWatcher tmp = new DataWatcher();
 		final EntityPlayer ep = ((CraftPlayer) player).getHandle();
 		final int entityId = Short.MAX_VALUE - 200 - random.nextInt(100);
-		tmp.a(0, Byte.valueOf((byte) 32)); //32
-		tmp.a(12, Integer.valueOf((int) 0));
+		tmp.a(0, Byte.valueOf((byte) 32)); //32 - Invicibility id
+		tmp.a(12, Integer.valueOf((int) 0)); //Adult :P
 		
 		Packet24MobSpawn packet = new Packet24MobSpawn();
 		packet.a = entityId;

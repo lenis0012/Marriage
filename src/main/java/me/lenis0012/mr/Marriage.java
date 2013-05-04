@@ -37,7 +37,7 @@ public class Marriage extends JavaPlugin
     public boolean eco = false;
     private Map<String, MPlayer> players = new WeakHashMap<String, MPlayer>();
     
-    public static String COMPAT_VERSION = "v1_5_R2";
+    public static String COMPAT_VERSION = "v1_5_R3";
     public static boolean IS_COMPATIBLE = true;
     public Map<String, PlayerConfig> configs = new HashMap<String, PlayerConfig>();
 	
