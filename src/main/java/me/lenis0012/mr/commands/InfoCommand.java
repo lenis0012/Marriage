@@ -28,6 +28,7 @@ public class InfoCommand extends CommandBase {
 		inform(sender, l + "/marry sethome "+g+"- Set your marriage home");
 		inform(sender, l + "/marry home "+g+"- Go to your marriage home");
 		inform(sender, l + "/marry reload"+g+" - Reload all config files");
+		inform(sender, l + "Crouch + Right click"+g+" - Kiss your partner");
 		
 		if(this.isPlayer()) {
 			Player player = (Player) sender;

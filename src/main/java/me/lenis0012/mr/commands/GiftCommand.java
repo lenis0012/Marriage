@@ -6,6 +6,7 @@ import me.lenis0012.mr.util.EcoUtil;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,6 +28,11 @@ public class GiftCommand extends CommandBase {
 		
 		if(op == null || !op.isOnline()) {
 			error(player, Messages.NOT_ONLINE);
+			return;
+		}
+		
+		if(player.getGameMode() == GameMode.CREATIVE) {
+			error(player, Messages.GIFT_CREATIVE);
 			return;
 		}
 		

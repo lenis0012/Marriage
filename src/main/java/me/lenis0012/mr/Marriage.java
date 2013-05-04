@@ -133,6 +133,11 @@ public class Marriage extends JavaPlugin
 		return null;
 	}
 	
+	public void clearPlayer(Player player) {
+		players.remove(player.getName());
+		configs.remove(player.getName());
+	}
+	
 	public MPlayer getMPlayer(Player player) {
 		if(players.containsKey(player.getName()))
 			return players.get(player.getName());

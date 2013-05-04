@@ -28,6 +28,7 @@ public class Messages {
 	public static final String HOME_SET = lang.getMessageWithDefault("home set", "Home set!");
 	public static final String PARTNER_SETHOME = lang.getMessageWithDefault("partner sethome", "Your partner has set your home!");
 	public static final String PARTNER_TELEPORTING = lang.getMessageWithDefault("partner teleporting", "Your partner is teleporting to you!");
+	public static final String GIFT_CREATIVE = lang.getMessageWithDefault("gift creative", "You may not gift items in creative!");
 	
 	/** Words */
 	public static final String PAGE = lang.getWordWithDefault("page", "Page");

@@ -16,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 
 public class PlayerListener implements Listener {
@@ -93,5 +94,10 @@ public class PlayerListener implements Listener {
 				}
 			}
 		}
+	}
+	
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		plugin.clearPlayer(event.getPlayer());
 	}
 }
