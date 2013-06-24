@@ -38,3 +38,5 @@ permissions:
             description: Allows to chat with your partner
           marry.child:
             description: Allows everything with children in marriage.
+          marry.seend:
+            description: Allows to see your last login from your partner
