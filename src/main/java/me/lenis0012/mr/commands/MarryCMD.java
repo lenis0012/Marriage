@@ -23,6 +23,7 @@ public class MarryCMD implements CommandExecutor {
 		commands.put("reload", new ReloadCommand());
 		commands.put("sethome", new SethomeCommand());
 		commands.put("tp", new TpCommand());
+		commands.put("seen", new SeenCommand());
 	}
 	
 	@Override

@@ -16,6 +16,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 
@@ -98,6 +99,17 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent event) {
+		Player player = event.getPlayer();
+		MPlayer mp = plugin.getMPlayer(player);
+		mp.getConfig().set("last-logout", System.currentTimeMillis());
+		mp.getConfig().save();
 		plugin.clearPlayer(event.getPlayer());
+	}
+	
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		MPlayer mp = plugin.getMPlayer(player);
+		mp.getConfig().set("last-login", System.currentTimeMillis());
+		mp.getConfig().save();
 	}
 }

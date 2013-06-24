@@ -29,9 +29,18 @@ public class Messages {
 	public static final String PARTNER_SETHOME = lang.getMessageWithDefault("partner sethome", "Your partner has set your home!");
 	public static final String PARTNER_TELEPORTING = lang.getMessageWithDefault("partner teleporting", "Your partner is teleporting to you!");
 	public static final String GIFT_CREATIVE = lang.getMessageWithDefault("gift creative", "You may not gift items in creative!");
+	public static final String OFFLINE_SINCE = lang.getMessageWithDefault("offline since", "Your partner is offline since {TIME}");
+	public static final String ONLINE_SINCE = lang.getMessageWithDefault("online since", "Your partner is online since");
 	
 	/** Words */
 	public static final String PAGE = lang.getWordWithDefault("page", "Page");
 	public static final String PARTNERS = lang.getWordWithDefault("partners", "Partners");
 	public static final String TELEPORTING = lang.getWordWithDefault("teleporting", "Teleporting");
+	public static final String SECONDS = lang.getWordWithDefault("seconds", "sec");
+	public static final String MINUTES = lang.getWordWithDefault("seconds", "min");
+	public static final String HOURS = lang.getWordWithDefault("seconds", "hours");
+	public static final String DAYS = lang.getWordWithDefault("days", "days");
+	public static final String WEEKS = lang.getWordWithDefault("weeks", "weeks");
+	public static final String MONTHS = lang.getWordWithDefault("months", "months");
+	public static final String YEARS = lang.getWordWithDefault("years", "years");
 }
