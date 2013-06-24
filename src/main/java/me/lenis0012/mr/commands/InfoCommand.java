@@ -15,9 +15,9 @@ public class InfoCommand extends CommandBase {
 		ChatColor g = ChatColor.GRAY;
 		ChatColor l = ChatColor.GREEN;
 		ChatColor r = ChatColor.RED;
-		inform(sender, l + "==========-{"+l+" Marriage "+g+"}-==========");
-		inform(sender, l + "Version: "+l+plugin.getDescription().getVersion());
-		inform(sender, l + "Authors: "+l+plugin.getDescription().getAuthors().toString().replace("[", "").replace("]", ""));
+		inform(sender, g + "==========-{"+l+" Marriage "+g+"}-==========");
+		inform(sender, g + "Version: "+l+plugin.getDescription().getVersion());
+		inform(sender, g + "Authors: "+l+plugin.getDescription().getAuthors().toString().replace("[", "").replace("]", ""));
 		inform(sender, l + "/marry <player> "+g+"- Marry a player");
 		inform(sender, l + "/marry accept "+g+"- Accept a marriage request");
 		inform(sender, l + "/marry divorce "+g+"- Divorce your partner");
@@ -28,6 +28,7 @@ public class InfoCommand extends CommandBase {
 		inform(sender, l + "/marry sethome "+g+"- Set your marriage home");
 		inform(sender, l + "/marry home "+g+"- Go to your marriage home");
 		inform(sender, l + "/marry reload"+g+" - Reload all config files");
+		inform(sender, l + "/marry seen - Check your partners last login");
 		inform(sender, l + "Crouch + Right click"+g+" - Kiss your partner");
 		
 		if(this.isPlayer()) {
