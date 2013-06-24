@@ -46,19 +46,19 @@ public class SeenCommand extends CommandBase {
 		if(time >= 60) {
 			time = time / 60;
 			type = Messages.MINUTES;
-		} if(time >= 60) {
+		} if(time >= 60 && type == Messages.MINUTES) {
 			time = time / 60;
 			type = Messages.HOURS;
-		} if(time >= 24) {
+		} if(time >= 24 && type == Messages.HOURS) {
 			time = time / 24;
 			type = Messages.DAYS;
-		} if(time >= 7) {
+		} if(time >= 7 && type == Messages.DAYS) {
 			time = time / 7;
 			type = Messages.WEEKS;
-		} if(time >= 4) {
+		} if(time >= 4 && type == Messages.WEEKS) {
 			time = time / 4;
 			type = Messages.MONTHS;
-		} if(time > 12) {
+		} if(time >= 12 && type == Messages.MONTHS) {
 			time = time / 12;
 			type = Messages.YEARS;
 		}

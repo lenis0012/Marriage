@@ -106,6 +106,7 @@ public class PlayerListener implements Listener {
 		plugin.clearPlayer(event.getPlayer());
 	}
 	
+	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		MPlayer mp = plugin.getMPlayer(player);
