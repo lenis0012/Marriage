@@ -39,5 +39,4 @@ public class MarryCMD implements CommandExecutor {
 		command.execute(sender, args);
 		return true;
 	}
-
 }

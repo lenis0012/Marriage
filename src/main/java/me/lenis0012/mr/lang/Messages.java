@@ -37,8 +37,8 @@ public class Messages {
 	public static final String PARTNERS = lang.getWordWithDefault("partners", "Partners");
 	public static final String TELEPORTING = lang.getWordWithDefault("teleporting", "Teleporting");
 	public static final String SECONDS = lang.getWordWithDefault("seconds", "sec");
-	public static final String MINUTES = lang.getWordWithDefault("seconds", "min");
-	public static final String HOURS = lang.getWordWithDefault("seconds", "hours");
+	public static final String MINUTES = lang.getWordWithDefault("minutes", "min");
+	public static final String HOURS = lang.getWordWithDefault("hours", "hours");
 	public static final String DAYS = lang.getWordWithDefault("days", "days");
 	public static final String WEEKS = lang.getWordWithDefault("weeks", "weeks");
 	public static final String MONTHS = lang.getWordWithDefault("months", "months");

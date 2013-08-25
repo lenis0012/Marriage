@@ -17,8 +17,9 @@ permissions:
         description: Allows all admin commands
         children:
           marry.reload:
-            description:
-              Allows to reload the config files
+            description: Allows to reload the config files
+          marry.priest:
+            description: Allows player to marry 2 orther players.
       marry.default:
         description: Allows default player commands
         children:
