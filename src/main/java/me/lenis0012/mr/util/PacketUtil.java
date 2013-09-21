@@ -4,17 +4,16 @@ import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.logging.Level;
 
-import net.minecraft.server.v1_6_R2.DataWatcher;
-import net.minecraft.server.v1_6_R2.EntityPlayer;
-import net.minecraft.server.v1_6_R2.MathHelper;
-import net.minecraft.server.v1_6_R2.Packet24MobSpawn;
-import net.minecraft.server.v1_6_R2.Packet29DestroyEntity;
-import net.minecraft.server.v1_6_R2.Packet38EntityStatus;
+import net.minecraft.server.v1_6_R3.DataWatcher;
+import net.minecraft.server.v1_6_R3.EntityPlayer;
+import net.minecraft.server.v1_6_R3.MathHelper;
+import net.minecraft.server.v1_6_R3.Packet24MobSpawn;
+import net.minecraft.server.v1_6_R3.Packet29DestroyEntity;
+import net.minecraft.server.v1_6_R3.Packet38EntityStatus;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_6_R2.entity.CraftPlayer;
-import org.bukkit.entity.EntityType;
+import org.bukkit.craftbukkit.v1_6_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 public class PacketUtil {
@@ -29,7 +28,7 @@ public class PacketUtil {
 		
 		Packet24MobSpawn packet = new Packet24MobSpawn();
 		packet.a = entityId;
-		packet.b = EntityType.WOLF.getTypeId();
+		packet.b = 95;
 		packet.c = MathHelper.floor(loc.getX() * 32.0D);
 		packet.d = MathHelper.floor(loc.getY() * 32.0D);
 		packet.e = MathHelper.floor(loc.getZ() * 32.0D);
