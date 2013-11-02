@@ -121,7 +121,7 @@ public class PlayerListener implements Listener {
 
 				@Override
 				public void run() {
-					player.sendMessage("§eAn update for Marriage was found, please check BukkitDev!");
+					player.sendMessage("\247eAn update for Marriage was found, please check BukkitDev!");
 				}
 			}, 30L);
 		}
