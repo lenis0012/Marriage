@@ -6,9 +6,9 @@ public class Messages {
 	/** Messages */
 	public static final String NO_PERMISSION = lang.getMessageWithDefault("no permission", "No permission!");
 	public static final String NO_CONSOLE = lang.getMessageWithDefault("no console", "You must be a player!");
-	public static final String NO_REQUEST = lang.getMessageWithDefault("no request", "You don't got a request!");
+	public static final String NO_REQUEST = lang.getMessageWithDefault("no request", "You haven't got a request!");
 	public static final String NOT_ONLINE = lang.getMessageWithDefault("not online", "That player is not online!");
-	public static final String MARRIED = lang.getMessageWithDefault("married", "{USER1} has married with {USER2}!");
+	public static final String MARRIED = lang.getMessageWithDefault("married", "{USER1} and {USER2} are now married!");
 	public static final String DIVORCED = lang.getMessageWithDefault("divorced", "{USER1} has divorced with {USER2}!");
 	public static final String NO_PARTNER = lang.getMessageWithDefault("no partner", "You are not married!");
 	public static final String LEFT_CHAT = lang.getMessageWithDefault("left chat", "You have left the partner chat!");

@@ -13,7 +13,7 @@ public class EcoUtil {
 
 	public static double getPriceFromConfig(String value) {
 		Marriage plugin = Marriage.instance;
-		double price = plugin.getConfig().getDouble("price."+value, 0.0);
+		double price = plugin.getConfig().getDouble("price." + value, 0.0);
 		return price;
 	}
 

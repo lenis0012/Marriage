@@ -59,7 +59,7 @@ public class MarryCommand extends CommandBase {
 		} else {
 			Player priest = (Player) sender;
 			Player p1 = plugin.getPlayer(args[0]);
-			Player p2 = plugin.getPlayer(args[2]);
+			Player p2 = plugin.getPlayer(args[1]);
 			MPlayer mp1 = plugin.getMPlayer(p1);
 			MPlayer mp2 = plugin.getMPlayer(p2);
 			if(!priest.hasPermission("marry.priest")) {
