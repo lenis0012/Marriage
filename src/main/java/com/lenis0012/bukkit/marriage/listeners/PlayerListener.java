@@ -115,13 +115,13 @@ public class PlayerListener implements Listener {
 		mp.getConfig().set("last-login", System.currentTimeMillis());
 		mp.getConfig().save();
 		
-		UpdateChecker checker = plugin.getUpdateChecker();
+		final UpdateChecker checker = plugin.getUpdateChecker();
 		if(checker.getErrorMessage() != null && checker.hasUpdate() && player.hasPermission("marry.admin")) {
 			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 
 				@Override
 				public void run() {
-					player.sendMessage("\247eAn update for Marriage was found, please check BukkitDev!");
+					player.sendMessage("\247eAn update for Marriage was found, v" + checker.getLatestVersion() + " for mc " + checker.getLatestMCVersion() + ". Please check BukkitDev!");
 				}
 			}, 30L);
 		}

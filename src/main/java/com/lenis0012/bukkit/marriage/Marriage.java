@@ -26,8 +26,10 @@ import com.lenis0012.bukkit.marriage.commands.MarryCMD;
 import com.lenis0012.bukkit.marriage.listeners.PlayerListener;
 import com.lenis0012.bukkit.marriage.util.UpdateChecker;
 
-public class Marriage extends JavaPlugin
-{
+public class Marriage extends JavaPlugin {
+	private static final int PROJECT_ID = 44364;
+	private static final String API_KEY = "39abc1bbbb346b0939bad1bb62b43e27c30e5a9b";
+	
 	private List<String> partners = new ArrayList<String>();
 	private FileConfiguration customConfig = null;
     private File customConfigFile = null;
@@ -91,7 +93,7 @@ public class Marriage extends JavaPlugin
 		}
 		
 		//Load update checker
-		this.updateChecker = new UpdateChecker(this, "marriage-reloaded");
+		this.updateChecker = new UpdateChecker(this, PROJECT_ID, API_KEY);
 		
 		//setup vault
 		Plugin vault = pm.getPlugin("Vault");
