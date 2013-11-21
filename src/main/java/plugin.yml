@@ -1,5 +1,5 @@
 name: Marriage
-version: 1.2.2
+version: 1.2.3
 main: com.lenis0012.bukkit.marriage.Marriage
 author: lenis0012
 description: A plugin wich provides the function to start a relationship in minecraft.
@@ -20,6 +20,8 @@ permissions:
             description: Allows to reload the config files
           marry.priest:
             description: Allows player to marry 2 orther players.
+          marry.chatspy:
+            description: Allows player to view all mchat.
       marry.default:
         description: Allows default player commands
         children:

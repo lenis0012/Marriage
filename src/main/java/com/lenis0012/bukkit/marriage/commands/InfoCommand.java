@@ -1,7 +1,5 @@
 package com.lenis0012.bukkit.marriage.commands;
 
-
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,6 +11,7 @@ public class InfoCommand extends CommandBase {
 
 	@Override
 	public void perform(CommandSender sender, String[] args) {
+		boolean isAdmin = sender.hasPermission("marry.admin");
 		ChatColor g = ChatColor.GRAY;
 		ChatColor l = ChatColor.GREEN;
 		ChatColor r = ChatColor.RED;
@@ -28,8 +27,13 @@ public class InfoCommand extends CommandBase {
 		inform(sender, l + "/marry chat "+g+"- Private chat with your partner");
 		inform(sender, l + "/marry sethome "+g+"- Set your marriage home");
 		inform(sender, l + "/marry home "+g+"- Go to your marriage home");
-		inform(sender, l + "/marry reload"+g+" - Reload all config files");
 		inform(sender, l + "/marry seen - Check your partners last login");
+		if(sender.hasPermission("marry.reload") || isAdmin) {
+			inform(sender, l + "/marry reload"+g+" - Reload all config files");
+		} if(plugin.getConfig().getBoolean("settings.enable-chatspy") && (sender.hasPermission("marry.chatspy") || isAdmin)) {
+			inform(sender, l + "/marry chatspy - View marry chat");
+		}
+		
 		inform(sender, l + "Crouch + Right click"+g+" - Kiss your partner");
 		
 		if(this.isPlayer()) {

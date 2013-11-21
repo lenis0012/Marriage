@@ -54,6 +54,15 @@ public class PlayerListener implements Listener {
 			partner.sendMessage(format);
 			player.sendMessage(format);
 			plugin.getLogger().info("[Marriage] Chat: "+pname+": "+message);
+			
+			//Send to chatspy
+			for(Player p : Bukkit.getOnlinePlayers()) {
+				MPlayer ap = plugin.getMPlayer(p);
+				if(ap.isChatspy()) {
+					p.sendMessage("\247a[MSpy] \2477" + pname + " To " + partner.getName() + "\247a:" + message);
+				}
+			}
+			
 			event.setCancelled(true);
 			//HeroChat fix?
 			event.getRecipients().clear();

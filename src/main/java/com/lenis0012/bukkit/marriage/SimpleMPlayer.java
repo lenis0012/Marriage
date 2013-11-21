@@ -11,6 +11,7 @@ public class SimpleMPlayer implements MPlayer {
 	private String name;
 	private Marriage plugin;
 	private boolean chatting = false;
+	private boolean chatspy = false;
 	private FileConfiguration cfg;
 	
 	public SimpleMPlayer(String name) {
@@ -129,5 +130,15 @@ public class SimpleMPlayer implements MPlayer {
 	@Override
 	public PlayerConfig getConfig() {
 		return plugin.getConfig(name);
+	}
+
+	@Override
+	public void setChatspy(boolean value) {
+		this.chatspy = value;
+	}
+
+	@Override
+	public boolean isChatspy() {
+		return this.chatspy;
 	}
 }

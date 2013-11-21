@@ -31,6 +31,10 @@ public class Messages {
 	public static final String GIFT_CREATIVE = lang.getMessageWithDefault("gift creative", "You may not gift items in creative!");
 	public static final String OFFLINE_SINCE = lang.getMessageWithDefault("offline since", "Your partner is offline since {TIME}");
 	public static final String ONLINE_SINCE = lang.getMessageWithDefault("online since", "Your partner is online since {TIME}");
+	public static final String ALREADY_QUEUED = lang.getMessageWithDefault("already queued", "You already have a request in queue!");
+	public static final String REQUEST_EXPIRED = lang.getMessageWithDefault("request expired", "Your request has expired!");
+	public static final String LEFT_CHATSPY = lang.getMessageWithDefault("left chat", "You have left the chatspy!");
+	public static final String JOINED_CHATSPY = lang.getMessageWithDefault("joined chat", "You have joined the chatspy!");
 	
 	/** Words */
 	public static final String PAGE = lang.getWordWithDefault("page", "Page");

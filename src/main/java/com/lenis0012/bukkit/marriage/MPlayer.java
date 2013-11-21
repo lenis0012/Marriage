@@ -45,6 +45,20 @@ public interface MPlayer {
 	public boolean isChatting();
 	
 	/**
+	 * Set if the player is in chat spy
+	 * 
+	 * @param value		in chat spy?
+	 */
+	public void setChatspy(boolean value);
+	
+	/**
+	 * Check fi the player is in chat spy
+	 * 
+	 * @return player	in chat spy?
+	 */
+	public boolean isChatspy();
+	
+	/**
 	 * Set the player's home
 	 * 
 	 * @param loc Location

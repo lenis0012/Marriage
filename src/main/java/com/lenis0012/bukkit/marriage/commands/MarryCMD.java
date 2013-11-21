@@ -7,11 +7,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import com.lenis0012.bukkit.marriage.Marriage;
+
 public class MarryCMD implements CommandExecutor {
 	private Map<String, CommandBase> commands = new HashMap<String, CommandBase>();
 	private MarryCommand marryCommand;
 	
 	public MarryCMD() {
+		Marriage plugin = Marriage.instance;
 		this.marryCommand = new MarryCommand();
 		commands.put("accept", new AcceptCommand());
 		commands.put("chat", new ChatCommand());
@@ -24,6 +27,9 @@ public class MarryCMD implements CommandExecutor {
 		commands.put("sethome", new SethomeCommand());
 		commands.put("tp", new TpCommand());
 		commands.put("seen", new SeenCommand());
+		if(plugin.getConfig().getBoolean("settings.enable-chatspy")) {
+			commands.put("chatspy", new ChatspyCommand());
+		}
 	}
 	
 	@Override

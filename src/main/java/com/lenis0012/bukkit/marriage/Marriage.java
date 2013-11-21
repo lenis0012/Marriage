@@ -68,6 +68,8 @@ public class Marriage extends JavaPlugin {
 		config.addDefault("settings.private-chat.format", "&a[Partner] &7{Player}&f: &a{Message}");
 		config.addDefault("settings.chat-prefix.use", true);
 		config.addDefault("settings.chat-prefix.format", "&4&l<3&r {OLD_FORMAT}");
+		config.addDefault("settings.request-expire", 60);
+		config.addDefault("settings.enable-chatspy", true);
 		config.addDefault("price.{command name}", 10.0);
 		config.addDefault("price.marry", 0.0);
 		config.options().copyDefaults(true);
