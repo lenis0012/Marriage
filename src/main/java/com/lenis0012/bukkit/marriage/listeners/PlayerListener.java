@@ -18,7 +18,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.lenis0012.bukkit.marriage.MPlayer;
 import com.lenis0012.bukkit.marriage.Marriage;
-import com.lenis0012.bukkit.marriage.util.UpdateChecker;
+import com.lenis0012.bukkit.marriage.util.PacketUtil;
+import com.lenis0012.bukkit.marriage.util.Updater;
+import com.lenis0012.bukkit.marriage.util.Updater.UpdateResult;
 
 
 public class PlayerListener implements Listener {
@@ -99,8 +101,8 @@ public class PlayerListener implements Listener {
 				if(mp.getPartner().equals(tname)) {
 					player.sendMessage(ChatColor.GREEN + "You have kissed your partner!");
 					target.sendMessage(ChatColor.GREEN + "Your partner has kissed you!");
-//					PacketUtil.createHearts(target, target.getLocation());
-//					PacketUtil.createHearts(player, target.getLocation());
+					PacketUtil.createHearts(target, target.getLocation());
+					PacketUtil.createHearts(player, target.getLocation());
 					ingored.put(pname, System.currentTimeMillis() + 1500L);
 				}
 			}
@@ -123,13 +125,20 @@ public class PlayerListener implements Listener {
 		mp.getConfig().set("last-login", System.currentTimeMillis());
 		mp.getConfig().save();
 		
-		final UpdateChecker checker = plugin.getUpdateChecker();
-		if(checker.getErrorMessage() != null && checker.hasUpdate() && player.hasPermission("marry.admin")) {
+		final Updater updater = plugin.getUpdater();
+		if (updater.getResult() == UpdateResult.UPDATE_AVAILABLE
+				&& player.hasPermission("marry.admin")
+				&& plugin.getConfig().getBoolean("update-checker")) {
 			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 
 				@Override
 				public void run() {
-					player.sendMessage("\247eAn update for Marriage was found, v" + checker.getLatestVersion() + " for mc " + checker.getLatestMCVersion() + ". Please check BukkitDev!");
+					player.sendMessage("\247eA new \247a"
+							+ updater.getLatestType().toString().toLowerCase()
+							+ " \247ebuild for Marriage was found, \247a"
+							+ updater.getLatestName() + " \247efor \247a"
+							+ updater.getLatestGameVersion()
+							+ "\247e. Please check BukkitDev!");
 				}
 			}, 30L);
 		}

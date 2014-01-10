@@ -24,11 +24,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lenis0012.bukkit.marriage.commands.MarryCMD;
 import com.lenis0012.bukkit.marriage.listeners.PlayerListener;
-import com.lenis0012.bukkit.marriage.util.UpdateChecker;
+import com.lenis0012.bukkit.marriage.util.Updater;
+import com.lenis0012.bukkit.marriage.util.Updater.UpdateType;
 
 public class Marriage extends JavaPlugin {
-	private static final int PROJECT_ID = 44364;
-	
 	private List<String> partners = new ArrayList<String>();
 	private FileConfiguration customConfig = null;
     private File customConfigFile = null;
@@ -39,9 +38,9 @@ public class Marriage extends JavaPlugin {
     public Logger log = Logger.getLogger("Minecraft");
     public boolean eco = false;
     private Map<String, MPlayer> players = new WeakHashMap<String, MPlayer>();
-    private UpdateChecker updateChecker;
+    private Updater updater;
     
-    public static String COMPAT_VERSION = "v1_6_R3";
+    public static String COMPAT_VERSION = "v1_7_R1";
     public static boolean IS_COMPATIBLE = true;
     public Map<String, PlayerConfig> configs = new HashMap<String, PlayerConfig>();
 	
@@ -94,7 +93,7 @@ public class Marriage extends JavaPlugin {
 		}
 		
 		//Load update checker
-		this.updateChecker = new UpdateChecker(this, PROJECT_ID);
+		this.updater = new Updater(this, 44364, this.getFile(), UpdateType.NO_DOWNLOAD, true);
 		
 		//setup vault
 		Plugin vault = pm.getPlugin("Vault");
@@ -187,8 +186,8 @@ public class Marriage extends JavaPlugin {
 		return new PlayerConfig(file);
 	}
 	
-	public UpdateChecker getUpdateChecker() {
-		return this.updateChecker;
+	public Updater getUpdater() {
+		return this.updater;
 	}
 	
 	public void reloadCustomConfig() {
