@@ -9,6 +9,7 @@ import net.minecraft.server.v1_7_R1.MathHelper;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityStatus;
 import net.minecraft.server.v1_7_R1.PacketPlayOutSpawnEntityLiving;
+import net.minecraft.server.v1_7_R1.PacketPlayOutWorldParticles;
 
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftPlayer;
@@ -18,6 +19,21 @@ public class PacketUtil {
 	private static final Random random = new Random();
 	
 	public static void createHearts(Player player, Location loc) {
+		final EntityPlayer ep = ((CraftPlayer) player).getHandle();
+		PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles();
+		writeFieldData(packet, "a", "heart");
+		writeFieldData(packet, "b", (float) loc.getX());
+		writeFieldData(packet, "c", (float) loc.getY());
+		writeFieldData(packet, "d", (float) loc.getZ());
+		writeFieldData(packet, "e", 0.0F);
+		writeFieldData(packet, "f", 0.0F);
+		writeFieldData(packet, "g", 0.0F);
+		writeFieldData(packet, "h", 0.0F);
+		writeFieldData(packet, "i", 1);
+		ep.playerConnection.sendPacket(packet);
+	}
+	
+	public static void createHeartsAndCrashClient(Player player, Location loc) {
 		final DataWatcher tmp = new DataWatcher(null);
 		final EntityPlayer ep = ((CraftPlayer) player).getHandle();
 		final int entityId = Short.MAX_VALUE - 200 - random.nextInt(100);
@@ -30,9 +46,9 @@ public class PacketUtil {
 		writeFieldData(packet, "c", MathHelper.floor(loc.getX() * 32.0D));
 		writeFieldData(packet, "d", MathHelper.floor(loc.getY() * 32.0D));
 		writeFieldData(packet, "e", MathHelper.floor(loc.getZ() * 32.0D));
-//		writeFieldData(packet, "f", 0);
-//		writeFieldData(packet, "g", 0);
-//		writeFieldData(packet, "h", 0);
+		writeFieldData(packet, "f", 0);
+		writeFieldData(packet, "g", 0);
+		writeFieldData(packet, "h", 0);
 		writeFieldData(packet, "i", getByteFromDegree(loc.getYaw()));
 		writeFieldData(packet, "j", getByteFromDegree(loc.getPitch()));
 		writeFieldData(packet, "k", getByteFromDegree(loc.getYaw()));
