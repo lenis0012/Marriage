@@ -126,17 +126,17 @@ public class PlayerListener implements Listener {
 		mp.getConfig().save();
 		
 		final Updater updater = plugin.getUpdater();
-		if (updater.getResult() == UpdateResult.UPDATE_AVAILABLE
-				&& player.hasPermission("marry.admin")
-				&& plugin.getConfig().getBoolean("update-checker")) {
+		if (updater != null && updater.getResult() == UpdateResult.UPDATE_AVAILABLE && player.hasPermission("marry.admin")) {
 			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 
 				@Override
 				public void run() {
-					player.sendMessage("\247eA new \247a"
+					player.sendMessage(
+							"\247eA new \247a"
 							+ updater.getLatestType().toString().toLowerCase()
 							+ " \247ebuild for Marriage was found, \247a"
-							+ updater.getLatestName() + " \247efor \247a"
+							+ updater.getLatestName()
+							+ " \247efor \247a"
 							+ updater.getLatestGameVersion()
 							+ "\247e. Please check BukkitDev!");
 				}

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -14,6 +15,7 @@ import java.util.logging.Logger;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -82,6 +84,19 @@ public class Marriage extends JavaPlugin {
 			cfg.set("Married", null);
 		if(cfg.contains("home"))
 			cfg.set("home", null);
+		
+		//clear all null partners
+		List<String> list = new ArrayList<String>(cfg.getStringList("partners"));
+		Iterator<String> it = list.iterator();
+		while(it.hasNext()) {
+			String key = it.next();
+			PlayerConfig conf = this.getPlayerConfig(key);
+			if(conf.getString("partner") == null) {
+				it.remove();
+			}
+		}
+		
+		cfg.set("partners", list);
 		this.saveCustomConfig();
 		
 		//setup metrics
@@ -93,7 +108,9 @@ public class Marriage extends JavaPlugin {
 		}
 		
 		//Load update checker
-		this.updater = new Updater(this, 44364, this.getFile(), UpdateType.NO_DOWNLOAD, true);
+		if(config.getBoolean("update-checker")) {
+			this.updater = new Updater(this, 44364, this.getFile(), UpdateType.NO_DOWNLOAD, true);
+		}
 		
 		//setup vault
 		Plugin vault = pm.getPlugin("Vault");
@@ -220,7 +237,7 @@ public class Marriage extends JavaPlugin {
 	}
 	
 	public String fixColors(String message) {
-		return message.replaceAll("&", "\247");
+		return ChatColor.translateAlternateColorCodes('&', message);
 	}
 	
     private boolean setupEconomy() {
