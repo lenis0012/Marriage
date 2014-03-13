@@ -21,18 +21,19 @@ public class PacketUtil {
 	public static void createHearts(Player player, Location loc) {
 		final EntityPlayer ep = ((CraftPlayer) player).getHandle();
 		PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles();
-		writeFieldData(packet, "a", "heart");
-		writeFieldData(packet, "b", (float) loc.getX());
-		writeFieldData(packet, "c", (float) loc.getY());
-		writeFieldData(packet, "d", (float) loc.getZ());
-		writeFieldData(packet, "e", 0.0F);
-		writeFieldData(packet, "f", 0.0F);
-		writeFieldData(packet, "g", 0.0F);
-		writeFieldData(packet, "h", 0.0F);
-		writeFieldData(packet, "i", 1);
+		writeFieldData(packet, "a", "heart"); //Particle type
+		writeFieldData(packet, "b", (float) loc.getX()); //Location X
+		writeFieldData(packet, "c", (float) loc.getY()); //Location Y
+		writeFieldData(packet, "d", (float) loc.getZ()); //Location Z
+		writeFieldData(packet, "e", 1.0F); //Randomness
+		writeFieldData(packet, "f", 1.0F); //Randomness
+		writeFieldData(packet, "g", 1.0F); //Randomness
+		writeFieldData(packet, "h", 1.0F); //Particle speed
+		writeFieldData(packet, "i", 200); //Particle count
 		ep.playerConnection.sendPacket(packet);
 	}
 	
+	//This somehow crashes the client eh...
 	public static void createHeartsAndCrashClient(Player player, Location loc) {
 		final DataWatcher tmp = new DataWatcher(null);
 		final EntityPlayer ep = ((CraftPlayer) player).getHandle();
