@@ -4,7 +4,7 @@
 
   <groupId>me.lenis0012.mr</groupId>
   <artifactId>Marriage</artifactId>
-  <version>1.2.4</version>
+  <version>1.2.5</version>
   <packaging>jar</packaging>
 
   <name>Marriage</name>
@@ -39,6 +39,13 @@
       <version>1.2.23-SNAPSHOT</version>
       <scope>provided</scope>
       <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>com.dthielke</groupId>
+      <artifactId>Herochat</artifactId>
+      <version>5.6.7-SNAPSHOT</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/HeroChat.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>junit</groupId>

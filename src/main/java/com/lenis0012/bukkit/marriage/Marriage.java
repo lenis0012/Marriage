@@ -25,11 +25,13 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lenis0012.bukkit.marriage.commands.MarryCMD;
+import com.lenis0012.bukkit.marriage.listeners.HerochatListener;
 import com.lenis0012.bukkit.marriage.listeners.PlayerListener;
 import com.lenis0012.bukkit.marriage.util.Updater;
 import com.lenis0012.bukkit.marriage.util.Updater.UpdateType;
 
 public class Marriage extends JavaPlugin {
+	public static boolean HEROCHAT_ENABLED = false;
 	private List<String> partners = new ArrayList<String>();
 	private FileConfiguration customConfig = null;
     private File customConfigFile = null;
@@ -37,7 +39,7 @@ public class Marriage extends JavaPlugin {
     public static Marriage instance;
     public HashMap<String, String> req = new HashMap<String, String>();
     public Economy economy;
-    public Logger log = Logger.getLogger("Minecraft");
+    public Logger log = Logger.getLogger("Minecraft.Marriage");
     public boolean eco = false;
     private Map<String, MPlayer> players = new WeakHashMap<String, MPlayer>();
     private Updater updater;
@@ -63,6 +65,12 @@ public class Marriage extends JavaPlugin {
 		//register events/commands
 		pm.registerEvents(new PlayerListener(this), this);
 		getCommand("marry").setExecutor(new MarryCMD());
+		
+		//Check for dependecies
+		if(pm.isPluginEnabled("Herochat")) {
+			pm.registerEvents(new HerochatListener(this), this);
+			log.log(Level.INFO, "Herochat was detected, support will be enabled.");
+		}
 		
 		//setup config.yml
 		config.addDefault("update-checker", true);
