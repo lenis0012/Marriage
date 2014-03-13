@@ -65,7 +65,7 @@ public class PlayerListener implements Listener {
 			}
 			
 			event.setCancelled(true);
-		} else if(mp.isMarried()) {
+		} else if(mp.isMarried() && !Marriage.HEROCHAT_ENABLED) {
 			//Replace chat with custom prefix
 			if(plugin.getConfig().getBoolean("settings.chat-prefix.use")) {
 				String format = plugin.getConfig().getString("settings.chat-prefix.format");

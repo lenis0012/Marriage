@@ -70,6 +70,7 @@ public class Marriage extends JavaPlugin {
 		if(pm.isPluginEnabled("Herochat")) {
 			pm.registerEvents(new HerochatListener(this), this);
 			log.log(Level.INFO, "Herochat was detected, support will be enabled.");
+			HEROCHAT_ENABLED = true;
 		}
 		
 		//setup config.yml
