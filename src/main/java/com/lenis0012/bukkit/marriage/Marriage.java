@@ -27,6 +27,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.lenis0012.bukkit.marriage.commands.MarryCMD;
 import com.lenis0012.bukkit.marriage.listeners.HerochatListener;
 import com.lenis0012.bukkit.marriage.listeners.PlayerListener;
+import com.lenis0012.bukkit.marriage.util.UUIDConverter;
 import com.lenis0012.bukkit.marriage.util.Updater;
 import com.lenis0012.bukkit.marriage.util.Updater.UpdateType;
 
@@ -65,6 +66,11 @@ public class Marriage extends JavaPlugin {
 		//register events/commands
 		pm.registerEvents(new PlayerListener(this), this);
 		getCommand("marry").setExecutor(new MarryCMD());
+		
+		//Check for uuid update
+		if(!(new File(this.getDataFolder(), ".update-lock").exists())) {
+			new UUIDConverter(this);
+		}
 		
 		//Check for dependecies
 		if(pm.isPluginEnabled("Herochat")) {
