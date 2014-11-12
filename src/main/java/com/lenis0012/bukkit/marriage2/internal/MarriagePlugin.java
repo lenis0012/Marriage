@@ -9,12 +9,17 @@ import java.util.logging.Level;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class MarriagePlugin extends JavaPlugin {
+	private static MarriageCore core;
+	
+	public static MarriageCore getCore() {
+		return core;
+	}
+	
 	@SuppressWarnings("unchecked")
 	private final List<Method>[] methods = new List[Register.Type.values().length];
-	private final MarriageCore core;
 	
 	public MarriagePlugin() {
-		this.core = new MarriageCore(this);
+		core = new MarriageCore(this);
 		
 		//Scan methods
 		Arrays.fill(methods, new ArrayList<Method>());

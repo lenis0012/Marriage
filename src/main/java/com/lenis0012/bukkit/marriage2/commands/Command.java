@@ -1,8 +1,11 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.lenis0012.bukkit.marriage2.lang.Message;
 
 public abstract class Command {
 	private final String[] aliases;
@@ -36,6 +39,21 @@ public abstract class Command {
 		return getArgAsInt(index, 0);
 	}
 	
+	protected Player getArgAsPlayer(int index) {
+		String name = getArg(0);
+		for(Player player : Bukkit.getOnlinePlayers()) {
+			if(player.getName().equalsIgnoreCase(name)) {
+				return player;
+			}
+		} for(Player player : Bukkit.getOnlinePlayers()) {
+			if(player.getName().toLowerCase().contains(name.toLowerCase())) {
+				return player;
+			}
+		}
+		
+		return null;
+	}
+	
 	protected int getArgLength() {
 		return args.length - 1;
 	}
@@ -46,6 +64,10 @@ public abstract class Command {
 		} catch(Exception e) {
 			return def;
 		}
+	}
+	
+	protected void reply(Message message, Object... args) {
+		reply(message.toString(), args);
 	}
 	
 	protected void reply(String message, Object... args) {

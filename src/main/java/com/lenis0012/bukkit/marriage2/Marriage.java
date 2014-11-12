@@ -6,8 +6,18 @@ import org.bukkit.event.Listener;
 
 import com.lenis0012.bukkit.marriage2.commands.Command;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
+import com.lenis0012.bukkit.marriage2.misc.BConfig;
 
 public interface Marriage {
+	
+	/**
+	 * Return a {@link com.lenis0012.bukkit.marriage2.misc.BConfig} from a YAML file.
+	 * 
+	 * @param file File name.
+	 * @return Bukkit configuration instance.
+	 */
+	public BConfig getBukkitConfig(String file);
+	
 	/**
 	 * Register a {@link org.bukkit.event.Listener} to this plugin.
 	 * 

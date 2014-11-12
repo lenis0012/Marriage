@@ -5,7 +5,7 @@ public @interface Register {
 	
 	Type type();
 	
-	int priority() default 0;
+	int priority() default 5;
 	
 	public static enum Type {
 		LOAD("Completed plugin pre-load stage."),
