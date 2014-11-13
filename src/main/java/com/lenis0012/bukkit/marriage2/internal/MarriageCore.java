@@ -4,7 +4,8 @@ import java.util.UUID;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.commands.CommandMarry;
-import com.lenis0012.bukkit.marriage2.lang.Message;
+import com.lenis0012.bukkit.marriage2.config.Message;
+import com.lenis0012.bukkit.marriage2.config.Settings;
 
 public class MarriageCore extends MarriageBase {
 
@@ -12,15 +13,21 @@ public class MarriageCore extends MarriageBase {
 		super(plugin);
 	}
 	
-	@Register(name = "commands", type = Register.Type.ENABLE)
-	public void registerCommands() {
-		register(CommandMarry.class);
+	@Register(name = "config", type = Register.Type.ENABLE, priority = 0)
+	public void loadConfig() {
+		Settings.reloadAll();
 	}
 	
 	@Register(name = "messages", type = Register.Type.ENABLE, priority = 1)
 	public void loadMessages() {
 		Message.reloadAll(this);
 	}
+	
+	@Register(name = "commands", type = Register.Type.ENABLE)
+	public void registerCommands() {
+		register(CommandMarry.class);
+	}
+
 
 	@Override
 	public MPlayer getMPlayer(UUID uuid) {

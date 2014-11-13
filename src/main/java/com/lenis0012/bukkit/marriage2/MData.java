@@ -2,6 +2,8 @@ package com.lenis0012.bukkit.marriage2;
 
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import org.bukkit.Location;
 
 public interface MData {
@@ -13,8 +15,9 @@ public interface MData {
 	/**
 	 * Get the home of the married people.
 	 * 
-	 * @return Marriage home.
+	 * @return Marriage home, NULL if not set.
 	 */
+	@Nullable
 	Location getHome();
 	
 	/**
@@ -22,7 +25,7 @@ public interface MData {
 	 * 
 	 * @return Marriage home.
 	 */
-	Location setHome();
+	void setHome(Location home);
 	
 	/**
 	 * Check if the married players have a home set.

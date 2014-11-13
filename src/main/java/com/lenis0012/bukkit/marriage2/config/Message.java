@@ -1,4 +1,4 @@
-package com.lenis0012.bukkit.marriage2.lang;
+package com.lenis0012.bukkit.marriage2.config;
 
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;

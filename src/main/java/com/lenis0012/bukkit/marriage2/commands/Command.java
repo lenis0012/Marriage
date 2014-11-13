@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.lenis0012.bukkit.marriage2.Marriage;
-import com.lenis0012.bukkit.marriage2.lang.Message;
+import com.lenis0012.bukkit.marriage2.config.Message;
 
 public abstract class Command {
 	protected final Marriage marriage;

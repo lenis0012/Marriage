@@ -1,6 +1,7 @@
 package com.lenis0012.bukkit.marriage2.misc;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,6 +19,15 @@ public class BConfig extends YamlConfiguration {
 	public BConfig(MarriageBase core, File file) {
 		this.core = core;
 		this.file = file;
+		file.getParentFile().mkdirs();
+		if(!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				;
+			}
+		}
+		
 		reload();
 	}
 	
