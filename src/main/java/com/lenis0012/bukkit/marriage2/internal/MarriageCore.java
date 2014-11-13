@@ -3,7 +3,7 @@ package com.lenis0012.bukkit.marriage2.internal;
 import java.util.UUID;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.commands.CommandTest;
+import com.lenis0012.bukkit.marriage2.commands.CommandMarry;
 import com.lenis0012.bukkit.marriage2.lang.Message;
 
 public class MarriageCore extends MarriageBase {
@@ -14,7 +14,7 @@ public class MarriageCore extends MarriageBase {
 	
 	@Register(name = "commands", type = Register.Type.ENABLE)
 	public void registerCommands() {
-		register(CommandTest.class);
+		register(CommandMarry.class);
 	}
 	
 	@Register(name = "messages", type = Register.Type.ENABLE, priority = 1)
@@ -24,7 +24,12 @@ public class MarriageCore extends MarriageBase {
 
 	@Override
 	public MPlayer getMPlayer(UUID uuid) {
-		//TODO: Everything...
+		// TODO: Everything...
 		return null;
+	}
+
+	@Override
+	public void marry(MPlayer player1, MPlayer player2) {
+		// TODO: Marry player1 with player2
 	}
 }

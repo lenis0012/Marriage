@@ -5,7 +5,10 @@ import com.lenis0012.bukkit.marriage2.misc.BConfig;
 
 public enum Message {
 	PLAYER_NOT_FOUND("&cNo player named %s was found!"),
-	ALREADY_MARRIED("&cPlayers %s is already married to someone!");
+	TARGET_ALREADY_MARRIED("&cPlayers %s is already married to someone!"),
+	ALREADY_MARRIED("&cYou are already married to someone!"),
+	MARRIED("&a&lPlayer %s and %s are now officially married!"),
+	MARRIAGE_REQUESTED("&aPlayer %s has requested you to marry with them, use &e/marry %s &ato accept it.");
 	
 	private final String defaultMessage;
 	private String message;

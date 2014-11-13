@@ -14,6 +14,21 @@ public interface MPlayer {
 	UUID getUniqueId();
 	
 	/**
+	 * Request marriage with this player by another.
+	 * 
+	 * @param from Player who requested the marriage.
+	 */
+	void requestMarriage(UUID from);
+	
+	/**
+	 * Check if marriage with this player is requested by another.
+	 * 
+	 * @param from Marriage requester.
+	 * @return Whether or not marriage is requested by the player.
+	 */
+	boolean isMarriageRequested(UUID from);
+	
+	/**
 	 * Get the player's gender.
 	 * 
 	 * @return Player's gender.

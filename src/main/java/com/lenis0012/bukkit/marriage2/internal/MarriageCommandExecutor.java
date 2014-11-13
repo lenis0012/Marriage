@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.commands.Command;
 
 public class MarriageCommandExecutor implements CommandExecutor {
@@ -49,7 +50,7 @@ public class MarriageCommandExecutor implements CommandExecutor {
 	
 	public void regster(Class<? extends Command> commandClass) {
 		try {
-			Command command = commandClass.newInstance();
+			Command command = commandClass.getConstructor(Marriage.class).newInstance(core);
 			for(String alias : command.getAliases()) {
 				commands.put(alias.toLowerCase(), command);
 			}

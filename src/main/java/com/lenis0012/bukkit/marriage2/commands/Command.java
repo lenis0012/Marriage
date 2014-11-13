@@ -5,9 +5,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.lang.Message;
 
 public abstract class Command {
+	protected final Marriage marriage;
 	private final String[] aliases;
 	private String description = "No description available";
 	private String usage = "";
@@ -19,7 +21,8 @@ public abstract class Command {
 	protected Player player;
 	private String[] args;
 	
-	public Command(String... aliases) {
+	public Command(Marriage marriage, String... aliases) {
+		this.marriage = marriage;
 		this.aliases = aliases;
 	}
 	
@@ -66,11 +69,35 @@ public abstract class Command {
 		}
 	}
 	
+	/**
+	 * Reply to the command sender with a specified formatted message.
+	 * 
+	 * @param message Message to send.
+	 * @param args Formatting arguments
+	 */
 	protected void reply(Message message, Object... args) {
 		reply(message.toString(), args);
 	}
 	
+	/**
+	 * Reply to the command sender with a formatted message.
+	 * 
+	 * @param message Message to send.
+	 * @param args Formatting arguments
+	 * @deprecated Use the {@link Command#reply(Message, Object...) reply} method
+	 */
+	@Deprecated
 	protected void reply(String message, Object... args) {
+		message = ChatColor.translateAlternateColorCodes('&', String.format(message, args));
+		sender.sendMessage(message);
+	}
+	
+	protected void broadcast(Message message, Object... args) {
+		broadcast(message.toString(), args);
+	}
+	
+	@Deprecated
+	protected void broadcast(String message, Object... args) {
 		message = ChatColor.translateAlternateColorCodes('&', String.format(message, args));
 		sender.sendMessage(message);
 	}
