@@ -1,5 +1,6 @@
 package com.lenis0012.bukkit.marriage2;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.event.Listener;
@@ -17,6 +18,14 @@ public interface Marriage {
 	 * @return Bukkit configuration instance.
 	 */
 	public BConfig getBukkitConfig(String file);
+	
+	/**
+	 * Return a {@link com.lenis0012.bukkit.marriage2.MPlayer} instance of a player.
+	 * 
+	 * @param uuid Unique user id of the wanted player.
+	 * @return {@link com.lenis0012.bukkit.marriage2.MPlayer} of the wanted player.
+	 */
+	public MPlayer getMPlayer(UUID uuid);
 	
 	/**
 	 * Register a {@link org.bukkit.event.Listener} to this plugin.
