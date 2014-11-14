@@ -60,14 +60,11 @@
     <!-- Resources -->
     <resources>
 	  <resource>
-	    <directory>src/main/java/</directory>
+	    <directory>src/main/resources/</directory>
+	    <filtering>true</filtering>
 		<includes>
-          <include>**</include>
+          <include>*</include>
 		</includes>
-        <!-- Don't add source files to target jar -->
-	    <excludes>
-		  <exclude>me/lenis0012/**/*.java</exclude>
-		</excludes>
 	  </resource>
 	</resources>
 	<defaultGoal>clean install</defaultGoal>

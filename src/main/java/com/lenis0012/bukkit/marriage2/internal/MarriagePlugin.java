@@ -8,10 +8,12 @@ import java.util.logging.Level;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.lenis0012.bukkit.marriage2.Marriage;
+
 public class MarriagePlugin extends JavaPlugin {
 	private static MarriageCore core;
 	
-	public static MarriageCore getCore() {
+	public static Marriage getInstance() {
 		return core;
 	}
 	
@@ -59,13 +61,29 @@ public class MarriagePlugin extends JavaPlugin {
 	}
 	
 	private void executeMethods(Register.Type type) {
-		for(Method method : methods[type.ordinal()]) {
-			Register register = method.getAnnotation(Register.class);
-			getLogger().log(Level.INFO, "Loading " + register.name() + "...");
-			try {
-				method.invoke(core);
-			} catch (Exception e) {
-				getLogger().log(Level.SEVERE, "Failed to load " + register.name(), e);
+		List<Method> list = new ArrayList<Method>(methods[type.ordinal()]);
+		while(!list.isEmpty()) {
+			Method method = null;
+			int lowestPriority = Integer.MAX_VALUE;
+			for(Method m : list) {
+				Register register = method.getAnnotation(Register.class);
+				if(register.priority() < lowestPriority) {
+					method = m;
+					lowestPriority = register.priority();
+				}
+			}
+			
+			if(method != null) {
+				list.remove(method);
+				Register register = method.getAnnotation(Register.class);
+				getLogger().log(Level.INFO, "Loading " + register.name() + "...");
+				try {
+					method.invoke(core);
+				} catch (Exception e) {
+					getLogger().log(Level.SEVERE, "Failed to load " + register.name(), e);
+				}
+			} else {
+				list.clear();
 			}
 		}
 		

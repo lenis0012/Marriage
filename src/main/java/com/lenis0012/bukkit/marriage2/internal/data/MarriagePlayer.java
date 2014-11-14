@@ -26,7 +26,7 @@ public class MarriagePlayer implements MPlayer {
 		}
 	}
 	
-	void addMarriage(MarriageData data) {
+	public void addMarriage(MarriageData data) {
 		this.marriage = data;
 	}
 	

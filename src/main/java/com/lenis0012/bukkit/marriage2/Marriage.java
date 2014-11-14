@@ -4,9 +4,9 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 
 import com.lenis0012.bukkit.marriage2.commands.Command;
-import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
 
 public interface Marriage {
@@ -60,5 +60,5 @@ public interface Marriage {
 	 * 
 	 * @return Plugin instance.
 	 */
-	MarriagePlugin getPlugin();
+	Plugin getPlugin();
 }

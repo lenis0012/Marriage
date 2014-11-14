@@ -6,7 +6,7 @@ import net.minecraft.util.com.google.common.collect.Lists;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
-import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 
 public class Settings<T> {
 	private static final List<Settings<?>> cache = Lists.newArrayList();
@@ -43,14 +43,13 @@ public class Settings<T> {
 		}
 	}
 	
-	public static final void reloadAll() {
-		MarriagePlugin plugin = MarriagePlugin.getCore().getPlugin();
-		FileConfiguration config = plugin.getConfig();
+	public static final void reloadAll(MarriageCore core) {
+		FileConfiguration config = core.getPlugin().getConfig();
 		for(Settings<?> setting : cache) {
 			setting.reload(config);
 		}
 		
-		plugin.saveConfig();
+		core.getPlugin().saveConfig();
 	}
 	
 	public static final List<Settings<?>> values() {
