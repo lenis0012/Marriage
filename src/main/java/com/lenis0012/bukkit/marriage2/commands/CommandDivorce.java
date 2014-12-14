@@ -8,7 +8,7 @@ import com.lenis0012.bukkit.marriage2.config.Message;
 
 public class CommandDivorce extends Command {
 
-	public CommandDivorce(Marriage marriage, String[] aliases) {
+	public CommandDivorce(Marriage marriage) {
 		super(marriage, "divorce");
 		setDescription("Divorce your current partner");
 	}

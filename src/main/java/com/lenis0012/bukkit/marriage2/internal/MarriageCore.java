@@ -6,7 +6,10 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.commands.CommandDivorce;
+import com.lenis0012.bukkit.marriage2.commands.CommandHome;
 import com.lenis0012.bukkit.marriage2.commands.CommandMarry;
+import com.lenis0012.bukkit.marriage2.commands.CommandSethome;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
@@ -42,6 +45,9 @@ public class MarriageCore extends MarriageBase {
 	@Register(name = "commands", type = Register.Type.ENABLE)
 	public void registerCommands() {
 		register(CommandMarry.class);
+		register(CommandHome.class);
+		register(CommandSethome.class);
+		register(CommandDivorce.class);
 	}
 
 	@Override
