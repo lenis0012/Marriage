@@ -11,6 +11,8 @@ import net.minecraft.util.com.google.common.collect.Lists;
 import com.lenis0012.bukkit.marriage2.Gender;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 
 public class MarriagePlayer implements MPlayer {
 	private final List<UUID> requests = Lists.newArrayList();
@@ -79,5 +81,23 @@ public class MarriagePlayer implements MPlayer {
 	@Override
 	public void setInChat(boolean inChat) {
 		this.inChat = inChat;
+	}
+
+	@Override
+	public MPlayer getPartner() {
+		Marriage core = MarriagePlugin.getInstance();
+		UUID id = null;
+		if(marriage != null) {
+			id = uuid.equals(marriage.getPlayer1Id()) ? marriage.getPllayer2Id() : marriage.getPlayer1Id();
+		}
+		
+		return core.getMPlayer(id);
+	}
+
+	@Override
+	public void divorce() {
+		MarriagePlayer partner = (MarriagePlayer) getPartner();
+		partner.marriage = null;
+		this.marriage = null;
 	}
 }

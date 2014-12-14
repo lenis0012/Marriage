@@ -21,7 +21,7 @@ public class DatabaseListener implements Listener {
 		if(event.getLoginResult() == Result.ALLOWED) {
 			core.getMPlayer(event.getUniqueId());
 		}
-	}
+	}  
 	
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {

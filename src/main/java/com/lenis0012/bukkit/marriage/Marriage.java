@@ -45,7 +45,7 @@ public class Marriage extends JavaPlugin {
     private Map<String, MPlayer> players = new WeakHashMap<String, MPlayer>();
     private Updater updater;
     
-    public static String COMPAT_VERSION = "v1_7_R4";
+    public static String COMPAT_VERSION = "v1_8_R1";
     public static boolean IS_COMPATIBLE = true;
     public Map<String, PlayerConfig> configs = new HashMap<String, PlayerConfig>();
 	

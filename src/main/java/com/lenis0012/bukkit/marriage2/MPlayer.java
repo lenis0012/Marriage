@@ -70,4 +70,16 @@ public interface MPlayer {
 	 * @param inChat Whether or not the player is in marry chat-mode.
 	 */
 	void setInChat(boolean inChat);
+	
+	/**
+	 * Get the current player's partner
+	 * 
+	 * @return Current partner of the player
+	 */
+	MPlayer getPartner();
+	
+	/**
+	 * Divorce with the current player's partner
+	 */
+	void divorce();
 }

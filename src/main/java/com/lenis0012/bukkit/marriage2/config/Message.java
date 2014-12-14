@@ -8,7 +8,9 @@ public enum Message {
 	TARGET_ALREADY_MARRIED("&cPlayers %s is already married to someone!"),
 	ALREADY_MARRIED("&cYou are already married to someone!"),
 	MARRIED("&a&lPlayer %s and %s are now officially married!"),
-	MARRIAGE_REQUESTED("&aPlayer %s has requested you to marry with them, use &e/marry %s &ato accept it.");
+	MARRIAGE_REQUESTED("&aPlayer %s has requested you to marry with them, use &e/marry %s &ato accept it."),
+	NOT_MARRIED("&cYou are currently not married with someone!"),
+	DIVORCED("&aPlayer %s and %s have divorced!");
 	
 	private final String defaultMessage;
 	private String message;
