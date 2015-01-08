@@ -18,7 +18,7 @@ public class MarriagePlayer implements MPlayer {
 	private final List<UUID> requests = Lists.newArrayList();
 	private final UUID uuid;
 	private MData marriage;
-	private Gender gender;
+	private Gender gender = Gender.UNKNOWN;
 	private boolean inChat;
 	
 	public MarriagePlayer(UUID uuid, ResultSet data) throws SQLException {

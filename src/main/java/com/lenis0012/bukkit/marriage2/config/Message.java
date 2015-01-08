@@ -13,6 +13,10 @@ public enum Message {
 	DIVORCED("&aPlayer %s and %s have divorced!"),
 	HOME_TELEPORT("&aYou have been teleported to your marriage home!"),
 	HOME_NOT_SET("&cYou currently do not have a home set for your marriage!"),
+	NO_ITEM("&cYou aren't holding an item to gift!"),
+	ITEM_GIFTED("&aYou have given %s of %s to your partner!"),
+	GIFT_RECEIVED("&aYou have received %s of %s as a gift from your partner!"),
+	PARTNER_NOT_ONLINE("&cYour partner is currently not online!"),
 	HOME_SET("&aYou have set a home for your marriage!");
 	
 	private final String defaultMessage;

@@ -88,4 +88,9 @@ public class MarriageData implements MData {
 	public void setPVPEnabled(boolean pvpEnabled) {
 		this.pvpEnabled = pvpEnabled;
 	}
+
+	@Override
+	public UUID getOtherPlayer(UUID me) {
+		return me == player1 ? player2 : player1;
+	}
 }

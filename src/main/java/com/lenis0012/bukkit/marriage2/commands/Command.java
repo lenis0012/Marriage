@@ -15,7 +15,7 @@ public abstract class Command {
 	private String usage = "";
 	private int minArgs = 0;
 	private String permission = null;
-	private boolean allowConsole = true;
+	private boolean allowConsole = false;
 	
 	protected CommandSender sender;
 	protected Player player;
@@ -24,6 +24,9 @@ public abstract class Command {
 	public Command(Marriage marriage, String... aliases) {
 		this.marriage = marriage;
 		this.aliases = aliases;
+		if(aliases.length > 0) {
+			this.permission = "marry." + aliases[0];
+		}
 	}
 	
 	public abstract void execute();
@@ -76,7 +79,7 @@ public abstract class Command {
 	 * @param args Formatting arguments
 	 */
 	protected void reply(Message message, Object... args) {
-		reply(message.toString(), args);
+		reply(sender, message, args);
 	}
 	
 	/**
@@ -88,6 +91,15 @@ public abstract class Command {
 	 */
 	@Deprecated
 	protected void reply(String message, Object... args) {
+		reply(sender, message, args);
+	}
+	
+	protected void reply(CommandSender sender, Message message, Object... args) {
+		reply(sender, message.toString(), args);
+	}
+	
+	@Deprecated
+	protected void reply(CommandSender sender, String message, Object... args) {
 		message = ChatColor.translateAlternateColorCodes('&', String.format(message, args));
 		sender.sendMessage(message);
 	}

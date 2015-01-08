@@ -13,6 +13,14 @@ public interface MData {
 	UUID getPllayer2Id();
 	
 	/**
+	 * Get player 1 or 2 depending in the current player's UUID.
+	 * 
+	 * @param me The current player
+	 * @return The other player
+	 */
+	UUID getOtherPlayer(UUID me);
+	
+	/**
 	 * Get the home of the married people.
 	 * 
 	 * @return Marriage home, NULL if not set.
