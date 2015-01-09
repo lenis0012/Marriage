@@ -1,5 +1,6 @@
 package com.lenis0012.bukkit.marriage2.internal;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -57,5 +58,9 @@ public class MarriageCommandExecutor implements CommandExecutor {
 		} catch(Exception e) {
 			core.getLogger().log(Level.SEVERE, "Failed to register sub command", e);
 		}
+	}
+	
+	public Collection<Command> getSubCommands() {
+		return commands.values();
 	}
 }

@@ -16,6 +16,7 @@ public abstract class Command {
 	private int minArgs = 0;
 	private String permission = null;
 	private boolean allowConsole = false;
+	private boolean hidden = false;
 	
 	protected CommandSender sender;
 	protected Player player;
@@ -87,9 +88,7 @@ public abstract class Command {
 	 * 
 	 * @param message Message to send.
 	 * @param args Formatting arguments
-	 * @deprecated Use the {@link Command#reply(Message, Object...) reply} method
 	 */
-	@Deprecated
 	protected void reply(String message, Object... args) {
 		reply(sender, message, args);
 	}
@@ -98,7 +97,6 @@ public abstract class Command {
 		reply(sender, message.toString(), args);
 	}
 	
-	@Deprecated
 	protected void reply(CommandSender sender, String message, Object... args) {
 		message = ChatColor.translateAlternateColorCodes('&', String.format(message, args));
 		sender.sendMessage(message);
@@ -108,7 +106,6 @@ public abstract class Command {
 		broadcast(message.toString(), args);
 	}
 	
-	@Deprecated
 	protected void broadcast(String message, Object... args) {
 		message = ChatColor.translateAlternateColorCodes('&', String.format(message, args));
 		sender.sendMessage(message);
@@ -156,5 +153,13 @@ public abstract class Command {
 
 	protected void setAllowConsole(boolean allowConsole) {
 		this.allowConsole = allowConsole;
+	}
+
+	protected boolean isHidden() {
+		return hidden;
+	}
+
+	protected void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 }

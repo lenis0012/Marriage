@@ -45,4 +45,8 @@ public abstract class MarriageBase implements Marriage {
 	public MarriagePlugin getPlugin() {
 		return plugin;
 	}
+	
+	public MarriageCommandExecutor getCommandExecutor() {
+		return commandExecutor;
+	}
 }

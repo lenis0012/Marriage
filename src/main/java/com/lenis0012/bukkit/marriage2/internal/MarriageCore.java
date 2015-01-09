@@ -8,6 +8,7 @@ import java.util.UUID;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.commands.CommandDivorce;
 import com.lenis0012.bukkit.marriage2.commands.CommandGift;
+import com.lenis0012.bukkit.marriage2.commands.CommandHelp;
 import com.lenis0012.bukkit.marriage2.commands.CommandHome;
 import com.lenis0012.bukkit.marriage2.commands.CommandMarry;
 import com.lenis0012.bukkit.marriage2.commands.CommandSethome;
@@ -49,8 +50,11 @@ public class MarriageCore extends MarriageBase {
 		register(CommandMarry.class);
 		register(CommandHome.class);
 		register(CommandSethome.class);
-		register(CommandDivorce.class);
 		register(CommandGift.class);
+		register(CommandDivorce.class);
+		
+		// Hidden/secret commands
+		register(CommandHelp.class);
 	}
 
 	@Override
