@@ -8,6 +8,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.lenis0012.bukkit.marriage2.commands.Command;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
+import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 
 public interface Marriage {
 	/**
@@ -25,6 +26,16 @@ public interface Marriage {
 	 * @return {@link com.lenis0012.bukkit.marriage2.MPlayer} of the wanted player.
 	 */
 	MPlayer getMPlayer(UUID uuid);
+	
+	/**
+	 * Get a list of all married players.
+	 * Note: This is IO, so please put it on an async task.
+	 * 
+	 * @param scale Amount of results per page.
+	 * @param page The page you want to fetch
+	 * @return Fetched page of marriages list
+	 */
+	ListQuery getMarriageList(int scale, int page);
 	
 	/**
 	 * Marry 2 players to eachother.

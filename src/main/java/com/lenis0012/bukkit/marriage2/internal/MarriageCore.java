@@ -17,6 +17,7 @@ import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
 import com.lenis0012.bukkit.marriage2.internal.data.MarriageData;
 import com.lenis0012.bukkit.marriage2.internal.data.MarriagePlayer;
 import com.lenis0012.bukkit.marriage2.listeners.DatabaseListener;
+import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 
 public class MarriageCore extends MarriageBase {
 	private final Map<UUID, MarriagePlayer> players = Collections.synchronizedMap(new HashMap<UUID, MarriagePlayer>());
@@ -68,5 +69,10 @@ public class MarriageCore extends MarriageBase {
 		MarriageData mdata = new MarriageData(player1.getUniqueId(), player2.getUniqueId());
 		((MarriagePlayer) player1).addMarriage(mdata);
 		((MarriagePlayer) player2).addMarriage(mdata);
+	}
+
+	@Override
+	public ListQuery getMarriageList(int scale, int page) {
+		return dataManager.listMarriages(page, page);
 	}
 }

@@ -17,7 +17,10 @@ public enum Message {
 	ITEM_GIFTED("&aYou have given %s of %s to your partner!"),
 	GIFT_RECEIVED("&aYou have received %s of %s as a gift from your partner!"),
 	PARTNER_NOT_ONLINE("&cYour partner is currently not online!"),
-	HOME_SET("&aYou have set a home for your marriage!");
+	FETCHING_LIST("&eFetching player marriage list..."),
+	HOME_SET("&aYou have set a home for your marriage!"),
+	INVALID_FORMAT("&cThe argument could not be parsed to an integer!"),
+	NEGATIVE_NUMBER("&cYou must enter a positive number!");
 	
 	private final String defaultMessage;
 	private String message;

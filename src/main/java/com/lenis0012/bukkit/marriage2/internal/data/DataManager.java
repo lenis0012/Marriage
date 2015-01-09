@@ -7,12 +7,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
+import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
+import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 
 public class DataManager {
 	private final MarriageCore core;
@@ -100,7 +104,7 @@ public class DataManager {
 	
 	private void loadMarriages(Connection connection, MarriagePlayer player, boolean alt) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(String.format(
-				"SELECT * FROM %sdata WHERE %s=?;", alt ? "player2" : "player1", prefix));
+				"SELECT * FROM %sdata WHERE %s=?;", prefix, alt ? "player2" : "player1", prefix));
 		ResultSet result = ps.executeQuery();
 		while(result.next()) {
 			player.addMarriage(new MarriageData(result));
@@ -108,6 +112,39 @@ public class DataManager {
 		
 		if(!alt) {
 			loadMarriages(connection, player, true);
+		}
+	}
+	
+	public ListQuery listMarriages(int scale, int page) {
+		Connection connection = newConnection();
+		try {
+			// Count rows to get amount of pages
+			PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM " + prefix + "data;");
+			ResultSet result = ps.executeQuery();
+			int pages = (int) Math.ceil(result.getInt("COUNT") / (double) scale);
+			
+			// Fetch te right page
+			ps = connection.prepareStatement(String.format(
+					"SELECT * FROM %sdata ORDER BY id DESC LIMIT %s OFFSET %s;", prefix, scale, scale * page));
+			result = ps.executeQuery();
+			
+			List<MData> list = new ArrayList<MData>();
+			while(result.next()) {
+				list.add(new MarriageData(result));
+			}
+			
+			return new ListQuery(pages, page, list);
+		} catch (SQLException e) {
+			core.getLogger().log(Level.WARNING, "Failed to load marriage list", e);
+			return new ListQuery(0, 0, new ArrayList<MData>());
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					;
+				}
+			}
 		}
 	}
 	
