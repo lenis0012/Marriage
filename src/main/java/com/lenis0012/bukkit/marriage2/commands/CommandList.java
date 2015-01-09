@@ -8,8 +8,8 @@ import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 
 public class CommandList extends Command {
 
-	public CommandList(Marriage marriage, String[] aliases) {
-		super(marriage, aliases);
+	public CommandList(Marriage marriage) {
+		super(marriage, "list");
 		setDescription("View a list of all married players");
 		setUsage("[page]");
 		

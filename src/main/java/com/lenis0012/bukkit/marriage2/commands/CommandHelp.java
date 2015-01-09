@@ -6,8 +6,8 @@ import com.lenis0012.bukkit.marriage2.internal.MarriageCommandExecutor;
 
 public class CommandHelp extends Command {
 
-	public CommandHelp(Marriage marriage, String[] aliases) {
-		super(marriage, aliases);
+	public CommandHelp(Marriage marriage) {
+		super(marriage, "help");
 		setMinArgs(-1);
 		setHidden(true);
 	}
