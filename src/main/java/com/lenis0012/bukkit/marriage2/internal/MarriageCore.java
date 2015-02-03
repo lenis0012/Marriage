@@ -5,19 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.event.Listener;
+
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.commands.CommandDivorce;
-import com.lenis0012.bukkit.marriage2.commands.CommandGift;
-import com.lenis0012.bukkit.marriage2.commands.CommandHelp;
-import com.lenis0012.bukkit.marriage2.commands.CommandHome;
-import com.lenis0012.bukkit.marriage2.commands.CommandMarry;
-import com.lenis0012.bukkit.marriage2.commands.CommandSethome;
+import com.lenis0012.bukkit.marriage2.commands.Command;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
 import com.lenis0012.bukkit.marriage2.internal.data.MarriageData;
 import com.lenis0012.bukkit.marriage2.internal.data.MarriagePlayer;
-import com.lenis0012.bukkit.marriage2.listeners.DatabaseListener;
 import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 
 public class MarriageCore extends MarriageBase {
@@ -42,19 +38,16 @@ public class MarriageCore extends MarriageBase {
 	
 	@Register(name = "listeners", type = Register.Type.ENABLE)
 	public void registerListeners() {
-		register(new DatabaseListener(this));
+		for(Listener listener : findObjects("com.lenis0012.bukkit.marriage2.listeners", Listener.class, this)) {
+			register(listener);
+		}
 	}
 	
 	@Register(name = "commands", type = Register.Type.ENABLE)
 	public void registerCommands() {
-		register(CommandMarry.class);
-		register(CommandHome.class);
-		register(CommandSethome.class);
-		register(CommandGift.class);
-		register(CommandDivorce.class);
-		
-		// Hidden/secret commands
-		register(CommandHelp.class);
+		for(Class<? extends Command> command : findClasses("com.lenis0012.bukkit.marriage2.commands", Command.class)) {
+			register(command);
+		}
 	}
 
 	@Override
@@ -78,5 +71,22 @@ public class MarriageCore extends MarriageBase {
 	@Override
 	public ListQuery getMarriageList(int scale, int page) {
 		return dataManager.listMarriages(page, page);
+	}
+	
+	/**
+	 * Unload player from the memory
+	 * 
+	 * @param uuid of player
+	 */
+	public void unloadPlayer(UUID uuid) {
+		final MarriagePlayer mPlayer = players.remove(uuid);
+		if(mPlayer != null) {
+			new Thread() {
+				@Override
+				public void run() {
+					dataManager.savePlayer(mPlayer);
+				}
+			}.start();
+		}
 	}
 }

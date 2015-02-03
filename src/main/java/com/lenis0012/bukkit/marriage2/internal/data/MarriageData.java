@@ -15,6 +15,7 @@ public class MarriageData implements MData {
 	private final UUID player2;
 	private Location home;
 	private boolean pvpEnabled;
+	private int id = -1;
 	
 	public MarriageData(UUID player1, UUID player2) {
 		this.player1 = player1;
@@ -22,6 +23,7 @@ public class MarriageData implements MData {
 	}
 	
 	public MarriageData(ResultSet data) throws SQLException {
+		this.id = data.getInt("id");
 		this.player1 = UUID.fromString(data.getString("player1"));
 		this.player2 = UUID.fromString(data.getString("player2"));
 		String world = data.getString("home_world");
@@ -54,6 +56,10 @@ public class MarriageData implements MData {
 		ps.setBoolean(9, pvpEnabled);
 	}
 	
+	protected int getId() {
+		return id;
+	}
+
 	@Override
 	public UUID getPlayer1Id() {
 		return player1;

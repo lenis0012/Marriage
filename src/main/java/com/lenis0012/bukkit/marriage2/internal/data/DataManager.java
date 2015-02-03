@@ -102,6 +102,65 @@ public class DataManager {
 		return player;
 	}
 	
+	public void savePlayer(MarriagePlayer player) {
+		Connection connection = newConnection();
+		try {
+			PreparedStatement ps = connection.prepareStatement(String.format(
+					"SELECT * FROM %splayers WHERE unique_user_id=?;", prefix));
+			ps.setString(1, player.getUniqueId().toString());
+			ResultSet result = ps.executeQuery();
+			if(result.next()) {
+				// Already in database (update)
+				if(!ps.isClosed()) ps.close();
+				ps = connection.prepareStatement(String.format(
+						"UPDATE %splayers SET gender=?,lastlogin=? WHERE unique_user_id=?;", prefix));
+				ps.setString(1, player.getGender().toString());
+				ps.setLong(2, System.currentTimeMillis());
+				ps.setString(3, player.getUniqueId().toString());
+				ps.executeUpdate();
+			} else {
+				// Not in database yet
+				if(!ps.isClosed()) ps.close();
+				ps = connection.prepareStatement(String.format(
+						"INSERT INTO %splayers (unique_user_id,gender,lastlogin) VALUES(?,?,?);", prefix));
+				ps.setString(1, player.getUniqueId().toString());
+				ps.setString(2, player.getGender().toString());
+				ps.setLong(3, System.currentTimeMillis());
+				ps.executeUpdate();
+			}
+			
+			// Save marriages
+			if(player.getMarriage() != null) {
+				MarriageData mdata = (MarriageData) player.getMarriage();
+				if(mdata.getId() >= 0) {
+					// Update existing entry
+					if(!ps.isClosed()) ps.close();
+					ps = connection.prepareStatement(String.format(
+							"UPDATE %sdata SET player1=?,player2=?,home_word=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
+					mdata.save(ps);
+					ps.setInt(10, mdata.getId());
+					ps.executeUpdate();
+				} else {
+					if(!ps.isClosed()) ps.close();
+					ps = connection.prepareStatement(String.format(
+							"INSERT INTO %splayers (player1,player2,home_world,home_x,home_y,home_z,home_yaw,home_pitch,pvp_enabled) VALUES(?,?,?,?,?,?,?,?,?);", prefix));
+					mdata.save(ps);
+					ps.executeUpdate();
+				}
+			}
+		} catch (SQLException e) {
+			core.getLogger().log(Level.WARNING, "Failed to load player data", e);
+		} finally {
+			if(connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					;
+				}
+			}
+		}
+	}
+	
 	private void loadMarriages(Connection connection, MarriagePlayer player, boolean alt) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(String.format(
 				"SELECT * FROM %sdata WHERE %s=?;", prefix, alt ? "player2" : "player1", prefix));
