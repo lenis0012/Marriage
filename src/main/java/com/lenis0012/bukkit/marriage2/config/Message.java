@@ -20,6 +20,8 @@ public enum Message {
 	FETCHING_LIST("&eFetching player marriage list..."),
 	HOME_SET("&aYou have set a home for your marriage!"),
 	INVALID_FORMAT("&cThe argument could not be parsed to an integer!"),
+	INVALID_GENDER("&cThe argument could not be parsed to a gender!"),
+	GENDER_SET("&aYour gender has been set to %s!"),
 	NEGATIVE_NUMBER("&cYou must enter a positive number!");
 	
 	private final String defaultMessage;
