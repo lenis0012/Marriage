@@ -4,8 +4,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.logging.Level;
 
-import net.minecraft.util.com.google.common.collect.Maps;
-
+import com.google.common.collect.Maps;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

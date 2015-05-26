@@ -2,7 +2,7 @@ package com.lenis0012.bukkit.marriage2.config;
 
 import java.util.List;
 
-import net.minecraft.util.com.google.common.collect.Lists;
+import com.google.common.collect.Lists;
 
 import org.bukkit.configuration.file.FileConfiguration;
 

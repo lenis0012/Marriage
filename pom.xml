@@ -2,11 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.lenis0012.mr</groupId>
-    <artifactId>Marriage</artifactId>
-    <version>1.2.6</version>
+    <groupId>com.lenis0012.bukkit</groupId>
+    <artifactId>marriage2</artifactId>
+    <version>2.0</version>
     <packaging>jar</packaging>
-
     <name>Marriage</name>
     <url>http://dev.bukkit.org/server-mods/marriage-reloaded/</url>
 
@@ -15,37 +14,19 @@
     </properties>
 
     <repositories>
-        <!-- Repo for access to Vault -->
-        <repository>
-            <id>vault-repo</id>
-            <url>http://ci.herocraftonline.com/plugin/repository/everything/</url>
-        </repository>
         <!-- Repo for access to CraftBukkit -->
         <repository>
-            <id>bukkit-repo</id>
-            <url>http://repo.bukkit.org/content/groups/public</url>
+            <id>md5-repo</id>
+            <url>http://repo.md-5.net/content/groups/public/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
+            <artifactId>bukkit</artifactId>
             <version>1.7.10-R0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>net.milkbowl.vault</groupId>
-            <artifactId>Vault</artifactId>
-            <version>1.4.1</version>
             <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.dthielke</groupId>
-            <artifactId>Herochat</artifactId>
-            <version>5.6.7-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/HeroChat.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -74,7 +55,7 @@
             </resource>
         </resources>
         <defaultGoal>clean install</defaultGoal>
-        <finalName>Marriage</finalName>
+        <finalName>${project.name}</finalName>
         <!-- Plugins -->
         <plugins>
             <!-- Compiler plugin -->
@@ -89,6 +70,7 @@
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
+            <!-- Shade guava to make sure we have the reflection API even on older versions of bukkit -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>

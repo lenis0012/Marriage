@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.minecraft.util.com.google.common.reflect.ClassPath;
-import net.minecraft.util.com.google.common.reflect.ClassPath.ClassInfo;
-
+import com.google.common.reflect.ClassPath;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
@@ -48,7 +46,7 @@ public abstract class MarriageBase implements Marriage {
 	
 	@Override
 	public BConfig getBukkitConfig(String fileName) {
-		File file = new File(fileName);
+		File file = new File(plugin.getDataFolder(), fileName);
 		return new BConfig(this, file);
 	}
 	
@@ -69,10 +67,10 @@ public abstract class MarriageBase implements Marriage {
 	@SuppressWarnings("unchecked")
 	protected <T> List<Class<? extends T>> findClasses(String pkg, Class<T> type, Object... params) {
 		List<Class<? extends T>> list = Lists.newArrayList();
-		for(ClassInfo info : classPath.getTopLevelClassesRecursive(pkg)) {
+		for(ClassPath.ClassInfo info : classPath.getTopLevelClassesRecursive(pkg)) {
 			try {
 				Class<?> clazz = Class.forName(info.getName());
-				if(type.isAssignableFrom(clazz)) {
+				if(type.isAssignableFrom(clazz) && !type.equals(clazz)) {
 					list.add((Class<? extends T>) clazz);
 				}
 			} catch(Exception e) {

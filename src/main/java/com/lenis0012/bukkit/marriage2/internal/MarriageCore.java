@@ -26,7 +26,8 @@ public class MarriageCore extends MarriageBase {
 	
 	@Register(name = "config", type = Register.Type.ENABLE, priority = 0)
 	public void loadConfig() {
-		plugin.saveDefaultConfig();
+//		plugin.saveDefaultConfig();
+		enable();
 		Settings.reloadAll(this);
 		Message.reloadAll(this);
 	}

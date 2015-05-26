@@ -38,7 +38,7 @@ public interface Marriage {
 	ListQuery getMarriageList(int scale, int page);
 	
 	/**
-	 * Marry 2 players to eachother.
+	 * Marry 2 players to each other.
 	 * 
 	 * @param player1 Player 1
 	 * @param player2 Player 2

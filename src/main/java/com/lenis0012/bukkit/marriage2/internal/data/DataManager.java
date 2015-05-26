@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import com.google.common.collect.Lists;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.lenis0012.bukkit.marriage2.MData;
@@ -48,13 +49,10 @@ public class DataManager {
 		try {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %splayers ("
-					+ "id NOT NULL UNIQUE AUTO_INCREMENT,"
 					+ "unique_user_id VARCHAR(128) NOT NULL UNIQUE,"
 					+ "gender VARCHAR(32),"
-					+ "lastlogin BIGINT,"
-					+ "PRIMARY KEY (id);", prefix));
+					+ "lastlogin BIGINT);", prefix));
 			statement.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %sdata ("
-					+ "id NOT NULL UNIQUE AUTO_INCREMENT,"
 					+ "player1 VARCHAR(128) NOT NULL,"
 					+ "player2 VARCHAR(128) NOT NULL,"
 					+ "home_world VARCHAR(128) NOT NULL,"
@@ -63,8 +61,7 @@ public class DataManager {
 					+ "home_z DOUBLE,"
 					+ "home_yaw FLOAT,"
 					+ "home_pitch FLOAT,"
-					+ "pvp_enabled BIT,"
-					+ "PRIMARY KEY (id);", prefix));
+					+ "pvp_enabled BIT);", prefix));
 		} catch (SQLException e) {
 			core.getLogger().log(Level.WARNING, "Failed to load player data", e);
 		} finally {
@@ -111,7 +108,6 @@ public class DataManager {
 			ResultSet result = ps.executeQuery();
 			if(result.next()) {
 				// Already in database (update)
-				if(!ps.isClosed()) ps.close();
 				ps = connection.prepareStatement(String.format(
 						"UPDATE %splayers SET gender=?,lastlogin=? WHERE unique_user_id=?;", prefix));
 				ps.setString(1, player.getGender().toString());
@@ -120,7 +116,6 @@ public class DataManager {
 				ps.executeUpdate();
 			} else {
 				// Not in database yet
-				if(!ps.isClosed()) ps.close();
 				ps = connection.prepareStatement(String.format(
 						"INSERT INTO %splayers (unique_user_id,gender,lastlogin) VALUES(?,?,?);", prefix));
 				ps.setString(1, player.getUniqueId().toString());
@@ -134,16 +129,14 @@ public class DataManager {
 				MarriageData mdata = (MarriageData) player.getMarriage();
 				if(mdata.getId() >= 0) {
 					// Update existing entry
-					if(!ps.isClosed()) ps.close();
 					ps = connection.prepareStatement(String.format(
 							"UPDATE %sdata SET player1=?,player2=?,home_word=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
 					mdata.save(ps);
 					ps.setInt(10, mdata.getId());
 					ps.executeUpdate();
 				} else {
-					if(!ps.isClosed()) ps.close();
 					ps = connection.prepareStatement(String.format(
-							"INSERT INTO %splayers (player1,player2,home_world,home_x,home_y,home_z,home_yaw,home_pitch,pvp_enabled) VALUES(?,?,?,?,?,?,?,?,?);", prefix));
+							"INSERT INTO %sdata (player1,player2,home_world,home_x,home_y,home_z,home_yaw,home_pitch,pvp_enabled) VALUES(?,?,?,?,?,?,?,?,?);", prefix));
 					mdata.save(ps);
 					ps.executeUpdate();
 				}
@@ -178,16 +171,18 @@ public class DataManager {
 		Connection connection = newConnection();
 		try {
 			// Count rows to get amount of pages
-			PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM " + prefix + "data;");
+			PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) AS COUNT FROM " + prefix + "data;");
 			ResultSet result = ps.executeQuery();
+			result.next();
 			int pages = (int) Math.ceil(result.getInt("COUNT") / (double) scale);
 			
 			// Fetch te right page
 			ps = connection.prepareStatement(String.format(
-					"SELECT * FROM %sdata ORDER BY id DESC LIMIT %s OFFSET %s;", prefix, scale, scale * page));
+					"SELECT * FROM %sdata LIMIT %s OFFSET %s;", prefix, scale, scale * page));
+            //"SELECT * FROM %sdata ORDER BY id DESC LIMIT %s OFFSET %s;", prefix, scale, scale * page));
 			result = ps.executeQuery();
 			
-			List<MData> list = new ArrayList<MData>();
+			List<MData> list = Lists.newArrayList();
 			while(result.next()) {
 				list.add(new MarriageData(result));
 			}

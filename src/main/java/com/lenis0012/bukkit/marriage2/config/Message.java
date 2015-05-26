@@ -27,12 +27,12 @@ public enum Message {
 	private final String defaultMessage;
 	private String message;
 	
-	private Message(String def) {
+	Message(String def) {
 		this.defaultMessage = def;
 	}
 	
 	private void reload(BConfig config) {
-		this.message = config.getOrSet(toString().toLowerCase(), defaultMessage);
+		this.message = config.getOrSet(name().toLowerCase(), defaultMessage);
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public enum Message {
 	
 	public static void reloadAll(Marriage marriage) {
 		BConfig config = marriage.getBukkitConfig("messages.yml");
-		for(Message message : Message.values()) {
+		for(Message message : values()) {
 			message.reload(config);
 		}
 		

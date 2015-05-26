@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
-import net.minecraft.util.com.google.common.collect.Lists;
+import com.google.common.collect.Lists;
 
 import com.lenis0012.bukkit.marriage2.Gender;
 import com.lenis0012.bukkit.marriage2.MData;

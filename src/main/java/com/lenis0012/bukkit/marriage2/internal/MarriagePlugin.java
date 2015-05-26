@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
+import com.google.common.collect.Lists;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lenis0012.bukkit.marriage2.Marriage;
@@ -24,7 +25,9 @@ public class MarriagePlugin extends JavaPlugin {
 		core = new MarriageCore(this);
 		
 		//Scan methods
-		Arrays.fill(methods, new ArrayList<Method>());
+		for(int i = 0; i < methods.length; i++) {
+			methods[i] = Lists.newArrayList();
+		}
 		scanMethods(core.getClass());
 	}
 	
@@ -61,12 +64,12 @@ public class MarriagePlugin extends JavaPlugin {
 	}
 	
 	private void executeMethods(Register.Type type) {
-		List<Method> list = new ArrayList<Method>(methods[type.ordinal()]);
+		List<Method> list = Lists.newArrayList(methods[type.ordinal()]);
 		while(!list.isEmpty()) {
 			Method method = null;
 			int lowestPriority = Integer.MAX_VALUE;
 			for(Method m : list) {
-				Register register = method.getAnnotation(Register.class);
+				Register register = m.getAnnotation(Register.class);
 				if(register.priority() < lowestPriority) {
 					method = m;
 					lowestPriority = register.priority();
