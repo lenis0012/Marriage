@@ -30,8 +30,8 @@ public interface MData {
 	
 	/**
 	 * Set the home of the married people.
-	 * 
-	 * @return Marriage home.
+	 *
+	 * @param home The new home location
 	 */
 	void setHome(Location home);
 	

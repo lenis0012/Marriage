@@ -30,7 +30,7 @@ public class MarriageCommandExecutor implements CommandExecutor {
 		}
 		
 		// Assuming that the command is not null now, if it is, then that is a mistake on my side.
-		if(args.length >= command.getMinArgs()) {
+		if(args.length > command.getMinArgs()) {
 			if(command.getPermission() == null || sender.hasPermission(command.getPermission())) {
 				if(command.isAllowConsole() || sender instanceof Player) {
 					command.prepare(sender, args);

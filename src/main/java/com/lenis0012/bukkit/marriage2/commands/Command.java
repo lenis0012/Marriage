@@ -47,7 +47,7 @@ public abstract class Command {
 	}
 	
 	protected Player getArgAsPlayer(int index) {
-		String name = getArg(0);
+		String name = getArg(index);
 		for(Player player : Bukkit.getOnlinePlayers()) {
 			if(player.getName().equalsIgnoreCase(name)) {
 				return player;

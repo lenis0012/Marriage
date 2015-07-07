@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.internal.data.DataConverter;
 import org.bukkit.event.Listener;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
@@ -51,6 +53,19 @@ public class MarriageCore extends MarriageBase {
 		}
 	}
 
+	@Register(name = "database", type = Register.Type.DISABLE)
+	public void saveDatabase() {
+		unloadAll();
+	}
+
+	@Register(name = "converter", type = Register.Type.ENABLE, priority = 10)
+	public void loadConverter() {
+		DataConverter converter = new DataConverter(this);
+		if(converter.isOutdated()) {
+			converter.convert();
+		}
+	}
+
 	@Override
 	public MPlayer getMPlayer(UUID uuid) {
 		MarriagePlayer player = players.get(uuid);
@@ -63,10 +78,11 @@ public class MarriageCore extends MarriageBase {
 	}
 
 	@Override
-	public void marry(MPlayer player1, MPlayer player2) {
+	public MData marry(MPlayer player1, MPlayer player2) {
 		MarriageData mdata = new MarriageData(player1.getUniqueId(), player2.getUniqueId());
 		((MarriagePlayer) player1).addMarriage(mdata);
 		((MarriagePlayer) player2).addMarriage(mdata);
+		return mdata;
 	}
 
 	@Override
@@ -89,5 +105,12 @@ public class MarriageCore extends MarriageBase {
 				}
 			}.start();
 		}
+	}
+
+	public void unloadAll() {
+		for(MarriagePlayer mp : players.values()) {
+			dataManager.savePlayer(mp);
+		}
+		players.clear();
 	}
 }

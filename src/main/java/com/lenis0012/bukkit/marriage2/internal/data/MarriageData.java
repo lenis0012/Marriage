@@ -16,6 +16,7 @@ public class MarriageData implements MData {
 	private Location home;
 	private boolean pvpEnabled;
 	private int id = -1;
+	private boolean saved = false;
 	
 	public MarriageData(UUID player1, UUID player2) {
 		this.player1 = player1;
@@ -51,6 +52,11 @@ public class MarriageData implements MData {
 			ps.setFloat(8, home.getPitch());
 		} else {
 			ps.setString(3, "NONE");
+			ps.setDouble(4, 0.0);
+			ps.setDouble(5, 0.0);
+			ps.setDouble(6, 0.0);
+			ps.setFloat(7, 0F);
+			ps.setFloat(8, 0F);
 		}
 		
 		ps.setBoolean(9, pvpEnabled);
@@ -98,5 +104,13 @@ public class MarriageData implements MData {
 	@Override
 	public UUID getOtherPlayer(UUID me) {
 		return me == player1 ? player2 : player1;
+	}
+
+	public boolean isSaved() {
+		return saved;
+	}
+
+	public void setSaved(boolean saved) {
+		this.saved = saved;
 	}
 }

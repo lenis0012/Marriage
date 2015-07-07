@@ -70,6 +70,15 @@
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
+            <!-- Generate javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.3</version>
+                <configuration>
+                    <show>public</show>
+                </configuration>
+            </plugin>
             <!-- Shade guava to make sure we have the reflection API even on older versions of bukkit -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

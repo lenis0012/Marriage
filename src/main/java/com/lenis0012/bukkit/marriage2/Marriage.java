@@ -36,14 +36,15 @@ public interface Marriage {
 	 * @return Fetched page of marriages list
 	 */
 	ListQuery getMarriageList(int scale, int page);
-	
+
 	/**
-	 * Marry 2 players to each other.
-	 * 
+	 * Marry 2 players with eachother.
+	 *
 	 * @param player1 Player 1
 	 * @param player2 Player 2
+	 * @return The marriage data
 	 */
-	void marry(MPlayer player1, MPlayer player2);
+	MData marry(MPlayer player1, MPlayer player2);
 	
 	/**
 	 * Register a {@link org.bukkit.event.Listener} to this plugin.

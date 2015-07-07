@@ -49,10 +49,12 @@ public class DataManager {
 		try {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %splayers ("
+//					+ "id INT NOT NULL AUTO_INCREMENT,"
 					+ "unique_user_id VARCHAR(128) NOT NULL UNIQUE,"
 					+ "gender VARCHAR(32),"
 					+ "lastlogin BIGINT);", prefix));
 			statement.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %sdata ("
+					+ "id INT NOT NULL AUTO_INCREMENT,"
 					+ "player1 VARCHAR(128) NOT NULL,"
 					+ "player2 VARCHAR(128) NOT NULL,"
 					+ "home_world VARCHAR(128) NOT NULL,"
@@ -127,7 +129,7 @@ public class DataManager {
 			// Save marriages
 			if(player.getMarriage() != null) {
 				MarriageData mdata = (MarriageData) player.getMarriage();
-				if(mdata.getId() >= 0) {
+				if(mdata.getId() >= 0 || mdata.isSaved()) {
 					// Update existing entry
 					ps = connection.prepareStatement(String.format(
 							"UPDATE %sdata SET player1=?,player2=?,home_word=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
@@ -135,6 +137,7 @@ public class DataManager {
 					ps.setInt(10, mdata.getId());
 					ps.executeUpdate();
 				} else {
+					mdata.setSaved(true);
 					ps = connection.prepareStatement(String.format(
 							"INSERT INTO %sdata (player1,player2,home_world,home_x,home_y,home_z,home_yaw,home_pitch,pvp_enabled) VALUES(?,?,?,?,?,?,?,?,?);", prefix));
 					mdata.save(ps);
@@ -157,6 +160,7 @@ public class DataManager {
 	private void loadMarriages(Connection connection, MarriagePlayer player, boolean alt) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(String.format(
 				"SELECT * FROM %sdata WHERE %s=?;", prefix, alt ? "player2" : "player1", prefix));
+		ps.setString(1, player.getUniqueId().toString());
 		ResultSet result = ps.executeQuery();
 		while(result.next()) {
 			player.addMarriage(new MarriageData(result));

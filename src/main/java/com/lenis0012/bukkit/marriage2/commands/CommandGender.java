@@ -23,11 +23,6 @@ public class CommandGender extends Command {
 			reply(Message.INVALID_GENDER);
 		}
 		
-		// There you go sweetheart
-		if(player.getName().toLowerCase().contains("jade")) {
-			gender = Gender.FEMALE;
-		}
-		
 		MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
 		mPlayer.setGender(gender);
 		reply(Message.GENDER_SET, gender.toString().toLowerCase());
