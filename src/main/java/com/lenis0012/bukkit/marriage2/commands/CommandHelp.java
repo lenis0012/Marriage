@@ -17,13 +17,14 @@ public class CommandHelp extends Command {
 		MarriageCommandExecutor commandExecutor = ((MarriageBase) marriage).getCommandExecutor();
 		reply("Author: &alenis0012");
 		reply("Version: &a" + marriage.getPlugin().getDescription().getVersion());
-		reply("&2&m----------------&2< &a&lMarriage Command Help &2>&2&m----------------"); // Play around with the amount of dashes later
+		reply("&2&m----------&2< &a&lMarriage Command Help &2>&2&m----------"); // Play around with the amount of dashes later
 		for(Command command : commandExecutor.getSubCommands()) {
 			if(command.isHidden()) {
 				continue;
 			}
-			
-			reply("&a/marry " + command.getAliases()[0] + " " + command.getUsage() + " &f- &7" + command.getDescription());
+
+			String alias = command instanceof CommandMarry ? "" : command.getAliases()[0] + " ";
+			reply("&a/marry" + alias + " " + command.getUsage() + " &f- &7" + command.getDescription());
 		}
 		
 		reply("&2&m--------------------------------------------"); // Play around with the amount of dashes later

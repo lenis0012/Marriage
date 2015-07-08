@@ -13,11 +13,14 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import com.google.common.collect.Lists;
+import com.lenis0012.bukkit.marriage2.MPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.misc.ListQuery;
+import org.bukkit.entity.Player;
 
 public class DataManager {
 	private final MarriageCore core;
@@ -63,7 +66,8 @@ public class DataManager {
 					+ "home_z DOUBLE,"
 					+ "home_yaw FLOAT,"
 					+ "home_pitch FLOAT,"
-					+ "pvp_enabled BIT);", prefix));
+					+ "pvp_enabled BIT,"
+					+ "PRIMARY KEY(id));", prefix));
 		} catch (SQLException e) {
 			core.getLogger().log(Level.WARNING, "Failed to load player data", e);
 		} finally {
@@ -132,7 +136,7 @@ public class DataManager {
 				if(mdata.getId() >= 0 || mdata.isSaved()) {
 					// Update existing entry
 					ps = connection.prepareStatement(String.format(
-							"UPDATE %sdata SET player1=?,player2=?,home_word=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
+							"UPDATE %sdata SET player1=?,player2=?,home_world=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
 					mdata.save(ps);
 					ps.setInt(10, mdata.getId());
 					ps.executeUpdate();
@@ -163,7 +167,15 @@ public class DataManager {
 		ps.setString(1, player.getUniqueId().toString());
 		ResultSet result = ps.executeQuery();
 		while(result.next()) {
-			player.addMarriage(new MarriageData(result));
+			UUID partnerId = UUID.fromString(result.getString(alt ? "player1" : "player2"));
+			Player partner = Bukkit.getPlayer(partnerId);
+			if(partner != null && partner.isOnline()) {
+				// Copy marriage data from partner to ensure a match.
+				MPlayer mpartner = core.getMPlayer(partnerId);
+				player.addMarriage((MarriageData) mpartner.getMarriage());
+			} else {
+				player.addMarriage(new MarriageData(result));
+			}
 		}
 		
 		if(!alt) {
@@ -175,10 +187,10 @@ public class DataManager {
 		Connection connection = newConnection();
 		try {
 			// Count rows to get amount of pages
-			PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) AS COUNT FROM " + prefix + "data;");
+			PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM " + prefix + "data;");
 			ResultSet result = ps.executeQuery();
 			result.next();
-			int pages = (int) Math.ceil(result.getInt("COUNT") / (double) scale);
+			int pages = (int) Math.ceil(result.getInt(1) / (double) scale);
 			
 			// Fetch te right page
 			ps = connection.prepareStatement(String.format(

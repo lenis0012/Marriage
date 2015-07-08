@@ -9,6 +9,7 @@ public enum Message {
 	ALREADY_MARRIED("&cYou are already married to someone!"),
 	MARRIED("&a&lPlayer %s and %s have just married!"),
 	MARRIAGE_REQUESTED("&aPlayer %s has requested you to marry with them, use &e/marry %s &ato accept it."),
+	REQUEST_SENT("&aYou have proposed to %s!"),
 	NOT_MARRIED("&cYou are currently not married with someone!"),
 	DIVORCED("&aPlayer %s and %s have divorced!"),
 	HOME_TELEPORT("&aYou have been teleported to your marriage home!"),
@@ -22,6 +23,7 @@ public enum Message {
 	INVALID_FORMAT("&cThe argument could not be parsed to an integer!"),
 	INVALID_GENDER("&cThe argument could not be parsed to a gender!"),
 	GENDER_SET("&aYour gender has been set to %s!"),
+	MARRY_SELF("&cYou cannot marry yourself!"),
 	NEGATIVE_NUMBER("&cYou must enter a positive number!");
 	
 	private final String defaultMessage;

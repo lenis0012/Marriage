@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.internal.data.DataConverter;
@@ -20,6 +22,7 @@ import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 
 public class MarriageCore extends MarriageBase {
 	private final Map<UUID, MarriagePlayer> players = Collections.synchronizedMap(new HashMap<UUID, MarriagePlayer>());
+	private final Lock dbLock = new ReentrantLock();
 	private DataManager dataManager;
 	
 	public MarriageCore(MarriagePlugin plugin) {
@@ -70,7 +73,9 @@ public class MarriageCore extends MarriageBase {
 	public MPlayer getMPlayer(UUID uuid) {
 		MarriagePlayer player = players.get(uuid);
 		if(player == null) {
+			dbLock.lock();
 			player = dataManager.loadPlayer(uuid);
+			dbLock.unlock();
 			players.put(uuid, player);
 		}
 		

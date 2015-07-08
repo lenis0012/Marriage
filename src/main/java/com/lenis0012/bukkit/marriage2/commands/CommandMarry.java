@@ -22,23 +22,28 @@ public class CommandMarry extends Command {
 	public void execute() {
 		Player target = getArgAsPlayer(-1);
 		if(target != null) {
-			MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
-			if(!mPlayer.isMarried()) {
-				MPlayer mTarget = marriage.getMPlayer(target.getUniqueId());
-				if(!mTarget.isMarried()) {
-					if(mPlayer.isMarriageRequested(target.getUniqueId())) {
-						marriage.marry(mPlayer, mTarget);
-						broadcast(Message.MARRIED, player.getName(), target.getName());
-					} else {
-						mTarget.requestMarriage(player.getUniqueId());
-						target.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(Message.MARRIAGE_REQUESTED.toString(), player.getName(), player.getName())));
-					}
-				} else {
-					reply(Message.TARGET_ALREADY_MARRIED, getArg(-1));
-				}
-			} else {
-				reply(Message.ALREADY_MARRIED);
-			}
+            if(target.getName().equalsIgnoreCase(player.getName())) {
+                reply(Message.MARRY_SELF);
+            } else {
+                MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
+                if(!mPlayer.isMarried()) {
+                    MPlayer mTarget = marriage.getMPlayer(target.getUniqueId());
+                    if(!mTarget.isMarried()) {
+                        if(mPlayer.isMarriageRequested(target.getUniqueId())) {
+                            marriage.marry(mPlayer, mTarget);
+                            broadcast(Message.MARRIED, player.getName(), target.getName());
+                        } else {
+                            mTarget.requestMarriage(player.getUniqueId());
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(Message.MARRIAGE_REQUESTED.toString(), player.getName(), player.getName())));
+                            reply(Message.REQUEST_SENT, target.getName());
+                        }
+                    } else {
+                        reply(Message.TARGET_ALREADY_MARRIED, getArg(-1));
+                    }
+                } else {
+                    reply(Message.ALREADY_MARRIED);
+                }
+            }
 		} else {
 			reply(Message.PLAYER_NOT_FOUND, getArg(-1));
 		}
