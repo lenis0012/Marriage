@@ -92,7 +92,7 @@ public class MarriageCore extends MarriageBase {
 
 	@Override
 	public ListQuery getMarriageList(int scale, int page) {
-		return dataManager.listMarriages(page, page);
+		return dataManager.listMarriages(scale, page);
 	}
 	
 	/**
