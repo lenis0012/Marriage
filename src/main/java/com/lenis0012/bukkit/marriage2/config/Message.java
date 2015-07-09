@@ -21,7 +21,7 @@ public enum Message {
 	FETCHING_LIST("&eFetching player marriage list..."),
 	HOME_SET("&aYou have set a home for your marriage!"),
 	INVALID_FORMAT("&cThe argument could not be parsed to an integer!"),
-	INVALID_GENDER("&cThe argument could not be parsed to a gender!"),
+	INVALID_GENDER("&cThat is not a valid gender! Pick \"male\" or \"female\""),
 	GENDER_SET("&aYour gender has been set to %s!"),
 	MARRY_SELF("&cYou cannot marry yourself!"),
 	NEGATIVE_NUMBER("&cYou must enter a positive number!");

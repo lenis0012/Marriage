@@ -51,6 +51,7 @@ public class DataConverter {
             if(uuidFetcher.size() >= 100 || completed >= totalFiles - 1) {
                 try {
                     uuidMap.putAll(uuidFetcher.call());
+                    uuidFetcher = new UUIDFetcher(new ArrayList<String>());
                 } catch(Exception e) {
                     core.getLogger().log(Level.WARNING, "Failed to retrieve UUID for 100 players!");
                 }

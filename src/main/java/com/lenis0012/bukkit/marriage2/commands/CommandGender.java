@@ -18,9 +18,10 @@ public class CommandGender extends Command {
 	public void execute() {
 		Gender gender = null;
 		try {
-			gender = Gender.valueOf(getArg(0));
+			gender = Gender.valueOf(getArg(0).toUpperCase());
 		} catch(Exception e) {
 			reply(Message.INVALID_GENDER);
+			return;
 		}
 		
 		MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());

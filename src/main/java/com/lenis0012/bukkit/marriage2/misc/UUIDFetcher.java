@@ -42,7 +42,8 @@ public class UUIDFetcher implements Callable<Map<String, UUID>> {
     private final boolean rateLimiting;
 
     public UUIDFetcher(List<String> names, boolean rateLimiting) {
-        this.names = ImmutableList.copyOf(names);
+//        this.names = ImmutableList.copyOf(names);
+        this.names = names;
         this.rateLimiting = rateLimiting;
     }
 
