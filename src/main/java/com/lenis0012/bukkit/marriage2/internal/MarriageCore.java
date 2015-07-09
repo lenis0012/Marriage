@@ -8,6 +8,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.commands.CommandPriest;
 import com.lenis0012.bukkit.marriage2.internal.data.DataConverter;
 import org.bukkit.event.Listener;
 

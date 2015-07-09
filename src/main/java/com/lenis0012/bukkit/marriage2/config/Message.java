@@ -24,7 +24,13 @@ public enum Message {
 	INVALID_GENDER("&cThat is not a valid gender! Pick \"male\" or \"female\""),
 	GENDER_SET("&aYour gender has been set to %s!"),
 	MARRY_SELF("&cYou cannot marry yourself!"),
-	NEGATIVE_NUMBER("&cYou must enter a positive number!");
+	NEGATIVE_NUMBER("&cYou must enter a positive number!"),
+	PRIEST_ADDED("&aSet player as a priest, he may now marry other players!"),
+	PRIEST_REMOVED("&aUnset player as a priest, he may now no longer marry othewr players!"),
+	TELEPORTED("&aYou have been teleported to your partners location!"),
+	TELEPORTED_2("&aYour partner has just teleported to you!"),
+	ONLINE_SINCE("&aYour partner has been &2ONLINE &afor %s!"),
+	OFFLINE_SINCE("&aYour partner has been &cOFFLINE &afor %ss!");
 	
 	private final String defaultMessage;
 	private String message;

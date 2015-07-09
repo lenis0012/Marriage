@@ -55,6 +55,7 @@ public class DataManager {
 //					+ "id INT NOT NULL AUTO_INCREMENT,"
 					+ "unique_user_id VARCHAR(128) NOT NULL UNIQUE,"
 					+ "gender VARCHAR(32),"
+					+ "priest BIT,"
 					+ "lastlogin BIGINT);", prefix));
 			statement.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %sdata ("
 					+ "id INT NOT NULL AUTO_INCREMENT,"
@@ -115,18 +116,20 @@ public class DataManager {
 			if(result.next()) {
 				// Already in database (update)
 				ps = connection.prepareStatement(String.format(
-						"UPDATE %splayers SET gender=?,lastlogin=? WHERE unique_user_id=?;", prefix));
+						"UPDATE %splayers SET gender=?,priest=?,lastlogin=? WHERE unique_user_id=?;", prefix));
 				ps.setString(1, player.getGender().toString());
-				ps.setLong(2, System.currentTimeMillis());
-				ps.setString(3, player.getUniqueId().toString());
+				ps.setBoolean(2, player.isPriest());
+				ps.setLong(3, System.currentTimeMillis());
+				ps.setString(4, player.getUniqueId().toString());
 				ps.executeUpdate();
 			} else {
 				// Not in database yet
 				ps = connection.prepareStatement(String.format(
-						"INSERT INTO %splayers (unique_user_id,gender,lastlogin) VALUES(?,?,?);", prefix));
+						"INSERT INTO %splayers (unique_user_id,gender,priest,lastlogin) VALUES(?,?,?,?);", prefix));
 				ps.setString(1, player.getUniqueId().toString());
 				ps.setString(2, player.getGender().toString());
-				ps.setLong(3, System.currentTimeMillis());
+				ps.setBoolean(3, player.isPriest());
+				ps.setLong(4, System.currentTimeMillis());
 				ps.executeUpdate();
 			}
 			

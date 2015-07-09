@@ -27,7 +27,7 @@ public class ListQuery {
 			@Override
 			public void run() {
 				to.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + "Married players:");
-				to.sendMessage(ChatColor.GOLD + "Page " + page + "/" + pages);
+				to.sendMessage(ChatColor.GOLD + "Page " + (page + 1) + "/" + pages);
 				for(MData data : marriages) {
 					OfflinePlayer player1 = Bukkit.getOfflinePlayer(data.getPlayer1Id());
 					OfflinePlayer player2 = Bukkit.getOfflinePlayer(data.getPllayer2Id());

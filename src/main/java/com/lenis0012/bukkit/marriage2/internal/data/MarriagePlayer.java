@@ -20,12 +20,18 @@ public class MarriagePlayer implements MPlayer {
 	private MData marriage;
 	private Gender gender = Gender.UNKNOWN;
 	private boolean inChat;
-	
+	private boolean priest;
+	private long lastLogin;
+	private long lastLogout;
+
 	public MarriagePlayer(UUID uuid, ResultSet data) throws SQLException {
 		this.uuid = uuid;
 		if(data.next()) {
 			this.gender = Gender.valueOf(data.getString("gender"));
+			this.priest = data.getBoolean("priest");
+			this.lastLogout = data.getLong("lastlogin");
 		}
+		this.lastLogin = System.currentTimeMillis();
 	}
 	
 	public void addMarriage(MarriageData data) {
@@ -35,7 +41,8 @@ public class MarriagePlayer implements MPlayer {
 	void save(PreparedStatement ps) throws SQLException {
 		ps.setString(1, uuid.toString());
 		ps.setString(2, gender.toString());
-		ps.setLong(3, System.currentTimeMillis());
+		ps.setBoolean(3, priest);
+		ps.setLong(4, System.currentTimeMillis());
 	}
 
 	@Override
@@ -99,5 +106,23 @@ public class MarriagePlayer implements MPlayer {
 		MarriagePlayer partner = (MarriagePlayer) getPartner();
 		partner.marriage = null;
 		this.marriage = null;
+	}
+
+	@Override
+	public boolean isPriest() {
+		return priest;
+	}
+
+	@Override
+	public void setPriest(boolean priest) {
+		this.priest = priest;
+	}
+
+	public long getLastLogin() {
+		return lastLogin;
+	}
+
+	public long getLastLogout() {
+		return lastLogout;
 	}
 }

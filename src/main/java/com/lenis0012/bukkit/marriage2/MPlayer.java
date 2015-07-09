@@ -63,6 +63,20 @@ public interface MPlayer {
 	 * @return True if in chat-mode, false otherwise.
 	 */
 	boolean isInChat();
+
+	/**
+	 * Whether or not the player is a priest.
+	 *
+	 * @return True if player ius priest, false otherwise
+	 */
+	boolean isPriest();
+
+	/**
+	 * Set whether or not this player is a priest.
+	 *
+	 * @param priest True if player is priest, false otherwise
+	 */
+	void setPriest(boolean priest);
 	
 	/**
 	 * Set if the player is in marry chat-mode.
@@ -82,4 +96,8 @@ public interface MPlayer {
 	 * Divorce with the current player's partner
 	 */
 	void divorce();
+
+	long getLastLogin();
+
+	long getLastLogout();
 }
