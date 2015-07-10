@@ -103,7 +103,8 @@ public class MarriageData implements MData {
 
 	@Override
 	public UUID getOtherPlayer(UUID me) {
-		return me == player1 ? player2 : player1;
+		System.out.println(player1.toString() + " - " + player2.toString() + " > " + me.toString());
+		return me.toString().equalsIgnoreCase(player1.toString()) ? player2 : player1;
 	}
 
 	public boolean isSaved() {

@@ -12,6 +12,7 @@ import com.lenis0012.bukkit.marriage2.Gender;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 
 public class MarriagePlayer implements MPlayer {
@@ -103,6 +104,11 @@ public class MarriagePlayer implements MPlayer {
 
 	@Override
 	public void divorce() {
+		if(marriage == null) {
+			return;
+		}
+
+		((MarriageCore) MarriagePlugin.getInstance()).removeMarriage(marriage);
 		MarriagePlayer partner = (MarriagePlayer) getPartner();
 		partner.marriage = null;
 		this.marriage = null;

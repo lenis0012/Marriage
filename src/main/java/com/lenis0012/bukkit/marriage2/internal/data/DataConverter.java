@@ -1,8 +1,6 @@
 package com.lenis0012.bukkit.marriage2.internal.data;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.lenis0012.bukkit.marriage2.Gender;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
@@ -15,7 +13,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -57,11 +54,11 @@ public class DataConverter {
                 }
             }
 
-            int percent = (completed + 1) / totalFiles;
-            if(percent >= lastPercent + 5) {
-                lastPercent += 5;
-                reportStatus(percent);
-            }
+//            int percent = (int) (((completed + 1) / (double) totalFiles) * 100.0);
+//            if(percent >= lastPercent + 5) {
+//                lastPercent += 5;
+//                reportStatus(percent);
+//            }
         }
 
         // Insert data into new DB...
@@ -98,9 +95,6 @@ public class DataConverter {
             } catch(Exception e) {
                 core.getLogger().log(Level.WARNING, "Failed to convert data for player!", e);
             }
-
-            int percent = ++completed / totalFiles;
-            reportStatus(percent);
         }
 
         // Save changes
@@ -126,5 +120,6 @@ public class DataConverter {
             bar.append('_');
         }
         bar.append("] (").append(percent).append("%)");
+        core.getLogger().log(Level.INFO, bar.toString());
     }
 }

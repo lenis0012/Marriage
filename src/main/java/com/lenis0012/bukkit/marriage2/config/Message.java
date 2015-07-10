@@ -30,7 +30,8 @@ public enum Message {
 	TELEPORTED("&aYou have been teleported to your partners location!"),
 	TELEPORTED_2("&aYour partner has just teleported to you!"),
 	ONLINE_SINCE("&aYour partner has been &2ONLINE &afor %s!"),
-	OFFLINE_SINCE("&aYour partner has been &cOFFLINE &afor %ss!");
+	OFFLINE_SINCE("&aYour partner has been &cOFFLINE &afor %ss!"),
+	NOT_A_PRIEST("&cYou are not permitted to marry 2 players!");
 	
 	private final String defaultMessage;
 	private String message;

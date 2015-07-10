@@ -30,10 +30,27 @@ public class CommandMarry extends Command {
         if(Settings.ENABLE_PRIEST.value()) {
             Player player1 = getArgAsPlayer(-1);
             Player player2 = getArgAsPlayer(0);
+            if(player1 == null) {
+                reply(Message.PLAYER_NOT_FOUND, getArg(-1));
+                return;
+            } if(player2 == null) {
+                reply(Message.PLAYER_NOT_FOUND, getArg(0));
+                return;
+            }
             MPlayer mp1 = marriage.getMPlayer(player1.getUniqueId());
             MPlayer mp2 = marriage.getMPlayer(player2.getUniqueId());
+            if(mp1.isMarried() || mp2.isMarried()) {
+                reply(Message.ALREADY_MARRIED);
+                return;
+            }
             MPlayer mp = marriage.getMPlayer(player.getUniqueId());
+            if(!mp.isPriest()) {
+                reply(Message.NOT_A_PRIEST);
+                return;
+            }
 
+            marriage.marry(mp1, mp2);
+            broadcast(Message.MARRIED, player1.getName(), player2.getName());
         } else {
             Player target = getArgAsPlayer(-1);
             if (target != null) {

@@ -30,6 +30,9 @@ public class DataManager {
 	public DataManager(MarriageCore core, FileConfiguration config) {
 		this.core = core;
 		String driver = "org.sqlite.JDBC";
+		String idLine = "id INTEGER PRIMARY KEY AUTOINCREMENT,";
+		String endLine = ");";
+
 		if(config.getBoolean("MySQL.enabled")) {
 			String user = config.getString("MySQL.user", "root");
 			String pswd = config.getString("MySQL.password", "");
@@ -37,6 +40,8 @@ public class DataManager {
 			String database = config.getString("MySQL.database", "myserver");
 			this.prefix = config.getString("MySQL.prefix", "marriage_");
 			this.url = String.format("jdbc:mysql://%s/%s?user=%s&password=%s", host, database, user, pswd);
+			idLine = "id INT NOT NULL AUTO_INCREMENT,";
+			endLine = ",PRIMARY KEY(id));";
 		} else {
 			this.url = String.format("jdbc:sqlite:%s", new File(core.getPlugin().getDataFolder(), "database.db"));
 			this.prefix = "";
@@ -58,17 +63,17 @@ public class DataManager {
 					+ "priest BIT,"
 					+ "lastlogin BIGINT);", prefix));
 			statement.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %sdata ("
-					+ "id INT NOT NULL AUTO_INCREMENT,"
-					+ "player1 VARCHAR(128) NOT NULL,"
-					+ "player2 VARCHAR(128) NOT NULL,"
-					+ "home_world VARCHAR(128) NOT NULL,"
-					+ "home_x DOUBLE,"
-					+ "home_y DOUBLE,"
-					+ "home_z DOUBLE,"
-					+ "home_yaw FLOAT,"
-					+ "home_pitch FLOAT,"
-					+ "pvp_enabled BIT,"
-					+ "PRIMARY KEY(id));", prefix));
+                    + idLine
+                    + "player1 VARCHAR(128) NOT NULL,"
+                    + "player2 VARCHAR(128) NOT NULL,"
+                    + "home_world VARCHAR(128) NOT NULL,"
+                    + "home_x DOUBLE,"
+                    + "home_y DOUBLE,"
+                    + "home_z DOUBLE,"
+                    + "home_yaw FLOAT,"
+                    + "home_pitch FLOAT,"
+                    + "pvp_enabled BIT"
+                    + endLine, prefix));
 		} catch (SQLException e) {
 			core.getLogger().log(Level.WARNING, "Failed to load player data", e);
 		} finally {
@@ -87,7 +92,7 @@ public class DataManager {
 		Connection connection = newConnection();
 		try {
 			PreparedStatement ps = connection.prepareStatement(String.format(
-					"SELECT * FROM %splayers WHERE unique_user_id=?;", prefix));
+                    "SELECT * FROM %splayers WHERE unique_user_id=?;", prefix));
 			ps.setString(1, uuid.toString());
 			player = new MarriagePlayer(uuid, ps.executeQuery());
 			loadMarriages(connection, player, false);
@@ -126,30 +131,31 @@ public class DataManager {
 				// Not in database yet
 				ps = connection.prepareStatement(String.format(
 						"INSERT INTO %splayers (unique_user_id,gender,priest,lastlogin) VALUES(?,?,?,?);", prefix));
-				ps.setString(1, player.getUniqueId().toString());
-				ps.setString(2, player.getGender().toString());
-				ps.setBoolean(3, player.isPriest());
-				ps.setLong(4, System.currentTimeMillis());
+				player.save(ps);
 				ps.executeUpdate();
 			}
 			
 			// Save marriages
 			if(player.getMarriage() != null) {
 				MarriageData mdata = (MarriageData) player.getMarriage();
-				if(mdata.getId() >= 0 || mdata.isSaved()) {
-					// Update existing entry
-					ps = connection.prepareStatement(String.format(
-							"UPDATE %sdata SET player1=?,player2=?,home_world=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
-					mdata.save(ps);
-					ps.setInt(10, mdata.getId());
-					ps.executeUpdate();
-				} else {
-					mdata.setSaved(true);
-					ps = connection.prepareStatement(String.format(
-							"INSERT INTO %sdata (player1,player2,home_world,home_x,home_y,home_z,home_yaw,home_pitch,pvp_enabled) VALUES(?,?,?,?,?,?,?,?,?);", prefix));
-					mdata.save(ps);
-					ps.executeUpdate();
-				}
+                ps = connection.prepareStatement(String.format("SELECT * FROM %sdata WHERE player1=? AND player2=?;", prefix));
+                ps.setString(1, mdata.getPlayer1Id().toString());
+                ps.setString(2, mdata.getPllayer2Id().toString());
+                result = ps.executeQuery();
+                if(result.next()) {
+                    // Update existing entry
+                    ps = connection.prepareStatement(String.format(
+                            "UPDATE %sdata SET player1=?,player2=?,home_world=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
+                    mdata.save(ps);
+                    ps.setInt(10, mdata.getId());
+                    ps.executeUpdate();
+                } else {
+                    mdata.setSaved(true);
+                    ps = connection.prepareStatement(String.format(
+                            "INSERT INTO %sdata (player1,player2,home_world,home_x,home_y,home_z,home_yaw,home_pitch,pvp_enabled) VALUES(?,?,?,?,?,?,?,?,?);", prefix));
+                    mdata.save(ps);
+                    ps.executeUpdate();
+                }
 			}
 		} catch (SQLException e) {
 			core.getLogger().log(Level.WARNING, "Failed to load player data", e);
@@ -166,7 +172,7 @@ public class DataManager {
 	
 	private void loadMarriages(Connection connection, MarriagePlayer player, boolean alt) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(String.format(
-				"SELECT * FROM %sdata WHERE %s=?;", prefix, alt ? "player2" : "player1", prefix));
+                "SELECT * FROM %sdata WHERE %s=?;", prefix, alt ? "player2" : "player1", prefix));
 		ps.setString(1, player.getUniqueId().toString());
 		ResultSet result = ps.executeQuery();
 		while(result.next()) {
@@ -185,6 +191,26 @@ public class DataManager {
 			loadMarriages(connection, player, true);
 		}
 	}
+
+    public void deleteMarriage(UUID player1, UUID player2) {
+        Connection connection = newConnection();
+        try {
+            PreparedStatement ps = connection.prepareStatement(String.format("DELETE FROM %sdata WHERE player1=? AND player2=?;", prefix));
+            ps.setString(1, player1.toString());
+            ps.setString(2, player2.toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            core.getLogger().log(Level.WARNING, "Failed to load player data", e);
+        } finally {
+            if(connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    ;
+                }
+            }
+        }
+    }
 	
 	public ListQuery listMarriages(int scale, int page) {
 		Connection connection = newConnection();

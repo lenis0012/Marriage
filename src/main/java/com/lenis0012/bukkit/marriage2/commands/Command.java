@@ -108,7 +108,7 @@ public abstract class Command {
 	
 	protected void broadcast(String message, Object... args) {
 		message = ChatColor.translateAlternateColorCodes('&', String.format(message, args));
-		sender.sendMessage(message);
+		Bukkit.broadcastMessage(message);
 	}
 	
 	public String getPermission() {

@@ -88,6 +88,7 @@ public class MarriageCore extends MarriageBase {
 		MarriageData mdata = new MarriageData(player1.getUniqueId(), player2.getUniqueId());
 		((MarriagePlayer) player1).addMarriage(mdata);
 		((MarriagePlayer) player2).addMarriage(mdata);
+        dataManager.savePlayer((MarriagePlayer) player1);
 		return mdata;
 	}
 
@@ -95,6 +96,15 @@ public class MarriageCore extends MarriageBase {
 	public ListQuery getMarriageList(int scale, int page) {
 		return dataManager.listMarriages(scale, page);
 	}
+
+    public void removeMarriage(final MData mdata) {
+        new Thread() {
+            @Override
+            public void run() {
+                dataManager.deleteMarriage(mdata.getPlayer1Id(), mdata.getPllayer2Id());
+            }
+        }.start();
+    }
 	
 	/**
 	 * Unload player from the memory
