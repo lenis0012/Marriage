@@ -11,6 +11,8 @@ public enum Gender {
 	 * Opposite of male
 	 */
 	FEMALE,
+	
+	ROCK,
 	/**
 	 * Not set
 	 */
