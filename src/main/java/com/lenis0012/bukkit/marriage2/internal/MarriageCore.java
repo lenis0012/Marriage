@@ -84,13 +84,14 @@ public class MarriageCore extends MarriageBase {
 			player = dataManager.loadPlayer(uuid);
 			players.put(uuid, player);
 		}
-		
+
 		return player;
 	}
 
 	@Override
 	public MData marry(MPlayer player1, MPlayer player2) {
-		MarriageData mdata = new MarriageData(player1.getUniqueId(), player2.getUniqueId());
+		MarriageData mdata = new MarriageData(dataManager, player1.getUniqueId(), player2.getUniqueId());
+        mdata.saveAsync();
 		((MarriagePlayer) player1).addMarriage(mdata);
 		((MarriagePlayer) player2).addMarriage(mdata);
         dataManager.savePlayer((MarriagePlayer) player1);
@@ -101,6 +102,10 @@ public class MarriageCore extends MarriageBase {
 	public ListQuery getMarriageList(int scale, int page) {
 		return dataManager.listMarriages(scale, page);
 	}
+
+    public void setMPlayer(UUID uuid, MarriagePlayer mp) {
+        players.put(uuid, mp);
+    }
 
 	public DataManager getDataManager() {
 		return dataManager;

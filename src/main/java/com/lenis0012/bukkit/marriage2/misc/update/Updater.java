@@ -49,7 +49,7 @@ public class Updater {
         if(updateFile.exists()) {
             BConfig config = new BConfig(core, updateFile);
             this.apiKey = config.get("api-key", String.class);
-            this.enabled = !config.getOrDefault("disable", false);
+//            this.enabled = !config.getOrDefault("disable", false);
         }
     }
 

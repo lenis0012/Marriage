@@ -3,11 +3,8 @@ package com.lenis0012.bukkit.marriage2.internal.data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
-import com.google.common.collect.Lists;
 
 import com.lenis0012.bukkit.marriage2.Gender;
 import com.lenis0012.bukkit.marriage2.MData;

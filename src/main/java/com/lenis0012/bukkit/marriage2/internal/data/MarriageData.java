@@ -5,12 +5,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import com.lenis0012.bukkit.marriage2.MData;
 
 public class MarriageData implements MData {
+	private final DataManager dataManager;
 	private final UUID player1;
 	private final UUID player2;
 	private Location home;
@@ -18,12 +20,14 @@ public class MarriageData implements MData {
 	private int id = -1;
 	private boolean saved = false;
 	
-	public MarriageData(UUID player1, UUID player2) {
+	public MarriageData(DataManager dataManager, UUID player1, UUID player2) {
+		this.dataManager = dataManager;
 		this.player1 = player1;
 		this.player2 = player2;
 	}
 	
-	public MarriageData(ResultSet data) throws SQLException {
+	public MarriageData(DataManager dataManager, ResultSet data) throws SQLException {
+		this.dataManager = dataManager;
 		this.id = data.getInt("id");
 		this.player1 = UUID.fromString(data.getString("player1"));
 		this.player2 = UUID.fromString(data.getString("player2"));
@@ -84,6 +88,7 @@ public class MarriageData implements MData {
 	@Override
 	public void setHome(Location home) {
 		this.home = home;
+		saveAsync();
 	}
 	
 	@Override
@@ -99,6 +104,7 @@ public class MarriageData implements MData {
 	@Override
 	public void setPVPEnabled(boolean pvpEnabled) {
 		this.pvpEnabled = pvpEnabled;
+		saveAsync();
 	}
 
 	@Override
@@ -107,11 +113,12 @@ public class MarriageData implements MData {
 		return me.toString().equalsIgnoreCase(player1.toString()) ? player2 : player1;
 	}
 
-	public boolean isSaved() {
-		return saved;
-	}
-
-	public void setSaved(boolean saved) {
-		this.saved = saved;
+	public void saveAsync() {
+		Bukkit.getScheduler().runTaskAsynchronously(MarriagePlugin.getInstance().getPlugin(), new Runnable() {
+			@Override
+			public void run() {
+				dataManager.saveMarriage(MarriageData.this);
+			}
+		});
 	}
 }

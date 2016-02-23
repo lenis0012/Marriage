@@ -15,6 +15,8 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.misc.LockedReference;
@@ -27,6 +29,8 @@ import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import org.bukkit.entity.Player;
 
 public class DataManager {
+    // Create a data cache to overlap with the pre join event cache
+    private final Cache<UUID, MarriageData> marriageDataCache = CacheBuilder.newBuilder().expireAfterWrite(60L, TimeUnit.SECONDS).build();
 	private final LockedReference<Connection> supplier;
 	private final MarriageCore core;
 	private final String prefix;
@@ -120,35 +124,39 @@ public class DataManager {
 				player.save(ps);
 				ps.executeUpdate();
 			}
-			
-			// Save marriages
-			if(player.getMarriage() != null) {
-				MarriageData mdata = (MarriageData) player.getMarriage();
-                ps = connection.prepareStatement(String.format("SELECT * FROM %smarriages WHERE player1=? AND player2=?;", prefix));
-                ps.setString(1, mdata.getPlayer1Id().toString());
-                ps.setString(2, mdata.getPllayer2Id().toString());
-                result = ps.executeQuery();
-                if(result.next()) {
-                    // Update existing entry
-                    ps = connection.prepareStatement(String.format(
-                            "UPDATE %smarriages SET player1=?,player2=?,home_world=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
-                    mdata.save(ps);
-                    ps.setInt(10, mdata.getId());
-                    ps.executeUpdate();
-                } else {
-                    mdata.setSaved(true);
-                    ps = connection.prepareStatement(String.format(
-                            "INSERT INTO %smarriages (player1,player2,home_world,home_x,home_y,home_z,home_yaw,home_pitch,pvp_enabled) VALUES(?,?,?,?,?,?,?,?,?);", prefix));
-                    mdata.save(ps);
-                    ps.executeUpdate();
-                }
-			}
 		} catch (SQLException e) {
-			core.getLogger().log(Level.WARNING, "Failed to load player data", e);
+			core.getLogger().log(Level.WARNING, "Failed to save player data", e);
 		} finally {
 			supplier.finish();
 		}
 	}
+
+    public void saveMarriage(MarriageData mdata) {
+        Connection connection = supplier.access();
+        try {
+            PreparedStatement ps = connection.prepareStatement(String.format("SELECT * FROM %smarriages WHERE player1=? AND player2=?;", prefix));
+            ps.setString(1, mdata.getPlayer1Id().toString());
+            ps.setString(2, mdata.getPllayer2Id().toString());
+            ResultSet result = ps.executeQuery();
+            if(result.next()) {
+                // Update existing entry
+                ps = connection.prepareStatement(String.format(
+                        "UPDATE %smarriages SET player1=?,player2=?,home_world=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
+                mdata.save(ps);
+                ps.setInt(10, mdata.getId());
+                ps.executeUpdate();
+            } else {
+                ps = connection.prepareStatement(String.format(
+                        "INSERT INTO %smarriages (player1,player2,home_world,home_x,home_y,home_z,home_yaw,home_pitch,pvp_enabled) VALUES(?,?,?,?,?,?,?,?,?);", prefix));
+                mdata.save(ps);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            core.getLogger().log(Level.WARNING, "Failed to save marriage data", e);
+        } finally {
+            supplier.finish();
+        }
+    }
 	
 	private void loadMarriages(Connection connection, MarriagePlayer player, boolean alt) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(String.format(
@@ -158,13 +166,17 @@ public class DataManager {
 		while(result.next()) {
 			UUID partnerId = UUID.fromString(result.getString(alt ? "player1" : "player2"));
 			Player partner = Bukkit.getPlayer(partnerId);
+            MarriageData data;
 			if(partner != null && partner.isOnline()) {
 				// Copy marriage data from partner to ensure a match.
-				MPlayer mpartner = core.getMPlayer(partnerId);
-				player.addMarriage((MarriageData) mpartner.getMarriage());
-			} else {
-				player.addMarriage(new MarriageData(result));
-			}
+				data = (MarriageData) core.getMPlayer(partnerId).getMarriage();
+			} else if((data = marriageDataCache.getIfPresent(player.getUniqueId())) == null){
+                data = new MarriageData(this, result);
+                marriageDataCache.put(data.getPlayer1Id(), data);
+                marriageDataCache.put(data.getPllayer2Id(), data);
+            }
+
+            player.addMarriage(data);
 		}
 		
 		if(!alt) {
@@ -203,7 +215,7 @@ public class DataManager {
 			
 			List<MData> list = Lists.newArrayList();
 			while(result.next()) {
-				list.add(new MarriageData(result));
+				list.add(new MarriageData(this, result));
 			}
 			
 			return new ListQuery(pages, page, list);

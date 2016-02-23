@@ -45,7 +45,12 @@ public class CommandUpdate extends Command {
                             return;
                         }
 
+                        ItemStack inHand = player.getItemInHand();
                         player.setItemInHand(changelog);
+                        if(inHand != null) {
+                            player.getInventory().addItem(inHand);
+                        }
+
                         reply("&llenis> &bCheck my changelog out! (I put it in your hand)");
                         player.updateInventory();
                     }
