@@ -15,11 +15,17 @@ public class Settings<T> {
 	 * Values
 	 */
 	public static final Settings<Integer> REQUEST_EXPRY = new Settings<>("requestExpiry", 60);
-	public static final Settings<Integer> COOLDOWN_MARRY = new Settings<>("cooldown.marry", 120);
-	public static final Settings<Integer> COOLDOWN_GIFT = new Settings<>("cooldown.gift", 0);
-	public static final Settings<Integer> COOLDOWN_DIVORCE = new Settings<>("cooldown.divorce", 0);
+//	public static final Settings<Integer> COOLDOWN_MARRY = new Settings<>("cooldown.marry", 120);
+//	public static final Settings<Integer> COOLDOWN_GIFT = new Settings<>("cooldown.gift", 0);
+//	public static final Settings<Integer> COOLDOWN_DIVORCE = new Settings<>("cooldown.divorce", 0);
 	public static final Settings<Integer> COOLDOWN_KISS = new Settings<>("cooldown.kiss", 2);
+
+    public static final Settings<Boolean> KISSES_ENABLED = new Settings<>("kisses.enabled", true);
+    public static final Settings<Integer> KISSES_AMOUNT_MIN = new Settings<>("kisses.amount-min", 5);
+    public static final Settings<Integer> KISSES_AMOUNT_MAX = new Settings<>("kisses.amount-max", 10);
+
 	public static final Settings<Boolean> ENABLE_PRIEST = new Settings<>("enable-priests", false);
+	public static final Settings<Boolean> ENABLE_UPDATE_CHACKER = new Settings<>("update-checker", true);
 	
 	private final String key;
 	private final T def;

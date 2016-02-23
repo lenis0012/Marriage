@@ -32,7 +32,7 @@ public class CommandTeleport extends Command {
             reply(Message.PARTNER_NOT_ONLINE);
             return;
         }
-        
+
         player.teleport(partner);
         reply(Message.TELEPORTED);
         partner.sendMessage(ChatColor.translateAlternateColorCodes('&', Message.TELEPORTED_2.toString()));

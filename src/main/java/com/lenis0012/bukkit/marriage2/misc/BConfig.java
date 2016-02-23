@@ -46,6 +46,11 @@ public class BConfig extends YamlConfiguration {
 			core.getLogger().log(Level.WARNING, "Failed to save configuration file", e);
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	public <T> T getOrDefault(String key, T def) {
+		return contains(key) ? (T) get(key) : def;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public <T> T getOrSet(String key, T def) {

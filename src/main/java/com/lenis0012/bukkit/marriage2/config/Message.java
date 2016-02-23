@@ -32,13 +32,15 @@ public enum Message {
 	ONLINE_SINCE("&aYour partner has been &2ONLINE &afor %s!"),
 	OFFLINE_SINCE("&aYour partner has been &cOFFLINE &afor %ss!"),
 	NOT_A_PRIEST("&cYou are not permitted to marry 2 players!"),
-	COOLDOWN("&cYou may not perform this action too frequently!");
+	COOLDOWN("&cYou may not perform this action too frequently!"),
+	UPDATE_AVAILABLE("&f&l[Marriage] &eThere is a new update available! %s for %s\nType &6/marry update &eto update now.");
 	
 	private final String defaultMessage;
 	private String message;
 	
 	Message(String def) {
 		this.defaultMessage = def;
+		this.message = def; // Use default if not loaded yet
 	}
 	
 	private void reload(BConfig config) {

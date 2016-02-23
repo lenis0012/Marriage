@@ -18,14 +18,8 @@ permissions:
         description: Allows all admin commands
         default: false
         children:
-          marry.reload:
-            description: Allows to reload the config files
-            defalt: op
-          marry.priest:
-            description: Allows player to marry 2 orther players.
-            default: false
-          marry.chatspy:
-            description: Allows player to view all mchat.
+          marry.update:
+            description: Allows user to update plugin if updater is enabled.
             default: op
       marry.default:
         description: Allows default player commands
@@ -34,9 +28,6 @@ permissions:
           marry.marry:
             description: Allows to marry with players
             default: true
-          marry.chat:
-            description: Allows to chat with your partner
-            default: true
           marry.tp:
             description: Allows to tp to your partner
             default: true
@@ -44,16 +35,13 @@ permissions:
             description: Allows to tp to your home if set
             default: true
           marry.sethome:
-            description: Allwos to set your Marriage home
+            description: Allows to set your Marriage home
             default: true
           marry.gift:
-            description: Allows to gift itesm to your partner
+            description: Allows to gift items to your partner
             default: true
           marry.chat:
             description: Allows to chat with your partner
-            default: true
-          marry.child:
-            description: Allows everything with children in marriage.
             default: true
           marry.seen:
             description: Allows to see your last login from your partner

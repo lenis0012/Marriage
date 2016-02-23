@@ -9,7 +9,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.commands.CommandPriest;
+import com.lenis0012.bukkit.marriage2.internal.Register.Type;
 import com.lenis0012.bukkit.marriage2.internal.data.DataConverter;
+import com.lenis0012.bukkit.marriage2.misc.update.Updater;
 import org.bukkit.event.Listener;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
@@ -24,6 +26,7 @@ import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 public class MarriageCore extends MarriageBase {
 	private final Map<UUID, MarriagePlayer> players = Collections.synchronizedMap(new HashMap<UUID, MarriagePlayer>());
 	private DataManager dataManager;
+	private Updater updater;
 	
 	public MarriageCore(MarriagePlugin plugin) {
 		super(plugin);
@@ -61,6 +64,11 @@ public class MarriageCore extends MarriageBase {
 		unloadAll();
 	}
 
+	@Register(name = "updater", type = Type.ENABLE, priority = 9)
+	public void loadUpdater() {
+		this.updater = new Updater(this, MarriagePlugin.MARRIAGE_MOD_ID, plugin.getPluginFile());
+	}
+
 	@Register(name = "converter", type = Register.Type.ENABLE, priority = 10)
 	public void loadConverter() {
 		DataConverter converter = new DataConverter(this);
@@ -96,6 +104,10 @@ public class MarriageCore extends MarriageBase {
 
 	public DataManager getDataManager() {
 		return dataManager;
+	}
+
+	public Updater getUpdater() {
+		return updater;
 	}
 
     public void removeMarriage(final MData mdata) {
