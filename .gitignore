@@ -18,6 +18,7 @@ local.properties
 target/
 *.class
 *.iml
+dependency-reduced-pom.xml
 
 # External tool builders
 .externalToolBuilders/
