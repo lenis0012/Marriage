@@ -124,21 +124,21 @@ public class DataManager {
 			// Save marriages
 			if(player.getMarriage() != null) {
 				MarriageData mdata = (MarriageData) player.getMarriage();
-                ps = connection.prepareStatement(String.format("SELECT * FROM %sdata WHERE player1=? AND player2=?;", prefix));
+                ps = connection.prepareStatement(String.format("SELECT * FROM %smarriages WHERE player1=? AND player2=?;", prefix));
                 ps.setString(1, mdata.getPlayer1Id().toString());
                 ps.setString(2, mdata.getPllayer2Id().toString());
                 result = ps.executeQuery();
                 if(result.next()) {
                     // Update existing entry
                     ps = connection.prepareStatement(String.format(
-                            "UPDATE %sdata SET player1=?,player2=?,home_world=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
+                            "UPDATE %smarriages SET player1=?,player2=?,home_world=?,home_x=?,home_y=?,home_z=?,home_yaw=?,home_pitch=?,pvp_enabled=? WHERE id=?;", prefix));
                     mdata.save(ps);
                     ps.setInt(10, mdata.getId());
                     ps.executeUpdate();
                 } else {
                     mdata.setSaved(true);
                     ps = connection.prepareStatement(String.format(
-                            "INSERT INTO %sdata (player1,player2,home_world,home_x,home_y,home_z,home_yaw,home_pitch,pvp_enabled) VALUES(?,?,?,?,?,?,?,?,?);", prefix));
+                            "INSERT INTO %smarriages (player1,player2,home_world,home_x,home_y,home_z,home_yaw,home_pitch,pvp_enabled) VALUES(?,?,?,?,?,?,?,?,?);", prefix));
                     mdata.save(ps);
                     ps.executeUpdate();
                 }
@@ -152,7 +152,7 @@ public class DataManager {
 	
 	private void loadMarriages(Connection connection, MarriagePlayer player, boolean alt) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(String.format(
-				"SELECT * FROM %sdata WHERE %s=?;", prefix, alt ? "player2" : "player1", prefix));
+				"SELECT * FROM %smarriages WHERE %s=?;", prefix, alt ? "player2" : "player1", prefix));
 		ps.setString(1, player.getUniqueId().toString());
 		ResultSet result = ps.executeQuery();
 		while(result.next()) {
@@ -175,7 +175,7 @@ public class DataManager {
     public void deleteMarriage(UUID player1, UUID player2) {
         Connection connection = supplier.access();
         try {
-            PreparedStatement ps = connection.prepareStatement(String.format("DELETE FROM %sdata WHERE player1=? AND player2=?;", prefix));
+            PreparedStatement ps = connection.prepareStatement(String.format("DELETE FROM %smarriages WHERE player1=? AND player2=?;", prefix));
             ps.setString(1, player1.toString());
             ps.setString(2, player2.toString());
             ps.executeUpdate();
@@ -190,14 +190,14 @@ public class DataManager {
 		Connection connection = supplier.access();
 		try {
 			// Count rows to get amount of pages
-			PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM " + prefix + "data;");
+			PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM " + prefix + "marriages;");
 			ResultSet result = ps.executeQuery();
 			result.next();
 			int pages = (int) Math.ceil(result.getInt(1) / (double) scale);
 			
 			// Fetch te right page
 			ps = connection.prepareStatement(String.format(
-					"SELECT * FROM %sdata LIMIT %s OFFSET %s;", prefix, scale, scale * page));
+					"SELECT * FROM %smarriages LIMIT %s OFFSET %s;", prefix, scale, scale * page));
             //"SELECT * FROM %sdata ORDER BY id DESC LIMIT %s OFFSET %s;", prefix, scale, scale * page));
 			result = ps.executeQuery();
 			
