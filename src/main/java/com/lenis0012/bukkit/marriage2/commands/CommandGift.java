@@ -21,23 +21,26 @@ public class CommandGift extends Command {
 	public void execute() {
 		MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
 		MData marriage = mPlayer.getMarriage();
-		if(marriage != null) {
-			Player partner = Bukkit.getPlayer(marriage.getOtherPlayer(player.getUniqueId()));
-			if(partner != null) {
-				ItemStack item = player.getItemInHand();
-				if(item != null && item.getType() != Material.AIR) {
-					partner.getInventory().addItem(item.clone());
-					player.setItemInHand(null);
-					reply(Message.ITEM_GIFTED, item.getAmount(), item.getType().toString().toLowerCase());
-					reply(partner, Message.GIFT_RECEIVED, item.getAmount(), item.getType().toString().toLowerCase());
-				} else {
-					reply(Message.NO_ITEM);
-				}
-			} else {
-				reply(Message.PARTNER_NOT_ONLINE);
-			}
-		} else {
+		if(marriage == null) {
 			reply(Message.NOT_MARRIED);
+			return;
 		}
+
+		Player partner = Bukkit.getPlayer(marriage.getOtherPlayer(player.getUniqueId()));
+		if(partner == null) {
+			reply(Message.PARTNER_NOT_ONLINE);
+			return;
+		}
+
+		ItemStack item = player.getItemInHand();
+		if(item == null || item.getType() == Material.AIR) {
+			reply(Message.NO_ITEM);
+            return;
+		}
+
+		partner.getInventory().addItem(item.clone());
+		player.setItemInHand(null);
+		reply(Message.ITEM_GIFTED, item.getAmount(), item.getType().toString().toLowerCase());
+		reply(partner, Message.GIFT_RECEIVED, item.getAmount(), item.getType().toString().toLowerCase());
 	}
 }

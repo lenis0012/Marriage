@@ -35,10 +35,11 @@ public class CommandMarry extends Command {
             if(player1 == null) {
                 reply(Message.PLAYER_NOT_FOUND, getArg(-1));
                 return;
-            } if(player2 == null) {
+            } else if(player2 == null) {
                 reply(Message.PLAYER_NOT_FOUND, getArg(0));
                 return;
             }
+
             MPlayer mp1 = marriage.getMPlayer(player1.getUniqueId());
             MPlayer mp2 = marriage.getMPlayer(player2.getUniqueId());
             if(mp1.isMarried() || mp2.isMarried()) {
@@ -55,34 +56,44 @@ public class CommandMarry extends Command {
             broadcast(Message.MARRIED, player1.getName(), player2.getName());
         } else {
             Player target = getArgAsPlayer(-1);
-            if (target != null) {
-                if (target.getName().equalsIgnoreCase(player.getName())) {
-                    reply(Message.MARRY_SELF);
-                } else {
-                    MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
-                    if (!mPlayer.isMarried()) {
-                        MPlayer mTarget = marriage.getMPlayer(target.getUniqueId());
-                        if (!mTarget.isMarried()) {
-                            if (mPlayer.isMarriageRequested(target.getUniqueId())) {
-                                marriage.marry(mPlayer, mTarget);
-                                broadcast(Message.MARRIED, player.getName(), target.getName());
-                            } else if(!mTarget.isMarriageRequested(player.getUniqueId())) {
-                                mTarget.requestMarriage(player.getUniqueId());
-                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(Message.MARRIAGE_REQUESTED.toString(), player.getName(), player.getName())));
-                                reply(Message.REQUEST_SENT, target.getName());
-                            } else {
-                                // Already requested, cooling down.
-                                reply(Message.COOLDOWN);
-                            }
-                        } else {
-                            reply(Message.TARGET_ALREADY_MARRIED, getArg(-1));
-                        }
-                    } else {
-                        reply(Message.ALREADY_MARRIED);
-                    }
-                }
-            } else {
+
+            // Check if player is valid
+            if (target == null) {
                 reply(Message.PLAYER_NOT_FOUND, getArg(-1));
+                return;
+            }
+
+            // Check if player is self
+            if (target.getName().equalsIgnoreCase(player.getName())) {
+                reply(Message.MARRY_SELF);
+                return;
+            }
+
+            // Check if self married
+            MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
+            if (mPlayer.isMarried()) {
+                reply(Message.ALREADY_MARRIED);
+                return;
+            }
+
+            // Check if player married
+            MPlayer mTarget = marriage.getMPlayer(target.getUniqueId());
+            if (mTarget.isMarried()) {
+                reply(Message.TARGET_ALREADY_MARRIED, getArg(-1));
+                return;
+            }
+
+            // Request or accept
+            if (mPlayer.isMarriageRequested(target.getUniqueId())) {
+                marriage.marry(mPlayer, mTarget);
+                broadcast(Message.MARRIED, player.getName(), target.getName());
+            } else if(!mTarget.isMarriageRequested(player.getUniqueId())) {
+                mTarget.requestMarriage(player.getUniqueId());
+                target.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(Message.MARRIAGE_REQUESTED.toString(), player.getName(), player.getName())));
+                reply(Message.REQUEST_SENT, target.getName());
+            } else {
+                // Already requested, cooling down.
+                reply(Message.COOLDOWN);
             }
         }
 	}

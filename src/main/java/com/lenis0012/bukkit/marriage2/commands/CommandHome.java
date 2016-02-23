@@ -18,16 +18,18 @@ public class CommandHome extends Command {
 	public void execute() {
 		MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
 		MData marriage = mPlayer.getMarriage();
-		if(marriage != null) {
-			Location home = marriage.getHome();
-			if(home != null) {
-				player.teleport(home);
-				reply(Message.HOME_TELEPORT);
-			} else {
-				reply(Message.HOME_NOT_SET);
-			}
-		} else {
+		if(marriage == null) {
 			reply(Message.NOT_MARRIED);
+			return;
 		}
+
+		Location home = marriage.getHome();
+		if(home == null) {
+			reply(Message.HOME_NOT_SET);
+			return;
+		}
+
+		player.teleport(home);
+		reply(Message.HOME_TELEPORT);
 	}
 }

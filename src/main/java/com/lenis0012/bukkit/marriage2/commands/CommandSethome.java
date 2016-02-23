@@ -15,11 +15,12 @@ public class CommandSethome extends Command {
 	public void execute() {
 		MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
 		MData marriage = mPlayer.getMarriage();
-		if(marriage != null) {
-			marriage.setHome(player.getLocation().clone());
-			reply(Message.HOME_SET);
-		} else {
+		if(marriage == null) {
 			reply(Message.NOT_MARRIED);
+			return;
 		}
+
+		marriage.setHome(player.getLocation().clone());
+		reply(Message.HOME_SET);
 	}
 }

@@ -23,19 +23,20 @@ public class CommandSeen extends Command {
     public void execute() {
         MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
         MData marriage = mPlayer.getMarriage();
-        if(marriage != null) {
-            MPlayer mp = this.marriage.getMPlayer(marriage.getOtherPlayer(player.getUniqueId()));
-            Player partner = Bukkit.getPlayer(marriage.getOtherPlayer(player.getUniqueId()));
-            if(partner != null) {
-                long time = System.currentTimeMillis() - mp.getLastLogin();
-                reply(Message.ONLINE_SINCE, format(time));
-            } else {
-                long time = System.currentTimeMillis() - mp.getLastLogout();
-                ((MarriageCore) this.marriage).unloadPlayer(marriage.getOtherPlayer(player.getUniqueId()));
-                reply(Message.OFFLINE_SINCE, format(time));
-            }
-        } else {
+        if(marriage == null) {
             reply(Message.NOT_MARRIED);
+            return;
+        }
+
+        MPlayer mp = this.marriage.getMPlayer(marriage.getOtherPlayer(player.getUniqueId()));
+        Player partner = Bukkit.getPlayer(marriage.getOtherPlayer(player.getUniqueId()));
+        if(partner != null) {
+            long time = System.currentTimeMillis() - mp.getLastLogin();
+            reply(Message.ONLINE_SINCE, format(time));
+        } else {
+            long time = System.currentTimeMillis() - mp.getLastLogout();
+            ((MarriageCore) this.marriage).unloadPlayer(marriage.getOtherPlayer(player.getUniqueId()));
+            reply(Message.OFFLINE_SINCE, format(time));
         }
     }
 

@@ -17,11 +17,12 @@ public class CommandDivorce extends Command {
 	public void execute() {
 		MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
 		MPlayer partner = mPlayer.getPartner();
-		if(partner != null) {
-			mPlayer.divorce();
-			broadcast(Message.DIVORCED, player.getName(), Bukkit.getOfflinePlayer(partner.getUniqueId()).getName());
-		} else {
+		if(partner == null) {
 			reply(Message.NOT_MARRIED);
+			return;
 		}
+
+		mPlayer.divorce();
+		broadcast(Message.DIVORCED, player.getName(), Bukkit.getOfflinePlayer(partner.getUniqueId()).getName());
 	}
 }
