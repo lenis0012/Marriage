@@ -22,7 +22,7 @@ public class Updater {
 
     private final int projectId;
     private final JsonParser jsonParser;
-    private final String currentVersion;
+    private String currentVersion;
     private final File pluginFile;
     private boolean enabled;
     private String apiKey;
@@ -77,6 +77,11 @@ public class Updater {
             while((length = input.read(buffer, 0, buffer.length)) != -1) {
                 output.write(buffer, 0, length);
             }
+
+            // Don't warn players again hehehe :)
+            this.currentVersion = newVersion.getName();
+            this.isOutdated = false;
+            
             MarriagePlugin.getInstance().getLogger().log(Level.INFO, "Download complete");
             return null;
         } catch(IOException e) {
