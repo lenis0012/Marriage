@@ -10,10 +10,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 
 import com.google.common.collect.Lists;
 import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.misc.LockedReference;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -23,96 +27,78 @@ import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import org.bukkit.entity.Player;
 
 public class DataManager {
+	private final LockedReference<Connection> supplier;
 	private final MarriageCore core;
-	private final String url;
 	private final String prefix;
 	
 	public DataManager(MarriageCore core, FileConfiguration config) {
 		this.core = core;
-		String driver = "org.sqlite.JDBC";
-		String idLine = "id INTEGER PRIMARY KEY AUTOINCREMENT,";
-		String endLine = ");";
+		Driver driver = Driver.SQLITE;
 
+		String url;
 		if(config.getBoolean("MySQL.enabled")) {
 			String user = config.getString("MySQL.user", "root");
 			String pswd = config.getString("MySQL.password", "");
 			String host = config.getString("MySQL.host", "localhost:3306");
 			String database = config.getString("MySQL.database", "myserver");
 			this.prefix = config.getString("MySQL.prefix", "marriage_");
-			this.url = String.format("jdbc:mysql://%s/%s?user=%s&password=%s", host, database, user, pswd);
-			idLine = "id INT NOT NULL AUTO_INCREMENT,";
-			endLine = ",PRIMARY KEY(id));";
+			url = String.format("jdbc:mysql://%s/%s?user=%s&password=%s", host, database, user, pswd);
+			driver = Driver.MYSQL;
 		} else {
-			this.url = String.format("jdbc:sqlite:%s", new File(core.getPlugin().getDataFolder(), "database.db"));
+			url = String.format("jdbc:sqlite:%s", new File(core.getPlugin().getDataFolder(), "database.db").getPath());
 			this.prefix = "";
 		}
 		
 		try {
-			Class.forName(driver);
+			driver.initiate();
 		} catch(Exception e) {
 			core.getLogger().log(Level.SEVERE, "Failed to initiate database driver", e);
 		}
-		
-		Connection connection = newConnection();
+
+		// Create cached connection supplier.
+		this.supplier = new LockedReference<>(new ConnectionSupplier(url), 30L, TimeUnit.SECONDS, new ConnectionInvalidator());
+
+		DBUpgrade upgrade = new DBUpgrade();
+		Connection connection = supplier.access();
 		try {
 			Statement statement = connection.createStatement();
-			statement.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %splayers ("
-//					+ "id INT NOT NULL AUTO_INCREMENT,"
-					+ "unique_user_id VARCHAR(128) NOT NULL UNIQUE,"
-					+ "gender VARCHAR(32),"
-					+ "priest BIT,"
-					+ "lastlogin BIGINT);", prefix));
-			statement.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %sdata ("
-                    + idLine
-                    + "player1 VARCHAR(128) NOT NULL,"
-                    + "player2 VARCHAR(128) NOT NULL,"
-                    + "home_world VARCHAR(128) NOT NULL,"
-                    + "home_x DOUBLE,"
-                    + "home_y DOUBLE,"
-                    + "home_z DOUBLE,"
-                    + "home_yaw FLOAT,"
-                    + "home_pitch FLOAT,"
-                    + "pvp_enabled BIT"
-                    + endLine, prefix));
-		} catch (SQLException e) {
-			core.getLogger().log(Level.WARNING, "Failed to load player data", e);
-		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					;
+			driver.runSetup(statement, prefix);
+			ResultSet result = statement.executeQuery(String.format("SELECT * FROM %sversion;", prefix));
+			if(result.next()) {
+				int dbVersion = result.getInt("version_id");
+				if(dbVersion < upgrade.getVersionId()) {
+					// TODO: Apply database upgrade.
 				}
+			} else {
+				statement.executeUpdate(String.format("INSERT INTO %sversion (version_id) VALUES(%s);", prefix, upgrade.getVersionId()));
 			}
+		} catch (SQLException e) {
+			core.getLogger().log(Level.WARNING, "Failed to initiate database", e);
+		} finally {
+			supplier.finish();
 		}
 	}
 	
 	public MarriagePlayer loadPlayer(UUID uuid) {
 		MarriagePlayer player = null;
-		Connection connection = newConnection();
+		Connection connection = supplier.access();
 		try {
 			PreparedStatement ps = connection.prepareStatement(String.format(
-                    "SELECT * FROM %splayers WHERE unique_user_id=?;", prefix));
+					"SELECT * FROM %splayers WHERE unique_user_id=?;", prefix));
 			ps.setString(1, uuid.toString());
 			player = new MarriagePlayer(uuid, ps.executeQuery());
 			loadMarriages(connection, player, false);
 		} catch (SQLException e) {
 			core.getLogger().log(Level.WARNING, "Failed to load player data", e);
 		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					;
-				}
-			}
+			supplier.finish();
 		}
 		
 		return player;
 	}
 	
 	public void savePlayer(MarriagePlayer player) {
-		Connection connection = newConnection();
+		Connection connection = supplier.access();
 		try {
 			PreparedStatement ps = connection.prepareStatement(String.format(
 					"SELECT * FROM %splayers WHERE unique_user_id=?;", prefix));
@@ -160,19 +146,13 @@ public class DataManager {
 		} catch (SQLException e) {
 			core.getLogger().log(Level.WARNING, "Failed to load player data", e);
 		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					;
-				}
-			}
+			supplier.finish();
 		}
 	}
 	
 	private void loadMarriages(Connection connection, MarriagePlayer player, boolean alt) throws SQLException {
 		PreparedStatement ps = connection.prepareStatement(String.format(
-                "SELECT * FROM %sdata WHERE %s=?;", prefix, alt ? "player2" : "player1", prefix));
+				"SELECT * FROM %sdata WHERE %s=?;", prefix, alt ? "player2" : "player1", prefix));
 		ps.setString(1, player.getUniqueId().toString());
 		ResultSet result = ps.executeQuery();
 		while(result.next()) {
@@ -193,7 +173,7 @@ public class DataManager {
 	}
 
     public void deleteMarriage(UUID player1, UUID player2) {
-        Connection connection = newConnection();
+        Connection connection = supplier.access();
         try {
             PreparedStatement ps = connection.prepareStatement(String.format("DELETE FROM %sdata WHERE player1=? AND player2=?;", prefix));
             ps.setString(1, player1.toString());
@@ -202,18 +182,12 @@ public class DataManager {
         } catch (SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to load player data", e);
         } finally {
-            if(connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    ;
-                }
-            }
+            supplier.finish();
         }
     }
 	
 	public ListQuery listMarriages(int scale, int page) {
-		Connection connection = newConnection();
+		Connection connection = supplier.access();
 		try {
 			// Count rows to get amount of pages
 			PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) FROM " + prefix + "data;");
@@ -237,22 +211,36 @@ public class DataManager {
 			core.getLogger().log(Level.WARNING, "Failed to load marriage list", e);
 			return new ListQuery(0, 0, new ArrayList<MData>());
 		} finally {
-			if(connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					;
-				}
+			supplier.finish();
+		}
+	}
+
+	private static final class ConnectionSupplier implements Supplier<Connection> {
+		private final String url;
+
+		private ConnectionSupplier(String url) {
+			this.url = url;
+		}
+
+		@Override
+		public Connection get() {
+			try {
+				return DriverManager.getConnection(url);
+			} catch(SQLException e) {
+				return null;
 			}
 		}
 	}
-	
-	private Connection newConnection() {
-		try {
-			return DriverManager.getConnection(url);
-		} catch (SQLException e) {
-			core.getLogger().log(Level.WARNING, "Failed to connect to database", e);
-			return null;
+
+	private static final class ConnectionInvalidator implements Consumer<Connection> {
+
+		@Override
+		public void accept(Connection connection) {
+			// Try to close connection
+			try {
+				connection.close();
+			} catch(SQLException e) {
+			}
 		}
 	}
 }

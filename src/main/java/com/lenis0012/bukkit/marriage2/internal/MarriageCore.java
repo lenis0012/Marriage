@@ -74,9 +74,7 @@ public class MarriageCore extends MarriageBase {
 	public MPlayer getMPlayer(UUID uuid) {
 		MarriagePlayer player = players.get(uuid);
 		if(player == null) {
-			dbLock.lock();
 			player = dataManager.loadPlayer(uuid);
-			dbLock.unlock();
 			players.put(uuid, player);
 		}
 		

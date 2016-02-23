@@ -20,9 +20,6 @@ import java.util.logging.Level;
 public class DataConverter {
     private final MarriageCore core;
     private File dir;
-    private int totalFiles;
-    private int completed;
-    private int lastPercent;
 
     public DataConverter(MarriageCore core) {
         this.core = core;
@@ -34,15 +31,16 @@ public class DataConverter {
     }
 
     public void convert() {
+        long lastMessage = 0;
         String[] files = dir.list();
-        this.totalFiles = files.length;
+        int totalFiles = files.length;
         core.getLogger().log(Level.INFO, "Converting " + totalFiles + " old database entries...");
         core.getLogger().log(Level.INFO, "Retrieving UUIDs...");
 
         // Retrieve UUIDs from mojang
         Map<String, UUID> uuidMap = Maps.newHashMap();
         UUIDFetcher uuidFetcher = new UUIDFetcher(new ArrayList<String>());
-        for(completed = 0; completed < totalFiles; completed++) {
+        for(int completed = 0; completed < totalFiles; completed++) {
             String name = files[completed].replace(".yml", "");
             uuidFetcher.addName(name);
             if(uuidFetcher.size() >= 100 || completed >= totalFiles - 1) {
@@ -54,16 +52,16 @@ public class DataConverter {
                 }
             }
 
-//            int percent = (int) (((completed + 1) / (double) totalFiles) * 100.0);
-//            if(percent >= lastPercent + 5) {
-//                lastPercent += 5;
-//                reportStatus(percent);
-//            }
+            double progress = (completed + 1.0) / totalFiles;
+            if(System.currentTimeMillis() >= lastMessage) {
+                lastMessage = System.currentTimeMillis() + 2500; // Update every 2.5 seconds
+                reportStatus(progress);
+            }
         }
 
         // Insert data into new DB...
         core.getLogger().log(Level.INFO, "Inserting user data into new database...");
-        this.completed = 0;
+        int completed = 0;
         for(Map.Entry<String, UUID> entry : uuidMap.entrySet()) {
             try {
                 String name = entry.getKey();
@@ -93,7 +91,13 @@ public class DataConverter {
                     }
                 }
             } catch(Exception e) {
-                core.getLogger().log(Level.WARNING, "Failed to convert data for player!", e);
+                core.getLogger().log(Level.WARNING, "Failed to convert data for player " + entry.getKey(), e);
+            }
+
+            double progress = ++completed / (double) uuidMap.size();
+            if(System.currentTimeMillis() >= lastMessage) {
+                lastMessage = System.currentTimeMillis() + 2500; // Update every 2.5 seconds
+                reportStatus(progress);
             }
         }
 
@@ -103,15 +107,27 @@ public class DataConverter {
 
         // Reset old data
         core.getLogger().log(Level.INFO, "Renaming playerdata file...");
+        int remainingTries = 60; // Try 60 times
         while(!dir.renameTo(new File(core.getPlugin().getDataFolder(), "playerdata_backup"))) {
+            long sleepTime = 500L;
+
+            // Limit to take 30 seconds max
+            if(remainingTries-- <= 0) {
+                core.getLogger().log(Level.WARNING, "Failed to rename old playerdata file, please do manually!");
+                core.getLogger().log(Level.INFO, "Server starting normally in 10 seconds.");
+                sleepTime = 10000L;
+            }
+
+            // Wait
             try {
-                Thread.sleep(50L);
+                Thread.sleep(sleepTime);
             } catch(InterruptedException e) {
             }
         }
     }
 
-    private void reportStatus(int percent) {
+    private void reportStatus(double progress) {
+        int percent = (int) Math.floor(progress * 100);
         StringBuilder bar = new StringBuilder("[");
         for(int i = 0; i < percent; i+= 5) {
             bar.append('=');
