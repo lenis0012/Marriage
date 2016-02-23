@@ -1,0 +1,17 @@
+{
+  "version": "Marriage v2.0",
+  "data":
+  [
+    [
+      "---[ Changelog ]---",
+      "",
+      "- Much better performance",
+      "",
+      "- UUID support",
+      "",
+      "- MySQL and SQLite support",
+      "",
+      "- New configuration files with more options"
+    ]
+  ]
+}

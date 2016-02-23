@@ -8,11 +8,15 @@ import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.concurrent.TimeUnit;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
 
 public class Updater {
@@ -30,6 +34,7 @@ public class Updater {
     private Version newVersion = null;
     private boolean isOutdated = false;
     private long lastUpdateCheck = 0L;
+    private ItemStack changelog;
 
     public Updater(MarriageCore core, int projectId, File pluginFile) {
         MarriagePlugin plugin = core.getPlugin();
@@ -58,6 +63,10 @@ public class Updater {
         return !isOutdated;
     }
 
+    public ItemStack getChangelog() {
+        return changelog;
+    }
+
     public Version getNewVersion() {
         return newVersion;
     }
@@ -71,7 +80,8 @@ public class Updater {
             Bukkit.getUpdateFolderFile().mkdir();
             URL url = new URL(newVersion.getDownloadURL());
             input = url.openStream();
-            output = new FileOutputStream(new File(Bukkit.getUpdateFolderFile(), pluginFile.getName()));
+            File dest = new File(Bukkit.getUpdateFolderFile(), pluginFile.getName());
+            output = new FileOutputStream(dest);
             byte[] buffer = new byte[1024];
             int length;
             while((length = input.read(buffer, 0, buffer.length)) != -1) {
@@ -81,7 +91,8 @@ public class Updater {
             // Don't warn players again hehehe :)
             this.currentVersion = newVersion.getName();
             this.isOutdated = false;
-            
+            readChangelog(dest); // Try to read changelog
+
             MarriagePlugin.getInstance().getLogger().log(Level.INFO, "Download complete");
             return null;
         } catch(IOException e) {
@@ -129,6 +140,60 @@ public class Updater {
         } catch(IOException e) {
             MarriagePlugin.getInstance().getLogger().log(Level.WARNING, "Failed to check for updates", e);
         }
+    }
+
+    /**
+     * Read changelog from file inside of jar called changelog.json.
+     *
+     * @param file Jar File to read from
+     */
+    private void readChangelog(File file) {
+        ItemStack book = new ItemStack(Material.WRITTEN_BOOK, 1);
+        BookMeta meta = (BookMeta) book.getItemMeta();
+        meta.setAuthor("lenis0012");
+        meta.setTitle(currentVersion + " Changelog");
+        JsonObject json;
+
+        JarFile jarFile = null;
+        try {
+            jarFile = new JarFile(file);
+            InputStream input = jarFile.getInputStream(jarFile.getEntry("changelog.json"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            StringBuilder builder = new StringBuilder();
+            String line;
+            while((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+            json = jsonParser.parse(builder.toString()).getAsJsonObject();
+        } catch(Exception e) {
+            MarriagePlugin.getInstance().getLogger().log(Level.WARNING, "Failed to read jar file", e);
+            return;
+        } finally {
+            if(jarFile != null) {
+                try {
+                    jarFile.close();
+                } catch(IOException e) {
+                }
+            }
+        }
+
+        if(!json.get("version").getAsString().equalsIgnoreCase(newVersion.getName())) {
+            // Changelog outdated, don't show
+            return;
+        }
+
+        JsonArray pages = json.get("data").getAsJsonArray();
+        for(int i = 0; i < pages.size(); i++) {
+            JsonArray lines = pages.get(i).getAsJsonArray();
+            StringBuilder page = new StringBuilder();
+            for(int j = 0; j < lines.size(); j++) {
+                page.append(lines.get(j).getAsString()).append('\n');
+            }
+            page.setLength(page.length() - 1);
+            meta.addPage(page.toString());
+        }
+        book.setItemMeta(meta);
+        this.changelog = book;
     }
 
     private boolean compateVersions(String oldVersion, String newVersion) {

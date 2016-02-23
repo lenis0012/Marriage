@@ -1,10 +1,12 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
 import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.misc.update.Updater;
 import com.lenis0012.bukkit.marriage2.misc.update.Version;
 import org.bukkit.Bukkit;
+import org.bukkit.inventory.ItemStack;
 
 public class CommandUpdate extends Command {
 
@@ -33,6 +35,19 @@ public class CommandUpdate extends Command {
                     @Override
                     public void run() {
                         reply(response);
+                        if(!Settings.ENABLE_CHANGELOG.value()) {
+                            return;
+                        }
+
+                        ItemStack changelog = updater.getChangelog();
+                        if(changelog == null) {
+                            reply("&cChangelog isn't available for this version.");
+                            return;
+                        }
+
+                        player.setItemInHand(changelog);
+                        reply("&llenis> &bCheck my changelog out! (I put it in your hand)");
+                        player.updateInventory();
                     }
                 });
             }

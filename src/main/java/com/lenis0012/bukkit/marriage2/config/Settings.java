@@ -25,7 +25,8 @@ public class Settings<T> {
     public static final Settings<Integer> KISSES_AMOUNT_MAX = new Settings<>("kisses.amount-max", 10);
 
 	public static final Settings<Boolean> ENABLE_PRIEST = new Settings<>("enable-priests", false);
-	public static final Settings<Boolean> ENABLE_UPDATE_CHACKER = new Settings<>("update-checker", true);
+	public static final Settings<Boolean> ENABLE_UPDATE_CHACKER = new Settings<>("updater.enabled", true);
+    public static final Settings<Boolean> ENABLE_CHANGELOG = new Settings<>("updater.changelog", true);
 	
 	private final String key;
 	private final T def;
