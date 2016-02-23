@@ -94,6 +94,10 @@ public class MarriageCore extends MarriageBase {
 		return dataManager.listMarriages(scale, page);
 	}
 
+	public DataManager getDataManager() {
+		return dataManager;
+	}
+
     public void removeMarriage(final MData mdata) {
         new Thread() {
             @Override

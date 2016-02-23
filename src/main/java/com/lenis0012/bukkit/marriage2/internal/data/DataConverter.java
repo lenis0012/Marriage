@@ -52,7 +52,7 @@ public class DataConverter {
                 }
             }
 
-            double progress = (completed + 1.0) / totalFiles;
+            double progress = (completed + 1.0) / (double) totalFiles;
             if(System.currentTimeMillis() >= lastMessage) {
                 lastMessage = System.currentTimeMillis() + 2500; // Update every 2.5 seconds
                 reportStatus(progress);
@@ -64,16 +64,16 @@ public class DataConverter {
         int completed = 0;
         for(Map.Entry<String, UUID> entry : uuidMap.entrySet()) {
             try {
+                MarriagePlayer mp = core.getDataManager().loadPlayer(entry.getValue());
                 String name = entry.getKey();
                 File file = new File(dir, name + ".yml");
                 FileConfiguration cnf = YamlConfiguration.loadConfiguration(file);
                 cnf.load(file);
 
-                MPlayer mp = core.getMPlayer(entry.getValue());
-                if(cnf.contains("partner")) {
+                if(cnf.contains("partner") && !mp.isMarried()) {
                     UUID uuid = uuidMap.get(cnf.getString("partner"));
                     if(uuid != null) {
-                        MPlayer mp2 = core.getMPlayer(uuid);
+                        MarriagePlayer mp2 = core.getDataManager().loadPlayer(uuid);
                         MData mdata = core.marry(mp, mp2);
 
                         if(cnf.contains("home")) {
@@ -88,6 +88,9 @@ public class DataConverter {
                                 mdata.setHome(location);
                             }
                         }
+                        // Only save if players are married, otherwise we really don't care.
+                        core.getDataManager().savePlayer(mp);
+                        core.getDataManager().savePlayer(mp2);
                     }
                 }
             } catch(Exception e) {
@@ -100,10 +103,6 @@ public class DataConverter {
                 reportStatus(progress);
             }
         }
-
-        // Save changes
-        core.getLogger().log(Level.INFO, "Saving changes in database...");
-        core.unloadAll();
 
         // Reset old data
         core.getLogger().log(Level.INFO, "Renaming playerdata file...");
