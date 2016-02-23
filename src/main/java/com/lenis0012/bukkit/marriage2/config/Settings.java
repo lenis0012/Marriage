@@ -20,6 +20,10 @@ public class Settings<T> {
 //	public static final Settings<Integer> COOLDOWN_DIVORCE = new Settings<>("cooldown.divorce", 0);
 	public static final Settings<Integer> COOLDOWN_KISS = new Settings<>("cooldown.kiss", 2);
 
+    public static final Settings<String> PM_FORMAT = new Settings<>("chat.pm-format", "&4{heart}&c{name}&4{heart} &7{message}");
+    public static final Settings<String> CHAT_FORMAT = new Settings<>("chat.chat-married-format", "&4&l<3 &r{original_format}");
+    public static final Settings<String> CHAT_PRIORITY = new Settings<>("chat.chat-priority", "HIGH");
+
     public static final Settings<Boolean> KISSES_ENABLED = new Settings<>("kisses.enabled", true);
     public static final Settings<Integer> KISSES_AMOUNT_MIN = new Settings<>("kisses.amount-min", 5);
     public static final Settings<Integer> KISSES_AMOUNT_MAX = new Settings<>("kisses.amount-max", 10);
@@ -44,6 +48,11 @@ public class Settings<T> {
 	
 	@SuppressWarnings("unchecked")
 	private void reload(FileConfiguration config) {
+        config.options().header("Marriage Reloaded 2.X\n\n" +
+                "Expiry & Cool down is in seconds.\n\n" +
+                "Chat format supports: {heart}, {name}, {message} and {original_format}\n" +
+                "Note: If you replace {original_format} with something else, set the priority to LOW.\n\n" +
+                "The rest should be straight forward. if not, comment on bukkitdev.");
 		if(config.contains(key)) {
 			this.value = (T) config.get(key);
 		} else {

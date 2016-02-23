@@ -2,6 +2,8 @@ package com.lenis0012.bukkit.marriage2.config;
 
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.entity.Player;
 
 public enum Message {
 	PLAYER_NOT_FOUND("&cNo player named %s was found!"),
@@ -50,6 +52,10 @@ public enum Message {
 	@Override
 	public String toString() {
 		return message;
+	}
+
+	public void send(Player player) {
+		player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
 	}
 	
 	public static void reloadAll(Marriage marriage) {
