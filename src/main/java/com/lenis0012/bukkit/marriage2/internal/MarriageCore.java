@@ -23,7 +23,6 @@ import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 
 public class MarriageCore extends MarriageBase {
 	private final Map<UUID, MarriagePlayer> players = Collections.synchronizedMap(new HashMap<UUID, MarriagePlayer>());
-	private final Lock dbLock = new ReentrantLock();
 	private DataManager dataManager;
 	
 	public MarriageCore(MarriagePlugin plugin) {

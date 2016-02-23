@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import com.google.common.collect.Lists;
 
@@ -12,11 +13,13 @@ import com.lenis0012.bukkit.marriage2.Gender;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
+import com.lenis0012.bukkit.marriage2.misc.Cooldown;
 
 public class MarriagePlayer implements MPlayer {
-	private final List<UUID> requests = Lists.newArrayList();
+	private final Cooldown<UUID> requests;
 	private final UUID uuid;
 	private MData marriage;
 	private Gender gender = Gender.UNKNOWN;
@@ -33,6 +36,7 @@ public class MarriagePlayer implements MPlayer {
 			this.lastLogout = data.getLong("lastlogin");
 		}
 		this.lastLogin = System.currentTimeMillis();
+		this.requests = new Cooldown<>(Settings.REQUEST_EXPRY.value(), TimeUnit.SECONDS);
 	}
 	
 	public void addMarriage(MarriageData data) {
@@ -53,12 +57,12 @@ public class MarriagePlayer implements MPlayer {
 
 	@Override
 	public void requestMarriage(UUID from) {
-		requests.add(from);
+		requests.set(from);
 	}
 
 	@Override
 	public boolean isMarriageRequested(UUID from) {
-		return requests.contains(from);
+		return requests.isCached(from);
 	}
 
 	@Override

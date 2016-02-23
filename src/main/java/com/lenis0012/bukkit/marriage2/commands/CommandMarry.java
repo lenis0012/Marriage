@@ -8,8 +8,10 @@ import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
 
+import java.util.UUID;
+
 public class CommandMarry extends Command {
-	
+
 	public CommandMarry(Marriage marriage) {
 		super(marriage, "marry");
         if(Settings.ENABLE_PRIEST.value()) {
@@ -64,10 +66,13 @@ public class CommandMarry extends Command {
                             if (mPlayer.isMarriageRequested(target.getUniqueId())) {
                                 marriage.marry(mPlayer, mTarget);
                                 broadcast(Message.MARRIED, player.getName(), target.getName());
-                            } else {
+                            } else if(!mTarget.isMarriageRequested(player.getUniqueId())) {
                                 mTarget.requestMarriage(player.getUniqueId());
                                 target.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(Message.MARRIAGE_REQUESTED.toString(), player.getName(), player.getName())));
                                 reply(Message.REQUEST_SENT, target.getName());
+                            } else {
+                                // Already requested, cooling down.
+                                reply(Message.COOLDOWN);
                             }
                         } else {
                             reply(Message.TARGET_ALREADY_MARRIED, getArg(-1));

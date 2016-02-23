@@ -21,7 +21,6 @@
  */
 package com.lenis0012.bukkit.marriage2.misc;
 
-import com.google.common.collect.ImmutableList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
