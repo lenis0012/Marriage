@@ -18,6 +18,7 @@ public class Settings<T> {
 	public static final Settings<Integer> COOLDOWN_MARRY = new Settings<>("cooldown.marry", 120);
 	public static final Settings<Integer> COOLDOWN_GIFT = new Settings<>("cooldown.gift", 0);
 	public static final Settings<Integer> COOLDOWN_DIVORCE = new Settings<>("cooldown.divorce", 0);
+	public static final Settings<Integer> COOLDOWN_KISS = new Settings<>("cooldown.kiss", 2);
 	public static final Settings<Boolean> ENABLE_PRIEST = new Settings<>("enable-priests", false);
 	
 	private final String key;

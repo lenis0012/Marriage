@@ -1,13 +1,11 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
+import com.lenis0012.bukkit.marriage2.misc.Cooldown;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Bukkit;
@@ -20,13 +18,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class KissListener implements Listener {
-    private final List<String> cooldown = Lists.newArrayList();
+    private final Cooldown<String> cooldown;
     private final MarriageCore core;
 
     public KissListener(MarriageCore core) {
         this.core = core;
+        this.cooldown = new Cooldown<>(Settings.COOLDOWN_KISS.value(), TimeUnit.SECONDS);
     }
 
     @EventHandler
@@ -40,9 +40,7 @@ public class KissListener implements Listener {
                 if(mp.isMarried()) {
                     MData data = mp.getMarriage();
                     if(clicked.getUniqueId().toString().equalsIgnoreCase(data.getOtherPlayer(player.getUniqueId()).toString())) {
-                        if(!cooldown.contains(player.getName()) && !cooldown.contains(clicked.getName())) {
-                            cooldown.add(player.getName());
-                            cooldown.add(clicked.getName());
+                        if(cooldown.performCheck(player.getName()) && cooldown.performCheck(clicked.getName())) {
                             Location l1 = player.getEyeLocation();
                             Location l2 = clicked.getEyeLocation();
                             Location l = l1.clone().add((l2.getX() - l1.getX()) / 2, (l2.getY() - l1.getY()) / 2, (l2.getZ() - l1.getZ()) / 2);
@@ -51,14 +49,6 @@ public class KissListener implements Listener {
                             for(Player p : player.getWorld().getPlayers()) {
                                 ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
                             }
-
-                            Bukkit.getScheduler().runTaskLater(core.getPlugin(), new Runnable() {
-                                @Override
-                                public void run() {
-                                    cooldown.remove(player.getName());
-                                    cooldown.remove(clicked.getName());
-                                }
-                            }, 40L);
                         }
                     }
                 }
