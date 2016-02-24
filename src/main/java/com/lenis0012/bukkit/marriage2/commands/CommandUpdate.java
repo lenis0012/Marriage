@@ -3,8 +3,8 @@ package com.lenis0012.bukkit.marriage2.commands;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
-import com.lenis0012.bukkit.marriage2.misc.update.Updater;
-import com.lenis0012.bukkit.marriage2.misc.update.Version;
+import com.lenis0012.updater.api.Updater;
+import com.lenis0012.updater.api.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 

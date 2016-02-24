@@ -11,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.lenis0012.bukkit.marriage2.Marriage;
 
 public class MarriagePlugin extends JavaPlugin {
-	public static final int MARRIAGE_MOD_ID = 44364;
 	private static MarriageCore core;
 	
 	public static Marriage getInstance() {

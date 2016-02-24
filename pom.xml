@@ -40,19 +40,12 @@
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.spigotmc</groupId>-->
-            <!--<artifactId>spigot</artifactId>-->
-            <!--<version>1.8-R0.1-SNAPSHOT</version>-->
-            <!--<scope>system</scope>-->
-            <!--<systemPath>${project.basedir}/lib/spigot.jar</systemPath>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.google.guava</groupId>-->
-            <!--<artifactId>guava</artifactId>-->
-            <!--<version>17.0</version>-->
-            <!--<scope>compile</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.lenis0012.updater</groupId>
+            <artifactId>updater-api</artifactId>
+            <version>1</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -60,6 +53,87 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>bukkit</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.lenis0012.updater</groupId>
+                    <artifactId>updater-bukkit</artifactId>
+                    <version>1</version>
+                    <scope>compile</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>2.4</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <finalName>Marriage-Bukkit</finalName>
+                                    <artifactSet>
+                                        <includes>
+                                            <include>com.lenis0012.updater:updater-api</include>
+                                            <include>com.lenis0012.updater:updater-bukkit</include>
+                                        </includes>
+                                    </artifactSet>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>spigot</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.lenis0012.updater</groupId>
+                    <artifactId>updater-spigot</artifactId>
+                    <version>1</version>
+                    <scope>compile</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>2.4</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <finalName>Marriage-Spigot</finalName>
+                                    <artifactSet>
+                                        <includes>
+                                            <include>com.lenis0012.updater:updater-api</include>
+                                            <include>com.lenis0012.updater:updater-spigot</include>
+                                        </includes>
+                                    </artifactSet>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <!-- Build -->
     <build>
@@ -73,7 +147,7 @@
                 </includes>
             </resource>
         </resources>
-        <defaultGoal>clean install</defaultGoal>
+        <!--<defaultGoal>install</defaultGoal>-->
         <finalName>${project.name}</finalName>
         <!-- Plugins -->
         <plugins>
@@ -98,27 +172,6 @@
                     <show>public</show>
                 </configuration>
             </plugin>
-            <!-- Shade guava to make sure we have the reflection API even on older versions of bukkit -->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-shade-plugin</artifactId>-->
-                <!--<version>2.2</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>shade</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<artifactSet>-->
-                                <!--<includes>-->
-                                    <!--<include>com.google.guava:guava</include>-->
-                                <!--</includes>-->
-                            <!--</artifactSet>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
         </plugins>
     </build>
 </project>

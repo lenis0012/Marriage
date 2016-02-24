@@ -2,8 +2,8 @@ package com.lenis0012.bukkit.marriage2.listeners;
 
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
-import com.lenis0012.bukkit.marriage2.misc.update.Updater;
-import com.lenis0012.bukkit.marriage2.misc.update.Version;
+import com.lenis0012.updater.api.Updater;
+import com.lenis0012.updater.api.Version;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
