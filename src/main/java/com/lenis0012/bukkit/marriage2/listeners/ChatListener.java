@@ -1,7 +1,6 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import org.bukkit.Bukkit;
@@ -13,7 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class ChatListener implements Listener {
-    private static final EventPriority PRIORITY = EventPriority.valueOf(Settings.CHAT_PRIORITY.value().toUpperCase());
     private final MarriageCore core;
 
     public ChatListener(MarriageCore core) {
