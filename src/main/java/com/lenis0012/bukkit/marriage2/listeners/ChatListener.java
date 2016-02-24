@@ -45,17 +45,17 @@ public class ChatListener implements Listener {
             return;
         }
 
-        if(Settings.CHAT_PRIORITY.value().toLowerCase().contains("high")) {
-            handleChat(event, mp);
-        }
+//        if(Settings.CHAT_PRIORITY.value().toLowerCase().contains("high")) {
+//            handleChat(event, mp);
+//        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerChatLate(AsyncPlayerChatEvent event) {
-        if(!Settings.CHAT_PRIORITY.value().toLowerCase().contains("low") || event.isCancelled()) return;
-        final Player player = event.getPlayer();
-        MPlayer mp = core.getMPlayer(player.getUniqueId());
-        handleChat(event, mp);
+//        if(!Settings.CHAT_PRIORITY.value().toLowerCase().contains("low") || event.isCancelled()) return;
+//        final Player player = event.getPlayer();
+//        MPlayer mp = core.getMPlayer(player.getUniqueId());
+//        handleChat(event, mp);
     }
 
     private void handleChat(AsyncPlayerChatEvent event, MPlayer mp) {
