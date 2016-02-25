@@ -34,7 +34,7 @@ public class MarriageCore extends MarriageBase {
 	public void loadConfig() {
 //		plugin.saveDefaultConfig();
 		enable();
-		Settings.reloadAll(this);
+		Settings.reloadAll(this, true);
 		Message.reloadAll(this);
 	}
 	

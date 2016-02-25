@@ -55,7 +55,7 @@ public enum Permissions {
         if(parent >= 0 && values()[parent].has(sender)) {
             return true;
         }
-        
+
         return sender.hasPermission(node);
 
 //        if(permissionService != null) {

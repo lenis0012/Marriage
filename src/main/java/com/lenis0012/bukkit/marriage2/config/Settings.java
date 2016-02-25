@@ -21,7 +21,7 @@ public class Settings<T> {
 	public static final Settings<Integer> COOLDOWN_KISS = new Settings<>("cooldown.kiss", 2);
 
     public static final Settings<String> PM_FORMAT = new Settings<>("chat.pm-format", "&4{heart}&c{name}&4{heart} &7{message}");
-    public static final Settings<String> CHAT_FORMAT = new Settings<>("chat.status-format", "&4&l<3 ");
+    public static final Settings<String> CHAT_FORMAT = new Settings<>("chat.status-format", "&4&l<3 &r");
     public static final Settings<Boolean> FORCE_FORMAT = new Settings<>("chat.force-status-format", true);
 
     public static final Settings<Boolean> KISSES_ENABLED = new Settings<>("kisses.enabled", true);
@@ -45,30 +45,46 @@ public class Settings<T> {
 	public T value() {
 		return value;
 	}
+
+    private void writeToConfig(FileConfiguration config) {
+        config.set(key, value);
+    }
 	
 	@SuppressWarnings("unchecked")
 	private void reload(FileConfiguration config) {
-        config.options().header("Marriage Reloaded 2.X\n\n" +
-                "Expiry & Cool down is in seconds.\n\n" +
-                "PM format supports: {heart}, {name}, {message}. Chat format supports {heart}\n" +
-                "Note: If you have a custom chat plugin, set forced to false and put {marriage_status}\n" +
-                "somewhere in your chat plugin's format.\n\n" +
-                "The rest should be straight forward. if not, comment on bukkitdev.");
 		if(config.contains(key)) {
 			this.value = (T) config.get(key);
 		} else {
-			config.set(key, def);
 			this.value = def;
 		}
 	}
 	
-	public static final void reloadAll(MarriageCore core) {
+	public static final void reloadAll(MarriageCore core, boolean initial) {
 		FileConfiguration config = core.getPlugin().getConfig();
 		for(Settings<?> setting : cache) {
 			setting.reload(config);
 		}
-		
-		core.getPlugin().saveConfig();
+
+        if(initial) {
+            // Reset config
+            for(String key : config.getKeys(false)) {
+                config.set(key, null);
+            }
+
+            // Write current values
+            for(Settings<?> setting : cache) {
+                setting.writeToConfig(config);
+            }
+
+            // Write header
+            config.options().header("Marriage Reloaded 2.X\n\n" +
+                    "Expiry & Cool down is in seconds.\n\n" +
+                    "PM format supports: {heart}, {name}, {message}. Chat format supports {heart}\n" +
+                    "Note: If you have a custom chat plugin, set forced to false and put {marriage_status}\n" +
+                    "somewhere in your chat plugin's format.\n\n" +
+                    "The rest should be straight forward. if not, comment on bukkitdev.");
+            core.getPlugin().saveConfig();
+        }
 	}
 	
 	public static final List<Settings<?>> values() {
