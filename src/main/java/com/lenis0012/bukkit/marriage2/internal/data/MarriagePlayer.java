@@ -95,12 +95,12 @@ public class MarriagePlayer implements MPlayer {
 	@Override
 	public MPlayer getPartner() {
 		Marriage core = MarriagePlugin.getInstance();
-		UUID id = null;
 		if(marriage != null) {
-			id = uuid.equals(marriage.getPlayer1Id()) ? marriage.getPllayer2Id() : marriage.getPlayer1Id();
+			UUID id = uuid.equals(marriage.getPlayer1Id()) ? marriage.getPllayer2Id() : marriage.getPlayer1Id();
+			return core.getMPlayer(id);
 		}
 		
-		return core.getMPlayer(id);
+		return null;
 	}
 
 	@Override

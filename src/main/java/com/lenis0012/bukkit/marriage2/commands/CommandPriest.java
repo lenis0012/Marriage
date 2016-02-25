@@ -3,6 +3,7 @@ package com.lenis0012.bukkit.marriage2.commands;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
+import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import org.bukkit.entity.Player;
 
@@ -16,7 +17,7 @@ public class CommandPriest extends Command {
         setDescription("Set whether or not a player should be priest.");
         setUsage("add/remove <player>");
         setMinArgs(2);
-        setPermission("marry.admin");
+        setPermission(Permissions.ADMIN);
 
         if(!Settings.ENABLE_PRIEST.value()) {
             setHidden(true);

@@ -13,7 +13,6 @@ public class CommandUpdate extends Command {
     public CommandUpdate(Marriage marriage) {
         super(marriage, "update");
         setHidden(true);
-        setPermission("marry.update");
     }
 
     @Override

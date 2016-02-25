@@ -1,5 +1,6 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
+import com.lenis0012.bukkit.marriage2.config.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +15,7 @@ public abstract class Command {
 	private String description = "No description available";
 	private String usage = "";
 	private int minArgs = 0;
-	private String permission = null;
+	private Permissions permission = null;
 	private boolean allowConsole = false;
 	private boolean hidden = false;
 	
@@ -26,7 +27,7 @@ public abstract class Command {
 		this.marriage = marriage;
 		this.aliases = aliases;
 		if(aliases.length > 0) {
-			this.permission = "marry." + aliases[0];
+			this.permission = Permissions.getByNode("marry." + aliases[0]);
 		}
 	}
 	
@@ -111,11 +112,11 @@ public abstract class Command {
 		Bukkit.broadcastMessage(message);
 	}
 	
-	public String getPermission() {
+	public Permissions getPermission() {
 		return permission;
 	}
 
-	public void setPermission(String permission) {
+	public void setPermission(Permissions permission) {
 		this.permission = permission;
 	}
 

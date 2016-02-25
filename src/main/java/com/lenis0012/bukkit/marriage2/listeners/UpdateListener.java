@@ -1,6 +1,7 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
 import com.lenis0012.bukkit.marriage2.config.Message;
+import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.updater.api.Updater;
 import com.lenis0012.updater.api.Version;
@@ -21,7 +22,7 @@ public class UpdateListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
-        if(player.hasPermission("marry.update")) {
+        if(Permissions.UPDATE.has(player)) {
             final Updater updater = core.getUpdater();
             Bukkit.getScheduler().runTaskLaterAsynchronously(core.getPlugin(), new Runnable() {
                 @Override

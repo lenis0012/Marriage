@@ -10,6 +10,7 @@ public class CommandHelp extends Command {
 		super(marriage, "help");
 		setMinArgs(-1);
 		setHidden(true);
+		setPermission(null);
 	}
 
 	@Override
