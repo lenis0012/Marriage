@@ -1,17 +1,12 @@
 {
-  "version": "Marriage v2.0",
+  "version": "Marriage v2.0.1",
   "data":
   [
     [
       "---[ Changelog ]---",
+      "When restarted, check config",
       "",
-      "- Much better performance",
-      "",
-      "- UUID support",
-      "",
-      "- MySQL and SQLite support",
-      "",
-      "- New configuration files with more options"
+      "- Updated chat format"
     ]
   ]
 }
