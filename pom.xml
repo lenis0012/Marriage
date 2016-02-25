@@ -84,7 +84,7 @@
                                     <goal>shade</goal>
                                 </goals>
                                 <configuration>
-                                    <finalName>Marriage-Bukkit</finalName>
+                                    <finalName>${project.name}-Bukkit-${project.version}</finalName>
                                     <artifactSet>
                                         <includes>
                                             <include>com.lenis0012.updater:updater-api</include>
@@ -126,7 +126,7 @@
                                     <goal>shade</goal>
                                 </goals>
                                 <configuration>
-                                    <finalName>Marriage-Spigot</finalName>
+                                    <finalName>${project.name}-Spigot-${project.version}</finalName>
                                     <artifactSet>
                                         <includes>
                                             <include>com.lenis0012.updater:updater-api</include>
@@ -155,7 +155,7 @@
             </resource>
         </resources>
         <!--<defaultGoal>install</defaultGoal>-->
-        <finalName>${project.name}</finalName>
+        <!--<finalName>${project.name}</finalName>-->
         <!-- Plugins -->
         <plugins>
             <!-- Compiler plugin -->
