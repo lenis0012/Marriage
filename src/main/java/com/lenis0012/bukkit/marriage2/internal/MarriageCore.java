@@ -40,7 +40,7 @@ public class MarriageCore extends MarriageBase {
 	
 	@Register(name = "database", type = Register.Type.ENABLE)
 	public void loadDatabase() {
-		this.dataManager = new DataManager(this, plugin.getConfig());
+		this.dataManager = new DataManager(this);
 	}
 	
 	@Register(name = "listeners", type = Register.Type.ENABLE)

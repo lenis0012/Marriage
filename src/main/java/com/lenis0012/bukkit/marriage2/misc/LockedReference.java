@@ -42,4 +42,10 @@ public class LockedReference<T> {
     public void finish() {
         lock.unlock();
     }
+
+    public void invalidateNow() {
+        invalidator.accept(object);
+        this.object = null;
+        this.timeClaimed = 0L;
+    }
 }

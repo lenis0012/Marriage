@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
-import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.misc.BConfig;
 import com.lenis0012.bukkit.marriage2.misc.LockedReference;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,57 +31,76 @@ import org.bukkit.entity.Player;
 public class DataManager {
     // Create a data cache to overlap with the pre join event cache
     private final Cache<UUID, MarriageData> marriageDataCache = CacheBuilder.newBuilder().expireAfterWrite(60L, TimeUnit.SECONDS).build();
-	private final LockedReference<Connection> supplier;
-	private final MarriageCore core;
-	private final String prefix;
+    private final MarriageCore core;
+	private LockedReference<Connection> supplier;
+	private String prefix;
+
+    public DataManager(MarriageCore core) {
+        this.core = core;
+        File configFile = new File(core.getPlugin().getDataFolder(), "database-settings.yml");
+        if(!configFile.exists()) {
+            BConfig.copyFile(core.getPlugin().getResource("database-settings.yml"), configFile);
+        }
+
+        FileConfiguration config = core.getBukkitConfig("database-settings.yml");
+        Driver driver = config.getBoolean("MySQL.enabled") ? Driver.MYSQL : Driver.SQLITE;
+        loadWithDriver(driver, config);
+    }
 	
-	public DataManager(MarriageCore core, FileConfiguration config) {
+	public DataManager(MarriageCore core, Driver driver) {
 		this.core = core;
-		Driver driver = Driver.SQLITE;
-
-		String url;
-		if(config.getBoolean("MySQL.enabled")) {
-			String user = config.getString("MySQL.user", "root");
-			String pswd = config.getString("MySQL.password", "");
-			String host = config.getString("MySQL.host", "localhost:3306");
-			String database = config.getString("MySQL.database", "myserver");
-			this.prefix = config.getString("MySQL.prefix", "marriage_");
-			url = String.format("jdbc:mysql://%s/%s?user=%s&password=%s", host, database, user, pswd);
-			driver = Driver.MYSQL;
-		} else {
-			url = String.format("jdbc:sqlite:%s", new File(core.getPlugin().getDataFolder(), "database.db").getPath());
-			this.prefix = "";
-		}
-		
-		try {
-			driver.initiate();
-		} catch(Exception e) {
-			core.getLogger().log(Level.SEVERE, "Failed to initiate database driver", e);
-		}
-
-		// Create cached connection supplier.
-		this.supplier = new LockedReference<>(new ConnectionSupplier(url), 30L, TimeUnit.SECONDS, new ConnectionInvalidator());
-
-		DBUpgrade upgrade = new DBUpgrade();
-		Connection connection = supplier.access();
-		try {
-			Statement statement = connection.createStatement();
-			driver.runSetup(statement, prefix);
-			ResultSet result = statement.executeQuery(String.format("SELECT * FROM %sversion;", prefix));
-			if(result.next()) {
-				int dbVersion = result.getInt("version_id");
-				if(dbVersion < upgrade.getVersionId()) {
-					// TODO: Apply database upgrade.
-				}
-			} else {
-				statement.executeUpdate(String.format("INSERT INTO %sversion (version_id) VALUES(%s);", prefix, upgrade.getVersionId()));
-			}
-		} catch (SQLException e) {
-			core.getLogger().log(Level.WARNING, "Failed to initiate database", e);
-		} finally {
-			supplier.finish();
-		}
+        FileConfiguration config = core.getBukkitConfig("database-settings.yml");
+        loadWithDriver(driver, config);
 	}
+
+    public void close() {
+        supplier.invalidateNow();
+    }
+
+    private void loadWithDriver(Driver driver, FileConfiguration config) {
+        String url;
+        if(driver == Driver.MYSQL) {
+            String user = config.getString("MySQL.user", "root");
+            String pswd = config.getString("MySQL.password", "");
+            String host = config.getString("MySQL.host", "localhost:3306");
+            String database = config.getString("MySQL.database", "myserver");
+            this.prefix = config.getString("MySQL.prefix", "marriage_");
+            url = String.format("jdbc:mysql://%s/%s?user=%s&password=%s", host, database, user, pswd);
+            driver = Driver.MYSQL;
+        } else {
+            url = String.format("jdbc:sqlite:%s", new File(core.getPlugin().getDataFolder(), "database.db").getPath());
+            this.prefix = "";
+        }
+
+        try {
+            driver.initiate();
+        } catch(Exception e) {
+            core.getLogger().log(Level.SEVERE, "Failed to initiate database driver", e);
+        }
+
+        // Create cached connection supplier.
+        this.supplier = new LockedReference<>(new ConnectionSupplier(url), 30L, TimeUnit.SECONDS, new ConnectionInvalidator());
+
+        DBUpgrade upgrade = new DBUpgrade();
+        Connection connection = supplier.access();
+        try {
+            Statement statement = connection.createStatement();
+            driver.runSetup(statement, prefix);
+            ResultSet result = statement.executeQuery(String.format("SELECT * FROM %sversion;", prefix));
+            if(result.next()) {
+                int dbVersion = result.getInt("version_id");
+                if(dbVersion < upgrade.getVersionId()) {
+                    // TODO: Apply database upgrade.
+                }
+            } else {
+                statement.executeUpdate(String.format("INSERT INTO %sversion (version_id) VALUES(%s);", prefix, upgrade.getVersionId()));
+            }
+        } catch (SQLException e) {
+            core.getLogger().log(Level.WARNING, "Failed to initiate database", e);
+        } finally {
+            supplier.finish();
+        }
+    }
 	
 	public MarriagePlayer loadPlayer(UUID uuid) {
 		MarriagePlayer player = null;
@@ -226,6 +245,38 @@ public class DataManager {
 			supplier.finish();
 		}
 	}
+
+    public boolean migrateTo(DataManager db, boolean migrateUnmarriedPlayers) {
+        Connection connection = supplier.access();
+        try {
+            // Migrate players
+            core.getLogger().log(Level.INFO, "Migrating player data... (may take A WHILE)");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + prefix + "players;");
+            ResultSet result = ps.executeQuery();
+            while(result.next()) {
+                UUID uuid = UUID.fromString(result.getString("unique_user_id"));
+                MarriagePlayer player = new MarriagePlayer(uuid, result);
+                if(!player.isMarried() && !migrateUnmarriedPlayers) continue;
+                db.savePlayer(player);
+            }
+
+            core.getLogger().log(Level.INFO, "Migrating marriage data");
+            ps = connection.prepareStatement("SELECT * FROM " + prefix + "marriages;");
+            result = ps.executeQuery();
+            while(result.next()) {
+                MarriageData data = new MarriageData(this, result);
+                db.saveMarriage(data);
+            }
+
+            core.getLogger().log(Level.INFO, "Migration complete!");
+            return true;
+        } catch (SQLException e) {
+            core.getLogger().log(Level.WARNING, "Failed to load migrate database", e);
+        } finally {
+            supplier.finish();
+        }
+        return false;
+    }
 
 	private static final class ConnectionSupplier implements Supplier<Connection> {
 		private final String url;

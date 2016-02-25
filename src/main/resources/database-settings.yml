@@ -1,0 +1,11 @@
+# By default, SQLite is used.
+# To disable SQLite database and enable MySQL, set MySQL.enabled to true
+#
+# In order to migrate database, use "/marry migrate sqlite mysql" when MySQL is enabled!
+MySQL:
+  enabled: false
+  user: root
+  password: '1234'
+  host: 'localhost:3306'
+  database: 'myserver'
+  prefix: 'marriage_'

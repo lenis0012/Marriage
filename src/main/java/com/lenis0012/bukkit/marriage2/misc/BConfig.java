@@ -1,9 +1,12 @@
 package com.lenis0012.bukkit.marriage2.misc;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.lenis0012.bukkit.marriage2.internal.MarriageBase;
@@ -64,5 +67,32 @@ public class BConfig extends YamlConfiguration {
 	
 	public <T> T get(String key, Class<T> type) {
 		return type.cast(get(key));
+	}
+
+	public static void copyFile(InputStream input, File file) {
+		FileOutputStream output = null;
+		try {
+			output = new FileOutputStream(file);
+			byte[] buffer = new byte[1024];
+			int length;
+			while((length = input.read(buffer, 0, buffer.length)) != -1) {
+				output.write(buffer, 0, length);
+			}
+		} catch(Exception e) {
+			MarriagePlugin.getInstance().getLogger().log(Level.WARNING, "Failed to copy file", e);
+		} finally {
+			if(input != null) {
+				try {
+					input.close();
+				} catch(IOException e1) {
+				}
+			}
+			if(output != null) {
+				try {
+					output.close();
+				} catch(IOException e1) {
+				}
+			}
+		}
 	}
 }
