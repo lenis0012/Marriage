@@ -155,7 +155,7 @@
             </resource>
         </resources>
         <!--<defaultGoal>install</defaultGoal>-->
-        <!--<finalName>${project.name}</finalName>-->
+        <finalName>${project.name}</finalName>
         <!-- Plugins -->
         <plugins>
             <!-- Compiler plugin -->
