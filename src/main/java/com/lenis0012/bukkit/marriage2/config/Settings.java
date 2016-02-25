@@ -50,8 +50,9 @@ public class Settings<T> {
 	private void reload(FileConfiguration config) {
         config.options().header("Marriage Reloaded 2.X\n\n" +
                 "Expiry & Cool down is in seconds.\n\n" +
-                "Chat format supports: {heart}, {name}, {message} and {original_format}\n" +
-                "Note: If you replace {original_format} with something else, set the priority to LOW.\n\n" +
+                "PM format supports: {heart}, {name}, {message}. Chat format supports {heart}\n" +
+                "Note: If you have a custom chat plugin, set forced to false and put {marriage_status}\n" +
+                "somewhere in your chat plugin's format.\n\n" +
                 "The rest should be straight forward. if not, comment on bukkitdev.");
 		if(config.contains(key)) {
 			this.value = (T) config.get(key);

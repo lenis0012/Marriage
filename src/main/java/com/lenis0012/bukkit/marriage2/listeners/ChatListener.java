@@ -23,10 +23,8 @@ public class ChatListener implements Listener {
         final Player player = event.getPlayer();
         MPlayer mp = core.getMPlayer(player.getUniqueId());
         if(mp.isInChat()) {
-//            event.setCancelled(true);
             if(!isOnline(mp.getPartner())) {
                 mp.setInChat(false);
-//                Message.PARTNER_NOT_ONLINE.send(player);
                 return;
             }
 
@@ -43,17 +41,18 @@ public class ChatListener implements Listener {
             return;
         }
 
-//        if(Settings.CHAT_PRIORITY.value().toLowerCase().contains("high")) {
-//            handleChat(event, mp);
-//        }
+        if(!Settings.FORCE_FORMAT.value()) return;
+        event.setFormat("{marriage_status}" + event.getFormat()); // Enforce marriage format
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerChatLate(AsyncPlayerChatEvent event) {
-//        if(!Settings.CHAT_PRIORITY.value().toLowerCase().contains("low") || event.isCancelled()) return;
-//        final Player player = event.getPlayer();
-//        MPlayer mp = core.getMPlayer(player.getUniqueId());
-//        handleChat(event, mp);
+        final String format = event.getFormat();
+        if(format.contains("{marriage_status}")) {
+            String status = Settings.CHAT_FORMAT.value().replace("{heart}", "\u2764");
+            status = ChatColor.translateAlternateColorCodes('&', status);
+            event.setFormat(format.replace("{marriage_status}", status));
+        }
     }
 
     private void handleChat(AsyncPlayerChatEvent event, MPlayer mp) {
