@@ -1,8 +1,11 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
 import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageBase;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCommandExecutor;
+import mkremins.fanciful.FancyMessage;
+import net.md_5.bungee.api.ChatColor;
 
 public class CommandHelp extends Command {
 
@@ -25,7 +28,8 @@ public class CommandHelp extends Command {
 			}
 
 			String alias = command instanceof CommandMarry ? "" : command.getAliases()[0] + " ";
-			reply("&a/marry " + alias + command.getUsage() + " &f- &7" + command.getDescription());
+			String text = "&a/marry " + alias + command.getUsage() + " &f- &7" + command.getDescription();
+			FancyMessage message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', text));
 		}
 		
 		reply("&2&m--------------------------------------------"); // Play around with the amount of dashes later

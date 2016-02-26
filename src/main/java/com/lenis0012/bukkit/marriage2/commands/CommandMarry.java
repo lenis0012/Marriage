@@ -1,6 +1,7 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
 import com.lenis0012.bukkit.marriage2.config.Settings;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -20,6 +21,7 @@ public class CommandMarry extends Command {
             setMinArgs(1);
         } else {
             setDescription("Request a marriage with another player.");
+            setExecutionFee(Settings.PRICE_MARRY);
             setUsage("<player>");
             setMinArgs(0);
         }
@@ -85,9 +87,23 @@ public class CommandMarry extends Command {
 
             // Request or accept
             if (mPlayer.isMarriageRequested(target.getUniqueId())) {
+                if(getExecutionFee() > 0.0) {
+                    EconomyResponse response = marriage.dependencies().getEconomyService().withdrawPlayer(target, getExecutionFee());
+                    if(!response.transactionSuccess()) {
+                        reply(Message.PARTNER_FEE);
+                        target.sendMessage(response.errorMessage);
+                        return;
+                    }
+                }
+
                 marriage.marry(mPlayer, mTarget);
                 broadcast(Message.MARRIED, player.getName(), target.getName());
             } else if(!mTarget.isMarriageRequested(player.getUniqueId())) {
+                if(!hasFee()) {
+                    reply(Message.INSUFFICIENT_MONEY, marriage.dependencies().getEconomyService().format(getExecutionFee()));
+                    return;
+                }
+
                 mTarget.requestMarriage(player.getUniqueId());
                 target.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(Message.MARRIAGE_REQUESTED.toString(), player.getName(), player.getName())));
                 reply(Message.REQUEST_SENT, target.getName());

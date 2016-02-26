@@ -1,5 +1,6 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
+import com.lenis0012.bukkit.marriage2.config.Settings;
 import org.bukkit.Bukkit;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
@@ -11,6 +12,7 @@ public class CommandDivorce extends Command {
 	public CommandDivorce(Marriage marriage) {
 		super(marriage, "divorce");
 		setDescription("Divorce your current partner");
+		setExecutionFee(Settings.PRICE_DIVORCE);
 	}
 
 	@Override
@@ -22,6 +24,7 @@ public class CommandDivorce extends Command {
 			return;
 		}
 
+		if(!payFee()) return;
 		mPlayer.divorce();
 		broadcast(Message.DIVORCED, player.getName(), Bukkit.getOfflinePlayer(partner.getUniqueId()).getName());
 	}

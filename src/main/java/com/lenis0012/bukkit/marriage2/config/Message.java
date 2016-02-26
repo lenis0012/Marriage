@@ -35,7 +35,10 @@ public enum Message {
 	OFFLINE_SINCE("&aYour partner has been &cOFFLINE &afor %ss!"),
 	NOT_A_PRIEST("&cYou are not permitted to marry 2 players!"),
 	COOLDOWN("&cYou may not perform this action too frequently!"),
-	UPDATE_AVAILABLE("&f&l[Marriage] &eThere is a new update available! %s for %s\nType &6/marry update &eto update now.");
+	UPDATE_AVAILABLE("&f&l[Marriage] &eThere is a new update available! %s for %s\nType &6/marry update &eto update now."),
+	PAID_FEE("&a%s has been removed from your balance."),
+	INSUFFICIENT_MONEY("&cYou have insufficient funds, costs %s"),
+	PARTNER_FEE("&cYour partner couldn't pay the marriage fee!");
 	
 	private final String defaultMessage;
 	private String message;

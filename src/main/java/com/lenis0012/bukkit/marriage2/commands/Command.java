@@ -1,6 +1,9 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
 import com.lenis0012.bukkit.marriage2.config.Permissions;
+import com.lenis0012.bukkit.marriage2.config.Settings;
+import com.lenis0012.bukkit.marriage2.internal.Dependencies;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,12 +15,14 @@ import com.lenis0012.bukkit.marriage2.config.Message;
 public abstract class Command {
 	protected final Marriage marriage;
 	private final String[] aliases;
+
 	private String description = "No description available";
 	private String usage = "";
 	private int minArgs = 0;
 	private Permissions permission = null;
 	private boolean allowConsole = false;
 	private boolean hidden = false;
+	private double executionFee = 0.0;
 	
 	protected CommandSender sender;
 	protected Player player;
@@ -162,5 +167,40 @@ public abstract class Command {
 
 	protected void setHidden(boolean hidden) {
 		this.hidden = hidden;
+	}
+
+	protected void setExecutionFee(Settings<Double> setting) {
+		if(!Settings.ECONOMY_ENABLED.value() || !Settings.ECONOMY_SHOW.value()) {
+			return;
+		}
+
+		Dependencies dependencies = marriage.dependencies();
+		if(!dependencies.isEconomyEnabled()) {
+			return;
+		}
+
+		this.executionFee = setting.value();
+	}
+
+	protected double getExecutionFee() {
+		return executionFee;
+	}
+
+	protected boolean hasFee() {
+		if(executionFee <= 0 || player == null) return true; // Success!
+		return marriage.dependencies().getEconomyService().has(player, executionFee);
+	}
+
+	protected boolean payFee() {
+		if(executionFee <= 0 || player == null) return true; // Success!
+
+		if(marriage.dependencies().getEconomyService().has(player, executionFee)) {
+			EconomyResponse response = marriage.dependencies().getEconomyService().withdrawPlayer(player, executionFee);
+			reply(Message.PAID_FEE, marriage.dependencies().getEconomyService().format(executionFee));
+			return response.transactionSuccess();
+		} else {
+			reply(Message.INSUFFICIENT_MONEY, marriage.dependencies().getEconomyService().format(executionFee));
+			return false;
+		}
 	}
 }
