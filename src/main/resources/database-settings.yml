@@ -3,6 +3,11 @@
 #
 # In order to migrate database, use "/marry migrate sqlite mysql" when MySQL is enabled!
 # The last argument is the new database, which is the one you're currently using.
+#
+# auto-purge deletes player data and their marriage when they haven't logged on in a while
+# the settings should be straight forward
+#
+# Changes apply on restart
 MySQL:
   enabled: false
   user: root
@@ -10,3 +15,7 @@ MySQL:
   host: 'localhost:3306'
   database: 'myserver'
   prefix: 'marriage_'
+auto-purge:
+  enabled: true
+  purge-married-players: false
+  purge-after-days: 45
