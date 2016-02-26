@@ -1,16 +1,17 @@
 {
-  "version": "Marriage v2.0.1",
+  "version": "Marriage v2.0.2",
   "data":
   [
     [
       "---[ Changelog ]---",
-      "When restarted, check config",
       "",
-      "- Updated chat format",
+      "- Added economy support",
       "",
-      "- Updated permission support",
+      "- Added database config",
       "",
-      "- Fixed error on divorce"
+      "- Added database auto purge",
+      "",
+      "Next update: Gift shop"
     ],
     [
       "====[ DONATE ]====",
