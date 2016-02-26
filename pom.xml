@@ -19,10 +19,14 @@
             <id>md5-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        <!--<repository>-->
-            <!--<id>vault-repo</id>-->
-            <!--<url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>-->
-        <!--</repository>-->
+        <repository>
+            <id>vault-repo</id>
+            <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+        </repository>
+        <repository>
+            <id>lenis0012-repo</id>
+            <url>http://ci.lenis0012.com/plugin/repository/everything/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -51,12 +55,18 @@
             <version>1</version>
             <scope>compile</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>net.milkbowl.vault</groupId>-->
-            <!--<artifactId>VaultAPI</artifactId>-->
-            <!--<version>1.5</version>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>mkremins</groupId>
+            <artifactId>fanciful</artifactId>
+            <version>0.3.3-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -179,6 +189,26 @@
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>general</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>mkremins:fanciful</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <!-- Generate javadoc -->
             <plugin>

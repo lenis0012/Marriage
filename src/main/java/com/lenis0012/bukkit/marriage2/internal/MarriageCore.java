@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.internal.Register.Type;
 import com.lenis0012.bukkit.marriage2.internal.data.DataConverter;
 import com.lenis0012.updater.api.Updater;
@@ -25,6 +26,7 @@ public class MarriageCore extends MarriageBase {
 	private final Map<UUID, MarriagePlayer> players = Collections.synchronizedMap(new HashMap<UUID, MarriagePlayer>());
 	private DataManager dataManager;
 	private Updater updater;
+    private Dependencies dependencies;
 	
 	public MarriageCore(MarriagePlugin plugin) {
 		super(plugin);
@@ -36,7 +38,13 @@ public class MarriageCore extends MarriageBase {
 		enable();
 		Settings.reloadAll(this, true);
 		Message.reloadAll(this);
+		Permissions.setupChildRelations();
 	}
+
+    @Register(name = "dependencies", type = Type.ENABLE, priority = 1)
+    public void loadDependencies() {
+        this.dependencies = new Dependencies(this);
+    }
 	
 	@Register(name = "database", type = Register.Type.ENABLE)
 	public void loadDatabase() {
@@ -146,4 +154,9 @@ public class MarriageCore extends MarriageBase {
 		}
 		players.clear();
 	}
+
+    @Override
+    public Dependencies dependencies() {
+        return dependencies;
+    }
 }

@@ -3,6 +3,7 @@ package com.lenis0012.bukkit.marriage2;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import com.lenis0012.bukkit.marriage2.internal.Dependencies;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
@@ -73,4 +74,12 @@ public interface Marriage {
 	 * @return Plugin instance.
 	 */
 	Plugin getPlugin();
+
+	/**
+	 * Plugin dependencies.
+	 * - Vault economy
+	 *
+	 * @return Dependencies
+     */
+	Dependencies dependencies();
 }

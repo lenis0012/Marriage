@@ -1,7 +1,8 @@
 package com.lenis0012.bukkit.marriage2.config;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 
 public enum Permissions {
@@ -14,18 +15,18 @@ public enum Permissions {
     /**
      * Admin commands
      */
-    UPDATE("marry.update", PermissionDefault.OP, 1),
+    UPDATE("marry.update", PermissionDefault.FALSE, 1),
     /**
      * Player commands
      */
-    MARRY("marry.marry", PermissionDefault.TRUE),
-    LIST("marry.list", PermissionDefault.TRUE),
-    TELEPORT("marry.tp", PermissionDefault.TRUE),
-    HOME("marry.home", PermissionDefault.TRUE),
-    SET_HOME("marry.sethome", PermissionDefault.TRUE),
-    GIFT("marry.gift", PermissionDefault.TRUE),
-    CHAT("marry.chat", PermissionDefault.TRUE),
-    SEEN("marry.seen", PermissionDefault.TRUE);
+    MARRY("marry.marry"),
+    LIST("marry.list"),
+    TELEPORT("marry.tp"),
+    HOME("marry.home"),
+    SET_HOME("marry.sethome"),
+    GIFT("marry.gift"),
+    CHAT("marry.chat"),
+    SEEN("marry.seen");
 
 //    public static Permission permissionService;
 //
@@ -40,6 +41,11 @@ public enum Permissions {
     private final String node;
     private final PermissionDefault defaultSetting;
     private final int parent;
+    private Permission permission;
+
+    Permissions(String node) {
+        this(node, PermissionDefault.FALSE);
+    }
 
     Permissions(String node, PermissionDefault defaultSetting) {
         this(node, defaultSetting, 2);
@@ -49,22 +55,26 @@ public enum Permissions {
         this.node = node;
         this.defaultSetting = defaultSetting;
         this.parent = parent;
+        this.permission = new Permission(node, null, PermissionDefault.FALSE);
+        Bukkit.getPluginManager().addPermission(permission);
     }
 
+    /**
+     * Check whether a command sender has a permission.
+     *
+     * @param sender to check for
+     * @return True if has permission, False otherwise
+     */
     public boolean has(CommandSender sender) {
-        if(parent >= 0 && values()[parent].has(sender)) {
-            return true;
-        }
-
-        return sender.hasPermission(node);
-
-//        if(permissionService != null) {
-//            return permissionService.has(player, node);
-//        }
-//
-//        return defaultSetting.getValue(player.isOp());
+        return sender.hasPermission(permission);
     }
 
+    /**
+     * Get a permission by it's node.
+     *
+     * @param node of the permission
+     * @return Permission
+     */
     public static Permissions getByNode(String node) {
         for(Permissions permission : values()) {
             if(permission.node.equalsIgnoreCase(node)) {
@@ -73,5 +83,15 @@ public enum Permissions {
         }
 
         return null;
+    }
+
+    /**
+     * Set child relations
+     */
+    public static void setupChildRelations() {
+        for(Permissions perm : values()) {
+            if(perm.parent < 0) continue;
+            perm.permission.addParent(values()[perm.parent].permission, true);
+        }
     }
 }
