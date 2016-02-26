@@ -19,6 +19,7 @@ import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public class DatabaseListener implements Listener {
 	private final Cache<UUID, MarriagePlayer> cache = CacheBuilder.newBuilder().expireAfterWrite(30L, TimeUnit.SECONDS).build();
@@ -38,7 +39,16 @@ public class DatabaseListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final UUID userId = event.getPlayer().getUniqueId();
-		core.setMPlayer(userId, cache.getIfPresent(userId));
+		MarriagePlayer player = cache.getIfPresent(userId);
+		if(player != null) {
+			core.setMPlayer(userId, cache.getIfPresent(userId));
+			return;
+		}
+
+		// Something went wrong (unusually long login?)
+		core.getLogger().log(Level.WARNING, "Player " + event.getPlayer().getName() + " was not in cache");
+		core.getLogger().log(Level.INFO, "If this message shows often, report to dev");
+		core.setMPlayer(userId, core.getDataManager().loadPlayer(userId));
 	}
 	
 	@EventHandler

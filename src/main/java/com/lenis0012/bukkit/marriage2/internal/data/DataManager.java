@@ -121,6 +121,7 @@ public class DataManager {
 	}
 	
 	public void savePlayer(MarriagePlayer player) {
+        if(player == null || player.getUniqueId() == null) return;
 		Connection connection = supplier.access();
 		try {
 			PreparedStatement ps = connection.prepareStatement(String.format(
