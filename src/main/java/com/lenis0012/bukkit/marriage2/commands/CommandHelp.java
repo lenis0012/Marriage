@@ -30,6 +30,10 @@ public class CommandHelp extends Command {
 			String alias = command instanceof CommandMarry ? "" : command.getAliases()[0] + " ";
 			String text = "&a/marry " + alias + command.getUsage() + " &f- &7" + command.getDescription();
 			FancyMessage message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', text));
+			if(command.getExecutionFee() > 0.0) {
+				message.tooltip("Cost: " + marriage.dependencies().getEconomyService().format(command.getExecutionFee()));
+			}
+			message.send(sender);
 		}
 		
 		reply("&2&m--------------------------------------------"); // Play around with the amount of dashes later

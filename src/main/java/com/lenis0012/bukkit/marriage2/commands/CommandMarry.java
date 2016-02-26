@@ -96,7 +96,7 @@ public class CommandMarry extends Command {
                     }
                 }
 
-                marriage.marry(mPlayer, mTarget);
+                marriage.marry(mTarget, mPlayer);
                 broadcast(Message.MARRIED, player.getName(), target.getName());
             } else if(!mTarget.isMarriageRequested(player.getUniqueId())) {
                 if(!hasFee()) {
