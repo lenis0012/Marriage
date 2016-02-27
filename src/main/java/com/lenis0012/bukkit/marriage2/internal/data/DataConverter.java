@@ -12,6 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
@@ -32,7 +33,7 @@ public class DataConverter {
 
     public void convert() {
         long lastMessage = 0;
-        String[] files = dir.list();
+        File[] files = dir.listFiles();
         int totalFiles = files.length;
         core.getLogger().log(Level.INFO, "Converting " + totalFiles + " old database entries...");
         core.getLogger().log(Level.INFO, "Retrieving UUIDs...");
@@ -41,7 +42,20 @@ public class DataConverter {
         Map<String, UUID> uuidMap = Maps.newHashMap();
         UUIDFetcher uuidFetcher = new UUIDFetcher(new ArrayList<String>());
         for(int completed = 0; completed < totalFiles; completed++) {
-            String name = files[completed].replace(".yml", "");
+            File file = files[completed];
+            String name = file.getName().replace(".yml", "");
+            if(files.length > 50000) {
+                // Over 500 requests, check for marriage
+                try {
+                    FileConfiguration cnf = YamlConfiguration.loadConfiguration(file);
+                    cnf.load(file);
+                    String partner = cnf.getString("partner");
+                    if(partner == null) continue;
+                } catch(Exception e) {
+                    continue; // skip
+                }
+            }
+
             uuidFetcher.addName(name);
             if(uuidFetcher.size() >= 100 || completed >= totalFiles - 1) {
                 try {

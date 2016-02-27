@@ -49,6 +49,13 @@ public interface MPlayer {
 	 */
 	@Nullable
 	MData getMarriage();
+
+	/**
+	 * Get the last name the player logged on with.
+	 *
+	 * @return Last name, can be null
+     */
+	String getLastName();
 	
 	/**
 	 * Check if the player is married.
@@ -70,6 +77,13 @@ public interface MPlayer {
 	 * @return True if player ius priest, false otherwise
 	 */
 	boolean isPriest();
+
+	/**
+	 * Set the last name the player logged on with.
+	 *
+	 * @param name of player
+     */
+	void setLastName(String name);
 
 	/**
 	 * Set whether or not this player is a priest.

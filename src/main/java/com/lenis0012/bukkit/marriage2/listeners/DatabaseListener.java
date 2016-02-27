@@ -32,7 +32,9 @@ public class DatabaseListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerLogin(AsyncPlayerPreLoginEvent event) {
 		if(event.getLoginResult() == Result.ALLOWED) {
-			cache.put(event.getUniqueId(), core.getDataManager().loadPlayer(event.getUniqueId()));
+            MarriagePlayer player = core.getDataManager().loadPlayer(event.getUniqueId());
+            player.setLastName(event.getName());
+			cache.put(event.getUniqueId(), player);
 		}
 	}  
 	
@@ -48,7 +50,9 @@ public class DatabaseListener implements Listener {
 		// Something went wrong (unusually long login?)
 		core.getLogger().log(Level.WARNING, "Player " + event.getPlayer().getName() + " was not in cache");
 		core.getLogger().log(Level.INFO, "If this message shows often, report to dev");
-		core.setMPlayer(userId, core.getDataManager().loadPlayer(userId));
+        player = core.getDataManager().loadPlayer(userId);
+        player.setLastName(event.getPlayer().getName());
+		core.setMPlayer(userId, player);
 	}
 	
 	@EventHandler

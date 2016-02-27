@@ -107,7 +107,11 @@ public class DataManager {
             if(result.next()) {
                 int dbVersion = result.getInt("version_id");
                 if(dbVersion < upgrade.getVersionId()) {
-                    // TODO: Apply database upgrade.
+                    upgrade.run(statement, dbVersion, prefix);
+                    PreparedStatement ps = connection.prepareStatement("UPDATE " + prefix + "version SET version_id=? WHERE version_id=?;");
+                    ps.setInt(1, upgrade.getVersionId());
+                    ps.setInt(2, dbVersion);
+                    ps.executeUpdate();
                 }
             } else {
                 statement.executeUpdate(String.format("INSERT INTO %sversion (version_id) VALUES(%s);", prefix, upgrade.getVersionId()));
@@ -208,7 +212,8 @@ public class DataManager {
 			if(result.next()) {
 				// Already in database (update)
 				PreparedStatement ps2 = connection.prepareStatement(String.format(
-						"UPDATE %splayers SET gender=?,priest=?,lastlogin=? WHERE unique_user_id=?;", prefix));
+						"UPDATE %splayers SET last_name=?,gender=?,priest=?,lastlogin=? WHERE unique_user_id=?;", prefix));
+                ps2.setString(1, player.getLastName());
 				ps2.setString(1, player.getGender().toString());
 				ps2.setBoolean(2, player.isPriest());
 				ps2.setLong(3, System.currentTimeMillis());
@@ -218,7 +223,7 @@ public class DataManager {
 			} else {
 				// Not in database yet
 				PreparedStatement ps2 = connection.prepareStatement(String.format(
-						"INSERT INTO %splayers (unique_user_id,gender,priest,lastlogin) VALUES(?,?,?,?);", prefix));
+						"INSERT INTO %splayers (unique_user_id,last_name,gender,priest,lastlogin) VALUES(?,?,?,?,?);", prefix));
 				player.save(ps2);
 				ps2.executeUpdate();
                 ps2.close();
@@ -323,10 +328,10 @@ public class DataManager {
 			}
             ps.close();
 			
-			return new ListQuery(pages, page, list);
+			return new ListQuery(this, pages, page, list);
 		} catch (SQLException e) {
 			core.getLogger().log(Level.WARNING, "Failed to load marriage list", e);
-			return new ListQuery(0, 0, new ArrayList<MData>());
+			return new ListQuery(this, 0, 0, new ArrayList<MData>());
 		} finally {
 			supplier.finish();
 		}

@@ -18,6 +18,7 @@ import com.lenis0012.bukkit.marriage2.misc.Cooldown;
 public class MarriagePlayer implements MPlayer {
 	private final Cooldown<UUID> requests;
 	private final UUID uuid;
+	private String lastName;
 	private MData marriage;
 	private Gender gender = Gender.UNKNOWN;
 	private boolean inChat;
@@ -28,6 +29,7 @@ public class MarriagePlayer implements MPlayer {
 	public MarriagePlayer(UUID uuid, ResultSet data) throws SQLException {
 		this.uuid = uuid;
 		if(data.next()) {
+			this.lastName = data.getString("last_name");
 			this.gender = Gender.valueOf(data.getString("gender"));
 			this.priest = data.getBoolean("priest");
 			this.lastLogout = data.getLong("lastlogin");
@@ -42,9 +44,18 @@ public class MarriagePlayer implements MPlayer {
 	
 	void save(PreparedStatement ps) throws SQLException {
 		ps.setString(1, uuid.toString());
-		ps.setString(2, gender.toString());
-		ps.setBoolean(3, priest);
-		ps.setLong(4, System.currentTimeMillis());
+		ps.setString(2, lastName);
+		ps.setString(3, gender.toString());
+		ps.setBoolean(4, priest);
+		ps.setLong(5, System.currentTimeMillis());
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String name) {
+		this.lastName = name;
 	}
 
 	@Override

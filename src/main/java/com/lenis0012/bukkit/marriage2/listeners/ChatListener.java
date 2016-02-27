@@ -48,7 +48,9 @@ public class ChatListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerChatLate(AsyncPlayerChatEvent event) {
         final String format = event.getFormat();
-        if(format.contains("{marriage_status}")) {
+        final Player player = event.getPlayer();
+        final MPlayer mplayer = core.getMPlayer(player.getUniqueId());
+        if(format.contains("{marriage_status}") && mplayer.isMarried()) {
             String status = Settings.CHAT_FORMAT.value().replace("{heart}", "\u2764");
             status = ChatColor.translateAlternateColorCodes('&', status);
             event.setFormat(format.replace("{marriage_status}", status));
