@@ -94,4 +94,10 @@ public enum Permissions {
             perm.permission.addParent(values()[perm.parent].permission, true);
         }
     }
+
+    public static void unloadAll() {
+        for(Permissions perm : values()) {
+            Bukkit.getPluginManager().removePermission(perm.permission);
+        }
+    }
 }

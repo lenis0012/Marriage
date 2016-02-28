@@ -78,7 +78,7 @@ public class DatabaseListener implements Listener {
         DataManager.getExecutorService().execute(new Runnable() {
             @Override
             public void run() {
-                final String partner = ListQuery.getName(core.getDataManager(), player.getUniqueId());
+                final String partner = ListQuery.getName(core.getDataManager(), mplayer.getMarriage().getOtherPlayer(player.getUniqueId()));
                 if(partner == null) {
                     return;
                 }

@@ -42,7 +42,7 @@ public enum Message {
 	MARRIED_TO("&fmarried to %s"),
 
 	// WORDS
-	STATUS("&aStatus: "),
+	STATUS("&aStatus: %s"),
 	SINGLE("&fsingle");
 	
 	private final String defaultMessage;

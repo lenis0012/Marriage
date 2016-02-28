@@ -37,15 +37,15 @@ public class CommandHelp extends Command {
 				message.tooltip("Cost: " + marriage.dependencies().getEconomyService().format(command.getExecutionFee()));
 			}
 			message.send(sender);
-
-            String status = Message.SINGLE.toString();
-            if(player != null && player.hasMetadata("marriedTo")) {
-                String partner = player.getMetadata("marriedTo").get(0).asString();
-                status = String.format(Message.MARRIED_TO.toString(), partner);
-            }
-            reply(Message.STATUS, status);
 		}
-		
+
+		String status = Message.SINGLE.toString();
+		if(player != null && player.hasMetadata("marriedTo")) {
+			String partner = player.getMetadata("marriedTo").get(0).asString();
+			status = String.format(Message.MARRIED_TO.toString(), partner);
+		}
+		reply(Message.STATUS, status);
+		System.out.println(Message.STATUS);
 		reply("&2&m--------------------------------------------"); // Play around with the amount of dashes later
 	}
 }

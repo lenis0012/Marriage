@@ -65,11 +65,6 @@ public class MarriageCore extends MarriageBase {
 		}
 	}
 
-	@Register(name = "database", type = Register.Type.DISABLE)
-	public void saveDatabase() {
-		unloadAll();
-	}
-
 	@Register(name = "updater", type = Type.ENABLE, priority = 9)
 	public void loadUpdater() {
 		UpdaterFactory factory = new UpdaterFactory(plugin);
@@ -82,6 +77,13 @@ public class MarriageCore extends MarriageBase {
 		if(converter.isOutdated()) {
 			converter.convert();
 		}
+	}
+
+	@Register(name = "database", type = Register.Type.DISABLE)
+	public void saveDatabase() {
+		unloadAll();
+		dataManager.close();
+		Permissions.unloadAll();
 	}
 
 	@Override

@@ -1,15 +1,15 @@
 {
-  "version": "Marriage v2.0.4",
+  "version": "Marriage v2.0.5",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Fixed status showing as raw text",
+      "- Add support for reload",
       "",
-      "- Added partner name to help command",
+      "- Fixed status in help command",
       "",
-      "Next update: Gift shop"
+      "- Added tag {partner} to chat format"
     ],
     [
       "====[ DONATE ]====",
