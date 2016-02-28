@@ -53,7 +53,11 @@ public class ChatListener implements Listener {
         if(format.contains("{marriage_status}")) {
             String status = "";
             if(mplayer.isMarried()) {
-                status = Settings.CHAT_FORMAT.value().replace("{heart}", "\u2764");
+                String partner = player.hasMetadata("marriedTo") ? player.getMetadata("marriedTo").get(0).asString() : "";
+                status = Settings.CHAT_FORMAT.value()
+                        .replace("{heart}", "\u2764")
+                        .replace("{partner}", partner);
+
                 status = ChatColor.translateAlternateColorCodes('&', status);
             }
             event.setFormat(format.replace("{marriage_status}", status));

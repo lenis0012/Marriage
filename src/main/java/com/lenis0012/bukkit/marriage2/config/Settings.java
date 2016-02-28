@@ -98,7 +98,7 @@ public class Settings<T> {
             // Write header
             config.options().header("Marriage Reloaded 2.X\n\n" +
                     "Expiry & Cool down is in seconds.\n\n" +
-                    "PM format supports: {heart}, {name}, {message}. Chat format supports {heart}\n" +
+                    "PM format supports: {heart}, {name}, {message}. Chat format supports {heart}, {partner}\n" +
                     "Note: If you have a custom chat plugin, set forced to false and put {marriage_status}\n" +
                     "somewhere in your chat plugin's format.\n\n" +
                     "Economy setting show-on-help shows the fee when hovering over command.\n\n" +
