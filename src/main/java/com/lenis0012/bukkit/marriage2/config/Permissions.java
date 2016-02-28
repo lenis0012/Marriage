@@ -11,7 +11,7 @@ public enum Permissions {
      */
     ALL("marry.*", PermissionDefault.FALSE, -1),
     ADMIN("marry.admin", PermissionDefault.OP, 0),
-    DEFAULT("marry.default", PermissionDefault.TRUE, 0),
+    DEFAULT("marry.default", PermissionDefault.OP, 0),
     /**
      * Admin commands
      */
@@ -55,7 +55,7 @@ public enum Permissions {
         this.node = node;
         this.defaultSetting = defaultSetting;
         this.parent = parent;
-        this.permission = new Permission(node, null, PermissionDefault.FALSE);
+        this.permission = new Permission(node, null, defaultSetting);
         Bukkit.getPluginManager().addPermission(permission);
     }
 
