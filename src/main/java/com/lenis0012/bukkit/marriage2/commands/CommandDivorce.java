@@ -6,6 +6,8 @@ import org.bukkit.Bukkit;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
+import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
 public class CommandDivorce extends Command {
 
@@ -26,6 +28,14 @@ public class CommandDivorce extends Command {
 
 		if(!payFee()) return;
 		mPlayer.divorce();
+
+		// Clear metadata
+		player.removeMetadata("marriedTo", marriage.getPlugin());
+		Player target = Bukkit.getPlayer(partner.getUniqueId());
+		if(target != null) {
+			target.removeMetadata("marriedTo", marriage.getPlugin());
+		}
+
 		broadcast(Message.DIVORCED, player.getName(), Bukkit.getOfflinePlayer(partner.getUniqueId()).getName());
 	}
 }

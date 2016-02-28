@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.UUID;
 
@@ -97,6 +98,8 @@ public class CommandMarry extends Command {
                 }
 
                 marriage.marry(mTarget, mPlayer);
+                player.setMetadata("marriedTo", new FixedMetadataValue(marriage.getPlugin(), target.getName()));
+                target.setMetadata("marriedTo", new FixedMetadataValue(marriage.getPlugin(), player.getName()));
                 broadcast(Message.MARRIED, player.getName(), target.getName());
             } else if(!mTarget.isMarriageRequested(player.getUniqueId())) {
                 if(!hasFee()) {

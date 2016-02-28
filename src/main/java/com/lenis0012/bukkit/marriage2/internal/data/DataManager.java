@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -29,6 +31,12 @@ import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import org.bukkit.entity.Player;
 
 public class DataManager {
+    private static final ExecutorService executorService = Executors.newCachedThreadPool();
+
+    public static ExecutorService getExecutorService() {
+        return executorService;
+    }
+
     // Create a data cache to overlap with the pre join event cache
     private final Cache<UUID, MarriageData> marriageDataCache = CacheBuilder.newBuilder().expireAfterWrite(60L, TimeUnit.SECONDS).build();
     private final MarriageCore core;
