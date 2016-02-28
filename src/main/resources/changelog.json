@@ -1,15 +1,13 @@
 {
-  "version": "Marriage v2.0.2",
+  "version": "Marriage v2.0.3",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Added economy support",
+      "- Fixed null names in marry list",
       "",
-      "- Added database config",
-      "",
-      "- Added database auto purge",
+      "- Fixed chat status showing for unmarried players",
       "",
       "Next update: Gift shop"
     ],

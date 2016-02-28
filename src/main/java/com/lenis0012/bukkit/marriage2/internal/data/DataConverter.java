@@ -80,6 +80,7 @@ public class DataConverter {
             try {
                 MarriagePlayer mp = core.getDataManager().loadPlayer(entry.getValue());
                 String name = entry.getKey();
+                mp.setLastName(name);
                 File file = new File(dir, name + ".yml");
                 FileConfiguration cnf = YamlConfiguration.loadConfiguration(file);
                 cnf.load(file);
