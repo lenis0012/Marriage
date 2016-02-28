@@ -66,7 +66,7 @@ public class ListQuery {
 		return marriages;
 	}
 
-	private String getName(DataManager db, UUID userId) {
+	private static String getName(DataManager db, UUID userId) {
 		// local uuid cache
 		OfflinePlayer op = Bukkit.getOfflinePlayer(userId);
 		if(op != null && op.getName() != null) {
@@ -83,7 +83,7 @@ public class ListQuery {
 		return nameFromMojang(userId);
 	}
 
-	private String nameFromMojang(UUID uuid) {
+	private static String nameFromMojang(UUID uuid) {
 		try {
 			URL url = new URL("  https://api.mojang.com/user/profiles/" + uuid.toString().replace("-", "") + "/names");
 			URLConnection connection = url.openConnection();

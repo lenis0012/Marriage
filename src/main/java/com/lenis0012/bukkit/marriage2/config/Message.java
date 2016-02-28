@@ -38,7 +38,12 @@ public enum Message {
 	UPDATE_AVAILABLE("&f&l[Marriage] &eThere is a new update available! %s for %s\nType &6/marry update &eto update now."),
 	PAID_FEE("&a%s has been removed from your balance."),
 	INSUFFICIENT_MONEY("&cYou have insufficient funds, costs %s"),
-	PARTNER_FEE("&cYour partner couldn't pay the marriage fee!");
+	PARTNER_FEE("&cYour partner couldn't pay the marriage fee!"),
+	MARRIED_TO("&fmarried to %s"),
+
+	// WORDS
+	STATUS("&aStatus: "),
+	SINGLE("&fsingle");
 	
 	private final String defaultMessage;
 	private String message;

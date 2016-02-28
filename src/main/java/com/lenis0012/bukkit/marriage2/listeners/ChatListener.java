@@ -50,9 +50,12 @@ public class ChatListener implements Listener {
         final String format = event.getFormat();
         final Player player = event.getPlayer();
         final MPlayer mplayer = core.getMPlayer(player.getUniqueId());
-        if(format.contains("{marriage_status}") && mplayer.isMarried()) {
-            String status = Settings.CHAT_FORMAT.value().replace("{heart}", "\u2764");
-            status = ChatColor.translateAlternateColorCodes('&', status);
+        if(format.contains("{marriage_status}")) {
+            String status = "";
+            if(mplayer.isMarried()) {
+                status = Settings.CHAT_FORMAT.value().replace("{heart}", "\u2764");
+                status = ChatColor.translateAlternateColorCodes('&', status);
+            }
             event.setFormat(format.replace("{marriage_status}", status));
         }
     }

@@ -1,13 +1,13 @@
 {
-  "version": "Marriage v2.0.3",
+  "version": "Marriage v2.0.4",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Fixed null names in marry list",
+      "- Fixed status showing as raw text",
       "",
-      "- Fixed chat status showing for unmarried players",
+      "- Added partner name to help command",
       "",
       "Next update: Gift shop"
     ],
