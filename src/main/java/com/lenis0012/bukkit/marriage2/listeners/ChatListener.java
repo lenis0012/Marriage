@@ -40,16 +40,17 @@ public class ChatListener implements Listener {
             partner.sendMessage(message);
             return;
         }
-
-        if(!Settings.FORCE_FORMAT.value()) return;
-        event.setFormat("{marriage_status}" + event.getFormat()); // Enforce marriage format
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerChatLate(AsyncPlayerChatEvent event) {
         final String format = event.getFormat();
         final Player player = event.getPlayer();
         final MPlayer mplayer = core.getMPlayer(player.getUniqueId());
+
+        if(!Settings.FORCE_FORMAT.value()) return;
+        event.setFormat("{marriage_status}" + event.getFormat()); // Enforce marriage format
+
         if(format.contains("{marriage_status}")) {
             String status = "";
             if(mplayer.isMarried()) {
