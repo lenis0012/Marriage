@@ -20,6 +20,7 @@ public enum Driver {
     public void runSetup(Statement statement, String prefix) throws SQLException {
         statement.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %splayers ("
                 + "unique_user_id VARCHAR(128) NOT NULL UNIQUE,"
+                + "last_name VARCHAR(16),"
                 + "gender VARCHAR(32),"
                 + "priest BIT,"
                 + "lastlogin BIGINT);", prefix));

@@ -1,12 +1,7 @@
 package com.lenis0012.bukkit.marriage2.internal.data;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -114,6 +109,15 @@ public class DataManager {
             ResultSet result = statement.executeQuery(String.format("SELECT * FROM %sversion;", prefix));
             if(result.next()) {
                 int dbVersion = result.getInt("version_id");
+                if(dbVersion >= 2) {
+                    // Fix for people that first installed on v2
+                    DatabaseMetaData metadata = connection.getMetaData();
+                    ResultSet res = metadata.getColumns(null, null, prefix + "players", "last_name");
+                    if(!res.next()) {
+                        statement.execute("ALTER TABLE " + prefix + "players ADD last_name VARCHAR(16);");
+                    }
+                }
+
                 if(dbVersion < upgrade.getVersionId()) {
                     upgrade.run(statement, dbVersion, prefix);
                     PreparedStatement ps = connection.prepareStatement("UPDATE " + prefix + "version SET version_id=? WHERE version_id=?;");
