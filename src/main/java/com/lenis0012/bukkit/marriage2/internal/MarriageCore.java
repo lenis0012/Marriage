@@ -11,6 +11,8 @@ import com.lenis0012.bukkit.marriage2.internal.Register.Type;
 import com.lenis0012.bukkit.marriage2.internal.data.DataConverter;
 import com.lenis0012.updater.api.Updater;
 import com.lenis0012.updater.api.UpdaterFactory;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
@@ -49,6 +51,12 @@ public class MarriageCore extends MarriageBase {
 	@Register(name = "database", type = Register.Type.ENABLE)
 	public void loadDatabase() {
 		this.dataManager = new DataManager(this);
+
+		// Load all players
+		for(Player player : Bukkit.getOnlinePlayers()) {
+			MarriagePlayer mp = dataManager.loadPlayer(player.getUniqueId());
+			setMPlayer(player.getUniqueId(), mp);
+		}
 	}
 	
 	@Register(name = "listeners", type = Register.Type.ENABLE)
@@ -115,6 +123,10 @@ public class MarriageCore extends MarriageBase {
     public void setMPlayer(UUID uuid, MarriagePlayer mp) {
         players.put(uuid, mp);
     }
+
+	public boolean isMPlayerSet(UUID uuid) {
+		return players.containsKey(uuid);
+	}
 
 	public DataManager getDataManager() {
 		return dataManager;

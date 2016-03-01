@@ -1,28 +1,28 @@
 {
-  "version": "Marriage v2.0.5",
+  "version": "Marriage v2.0.6",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Add support for reload",
+      "- Added 1.9/8 support",
       "",
-      "- Fixed status in help command",
+      "- Fixed error on reload",
       "",
-      "- Added tag {partner} to chat format"
+      "- Fixed db error on first use"
     ],
     [
       "====[ DONATE ]====",
       "",
-      "Make minecraft great again",
-      "$1 = 1 TRUMP VOTE",
+      "Donate please :)",
+      "$1 = 1 HUG",
       "",
       "paypal.me/lenis0012",
       "=====[ SOCIAL ]=====",
       "IGN: lenis",
       "Twitter: @lenis0012",
       "",
-      "Report bugs!",
+      "Report hugs!",
       "-lenis"
     ]
   ]

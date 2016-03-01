@@ -109,7 +109,6 @@ public class MarriageData implements MData {
 
 	@Override
 	public UUID getOtherPlayer(UUID me) {
-		System.out.println(player1.toString() + " - " + player2.toString() + " > " + me.toString());
 		return me.toString().equalsIgnoreCase(player1.toString()) ? player2 : player1;
 	}
 

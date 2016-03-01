@@ -286,7 +286,7 @@ public class DataManager {
 			UUID partnerId = UUID.fromString(result.getString(alt ? "player1" : "player2"));
 			Player partner = Bukkit.getPlayer(partnerId);
             MarriageData data;
-			if(partner != null && partner.isOnline()) {
+			if(partner != null && partner.isOnline() && core.isMPlayerSet(partner.getUniqueId())) {
 				// Copy marriage data from partner to ensure a match.
 				data = (MarriageData) core.getMPlayer(partnerId).getMarriage();
 			} else if((data = marriageDataCache.getIfPresent(player.getUniqueId())) == null){

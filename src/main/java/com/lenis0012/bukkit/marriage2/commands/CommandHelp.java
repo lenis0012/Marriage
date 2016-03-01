@@ -45,7 +45,6 @@ public class CommandHelp extends Command {
 			status = String.format(Message.MARRIED_TO.toString(), partner);
 		}
 		reply(Message.STATUS, status);
-		System.out.println(Message.STATUS);
 		reply("&2&m--------------------------------------------"); // Play around with the amount of dashes later
 	}
 }
