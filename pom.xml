@@ -50,6 +50,12 @@
             <systemPath>${project.basedir}/lib/spigot.jar</systemPath>
         </dependency>
         <dependency>
+            <groupId>com.lenis0012.bukkit</groupId>
+            <artifactId>lenisutils</artifactId>
+            <version>1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.lenis0012.updater</groupId>
             <artifactId>updater-api</artifactId>
             <version>1</version>
@@ -204,6 +210,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>mkremins:fanciful</include>
+                                    <include>com.lenis0012.bukkit:lenisutils</include>
                                 </includes>
                             </artifactSet>
                         </configuration>

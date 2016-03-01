@@ -19,6 +19,8 @@ public class CommandChat extends Command {
             return;
         }
 
-        mPlayer.setInChat(true);
+        boolean value = !mPlayer.isInChat();
+        mPlayer.setInChat(value);
+        reply(value ? Message.CHAT_ENABLED : Message.CHAT_DISABLED);
     }
 }

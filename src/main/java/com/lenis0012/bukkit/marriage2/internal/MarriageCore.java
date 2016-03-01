@@ -1,5 +1,6 @@
 package com.lenis0012.bukkit.marriage2.internal;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.internal.Register.Type;
 import com.lenis0012.bukkit.marriage2.internal.data.DataConverter;
+import com.lenis0012.pluginutils.modules.configuration.Configuration;
 import com.lenis0012.updater.api.Updater;
 import com.lenis0012.updater.api.UpdaterFactory;
 import org.bukkit.Bukkit;
@@ -41,6 +43,23 @@ public class MarriageCore extends MarriageBase {
 		Settings.reloadAll(this, true);
 		Message.reloadAll(this);
 		Permissions.setupChildRelations();
+
+        File file = new File("test.yml");
+		Configuration config = new Configuration(file);
+        if(file.exists()) {
+            config.reload();
+            config.set("settings.economy.currency", "dollars");
+        } else {
+            config.header("settings.economy", "Economy settings are in dollars.", "Enable to hook with vault");
+            config.header("settings.x", "A value that decides how old you are");
+            config.set("settings.economy.enabled", false);
+            config.set("setting.economy.price", 50.0);
+            config.set("settings.x", 15);
+            config.set("settings.y", 33);
+            config.set("settings.z", 12);
+        }
+
+		config.save();
 	}
 
     @Register(name = "dependencies", type = Type.ENABLE, priority = 1)

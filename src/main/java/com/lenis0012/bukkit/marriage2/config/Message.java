@@ -40,6 +40,8 @@ public enum Message {
 	INSUFFICIENT_MONEY("&cYou have insufficient funds, costs %s"),
 	PARTNER_FEE("&cYour partner couldn't pay the marriage fee!"),
 	MARRIED_TO("&fmarried to %s"),
+	CHAT_ENABLED("&aYou are now in marriage chat mode!"),
+	CHAT_DISABLED("&aYou are no longer in marriage chat mode!"),
 
 	// WORDS
 	STATUS("&aStatus: %s"),
