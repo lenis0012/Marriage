@@ -5,8 +5,9 @@ import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.misc.Cooldown;
-import com.lenis0012.bukkit.marriage2.misc.reflection.Packets;
-import com.lenis0012.bukkit.marriage2.misc.reflection.Reflection;
+import com.lenis0012.pluginutils.misc.Reflection;
+import com.lenis0012.pluginutils.modules.packets.Packet;
+import com.lenis0012.pluginutils.modules.packets.PacketModule;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -69,18 +70,18 @@ public class KissListener implements Listener {
         int min = Settings.KISSES_AMOUNT_MIN.value();
         int max = Settings.KISSES_AMOUNT_MAX.value();
         int amount = min + random.nextInt(max - min + 1);
-        Object packet = Packets.createPacket("PacketPlayOutWorldParticles");
-        Packets.set(packet, "a", Reflection.invokeMethod(GET_PARTICLE_BY_ID, null, 34));
-        Packets.set(packet, "b", (float) l.getX());
-        Packets.set(packet, "c", (float) l.getY());
-        Packets.set(packet, "d", (float) l.getZ());
-        Packets.set(packet, "e", 0.3F);
-        Packets.set(packet, "f", 0.3F);
-        Packets.set(packet, "g", 0.3F);
-        Packets.set(packet, "h", 1F);
-        Packets.set(packet, "i", amount);
-        for(Player player : l.getWorld().getPlayers()) {
-            Packets.send(player, packet);
-        }
+
+        PacketModule module = core.getPlugin().getModule(PacketModule.class);
+        Packet packet = module.createPacket("PacketPlayOutWorldParticles");
+        packet.write("a", Reflection.invokeMethod(GET_PARTICLE_BY_ID, null, 34));
+        packet.write("b", (float) l.getX());
+        packet.write("c", (float) l.getY());
+        packet.write("d", (float) l.getZ());
+        packet.write("e", 0.3F);
+        packet.write("f", 0.3F);
+        packet.write("g", 0.3F);
+        packet.write("h", 1F);
+        packet.write("i", amount);
+        module.broadcastPacket(l.getWorld(), packet);
     }
 }

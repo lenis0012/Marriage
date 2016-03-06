@@ -3,6 +3,7 @@ package com.lenis0012.bukkit.marriage2.commands;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.Dependencies;
+import com.lenis0012.pluginutils.modules.configuration.mapping.ConfigOption;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -169,8 +170,8 @@ public abstract class Command {
 		this.hidden = hidden;
 	}
 
-	protected void setExecutionFee(Settings<Double> setting) {
-		if(!Settings.ECONOMY_ENABLED.value() || !Settings.ECONOMY_SHOW.value()) {
+	protected void setExecutionFee(ConfigOption<Double> setting) {
+		if(!Settings.ECONOMY_ENABLED.value() || !Settings.ECONOMY_SHOW_PRICE.value()) {
 			return;
 		}
 

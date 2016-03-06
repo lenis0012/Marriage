@@ -7,9 +7,11 @@ import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.misc.UUIDFetcher;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.v1_9_R1.CraftServer;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,42 +38,86 @@ public class DataConverter {
         File[] files = dir.listFiles();
         int totalFiles = files.length;
         core.getLogger().log(Level.INFO, "Converting " + totalFiles + " old database entries...");
-        core.getLogger().log(Level.INFO, "Retrieving UUIDs...");
 
         // Retrieve UUIDs from mojang
         Map<String, UUID> uuidMap = Maps.newHashMap();
         UUIDFetcher uuidFetcher = new UUIDFetcher(new ArrayList<String>());
+        int ranThroughMojang = 0;
+        int failed = 0;
         for(int completed = 0; completed < totalFiles; completed++) {
             File file = files[completed];
             String name = file.getName().replace(".yml", "");
-            if(files.length > 50000) {
-                // Over 500 requests, check for marriage
-                try {
-                    FileConfiguration cnf = YamlConfiguration.loadConfiguration(file);
-                    cnf.load(file);
-                    String partner = cnf.getString("partner");
-                    if(partner == null) continue;
-                } catch(Exception e) {
-                    continue; // skip
-                }
-            }
 
-            uuidFetcher.addName(name);
-            if(uuidFetcher.size() >= 100 || completed >= totalFiles - 1) {
-                try {
-                    uuidMap.putAll(uuidFetcher.call());
-                    uuidFetcher = new UUIDFetcher(new ArrayList<String>());
-                } catch(Exception e) {
-                    core.getLogger().log(Level.WARNING, "Failed to retrieve UUID for 100 players!");
-                }
-            }
-
+            // status report
             double progress = (completed + 1.0) / (double) totalFiles;
             if(System.currentTimeMillis() >= lastMessage) {
                 lastMessage = System.currentTimeMillis() + 2500; // Update every 2.5 seconds
                 reportStatus(progress);
             }
+
+            // Pull from cache
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
+            if(offlinePlayer != null) {
+                UUID userId = offlinePlayer.getUniqueId();
+                if(userId != null) {
+                    uuidMap.put(name, userId);
+                    continue;
+                }
+            }
+
+            // Pull from mojang
+            if(ranThroughMojang >= 50000) { // Max 500 requests
+                failed += 1;
+                continue;
+            }
+
+            uuidFetcher.addName(name);
+            ranThroughMojang += 1;
+            if(uuidFetcher.size() == 100) {
+                try {
+                    uuidMap.putAll(uuidFetcher.call());
+                } catch(Exception e){
+                    core.getLogger().log(Level.WARNING, "Failed to retrieve UUID for 100 players!");
+                }
+                uuidFetcher = new UUIDFetcher(new ArrayList<String>());
+            }
         }
+
+        core.getLogger().log(Level.INFO, String.format("Converted %s entries. %s locally, %s through mojang, %s failed.",
+                totalFiles, totalFiles - ranThroughMojang - failed, ranThroughMojang, failed));
+        core.getLogger().log(Level.INFO, "Failed entries are likely from inactive players.");
+
+//        for(int completed = 0; completed < totalFiles; completed++) {
+//            File file = files[completed];
+//            String name = file.getName().replace(".yml", "");
+//            if(files.length > 50000) {
+//                // Over 500 requests, check for marriage
+//                try {
+//                    FileConfiguration cnf = YamlConfiguration.loadConfiguration(file);
+//                    cnf.load(file);
+//                    String partner = cnf.getString("partner");
+//                    if(partner == null) continue;
+//                } catch(Exception e) {
+//                    continue; // skip
+//                }
+//            }
+//
+//            uuidFetcher.addName(name);
+//            if(uuidFetcher.size() >= 100 || completed >= totalFiles - 1) {
+//                try {
+//                    uuidMap.putAll(uuidFetcher.call());
+//                    uuidFetcher = new UUIDFetcher(new ArrayList<String>());
+//                } catch(Exception e) {
+//                    core.getLogger().log(Level.WARNING, "Failed to retrieve UUID for 100 players!");
+//                }
+//            }
+//
+//            double progress = (completed + 1.0) / (double) totalFiles;
+//            if(System.currentTimeMillis() >= lastMessage) {
+//                lastMessage = System.currentTimeMillis() + 2500; // Update every 2.5 seconds
+//                reportStatus(progress);
+//            }
+//        }
 
         // Insert data into new DB...
         core.getLogger().log(Level.INFO, "Inserting user data into new database...");

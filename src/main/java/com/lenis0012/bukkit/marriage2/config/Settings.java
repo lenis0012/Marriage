@@ -1,113 +1,60 @@
 package com.lenis0012.bukkit.marriage2.config;
 
-import java.util.List;
+import com.lenis0012.pluginutils.modules.configuration.mapping.ConfigHeader;
+import com.lenis0012.pluginutils.modules.configuration.mapping.ConfigOption;
 
-import com.google.common.collect.Lists;
-
-import org.bukkit.configuration.file.FileConfiguration;
-
-import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
-
-public class Settings<T> {
-	private static final List<Settings<?>> cache = Lists.newArrayList();
-	
+public class Settings {
 	/**
-	 * Uncatagorized settings
+	 * Uncatagorized ConfigOption
 	 */
-	public static final Settings<Integer> REQUEST_EXPRY = new Settings<>("requestExpiry", 60);
-    public static final Settings<Boolean> ENABLE_PRIEST = new Settings<>("enable-priests", false);
+	public static final ConfigOption<Integer> REQUEST_EXPRY = new ConfigOption<>("requestExpiry", 60);
+    public static final ConfigOption<Boolean> ENABLE_PRIEST = new ConfigOption<>("enable-priests", false);
 
     /**
      * Cooldown
      */
-    public static final Settings<Integer> COOLDOWN_KISS = new Settings<>("cooldown.kiss", 2);
+    public static final ConfigOption<Integer> COOLDOWN_KISS = new ConfigOption<>("cooldown.kiss", 2);
 
     /**
      * Chat
      */
-    public static final Settings<String> PM_FORMAT = new Settings<>("chat.pm-format", "&4{heart}&c{name}&4{heart} &7{message}");
-    public static final Settings<String> CHAT_FORMAT = new Settings<>("chat.status-format", "&4&l<3 &r");
-    public static final Settings<Boolean> FORCE_FORMAT = new Settings<>("chat.force-status-format", true);
+	@ConfigHeader(path = "chat", value = {
+			"Chat, set the format of private messages and in-chat status.",
+			"Supported tags for chat: {heart}, {partner}. for pm: {heart}, {name}, {message}",
+			"If you use a custom chat plugin, put {marriage_status} in the format and set force-status-format to false"
+	})
+    public static final ConfigOption<String> PM_FORMAT = new ConfigOption<>("chat.pm-format", "&4{heart}&c{name}&4{heart} &7{message}");
+    public static final ConfigOption<String> CHAT_FORMAT = new ConfigOption<>("chat.status-format", "&4&l<3 &r");
+    public static final ConfigOption<Boolean> FORCE_FORMAT = new ConfigOption<>("chat.force-status-format", true);
 
     /**
      * Kissing
      */
-    public static final Settings<Boolean> KISSES_ENABLED = new Settings<>("kisses.enabled", true);
-    public static final Settings<Integer> KISSES_AMOUNT_MIN = new Settings<>("kisses.amount-min", 5);
-    public static final Settings<Integer> KISSES_AMOUNT_MAX = new Settings<>("kisses.amount-max", 10);
+	@ConfigHeader(path = "kisses", value = {
+			"Kissing, display hearts when 2 married players kiss eachother.",
+			"The amount of hearts is a random number between min and max."
+	})
+    public static final ConfigOption<Boolean> KISSES_ENABLED = new ConfigOption<>("kisses.enabled", true);
+    public static final ConfigOption<Integer> KISSES_AMOUNT_MIN = new ConfigOption<>("kisses.amount-min", 5);
+    public static final ConfigOption<Integer> KISSES_AMOUNT_MAX = new ConfigOption<>("kisses.amount-max", 10);
 
     /**
      * Economy
      */
-    public static final Settings<Boolean> ECONOMY_ENABLED = new Settings<>("economy.enabled", false);
-    public static final Settings<Boolean> ECONOMY_SHOW = new Settings<>("economy.show-on-help", true);
-    public static final Settings<Double> PRICE_MARRY = new Settings<>("economy.marriage-price", 100.0);
-    public static final Settings<Double> PRICE_TELEPORT = new Settings<>("economy.teleport-price", 0.0);
-    public static final Settings<Double> PRICE_SETHOME = new Settings<>("economy.sethome-price", 0.0);
-    public static final Settings<Double> PRICE_DIVORCE = new Settings<>("economy.divorce", 0.0);
+	@ConfigHeader({"Economy settings, uses Vault.", "enable 'show-on-help' to show prices in help command."})
+	public static final ConfigOption<Boolean> ECONOMY_ENABLED = new ConfigOption<>("economy.enabled", false);
+	public static final ConfigOption<Boolean> ECONOMY_SHOW_PRICE = new ConfigOption<>("economy.show-on-help", true);
+	public static final ConfigOption<Double> PRICE_MARRY = new ConfigOption<>("economy.marriage-price", 100.0);
+	public static final ConfigOption<Double> PRICE_TELEPORT = new ConfigOption<>("economy.teleport-price", 0.0);
+	public static final ConfigOption<Double> PRICE_SETHOME = new ConfigOption<>("economy.sethome-price", 0.0);
+	public static final ConfigOption<Double> PRICE_DIVORCE = new ConfigOption<>("economy.divorce-price", 0.0);
 
-	public static final Settings<Boolean> ENABLE_UPDATE_CHACKER = new Settings<>("updater.enabled", true);
-    public static final Settings<Boolean> ENABLE_CHANGELOG = new Settings<>("updater.changelog", true);
-
-
-	
-	private final String key;
-	private final T def;
-	private T value;
-	
-	private Settings(String key, T def) {
-		cache.add(this);
-		this.key = key;
-		this.def = def;
-	}
-	
-	public T value() {
-		return value;
-	}
-
-    private void writeToConfig(FileConfiguration config) {
-        config.set(key, value);
-    }
-	
-	@SuppressWarnings("unchecked")
-	private void reload(FileConfiguration config) {
-		if(config.contains(key)) {
-			this.value = (T) config.get(key);
-		} else {
-			this.value = def;
-		}
-	}
-	
-	public static final void reloadAll(MarriageCore core, boolean initial) {
-		FileConfiguration config = core.getPlugin().getConfig();
-		for(Settings<?> setting : cache) {
-			setting.reload(config);
-		}
-
-        if(initial) {
-            // Reset config
-            for(String key : config.getKeys(false)) {
-                config.set(key, null);
-            }
-
-            // Write current values
-            for(Settings<?> setting : cache) {
-                setting.writeToConfig(config);
-            }
-
-            // Write header
-            config.options().header("Marriage Reloaded 2.X\n\n" +
-                    "Expiry & Cool down is in seconds.\n\n" +
-                    "PM format supports: {heart}, {name}, {message}. Chat format supports {heart}, {partner}\n" +
-                    "Note: If you have a custom chat plugin, set forced to false and put {marriage_status}\n" +
-                    "somewhere in your chat plugin's format.\n\n" +
-                    "Economy setting show-on-help shows the fee when hovering over command.\n\n" +
-                    "The rest should be straight forward. if not, comment on bukkitdev.");
-            core.getPlugin().saveConfig();
-        }
-	}
-	
-	public static final List<Settings<?>> values() {
-		return cache;
-	}
+	/**
+	 * Updater
+	 */
+	@ConfigHeader(path = "updater", value = {
+			"Updater settings, checks for updates. We recommend to keep this enabled."
+	})
+	public static final ConfigOption<Boolean> ENABLE_UPDATE_CHACKER = new ConfigOption<>("updater.enabled", true);
+    public static final ConfigOption<Boolean> ENABLE_CHANGELOG = new ConfigOption<>("updater.changelog", true);
 }

@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.logging.Level;
 
 import com.google.common.collect.Lists;
+import com.lenis0012.pluginutils.PluginHolder;
+import com.lenis0012.pluginutils.modules.configuration.ConfigurationModule;
+import com.lenis0012.pluginutils.modules.packets.PacketModule;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lenis0012.bukkit.marriage2.Marriage;
 
-public class MarriagePlugin extends JavaPlugin {
+public class MarriagePlugin extends PluginHolder {
 	private static MarriageCore core;
 	
 	public static Marriage getInstance() {
@@ -21,6 +24,8 @@ public class MarriagePlugin extends JavaPlugin {
 	private final List<Method>[] methods = new List[Register.Type.values().length];
 	
 	public MarriagePlugin() {
+		super(PacketModule.class,
+				ConfigurationModule.class);
 		core = new MarriageCore(this);
 		
 		//Scan methods
@@ -57,12 +62,12 @@ public class MarriagePlugin extends JavaPlugin {
 	}
 	
 	@Override
-	public void onEnable() {
+	public void enable() {
 		executeMethods(Register.Type.ENABLE);
 	}
 	
 	@Override
-	public void onDisable() {
+	public void disable() {
 		executeMethods(Register.Type.DISABLE);
 	}
 	
