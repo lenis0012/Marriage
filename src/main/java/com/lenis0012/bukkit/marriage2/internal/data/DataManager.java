@@ -81,7 +81,7 @@ public class DataManager {
             final int days = config.getInt("auto-purge.purge-after-days", 45);
             final boolean purgeMarried = config.getBoolean("auto-purge.purge-married-players", false);
             final long daysInMillis = days * 24 * 60 * 60 * 1000L;
-            Bukkit.getScheduler().runTaskTimerAsynchronously(MarriagePlugin.getInstance().getPlugin(), new Runnable() {
+            Bukkit.getScheduler().runTaskTimerAsynchronously(MarriagePlugin.getCore().getPlugin(), new Runnable() {
                 @Override
                 public void run() {
                     long startTime = System.currentTimeMillis();

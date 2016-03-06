@@ -105,7 +105,7 @@ public class MarriagePlayer implements MPlayer {
 
 	@Override
 	public MPlayer getPartner() {
-		Marriage core = MarriagePlugin.getInstance();
+		Marriage core = MarriagePlugin.getCore();
 		if(marriage != null) {
 			UUID id = uuid.equals(marriage.getPlayer1Id()) ? marriage.getPllayer2Id() : marriage.getPlayer1Id();
 			return core.getMPlayer(id);
@@ -120,7 +120,7 @@ public class MarriagePlayer implements MPlayer {
 			return;
 		}
 
-		((MarriageCore) MarriagePlugin.getInstance()).removeMarriage(marriage);
+		((MarriageCore) MarriagePlugin.getCore()).removeMarriage(marriage);
 		MarriagePlayer partner = (MarriagePlayer) getPartner();
 		partner.marriage = null;
 		this.marriage = null;

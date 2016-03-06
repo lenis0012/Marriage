@@ -16,7 +16,7 @@ import com.lenis0012.bukkit.marriage2.Marriage;
 public class MarriagePlugin extends PluginHolder {
 	private static MarriageCore core;
 	
-	public static Marriage getInstance() {
+	public static Marriage getCore() {
 		return core;
 	}
 	

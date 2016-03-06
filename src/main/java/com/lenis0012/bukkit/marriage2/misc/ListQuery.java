@@ -51,7 +51,7 @@ public class ListQuery {
 					to.sendMessage(ChatColor.GREEN + names.get(data.getPlayer1Id()) + " + " + names.get(data.getPllayer2Id()));
 				}
 			}
-		}.runTask(MarriagePlugin.getInstance().getPlugin());
+		}.runTask(MarriagePlugin.getCore().getPlugin());
 	}
 
 	public int getPages() {

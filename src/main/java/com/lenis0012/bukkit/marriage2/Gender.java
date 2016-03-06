@@ -19,7 +19,7 @@ public enum Gender {
 	public String getChatPrefix() {
 		switch(this) {
 			default:
-				return MarriagePlugin.getInstance().getBukkitConfig("config.yml").get(toString().toLowerCase(), String.class);
+				return MarriagePlugin.getCore().getBukkitConfig("config.yml").get(toString().toLowerCase(), String.class);
 		}
 	}
 }

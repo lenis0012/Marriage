@@ -113,7 +113,7 @@ public class MarriageData implements MData {
 	}
 
 	public void saveAsync() {
-		Bukkit.getScheduler().runTaskAsynchronously(MarriagePlugin.getInstance().getPlugin(), new Runnable() {
+		Bukkit.getScheduler().runTaskAsynchronously(MarriagePlugin.getCore().getPlugin(), new Runnable() {
 			@Override
 			public void run() {
 				dataManager.saveMarriage(MarriageData.this);

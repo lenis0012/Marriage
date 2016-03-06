@@ -79,7 +79,7 @@ public class BConfig extends YamlConfiguration {
 				output.write(buffer, 0, length);
 			}
 		} catch(Exception e) {
-			MarriagePlugin.getInstance().getLogger().log(Level.WARNING, "Failed to copy file", e);
+			MarriagePlugin.getCore().getLogger().log(Level.WARNING, "Failed to copy file", e);
 		} finally {
 			if(input != null) {
 				try {
