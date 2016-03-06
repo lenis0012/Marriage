@@ -210,7 +210,7 @@
                             </artifactSet>
                             <relocations>
                                 <relocation>
-                                    <parrent>com.lenis0012.pluginutils</parrent>
+                                    <pattern>com.lenis0012.pluginutils</pattern>
                                     <shadedPattern>com.lenis0012.libs.pluginutils</shadedPattern>
                                 </relocation>
                             </relocations>
