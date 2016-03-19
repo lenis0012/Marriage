@@ -20,12 +20,17 @@ public class Settings {
      */
 	@ConfigHeader(path = "chat", value = {
 			"Chat, set the format of private messages and in-chat status.",
-			"Supported tags for chat: {heart}, {partner}. for pm: {heart}, {name}, {message}",
-			"If you use a custom chat plugin, put {marriage_status} in the format and set force-status-format to false"
+			"Supported tags for chat: {partner}. for pm: {name}, {message}",
+            "Icons are always available: {icon:heart}, {icon:male}, {icon:female}, {icon:genderless}",
+			"If you use a custom chat plugin, put {marriage_status} in the format and set force-status-format to false",
+            "To show genders in chat, put {marriage_gender} in chat plugin format"
 	})
-    public static final ConfigOption<String> PM_FORMAT = new ConfigOption<>("chat.pm-format", "&4{heart}&c{name}&4{heart} &7{message}");
+    public static final ConfigOption<String> PM_FORMAT = new ConfigOption<>("chat.pm-format", "&4{icon:heart}&c{name}&4{icon:heart} &7{message}");
     public static final ConfigOption<String> CHAT_FORMAT = new ConfigOption<>("chat.status-format", "&4&l<3 &r");
     public static final ConfigOption<Boolean> FORCE_FORMAT = new ConfigOption<>("chat.force-status-format", true);
+    public static final ConfigOption<String> PREFIX_MALE = new ConfigOption<>("chat.male-prefix", "&b{icon:male} &r");
+    public static final ConfigOption<String> PREFIX_FEMALE = new ConfigOption<>("chat.female-prefix", "&d{icon:female} &r");
+    public static final ConfigOption<String> PREFIX_GENDERLESS = new ConfigOption<>("chat.genderless-prefix", "");
 
     /**
      * Kissing
@@ -50,11 +55,28 @@ public class Settings {
 	public static final ConfigOption<Double> PRICE_DIVORCE = new ConfigOption<>("economy.divorce-price", 0.0);
 
 	/**
+	 * Sharing
+	 */
+//	@ConfigHeader(path = "share", value = {
+//			"Change these values to configure sharing.",
+//			"Sharing must be enabled by the partners using /marry share inventory/money",
+//			"",
+//			"Economy sharing | Supported plugins: None.",
+//			"Inventory sharing | Supported versions: 1.9"
+//	})
+//	public static final ConfigOption<Boolean> SHARE_INV_ENABLED = new ConfigOption<>("share.inventory.enabled", true);
+//	public static final ConfigOption<Boolean> SHARE_ECON_ENABLED = new ConfigOption<>("share.economy.enabled", true);
+//	@ConfigHeader("Supported: TAKE_ALL, SPLIT_EVENLY, SPLIT_FAIRLY, SPLIT_ORIGINALLY")
+//	public static final ConfigOption<String> SHARE_ECON_SPLIT = new ConfigOption<>("share.economy.split", "SPLIT_EVENLY");
+
+	/**
 	 * Updater
 	 */
 	@ConfigHeader(path = "updater", value = {
-			"Updater settings, checks for updates. We recommend to keep this enabled."
+			"Updater settings, checks for updates. We recommend to keep this enabled.",
+			"Available channels: RELEASE, BETA, ALPHA"
 	})
 	public static final ConfigOption<Boolean> ENABLE_UPDATE_CHACKER = new ConfigOption<>("updater.enabled", true);
     public static final ConfigOption<Boolean> ENABLE_CHANGELOG = new ConfigOption<>("updater.changelog", true);
+	public static final ConfigOption<String> UPDATER_CHANNEL = new ConfigOption<>("updater.channel", "BETA");
 }

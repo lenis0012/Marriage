@@ -1,6 +1,6 @@
 package com.lenis0012.bukkit.marriage2;
 
-import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
+import com.lenis0012.bukkit.marriage2.config.Settings;
 
 public enum Gender {
 	/**
@@ -15,11 +15,20 @@ public enum Gender {
 	 * Not set
 	 */
 	UNKNOWN;
-	
+
+	/**
+	 * Get chat prefix for gender.
+	 *
+	 * @return Chat prefix
+     */
 	public String getChatPrefix() {
 		switch(this) {
+			case MALE:
+				return Settings.PREFIX_MALE.value();
+			case FEMALE:
+				return Settings.PREFIX_FEMALE.value();
 			default:
-				return MarriagePlugin.getCore().getBukkitConfig("config.yml").get(toString().toLowerCase(), String.class);
+				return Settings.PREFIX_GENDERLESS.value();
 		}
 	}
 }

@@ -153,6 +153,12 @@
                                             <include>com.lenis0012.updater:updater-spigot</include>
                                         </includes>
                                     </artifactSet>
+                                    <relocations>
+                                        <relocation>
+                                            <pattern>com.lenis0012.updater</pattern>
+                                            <shadedPattern>com.lenis0012.bukkit.marriage2.libs.updater</shadedPattern>
+                                        </relocation>
+                                    </relocations>
                                 </configuration>
                             </execution>
                         </executions>

@@ -10,6 +10,7 @@ import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.internal.Register.Type;
 import com.lenis0012.bukkit.marriage2.internal.data.DataConverter;
 import com.lenis0012.pluginutils.modules.configuration.ConfigurationModule;
+import com.lenis0012.updater.api.ReleaseType;
 import com.lenis0012.updater.api.Updater;
 import com.lenis0012.updater.api.UpdaterFactory;
 import org.bukkit.Bukkit;
@@ -84,6 +85,7 @@ public class MarriageCore extends MarriageBase {
 	public void loadUpdater() {
 		UpdaterFactory factory = new UpdaterFactory(plugin);
 		this.updater = factory.newUpdater(plugin.getPluginFile(), Settings.ENABLE_UPDATE_CHACKER.value());
+		updater.setChannel(ReleaseType.valueOf(Settings.UPDATER_CHANNEL.value().toUpperCase()));
 	}
 
 	@Register(name = "converter", type = Register.Type.ENABLE, priority = 10)

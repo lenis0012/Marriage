@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import com.lenis0012.pluginutils.PluginHolder;
 import com.lenis0012.pluginutils.modules.configuration.ConfigurationModule;
 import com.lenis0012.pluginutils.modules.packets.PacketModule;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import com.lenis0012.bukkit.marriage2.Marriage;
 
