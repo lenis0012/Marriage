@@ -33,6 +33,7 @@ public class ChatListener implements Listener {
                     .replace("{name}", player.getDisplayName())
                     .replace("{message}", event.getMessage())
                     .replace("{heart}", "\u2764");
+            message = formatIcons(message);
             message = ChatColor.translateAlternateColorCodes('&', message);
 
             Player partner = Bukkit.getPlayer(mp.getPartner().getUniqueId());
@@ -51,6 +52,7 @@ public class ChatListener implements Listener {
         if(!Settings.FORCE_FORMAT.value()) return;
         event.setFormat("{marriage_status}" + event.getFormat()); // Enforce marriage format
 
+        // Marriage status
         if(format.contains("{marriage_status}")) {
             String status = "";
             if(mplayer.isMarried()) {
@@ -58,26 +60,28 @@ public class ChatListener implements Listener {
                 status = Settings.CHAT_FORMAT.value()
                         .replace("{heart}", "\u2764")
                         .replace("{partner}", partner);
+                status = formatIcons(status);
 
                 status = ChatColor.translateAlternateColorCodes('&', status);
             }
             event.setFormat(format.replace("{marriage_status}", status));
         }
+
+        // Gender format
+        if(format.contains("{marriage_gender}")) {
+            String gender = mplayer.getGender().getChatPrefix();
+            gender = formatIcons(gender);
+            gender = ChatColor.translateAlternateColorCodes('&', gender);
+            event.setFormat(format.replace("{marriage_gender}", gender));
+        }
     }
 
-    private void handleChat(AsyncPlayerChatEvent event, MPlayer mp) {
-        if(!mp.isMarried()) {
-            return;
-        }
-
-        // Set format
-        String format = Settings.CHAT_FORMAT.value()
-                .replace("{name}", "%1$s")
-                .replace("{message}", "%2$s")
-                .replace("{original_format}", event.getFormat())
-                .replace("{heart}", "\u2764");
-        format = ChatColor.translateAlternateColorCodes('&', format);
-        event.setFormat(format);
+    private String formatIcons(String text) {
+        return text.replace("{heart}", "\u2764")
+                .replace("{icon:heart}", "\u2764")
+                .replace("{icon:male}", "\u2642")
+                .replace("{icon:female}", "\u2640")
+                .replace("{icon:genderless}", "\u26B2");
     }
 
     private boolean isOnline(MPlayer mp) {

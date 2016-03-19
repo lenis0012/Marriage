@@ -5,11 +5,11 @@
     [
       "---[ Changelog ]---",
       "",
-      "- Added 1.9/8 support",
+      "- Improved config documentation",
       "",
-      "- Fixed error on reload",
+      "- Added gender chat options",
       "",
-      "- Fixed db error on first use"
+      "- Improved large-scale UUID conversion"
     ],
     [
       "====[ DONATE ]====",
@@ -22,7 +22,7 @@
       "IGN: lenis",
       "Twitter: @lenis0012",
       "",
-      "Report hugs!",
+      "Report bugs!",
       "-lenis"
     ]
   ]
