@@ -1,15 +1,11 @@
 {
-  "version": "Marriage v2.0.7",
+  "version": "Marriage v2.0.8",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Improved config documentation",
-      "",
-      "- Added gender chat options",
-      "",
-      "- Improved large-scale UUID conversion"
+      "- Fixed player saving"
     ],
     [
       "====[ DONATE ]====",
