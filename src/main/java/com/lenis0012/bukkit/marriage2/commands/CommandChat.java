@@ -8,7 +8,7 @@ public class CommandChat extends Command {
 
     public CommandChat(Marriage marriage) {
         super(marriage, "chat");
-        setDescription("Enable partner-only chat mode");
+        setDescription(Message.COMMAND_CHAT.toString());
     }
 
     @Override

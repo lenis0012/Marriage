@@ -11,6 +11,7 @@ public class CommandSethome extends Command {
 	public CommandSethome(Marriage marriage) {
 		super(marriage, "sethome");
 		setExecutionFee(Settings.PRICE_SETHOME);
+		setDescription(Message.COMMAND_SETHOME.toString());
 	}
 
 	@Override

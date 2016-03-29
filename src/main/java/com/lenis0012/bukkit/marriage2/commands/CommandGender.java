@@ -9,7 +9,7 @@ public class CommandGender extends Command {
 
 	public CommandGender(Marriage marriage) {
 		super(marriage, "gender");
-		setDescription("Specify your gender");
+		setDescription(Message.COMMAND_GENDER.toString());
 		setUsage("<gender>");
 		setMinArgs(1);
 	}

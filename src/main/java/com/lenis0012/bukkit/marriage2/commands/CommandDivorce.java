@@ -13,7 +13,7 @@ public class CommandDivorce extends Command {
 
 	public CommandDivorce(Marriage marriage) {
 		super(marriage, "divorce");
-		setDescription("Divorce your current partner");
+		setDescription(Message.COMMAND_DIVORCE.toString());
 		setExecutionFee(Settings.PRICE_DIVORCE);
 	}
 

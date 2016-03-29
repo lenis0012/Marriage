@@ -14,7 +14,7 @@ public class CommandGift extends Command {
 
 	public CommandGift(Marriage marriage) {
 		super(marriage, "gift");
-		setDescription("Gift the item(s) you currently hold");
+		setDescription(Message.COMMAND_GIFT.toString());
 	}
 
 	@Override

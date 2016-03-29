@@ -43,6 +43,17 @@ public enum Message {
 	CHAT_ENABLED("&aYou are now in marriage chat mode!"),
 	CHAT_DISABLED("&aYou are no longer in marriage chat mode!"),
 
+	// COMMANDS
+	COMMAND_CHAT("Enable partner-only chat mode"),
+	COMMAND_DIVORCE("Divorce your current partner"),
+	COMMAND_GENDER("Specify your gender"),
+	COMMAND_GIFT("Gift the item(s) you currently hold"),
+	COMMAND_HOME("Teleport to your marriage home"),
+	COMMAND_LIST("View a list of all married players"),
+	COMMAND_SEEN("Check when your partner last logged in."),
+	COMMAND_SETHOME("Set a home for you a your partner."),
+	COMMAND_TELEPORT("Teleport to your partner."),
+
 	// WORDS
 	STATUS("&aStatus: %s"),
 	SINGLE("&fsingle");

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class CommandSeen extends Command {
     public CommandSeen(Marriage marriage) {
         super(marriage, "seen");
-        setDescription("Check when your partner last logged in.");
+        setDescription(Message.COMMAND_SEEN.toString());
     }
 
     @Override

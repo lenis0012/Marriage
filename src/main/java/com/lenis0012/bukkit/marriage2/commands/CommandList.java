@@ -10,7 +10,7 @@ public class CommandList extends Command {
 
 	public CommandList(Marriage marriage) {
 		super(marriage, "list");
-		setDescription("View a list of all married players");
+		setDescription(Message.COMMAND_LIST.toString());
 		setUsage("[page]");
 		
 		setAllowConsole(true);

@@ -11,7 +11,7 @@ public class CommandHome extends Command {
 
 	public CommandHome(Marriage marriage) {
 		super(marriage, "home");
-		setDescription("Teleport to your marriage home");
+		setDescription(Message.COMMAND_HOME.toString());
 	}
 
 	@Override
