@@ -1,11 +1,13 @@
 {
-  "version": "Marriage v2.0.8",
+  "version": "Marriage v2.0.9",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Fixed player saving"
+      "- Added command descriptions to config",
+      "",
+      "- Added command spy"
     ],
     [
       "====[ DONATE ]====",

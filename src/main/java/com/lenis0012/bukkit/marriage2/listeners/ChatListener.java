@@ -23,6 +23,7 @@ public class ChatListener implements Listener {
         final Player player = event.getPlayer();
         MPlayer mp = core.getMPlayer(player.getUniqueId());
         if(mp.isInChat()) {
+            // Private chat
             if(!isOnline(mp.getPartner())) {
                 mp.setInChat(false);
                 return;
@@ -39,6 +40,25 @@ public class ChatListener implements Listener {
             Player partner = Bukkit.getPlayer(mp.getPartner().getUniqueId());
             player.sendMessage(message);
             partner.sendMessage(message);
+
+            // Admin chat spy
+            String adminMessage = null; // No need to format message if we're not going to send it.
+            for(Player admin : Bukkit.getOnlinePlayers()) {
+                if(admin.equals(player) || admin.equals(partner)) continue;
+                final MPlayer mAdmin = core.getMPlayer(admin.getUniqueId());
+                if(!mAdmin.isChatSpy()) continue;
+                if(adminMessage == null) {
+                    // Format message
+                    adminMessage = Settings.CHATSPY_FORMAT.value()
+                            .replace("{sender}", player.getDisplayName())
+                            .replace("{receiver}", partner.getDisplayName());
+                    adminMessage = formatIcons(adminMessage);
+                    adminMessage = ChatColor.translateAlternateColorCodes('&', adminMessage)
+                            .replace("{message}", event.getMessage());
+                }
+                admin.sendMessage(adminMessage);
+            }
+
             return;
         }
     }

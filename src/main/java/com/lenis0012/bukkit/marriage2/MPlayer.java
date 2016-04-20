@@ -111,7 +111,31 @@ public interface MPlayer {
 	 */
 	void divorce();
 
+	/**
+	 * Get timestamp of last time player logged in.
+	 *
+	 * @return Last login timestamp.
+     */
 	long getLastLogin();
 
+	/**
+	 * Get timestamp of last time player logged out.
+	 *
+	 * @return Last logout timestamp.
+     */
 	long getLastLogout();
+
+	/**
+	 * Said whether or not player is spying on marriage private chat.
+	 *
+	 * @param enabled True if enables, false otherwise
+     */
+	void setChatSpy(boolean enabled);
+
+	/**
+	 * Get whether or not player is spying on marriage private chat.
+	 *
+	 * @return True if enabled, false otherwise
+     */
+	boolean isChatSpy();
 }

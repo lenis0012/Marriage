@@ -42,6 +42,8 @@ public enum Message {
 	MARRIED_TO("&fmarried to %s"),
 	CHAT_ENABLED("&aYou are now in marriage chat mode!"),
 	CHAT_DISABLED("&aYou are no longer in marriage chat mode!"),
+	CHAT_SPY_ENABLED("&aNow spying on marriage private chat!"),
+	CHAT_SPY_DISABLED("&aNo longer spying on marriage chat!"),
 
 	// COMMANDS
 	COMMAND_CHAT("Enable partner-only chat mode"),

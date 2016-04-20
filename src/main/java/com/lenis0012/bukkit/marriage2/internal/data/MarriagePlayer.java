@@ -22,6 +22,7 @@ public class MarriagePlayer implements MPlayer {
 	private MData marriage;
 	private Gender gender = Gender.UNKNOWN;
 	private boolean inChat;
+	private boolean chatSpy;
 	private boolean priest;
 	private long lastLogin;
 	private long lastLogout;
@@ -136,11 +137,23 @@ public class MarriagePlayer implements MPlayer {
 		this.priest = priest;
 	}
 
+    @Override
 	public long getLastLogin() {
 		return lastLogin;
 	}
 
+    @Override
 	public long getLastLogout() {
 		return lastLogout;
+	}
+
+	@Override
+	public boolean isChatSpy() {
+		return chatSpy;
+	}
+
+	@Override
+	public void setChatSpy(boolean chatSpy) {
+		this.chatSpy = chatSpy;
 	}
 }

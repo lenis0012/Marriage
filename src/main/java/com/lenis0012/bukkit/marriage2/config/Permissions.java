@@ -16,6 +16,7 @@ public enum Permissions {
      * Admin commands
      */
     UPDATE("marry.update", PermissionDefault.FALSE, 1),
+    CHAT_SPY("marry.chatspy", PermissionDefault.FALSE, 1),
     /**
      * Player commands
      */
