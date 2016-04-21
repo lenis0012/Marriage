@@ -1,29 +1,29 @@
 package com.lenis0012.bukkit.marriage2.internal.data;
 
-import java.io.File;
-import java.sql.*;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-import java.util.logging.Level;
-
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
+import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import com.lenis0012.bukkit.marriage2.misc.LockedReference;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-
-import com.lenis0012.bukkit.marriage2.MData;
-import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
-import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import org.bukkit.entity.Player;
+
+import java.io.File;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public class DataManager {
     private static final ExecutorService executorService = Executors.newCachedThreadPool();
@@ -35,7 +35,7 @@ public class DataManager {
     // Create a data cache to overlap with the pre join event cache
     private final Cache<UUID, MarriageData> marriageDataCache = CacheBuilder.newBuilder().expireAfterWrite(60L, TimeUnit.SECONDS).build();
     private final MarriageCore core;
-	private LockedReference<Connection> supplier;
+	private LockedReference supplier;
 	private String prefix;
 
     public DataManager(MarriageCore core) {
@@ -99,7 +99,7 @@ public class DataManager {
         }
 
         // Create cached connection supplier.
-        this.supplier = new LockedReference<>(new ConnectionSupplier(url), 30L, TimeUnit.SECONDS, new ConnectionInvalidator());
+        this.supplier = new LockedReference(new ConnectionSupplier(url), 30L, TimeUnit.SECONDS, new ConnectionInvalidator());
 
         DBUpgrade upgrade = new DBUpgrade();
         Connection connection = supplier.access();
@@ -383,14 +383,13 @@ public class DataManager {
         return false;
     }
 
-	private static final class ConnectionSupplier implements Supplier<Connection> {
+	public static final class ConnectionSupplier {
 		private final String url;
 
 		private ConnectionSupplier(String url) {
 			this.url = url;
 		}
 
-		@Override
 		public Connection get() {
 			try {
 				return DriverManager.getConnection(url);
@@ -400,9 +399,8 @@ public class DataManager {
 		}
 	}
 
-	private static final class ConnectionInvalidator implements Consumer<Connection> {
+	public static final class ConnectionInvalidator {
 
-		@Override
 		public void accept(Connection connection) {
 			// Try to close connection
 			try {

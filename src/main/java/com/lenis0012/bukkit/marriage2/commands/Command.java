@@ -1,6 +1,8 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
 import com.google.common.collect.Lists;
+import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.Dependencies;
@@ -10,9 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import com.lenis0012.bukkit.marriage2.Marriage;
-import com.lenis0012.bukkit.marriage2.config.Message;
 
 public abstract class Command {
 	protected final Marriage marriage;

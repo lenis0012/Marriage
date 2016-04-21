@@ -1,13 +1,11 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
-import com.lenis0012.bukkit.marriage2.config.Settings;
-import org.bukkit.Bukkit;
-
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
+import com.lenis0012.bukkit.marriage2.config.Settings;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
 
 public class CommandDivorce extends Command {
 

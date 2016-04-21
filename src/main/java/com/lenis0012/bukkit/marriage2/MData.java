@@ -1,10 +1,9 @@
 package com.lenis0012.bukkit.marriage2;
 
-import java.util.UUID;
+import org.bukkit.Location;
 
 import javax.annotation.Nullable;
-
-import org.bukkit.Location;
+import java.util.UUID;
 
 public interface MData {
 	

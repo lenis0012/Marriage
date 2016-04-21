@@ -1,15 +1,14 @@
 package com.lenis0012.bukkit.marriage2.internal.data;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.UUID;
-
+import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import com.lenis0012.bukkit.marriage2.MData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
 
 public class MarriageData implements MData {
 	private final DataManager dataManager;

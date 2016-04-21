@@ -1,15 +1,14 @@
 package com.lenis0012.bukkit.marriage2.misc;
 
+import com.lenis0012.bukkit.marriage2.internal.MarriageBase;
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
-
-import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.lenis0012.bukkit.marriage2.internal.MarriageBase;
 
 /**
  * Represents a more easy version of FileConfiguration

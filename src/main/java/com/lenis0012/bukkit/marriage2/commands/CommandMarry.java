@@ -1,16 +1,13 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
+import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.Marriage;
-import com.lenis0012.bukkit.marriage2.config.Message;
 import org.bukkit.metadata.FixedMetadataValue;
-
-import java.util.UUID;
 
 public class CommandMarry extends Command {
 

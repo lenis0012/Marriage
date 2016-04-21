@@ -1,27 +1,29 @@
 package com.lenis0012.bukkit.marriage2.misc;
 
+import com.lenis0012.bukkit.marriage2.internal.data.DataManager.ConnectionInvalidator;
+import com.lenis0012.bukkit.marriage2.internal.data.DataManager.ConnectionSupplier;
+
+import java.sql.Connection;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
-public class LockedReference<T> {
+public class LockedReference {
     private final Lock lock = new ReentrantLock();
-    private final Supplier<T> supplier;
-    private final Consumer<T> invalidator;
+    private final ConnectionSupplier supplier;
+    private final ConnectionInvalidator invalidator;
     private final long expiryTime;
 
-    private T object;
+    private Connection object;
     private long timeClaimed;
 
-    public LockedReference(Supplier<T> supplier, long expiryTime, TimeUnit unit, Consumer<T> invalidator) {
+    public LockedReference(ConnectionSupplier supplier, long expiryTime, TimeUnit unit, ConnectionInvalidator invalidator) {
         this.supplier = supplier;
         this.invalidator = invalidator;
         this.expiryTime = unit.toMillis(expiryTime);
     }
 
-    public T access() {
+    public Connection access() {
         lock.lock();
 
         // Check if object not defined or expired.

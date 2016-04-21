@@ -1,11 +1,10 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
-import org.bukkit.Location;
-
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
+import org.bukkit.Location;
 
 public class CommandHome extends Command {
 

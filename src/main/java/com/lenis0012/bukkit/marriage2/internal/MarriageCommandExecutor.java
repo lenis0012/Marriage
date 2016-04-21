@@ -1,17 +1,16 @@
 package com.lenis0012.bukkit.marriage2.internal;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.logging.Level;
-
 import com.google.common.collect.Maps;
+import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.commands.Command;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.lenis0012.bukkit.marriage2.Marriage;
-import com.lenis0012.bukkit.marriage2.commands.Command;
+import java.util.Collection;
+import java.util.Map;
+import java.util.logging.Level;
 
 public class MarriageCommandExecutor implements CommandExecutor {
 	private final MarriageCore core;

@@ -1,8 +1,7 @@
 package com.lenis0012.bukkit.marriage2;
 
-import java.util.UUID;
-
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 public interface MPlayer {
 	

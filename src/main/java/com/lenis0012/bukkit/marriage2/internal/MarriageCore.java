@@ -1,14 +1,17 @@
 package com.lenis0012.bukkit.marriage2.internal;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.commands.Command;
+import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
+import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.Register.Type;
 import com.lenis0012.bukkit.marriage2.internal.data.DataConverter;
+import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
+import com.lenis0012.bukkit.marriage2.internal.data.MarriageData;
+import com.lenis0012.bukkit.marriage2.internal.data.MarriagePlayer;
+import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import com.lenis0012.pluginutils.modules.configuration.ConfigurationModule;
 import com.lenis0012.updater.api.ReleaseType;
 import com.lenis0012.updater.api.Updater;
@@ -17,14 +20,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.commands.Command;
-import com.lenis0012.bukkit.marriage2.config.Message;
-import com.lenis0012.bukkit.marriage2.config.Settings;
-import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
-import com.lenis0012.bukkit.marriage2.internal.data.MarriageData;
-import com.lenis0012.bukkit.marriage2.internal.data.MarriagePlayer;
-import com.lenis0012.bukkit.marriage2.misc.ListQuery;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class MarriageCore extends MarriageBase {
 	private final Map<UUID, MarriagePlayer> players = Collections.synchronizedMap(new HashMap<UUID, MarriagePlayer>());

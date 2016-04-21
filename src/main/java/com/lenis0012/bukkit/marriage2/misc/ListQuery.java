@@ -1,17 +1,11 @@
 package com.lenis0012.bukkit.marriage2.misc;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
 import com.lenis0012.bukkit.marriage2.internal.data.MarriagePlayer;
 import org.bukkit.Bukkit;
@@ -20,8 +14,13 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.lenis0012.bukkit.marriage2.MData;
-import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class ListQuery {
 	private static final JsonParser JSON_PARSER = new JsonParser();

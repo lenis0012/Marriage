@@ -1,10 +1,9 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
-import org.bukkit.Bukkit;
-
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.misc.ListQuery;
+import org.bukkit.Bukkit;
 
 public class CommandList extends Command {
 

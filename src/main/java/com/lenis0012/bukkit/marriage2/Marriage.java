@@ -1,15 +1,14 @@
 package com.lenis0012.bukkit.marriage2;
 
-import java.util.UUID;
-import java.util.logging.Logger;
-
+import com.lenis0012.bukkit.marriage2.commands.Command;
 import com.lenis0012.bukkit.marriage2.internal.Dependencies;
+import com.lenis0012.bukkit.marriage2.misc.BConfig;
+import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-import com.lenis0012.bukkit.marriage2.commands.Command;
-import com.lenis0012.bukkit.marriage2.misc.BConfig;
-import com.lenis0012.bukkit.marriage2.misc.ListQuery;
+import java.util.UUID;
+import java.util.logging.Logger;
 
 public interface Marriage {
 	/**
