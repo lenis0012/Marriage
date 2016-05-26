@@ -47,7 +47,6 @@ public class MarriageCore extends MarriageBase {
 
 		// Messages
 		Message.reloadAll(this);
-		Permissions.setupChildRelations();
 	}
 
     @Register(name = "dependencies", type = Type.ENABLE, priority = 1)
@@ -99,7 +98,6 @@ public class MarriageCore extends MarriageBase {
 	public void saveDatabase() {
 		unloadAll();
 		dataManager.close();
-		Permissions.unloadAll();
 	}
 
 	@Override
