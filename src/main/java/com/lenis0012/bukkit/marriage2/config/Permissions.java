@@ -1,22 +1,25 @@
 package com.lenis0012.bukkit.marriage2.config;
 
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
+import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.plugin.RegisteredServiceProvider;
+
+import java.util.logging.Level;
 
 public enum Permissions {
     /**
-     * Kitds
+     * Kits
      */
-    ALL("marry.*", PermissionDefault.FALSE, -1),
-    ADMIN("marry.admin", PermissionDefault.OP, 0),
-    DEFAULT("marry.default", PermissionDefault.OP, 0),
+    ALL("marry.*", -1),
+    ADMIN("marry.admin", 0),
+    DEFAULT("marry.default", 0),
     /**
      * Admin commands
      */
-    UPDATE("marry.update", PermissionDefault.FALSE, 1),
-    CHAT_SPY("marry.chatspy", PermissionDefault.FALSE, 1),
+    UPDATE("marry.update", 1),
+    CHAT_SPY("marry.chatspy", 1),
     /**
      * Player commands
      */
@@ -29,35 +32,29 @@ public enum Permissions {
     CHAT("marry.chat"),
     SEEN("marry.seen");
 
-//    public static Permission permissionService;
-//
-//    public boolean setupPermissions() {
-//        RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServicesManager().getRegistration(Permission.class);
-//        if(permissionProvider != null) {
-//            permissionService = permissionProvider.getProvider();
-//        }
-//        return permissionService != null;
-//    }
+    private static boolean vaultEnabled = false;
+    private static Permission permissionService;
+
+    public boolean setupPermissions() {
+        RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServicesManager().getRegistration(Permission.class);
+        if(permissionProvider != null) {
+            permissionService = permissionProvider.getProvider();
+            vaultEnabled = true;
+            MarriagePlugin.getCore().getLogger().log(Level.INFO, "Hooked with " + permissionService.getName() + " using Vault!");
+        }
+        return permissionService != null;
+    }
 
     private final String node;
-    private final PermissionDefault defaultSetting;
     private final int parent;
-    private Permission permission;
 
     Permissions(String node) {
-        this(node, PermissionDefault.FALSE);
+        this(node, 2);
     }
 
-    Permissions(String node, PermissionDefault defaultSetting) {
-        this(node, defaultSetting, 2);
-    }
-
-    Permissions(String node, PermissionDefault defaultSetting, int parent) {
+    Permissions(String node, int parent) {
         this.node = node;
-        this.defaultSetting = defaultSetting;
         this.parent = parent;
-        this.permission = new Permission(node, null, defaultSetting);
-        Bukkit.getPluginManager().addPermission(permission);
     }
 
     /**
@@ -67,7 +64,11 @@ public enum Permissions {
      * @return True if has permission, False otherwise
      */
     public boolean has(CommandSender sender) {
-        return sender.hasPermission(permission);
+        if(parent >= 0 && values()[parent].has(sender)) {
+            return true;
+        }
+
+        return vaultEnabled ? permissionService.has(sender, node) : sender.hasPermission(node);
     }
 
     /**
@@ -84,21 +85,5 @@ public enum Permissions {
         }
 
         return null;
-    }
-
-    /**
-     * Set child relations
-     */
-    public static void setupChildRelations() {
-        for(Permissions perm : values()) {
-            if(perm.parent < 0) continue;
-            perm.permission.addParent(values()[perm.parent].permission, true);
-        }
-    }
-
-    public static void unloadAll() {
-        for(Permissions perm : values()) {
-            Bukkit.getPluginManager().removePermission(perm.permission);
-        }
     }
 }

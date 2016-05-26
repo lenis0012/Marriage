@@ -2,7 +2,6 @@ package com.lenis0012.bukkit.marriage2;
 
 import org.bukkit.Location;
 
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 public interface MData {
@@ -24,7 +23,6 @@ public interface MData {
 	 * 
 	 * @return Marriage home, NULL if not set.
 	 */
-	@Nullable
 	Location getHome();
 	
 	/**

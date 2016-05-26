@@ -1,6 +1,5 @@
 package com.lenis0012.bukkit.marriage2;
 
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 public interface MPlayer {
@@ -46,7 +45,6 @@ public interface MPlayer {
 	 * 
 	 * @return Player's marriage, NULL if not married.
 	 */
-	@Nullable
 	MData getMarriage();
 
 	/**
