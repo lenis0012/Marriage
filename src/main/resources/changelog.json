@@ -1,13 +1,15 @@
 {
-  "version": "Marriage v2.0.9",
+  "version": "Marriage v2.0.10",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Added command descriptions to config",
+      "- Fixed permission defaults",
       "",
-      "- Added command spy"
+      "- Added vault support",
+      "",
+      "- Fixed Java 7 support"
     ],
     [
       "====[ DONATE ]====",
