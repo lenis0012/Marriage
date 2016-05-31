@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class MarriageCore extends MarriageBase {
 	private final Map<UUID, MarriagePlayer> players = Collections.synchronizedMap(new HashMap<UUID, MarriagePlayer>());
@@ -47,6 +48,17 @@ public class MarriageCore extends MarriageBase {
 
 		// Messages
 		Message.reloadAll(this);
+
+		// Permissions
+		if(Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+			if(!Permissions.setupPermissions()) {
+				getLogger().log(Level.WARNING, "Vault was found, but no permission provider was detected!");
+				getLogger().log(Level.INFO, "Falling back to bukkit permissions.");
+			}
+		} else {
+			getLogger().log(Level.INFO, "Vault was not found, if you are having permission issues, please install it!");
+			getLogger().log(Level.INFO, "Falling back to bukkit permissions.");
+		}
 	}
 
     @Register(name = "dependencies", type = Type.ENABLE, priority = 1)

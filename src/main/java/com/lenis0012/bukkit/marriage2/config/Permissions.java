@@ -35,7 +35,7 @@ public enum Permissions {
     private static boolean vaultEnabled = false;
     private static Permission permissionService;
 
-    public boolean setupPermissions() {
+    public static boolean setupPermissions() {
         RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServicesManager().getRegistration(Permission.class);
         if(permissionProvider != null) {
             permissionService = permissionProvider.getProvider();
