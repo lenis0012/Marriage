@@ -4,8 +4,11 @@ import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.internal.MarriageBase;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCommandExecutor;
-import mkremins.fanciful.FancyMessage;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.HoverEvent.Action;
+import org.bukkit.Bukkit;
 
 public class CommandHelp extends Command {
 
@@ -30,11 +33,20 @@ public class CommandHelp extends Command {
 
 			String alias = command instanceof CommandMarry ? "" : command.getAliases()[0] + " ";
 			String text = "&a/marry " + alias + command.getUsage() + " &f- &7" + command.getDescription();
-			FancyMessage message = new FancyMessage(ChatColor.translateAlternateColorCodes('&', text));
-			if(command.getExecutionFee() > 0.0) {
-				message.tooltip("Cost: " + marriage.dependencies().getEconomyService().format(command.getExecutionFee()));
+			if(command.getExecutionFee() == 0.0 || !Bukkit.getVersion().contains("Spigot")) {
+				reply(text);
+				continue;
 			}
-			message.send(sender);
+			ComponentBuilder builder = new ComponentBuilder("/marry " + alias + command.getUsage()).color(ChatColor.GREEN)
+					.event(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("Cost: "
+							+ marriage.dependencies().getEconomyService().format(command.getExecutionFee())).create()))
+					.append(" - ").color(ChatColor.WHITE)
+					.event(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("Cost: "
+							+ marriage.dependencies().getEconomyService().format(command.getExecutionFee())).create()))
+					.append(command.getDescription()).color(ChatColor.GRAY)
+					.event(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("Cost: "
+							+ marriage.dependencies().getEconomyService().format(command.getExecutionFee())).create()));
+			player.spigot().sendMessage(builder.create());
 		}
 
 		String status = Message.SINGLE.toString();
