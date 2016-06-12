@@ -24,7 +24,7 @@ public class ChatListener implements Listener {
         MPlayer mp = core.getMPlayer(player.getUniqueId());
         if(mp.isInChat()) {
             // Private chat
-            if(!isOnline(mp.getPartner())) {
+            if(!mp.isMarried() || !isOnline(mp.getPartner())) {
                 mp.setInChat(false);
                 return;
             }
