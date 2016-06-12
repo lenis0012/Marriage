@@ -46,15 +46,17 @@ public enum Message {
 	CHAT_SPY_DISABLED("&aNo longer spying on marriage chat!"),
 
 	// COMMANDS
+	COMMAND_MARRY("Request a marriage with another player"),
+	COMMAND_MARRY_PRIEST("Marry 2 players with eachother"),
 	COMMAND_CHAT("Enable partner-only chat mode"),
 	COMMAND_DIVORCE("Divorce your current partner"),
 	COMMAND_GENDER("Specify your gender"),
 	COMMAND_GIFT("Gift the item(s) you currently hold"),
 	COMMAND_HOME("Teleport to your marriage home"),
 	COMMAND_LIST("View a list of all married players"),
-	COMMAND_SEEN("Check when your partner last logged in."),
-	COMMAND_SETHOME("Set a home for you a your partner."),
-	COMMAND_TELEPORT("Teleport to your partner."),
+	COMMAND_SEEN("Check when your partner last logged in"),
+	COMMAND_SETHOME("Set a home for you a your partner"),
+	COMMAND_TELEPORT("Teleport to your partner"),
 
 	// WORDS
 	STATUS("&aStatus: %s"),

@@ -16,7 +16,7 @@ public class CommandTeleport extends Command {
 
     public CommandTeleport(Marriage marriage) {
         super(marriage, "tp");
-        setDescription(Message.COMMAND_SETHOME.toString());
+        setDescription(Message.COMMAND_TELEPORT.toString());
         setExecutionFee(Settings.PRICE_TELEPORT);
     }
 

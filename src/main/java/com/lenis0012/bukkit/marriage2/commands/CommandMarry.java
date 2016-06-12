@@ -14,11 +14,11 @@ public class CommandMarry extends Command {
 	public CommandMarry(Marriage marriage) {
 		super(marriage, "marry");
         if(Settings.ENABLE_PRIEST.value()) {
-            setDescription("Marry 2 players with eachother.");
+            setDescription(Message.COMMAND_MARRY_PRIEST.toString());
             setUsage("<player1> <player2>");
             setMinArgs(1);
         } else {
-            setDescription("Request a marriage with another player.");
+            setDescription(Message.COMMAND_MARRY.toString());
             setExecutionFee(Settings.PRICE_MARRY);
             setUsage("<player>");
             setMinArgs(0);
