@@ -18,6 +18,12 @@ public class Settings {
      */
     public static final ConfigOption<Integer> COOLDOWN_KISS = new ConfigOption<>("cooldown.kiss", 2);
 
+	/**
+	 * Features
+	 */
+	@ConfigHeader("Show gender colors in marry list command.")
+	public static final ConfigOption<Boolean> GENDER_IN_LIST = new ConfigOption<>("features.genders-in-list", true);
+
     /**
      * Chat
      */

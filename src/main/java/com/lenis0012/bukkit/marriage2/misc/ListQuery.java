@@ -4,7 +4,9 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.lenis0012.bukkit.marriage2.Gender;
 import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
 import com.lenis0012.bukkit.marriage2.internal.data.MarriagePlayer;
@@ -35,8 +37,8 @@ public class ListQuery {
 		this.page = page;
 		this.marriages = marriages;
 		for(MData marriage : marriages) {
-			names.put(marriage.getPlayer1Id(), getName(db, marriage.getPlayer1Id()));
-			names.put(marriage.getPllayer2Id(), getName(db, marriage.getPllayer2Id()));
+			names.put(marriage.getPlayer1Id(), getNameFormat(db, marriage.getPlayer1Id()));
+			names.put(marriage.getPllayer2Id(), getNameFormat(db, marriage.getPllayer2Id()));
 		}
 	}
 	
@@ -47,7 +49,7 @@ public class ListQuery {
 				to.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + "Married players:");
 				to.sendMessage(ChatColor.GOLD + "Page " + (page + 1) + "/" + pages);
 				for(MData data : marriages) {
-					to.sendMessage(ChatColor.GREEN + names.get(data.getPlayer1Id()) + " + " + names.get(data.getPllayer2Id()));
+					to.sendMessage(names.get(data.getPlayer1Id()) + ChatColor.WHITE + " + " + names.get(data.getPllayer2Id()));
 				}
 			}
 		}.runTask(MarriagePlugin.getCore().getPlugin());
@@ -63,6 +65,32 @@ public class ListQuery {
 
 	public List<MData> getMarriages() {
 		return marriages;
+	}
+
+	public static String getNameFormat(DataManager db, UUID userId) {
+		String name = getName(db, userId);
+		if(name == null) {
+			return ChatColor.GREEN + "???";
+		}
+
+		ChatColor color = ChatColor.GREEN;
+		if(Settings.GENDER_IN_LIST.value()) {
+			MarriagePlayer mp = db.loadPlayer(userId);
+			Gender gender = mp == null ? Gender.UNKNOWN : mp.getGender();
+			switch(gender) {
+				case MALE:
+					color = ChatColor.AQUA;
+					break;
+				case FEMALE:
+					color = ChatColor.LIGHT_PURPLE;
+					break;
+				case UNKNOWN:
+					color = ChatColor.GRAY;
+					break;
+			}
+		}
+
+		return color + getName(db, userId);
 	}
 
 	public static String getName(DataManager db, UUID userId) {
