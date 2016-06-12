@@ -3,6 +3,7 @@ package com.lenis0012.bukkit.marriage2.internal;
 import com.google.common.collect.Maps;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.commands.Command;
+import com.lenis0012.bukkit.marriage2.config.Settings;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -47,9 +48,14 @@ public class MarriageCommandExecutor implements CommandExecutor {
 		return true;
 	}
 	
-	public void regster(Class<? extends Command> commandClass) {
+	public void register(Class<? extends Command> commandClass) {
 		try {
 			Command command = commandClass.getConstructor(Marriage.class).newInstance(core);
+			if(Settings.DISABLED_COMMANDS.value().contains(command.getAliases()[0])) {
+				// Command was disabled in config...
+				return;
+			}
+
 			for(String alias : command.getAliases()) {
 				commands.put(alias.toLowerCase(), command);
 			}

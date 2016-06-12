@@ -40,7 +40,7 @@ public abstract class MarriageBase implements Marriage {
 	
 	@Override
 	public void register(Class<? extends Command> commandClass) {
-		commandExecutor.regster(commandClass);
+		commandExecutor.register(commandClass);
 	}
 	
 	@Override

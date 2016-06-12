@@ -3,6 +3,9 @@ package com.lenis0012.bukkit.marriage2.config;
 import com.lenis0012.pluginutils.modules.configuration.mapping.ConfigHeader;
 import com.lenis0012.pluginutils.modules.configuration.mapping.ConfigOption;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Settings {
 	/**
 	 * Uncatagorized ConfigOption
@@ -56,21 +59,6 @@ public class Settings {
 	public static final ConfigOption<Double> PRICE_DIVORCE = new ConfigOption<>("economy.divorce-price", 0.0);
 
 	/**
-	 * Sharing
-	 */
-//	@ConfigHeader(path = "share", value = {
-//			"Change these values to configure sharing.",
-//			"Sharing must be enabled by the partners using /marry share inventory/money",
-//			"",
-//			"Economy sharing | Supported plugins: None.",
-//			"Inventory sharing | Supported versions: 1.9"
-//	})
-//	public static final ConfigOption<Boolean> SHARE_INV_ENABLED = new ConfigOption<>("share.inventory.enabled", true);
-//	public static final ConfigOption<Boolean> SHARE_ECON_ENABLED = new ConfigOption<>("share.economy.enabled", true);
-//	@ConfigHeader("Supported: TAKE_ALL, SPLIT_EVENLY, SPLIT_FAIRLY, SPLIT_ORIGINALLY")
-//	public static final ConfigOption<String> SHARE_ECON_SPLIT = new ConfigOption<>("share.economy.split", "SPLIT_EVENLY");
-
-	/**
 	 * Updater
 	 */
 	@ConfigHeader(path = "updater", value = {
@@ -80,4 +68,10 @@ public class Settings {
 	public static final ConfigOption<Boolean> ENABLE_UPDATE_CHACKER = new ConfigOption<>("updater.enabled", true);
     public static final ConfigOption<Boolean> ENABLE_CHANGELOG = new ConfigOption<>("updater.changelog", true);
 	public static final ConfigOption<String> UPDATER_CHANNEL = new ConfigOption<>("updater.channel", "BETA");
+
+	/**
+	 * Lists
+	 */
+	@ConfigHeader("List of commands that no one can use, for instance 'gift'.")
+	public static final ConfigOption<List<String>> DISABLED_COMMANDS = new ConfigOption<>("disabled-commands", Arrays.asList("commandhere", "anothercommand"));
 }
