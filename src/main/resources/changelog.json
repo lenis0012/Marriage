@@ -1,23 +1,25 @@
 {
-  "version": "Marriage v2.0.10",
+  "version": "Marriage v2.0.11",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Fixed permission defaults",
+      "- Support for 1.10",
       "",
-      "- Added vault support",
+      "- Show gender in /marry list",
       "",
-      "- Fixed Java 7 support"
+      "- Option to disable commands",
+      "",
+      "- Fixed some translation bugs"
     ],
     [
       "====[ DONATE ]====",
       "",
-      "Donate please :)",
-      "$1 = 1 HUG",
+      "Donate if you enjoy this update.",
       "",
       "paypal.me/lenis0012",
+      "",
       "=====[ SOCIAL ]=====",
       "IGN: lenis",
       "Twitter: @lenis0012",
