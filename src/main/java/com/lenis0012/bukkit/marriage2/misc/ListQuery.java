@@ -47,10 +47,10 @@ public class ListQuery {
 			@Override
 			public void run() {
 				to.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + "Married players:");
+				to.sendMessage(ChatColor.GOLD + "Page " + (page + 1) + "/" + pages);
 				if(Settings.GENDER_IN_LIST.value()) {
 					to.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bmale &f- &dfemale &f- &7unknown"));
 				}
-				to.sendMessage(ChatColor.GOLD + "Page " + (page + 1) + "/" + pages);
 				for(MData data : marriages) {
 					to.sendMessage(names.get(data.getPlayer1Id()) + ChatColor.WHITE + " + " + names.get(data.getPllayer2Id()));
 				}

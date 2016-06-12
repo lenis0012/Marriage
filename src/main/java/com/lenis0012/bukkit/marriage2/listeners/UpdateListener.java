@@ -33,6 +33,7 @@ public class UpdateListener implements Listener {
                             @Override
                             public void run() {
                                 Version version = updater.getNewVersion();
+                                if(version == null) return;
                                 String message = ChatColor.translateAlternateColorCodes('&',
                                         String.format(Message.UPDATE_AVAILABLE.toString(),
                                         version.getName(), version.getServerVersion()));
