@@ -1,17 +1,15 @@
 {
-  "version": "Marriage v2.0.11",
+  "version": "Marriage v2.0.12",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Support for 1.10",
+      "- Added PlotSquared auto-trust",
       "",
-      "- Show gender in /marry list",
+      "- Added heal commands",
       "",
-      "- Option to disable commands",
-      "",
-      "- Fixed some translation bugs"
+      "- Updated API with new events",
     ],
     [
       "====[ DONATE ]====",
