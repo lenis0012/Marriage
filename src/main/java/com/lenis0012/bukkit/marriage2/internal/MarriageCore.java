@@ -6,11 +6,13 @@ import com.lenis0012.bukkit.marriage2.commands.Command;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
+import com.lenis0012.bukkit.marriage2.events.PlayerMarryEvent;
 import com.lenis0012.bukkit.marriage2.internal.Register.Type;
 import com.lenis0012.bukkit.marriage2.internal.data.DataConverter;
 import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
 import com.lenis0012.bukkit.marriage2.internal.data.MarriageData;
 import com.lenis0012.bukkit.marriage2.internal.data.MarriagePlayer;
+import com.lenis0012.bukkit.marriage2.listeners.*;
 import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import com.lenis0012.pluginutils.modules.configuration.ConfigurationModule;
 import com.lenis0012.updater.api.ReleaseType;
@@ -19,6 +21,7 @@ import com.lenis0012.updater.api.UpdaterFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -79,8 +82,14 @@ public class MarriageCore extends MarriageBase {
 	
 	@Register(name = "listeners", type = Register.Type.ENABLE)
 	public void registerListeners() {
-		for(Listener listener : findObjects("com.lenis0012.bukkit.marriage2.listeners", Listener.class, this)) {
-			register(listener);
+		register(new ChatListener(this));
+		register(new DatabaseListener(this));
+		register(new KissListener(this));
+		register(new UpdateListener(this));
+		if(Settings.PLOTSQUARED_AUTO_TRUST.value() && Bukkit.getPluginManager().isPluginEnabled("PlotSquared")) {
+			Plugin plotSquared = Bukkit.getPluginManager().getPlugin("PlotSquared");
+			getLogger().log(Level.INFO, "Hooking with PlotSquared v" + plotSquared.getDescription().getVersion());
+			register(new PlotSquaredListener());
 		}
 	}
 	
@@ -125,11 +134,21 @@ public class MarriageCore extends MarriageBase {
 
 	@Override
 	public MData marry(MPlayer player1, MPlayer player2) {
+		return marry(player1, player2, null);
+	}
+
+	@Override
+	public MData marry(MPlayer player1, MPlayer player2, MPlayer priest) {
+		PlayerMarryEvent event = new PlayerMarryEvent(player1, player2, priest);
+		Bukkit.getPluginManager().callEvent(event);
+		if(event.isCancelled()) {
+			return null;
+		}
+
 		MarriageData mdata = new MarriageData(dataManager, player1.getUniqueId(), player2.getUniqueId());
-        mdata.saveAsync();
+		mdata.saveAsync();
 		((MarriagePlayer) player1).addMarriage(mdata);
 		((MarriagePlayer) player2).addMarriage(mdata);
-        dataManager.savePlayer((MarriagePlayer) player1);
 		return mdata;
 	}
 

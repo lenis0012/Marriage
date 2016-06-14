@@ -53,6 +53,9 @@ public class Settings {
     public static final ConfigOption<Integer> KISSES_AMOUNT_MIN = new ConfigOption<>("kisses.amount-min", 5);
     public static final ConfigOption<Integer> KISSES_AMOUNT_MAX = new ConfigOption<>("kisses.amount-max", 10);
 
+	@ConfigHeader("Automatically trust married players to each others plot.")
+	public static final ConfigOption<Boolean> PLOTSQUARED_AUTO_TRUST = new ConfigOption<>("support.plotsquared-auto-trust", true);
+
     /**
      * Economy
      */
@@ -62,6 +65,7 @@ public class Settings {
 	public static final ConfigOption<Double> PRICE_MARRY = new ConfigOption<>("economy.marriage-price", 100.0);
 	public static final ConfigOption<Double> PRICE_TELEPORT = new ConfigOption<>("economy.teleport-price", 0.0);
 	public static final ConfigOption<Double> PRICE_SETHOME = new ConfigOption<>("economy.sethome-price", 0.0);
+	public static final ConfigOption<Double> PRICE_HEAL = new ConfigOption<>("economy.heal-price", 0.0);
 	public static final ConfigOption<Double> PRICE_DIVORCE = new ConfigOption<>("economy.divorce-price", 0.0);
 
 	/**
@@ -79,5 +83,5 @@ public class Settings {
 	 * Lists
 	 */
 	@ConfigHeader("List of commands that no one can use, for instance 'gift'.")
-	public static final ConfigOption<List<String>> DISABLED_COMMANDS = new ConfigOption<>("disabled-commands", Arrays.asList("commandhere", "anothercommand"));
+	public static final ConfigOption<List<String>> DISABLED_COMMANDS = new ConfigOption<>("disabled-commands", Arrays.asList("command1", "command2"));
 }

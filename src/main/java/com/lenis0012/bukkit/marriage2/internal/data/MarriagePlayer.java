@@ -5,9 +5,11 @@ import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Settings;
+import com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.Cooldown;
+import org.bukkit.Bukkit;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -118,6 +120,12 @@ public class MarriagePlayer implements MPlayer {
 	@Override
 	public void divorce() {
 		if(marriage == null) {
+			return;
+		}
+
+		PlayerDivorceEvent event = new PlayerDivorceEvent(this, marriage);
+		Bukkit.getPluginManager().callEvent(event);
+		if(event.isCancelled()) {
 			return;
 		}
 

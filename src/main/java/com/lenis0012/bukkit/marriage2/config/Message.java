@@ -44,6 +44,10 @@ public enum Message {
 	CHAT_DISABLED("&aYou are no longer in marriage chat mode!"),
 	CHAT_SPY_ENABLED("&aNow spying on marriage private chat!"),
 	CHAT_SPY_DISABLED("&aNo longer spying on marriage chat!"),
+	NO_HEALTH("&cYou don't have enough health to share!"),
+	FULL_HEALTH("&cYour partner already has full health!"),
+	HEALTH_GIVEN("&aYou healed your partner by %s hearts!"),
+	HEALTH_TAKEN("&aYou were healed by your partner with %s hearts!"),
 
 	// COMMANDS
 	COMMAND_MARRY("Request a marriage with another player"),
@@ -57,6 +61,7 @@ public enum Message {
 	COMMAND_SEEN("Check when your partner last logged in"),
 	COMMAND_SETHOME("Set a home for you a your partner"),
 	COMMAND_TELEPORT("Teleport to your partner"),
+	COMMAND_HEAL("Send your health to your partner"),
 
 	// WORDS
 	STATUS("&aStatus: %s"),

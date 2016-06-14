@@ -6,6 +6,13 @@ import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
  * Marriage API.
  *
  * <b>Changelog:</b>
+ * 1.02:
+ * <ul>
+ *     <li>Added {@link com.lenis0012.bukkit.marriage2.events.PlayerMarryEvent PlayerMarryEvent}</li>
+ *     <li>Added {@link com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent PlayerDivorceEvent}</li>
+ *     <li>Added {@link Marriage#marry(MPlayer, MPlayer, MPlayer) marry(p1, p2, priest)}</li>
+ * </ul>
+ *
  * 1.01:
  * <ul>
  *     <li>Added chat spy mode</li>
@@ -17,7 +24,7 @@ import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
  * </ul>
  */
 public class MarriageAPI {
-    private static final int API_VERSION = 101;
+    private static final int API_VERSION = 102;
 
     /**
      * Get the API main instance.
