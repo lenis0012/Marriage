@@ -26,7 +26,7 @@ public class MarriageModel {
     private boolean pvpEnabled = true;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="home_id")
+    @JoinColumn(name = "home_id")
     private LocationModel home;
 
     @Column

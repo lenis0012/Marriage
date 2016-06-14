@@ -2,14 +2,13 @@ package com.lenis0012.bukkit.marriage2.events;
 
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 /**
  * Player divorce event.
- *
+ * <p>
  * Called when two players are about to divorce.
  */
 public class PlayerDivorceEvent extends Event implements Cancellable {

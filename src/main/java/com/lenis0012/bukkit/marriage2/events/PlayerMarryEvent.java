@@ -7,7 +7,7 @@ import org.bukkit.event.HandlerList;
 
 /**
  * MPlayerMarryEvent.
- *
+ * <p>
  * Called when two players are about to get married.
  */
 public class PlayerMarryEvent extends Event implements Cancellable {

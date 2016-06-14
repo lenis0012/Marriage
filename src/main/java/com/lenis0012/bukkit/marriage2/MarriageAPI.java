@@ -4,23 +4,23 @@ import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 
 /**
  * Marriage API.
- *
+ * <p>
  * <b>Changelog:</b>
  * 1.02:
  * <ul>
- *     <li>Added {@link com.lenis0012.bukkit.marriage2.events.PlayerMarryEvent PlayerMarryEvent}</li>
- *     <li>Added {@link com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent PlayerDivorceEvent}</li>
- *     <li>Added {@link Marriage#marry(MPlayer, MPlayer, MPlayer) marry(p1, p2, priest)}</li>
+ * <li>Added {@link com.lenis0012.bukkit.marriage2.events.PlayerMarryEvent PlayerMarryEvent}</li>
+ * <li>Added {@link com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent PlayerDivorceEvent}</li>
+ * <li>Added {@link Marriage#marry(MPlayer, MPlayer, MPlayer) marry(p1, p2, priest)}</li>
  * </ul>
- *
+ * <p>
  * 1.01:
  * <ul>
- *     <li>Added chat spy mode</li>
+ * <li>Added chat spy mode</li>
  * </ul>
- *
+ * <p>
  * 1.00:
  * <ul>
- *     <li>Release</li>
+ * <li>Release</li>
  * </ul>
  */
 public class MarriageAPI {

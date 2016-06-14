@@ -36,7 +36,7 @@ public class UpdateListener implements Listener {
                                 if(version == null) return;
                                 String message = ChatColor.translateAlternateColorCodes('&',
                                         String.format(Message.UPDATE_AVAILABLE.toString(),
-                                        version.getName(), version.getServerVersion()));
+                                                version.getName(), version.getServerVersion()));
                                 player.sendMessage(message);
                             }
                         });

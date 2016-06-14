@@ -8,27 +8,27 @@ import org.bukkit.Location;
 
 public class CommandHome extends Command {
 
-	public CommandHome(Marriage marriage) {
-		super(marriage, "home");
-		setDescription(Message.COMMAND_HOME.toString());
-	}
+    public CommandHome(Marriage marriage) {
+        super(marriage, "home");
+        setDescription(Message.COMMAND_HOME.toString());
+    }
 
-	@Override
-	public void execute() {
-		MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
-		MData marriage = mPlayer.getMarriage();
-		if(marriage == null) {
-			reply(Message.NOT_MARRIED);
-			return;
-		}
+    @Override
+    public void execute() {
+        MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
+        MData marriage = mPlayer.getMarriage();
+        if(marriage == null) {
+            reply(Message.NOT_MARRIED);
+            return;
+        }
 
-		Location home = marriage.getHome();
-		if(home == null) {
-			reply(Message.HOME_NOT_SET);
-			return;
-		}
+        Location home = marriage.getHome();
+        if(home == null) {
+            reply(Message.HOME_NOT_SET);
+            return;
+        }
 
-		player.teleport(home);
-		reply(Message.HOME_TELEPORT);
-	}
+        player.teleport(home);
+        reply(Message.HOME_TELEPORT);
+    }
 }

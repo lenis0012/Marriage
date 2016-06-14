@@ -11,8 +11,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 public class CommandMarry extends Command {
 
-	public CommandMarry(Marriage marriage) {
-		super(marriage, "marry");
+    public CommandMarry(Marriage marriage) {
+        super(marriage, "marry");
         if(Settings.ENABLE_PRIEST.value()) {
             setDescription(Message.COMMAND_MARRY_PRIEST.toString());
             setUsage("<player1> <player2>");
@@ -24,11 +24,11 @@ public class CommandMarry extends Command {
             setMinArgs(0);
         }
 
-		setAllowConsole(false);
-	}
-	
-	@Override
-	public void execute() {
+        setAllowConsole(false);
+    }
+
+    @Override
+    public void execute() {
         if(Settings.ENABLE_PRIEST.value()) {
             Player player1 = getArgAsPlayer(-1);
             Player player2 = getArgAsPlayer(0);
@@ -58,33 +58,33 @@ public class CommandMarry extends Command {
             Player target = getArgAsPlayer(-1);
 
             // Check if player is valid
-            if (target == null) {
+            if(target == null) {
                 reply(Message.PLAYER_NOT_FOUND, getArg(-1));
                 return;
             }
 
             // Check if player is self
-            if (target.getName().equalsIgnoreCase(player.getName())) {
+            if(target.getName().equalsIgnoreCase(player.getName())) {
                 reply(Message.MARRY_SELF);
                 return;
             }
 
             // Check if self married
             MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
-            if (mPlayer.isMarried()) {
+            if(mPlayer.isMarried()) {
                 reply(Message.ALREADY_MARRIED);
                 return;
             }
 
             // Check if player married
             MPlayer mTarget = marriage.getMPlayer(target.getUniqueId());
-            if (mTarget.isMarried()) {
+            if(mTarget.isMarried()) {
                 reply(Message.TARGET_ALREADY_MARRIED, getArg(-1));
                 return;
             }
 
             // Request or accept
-            if (mPlayer.isMarriageRequested(target.getUniqueId())) {
+            if(mPlayer.isMarriageRequested(target.getUniqueId())) {
                 if(getExecutionFee() > 0.0) {
                     EconomyResponse response = marriage.dependencies().getEconomyService().withdrawPlayer(target, getExecutionFee());
                     if(!response.transactionSuccess()) {
@@ -112,5 +112,5 @@ public class CommandMarry extends Command {
                 reply(Message.COOLDOWN);
             }
         }
-	}
+    }
 }

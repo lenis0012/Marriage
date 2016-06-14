@@ -73,7 +73,7 @@ public class DataConverter {
             if(uuidFetcher.size() == 100) {
                 try {
                     uuidMap.putAll(uuidFetcher.call());
-                } catch(Exception e){
+                } catch(Exception e) {
                     core.getLogger().log(Level.WARNING, "Failed to retrieve UUID for 100 players!");
                 }
                 uuidFetcher = new UUIDFetcher(new ArrayList<String>());
@@ -186,10 +186,10 @@ public class DataConverter {
     private void reportStatus(double progress) {
         int percent = (int) Math.floor(progress * 100);
         StringBuilder bar = new StringBuilder("[");
-        for(int i = 0; i < percent; i+= 5) {
+        for(int i = 0; i < percent; i += 5) {
             bar.append('=');
         }
-        for(int i = percent; i < 100; i+= 5) {
+        for(int i = percent; i < 100; i += 5) {
             bar.append('_');
         }
         bar.append("] (").append(percent).append("%)");

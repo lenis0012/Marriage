@@ -8,23 +8,23 @@ import com.lenis0012.bukkit.marriage2.config.Settings;
 
 public class CommandSethome extends Command {
 
-	public CommandSethome(Marriage marriage) {
-		super(marriage, "sethome");
-		setExecutionFee(Settings.PRICE_SETHOME);
-		setDescription(Message.COMMAND_SETHOME.toString());
-	}
+    public CommandSethome(Marriage marriage) {
+        super(marriage, "sethome");
+        setExecutionFee(Settings.PRICE_SETHOME);
+        setDescription(Message.COMMAND_SETHOME.toString());
+    }
 
-	@Override
-	public void execute() {
-		MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
-		MData marriage = mPlayer.getMarriage();
-		if(marriage == null) {
-			reply(Message.NOT_MARRIED);
-			return;
-		}
+    @Override
+    public void execute() {
+        MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
+        MData marriage = mPlayer.getMarriage();
+        if(marriage == null) {
+            reply(Message.NOT_MARRIED);
+            return;
+        }
 
-		if(!payFee()) return;
-		marriage.setHome(player.getLocation().clone());
-		reply(Message.HOME_SET);
-	}
+        if(!payFee()) return;
+        marriage.setHome(player.getLocation().clone());
+        reply(Message.HOME_SET);
+    }
 }

@@ -23,50 +23,50 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 public class DatabaseListener implements Listener {
-	private final Cache<UUID, MarriagePlayer> cache = CacheBuilder.newBuilder().expireAfterWrite(30L, TimeUnit.SECONDS).build();
-	private final MarriageCore core;
-	
-	public DatabaseListener(MarriageCore core) {
-		this.core = core;
-	}
-	
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerLogin(AsyncPlayerPreLoginEvent event) {
-		if(event.getLoginResult() == Result.ALLOWED) {
+    private final Cache<UUID, MarriagePlayer> cache = CacheBuilder.newBuilder().expireAfterWrite(30L, TimeUnit.SECONDS).build();
+    private final MarriageCore core;
+
+    public DatabaseListener(MarriageCore core) {
+        this.core = core;
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerLogin(AsyncPlayerPreLoginEvent event) {
+        if(event.getLoginResult() == Result.ALLOWED) {
             MarriagePlayer player = core.getDataManager().loadPlayer(event.getUniqueId());
             player.setLastName(event.getName());
-			cache.put(event.getUniqueId(), player);
-		}
-	}  
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onPlayerJoin(PlayerJoinEvent event) {
-        final Player player = event.getPlayer();
-		final UUID userId = player.getUniqueId();
-		MarriagePlayer mplayer = cache.getIfPresent(userId);
-		if(mplayer != null) {
-            loadPartnerName(mplayer, player);
-			core.setMPlayer(userId, mplayer);
-			return;
-		}
+            cache.put(event.getUniqueId(), player);
+        }
+    }
 
-		// Something went wrong (unusually long login?)
-		core.getLogger().log(Level.WARNING, "Player " + event.getPlayer().getName() + " was not in cache");
-		core.getLogger().log(Level.INFO, "If this message shows often, report to dev");
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        final Player player = event.getPlayer();
+        final UUID userId = player.getUniqueId();
+        MarriagePlayer mplayer = cache.getIfPresent(userId);
+        if(mplayer != null) {
+            loadPartnerName(mplayer, player);
+            core.setMPlayer(userId, mplayer);
+            return;
+        }
+
+        // Something went wrong (unusually long login?)
+        core.getLogger().log(Level.WARNING, "Player " + event.getPlayer().getName() + " was not in cache");
+        core.getLogger().log(Level.INFO, "If this message shows often, report to dev");
         mplayer = core.getDataManager().loadPlayer(userId);
         mplayer.setLastName(player.getName());
         loadPartnerName(mplayer, player);
-		core.setMPlayer(userId, mplayer);
-	}
-	
-	@EventHandler
-	public void onPlayerQuit(PlayerQuitEvent event) {
-		Player player = event.getPlayer();
-		core.unloadPlayer(player.getUniqueId());
+        core.setMPlayer(userId, mplayer);
+    }
+
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        core.unloadPlayer(player.getUniqueId());
         if(player.hasMetadata("marriedTo")) {
             player.removeMetadata("marriedTo", core.getPlugin());
         }
-	}
+    }
 
     private void loadPartnerName(final MPlayer mplayer, final Player player) {
         if(!mplayer.isMarried()) return;

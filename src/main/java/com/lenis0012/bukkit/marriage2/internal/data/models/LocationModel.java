@@ -3,7 +3,7 @@ package com.lenis0012.bukkit.marriage2.internal.data.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name="marriage_players")
+@Table(name = "marriage_players")
 public class LocationModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
