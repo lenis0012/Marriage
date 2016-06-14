@@ -51,7 +51,7 @@ public class CommandHeal extends Command {
         partner.setHealth(partner.getHealth() + give);
 
         // Notify both parties
-        int hearts = (int) Math.round(give / 0.5);
+        int hearts = (int) Math.round(give * 0.5);
         reply(Message.HEALTH_GIVEN, hearts);
         reply(partner, Message.HEALTH_TAKEN, hearts);
     }
