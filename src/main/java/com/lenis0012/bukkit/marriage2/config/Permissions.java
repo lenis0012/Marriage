@@ -20,6 +20,7 @@ public enum Permissions {
      */
     UPDATE("marry.update", 1),
     CHAT_SPY("marry.chatspy", 1),
+    MIGRATE("marry.migrate", 1),
     /**
      * Player commands
      */
@@ -30,7 +31,12 @@ public enum Permissions {
     SET_HOME("marry.sethome"),
     GIFT("marry.gift"),
     CHAT("marry.chat"),
-    SEEN("marry.seen");
+    SEEN("marry.seen"),
+    HEAL("marry.heal"),
+    /**
+     * Non-commands
+     */
+    CHAT_COLOR("marry.color", 1);
 
     private static boolean vaultEnabled = false;
     private static Permission permissionService;

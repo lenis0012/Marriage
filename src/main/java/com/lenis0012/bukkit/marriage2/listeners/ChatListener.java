@@ -1,6 +1,7 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import org.bukkit.Bukkit;
@@ -32,10 +33,12 @@ public class ChatListener implements Listener {
             event.setCancelled(true);
             String message = Settings.PM_FORMAT.value()
                     .replace("{name}", player.getDisplayName())
-                    .replace("{message}", event.getMessage())
+//                    .replace("{message}", event.getMessage())
                     .replace("{heart}", "\u2764");
             message = formatIcons(message);
             message = ChatColor.translateAlternateColorCodes('&', message);
+            final String msg = Permissions.CHAT_COLOR.has(player) ? ChatColor.translateAlternateColorCodes('&', event.getMessage()) : event.getMessage();
+            message = message.replace("{message}", msg);
 
             Player partner = Bukkit.getPlayer(mp.getPartner().getUniqueId());
             player.sendMessage(message);
