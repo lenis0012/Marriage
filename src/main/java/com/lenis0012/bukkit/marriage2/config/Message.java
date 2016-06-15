@@ -48,6 +48,9 @@ public enum Message {
     FULL_HEALTH("&cYour partner already has full health!"),
     HEALTH_GIVEN("&aYou healed your partner by %s hearts!"),
     HEALTH_TAKEN("&aYou were healed by your partner with %s hearts!"),
+    PVP_ENABLED("&aYou have enabled pvp with your partner!"),
+    PVP_DISABLED("&aYou have disabled pvp with your partner!"),
+    PARTNER_PVP("&aYour partner has changed pvp rules."),
 
     // COMMANDS
     COMMAND_MARRY("Request a marriage with another player"),
@@ -62,10 +65,12 @@ public enum Message {
     COMMAND_SETHOME("Set a home for you a your partner"),
     COMMAND_TELEPORT("Teleport to your partner"),
     COMMAND_HEAL("Send your health to your partner"),
+    COMMAND_PVP("Enable/disable pvping with your partner"),
 
     // WORDS
     STATUS("&aStatus: %s"),
-    SINGLE("&fsingle");
+    SINGLE("&fsingle"),
+    ON_OFF("on/off");
 
     private final String defaultMessage;
     private String message;

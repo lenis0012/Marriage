@@ -33,6 +33,7 @@ public enum Permissions {
     CHAT("marry.chat"),
     SEEN("marry.seen"),
     HEAL("marry.heal"),
+    PVP_TOGGLE("marry.pvptoggle"),
     /**
      * Non-commands
      */

@@ -81,6 +81,7 @@ public class MarriageCore extends MarriageBase {
 
     @Register(name = "listeners", type = Register.Type.ENABLE)
     public void registerListeners() {
+        register(new PlayerListener(this));
         register(new ChatListener(this));
         register(new DatabaseListener(this));
         register(new KissListener(this));

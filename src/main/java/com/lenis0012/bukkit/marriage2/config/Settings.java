@@ -31,13 +31,14 @@ public class Settings {
             "Chat, set the format of private messages and in-chat status.",
             "Supported tags for chat: {partner}, for pm: {name}, {message}, chat spy: {sender}, {receiver}, {message}",
             "Icons are always available: {icon:heart}, {icon:male}, {icon:female}, {icon:genderless}",
-            "If you use a custom chat plugin, put {marriage_status} in the format and set force-status-format to false",
+            "If you use a custom chat plugin, put {marriage_status} in the format and set force-status-format & force-gender-format to false",
             "To show genders in chat, put {marriage_gender} in chat plugin format"
     })
     public static final ConfigOption<String> PM_FORMAT = new ConfigOption<>("chat.pm-format", "&4{icon:heart}&c{name}&4{icon:heart} &7{message}");
     public static final ConfigOption<String> CHAT_FORMAT = new ConfigOption<>("chat.status-format", "&4&l<3 &r");
     public static final ConfigOption<String> CHATSPY_FORMAT = new ConfigOption<>("cat.spy-format", "&c[CHAT SPY] &7{sender} -> {receiver}&f: {message}");
     public static final ConfigOption<Boolean> FORCE_FORMAT = new ConfigOption<>("chat.force-status-format", true);
+    public static final ConfigOption<Boolean> FORCE_GENDER_FORMAT = new ConfigOption<>("chat.force-gender-format", true);
     public static final ConfigOption<String> PREFIX_MALE = new ConfigOption<>("chat.male-prefix", "&b{icon:male} &r");
     public static final ConfigOption<String> PREFIX_FEMALE = new ConfigOption<>("chat.female-prefix", "&d{icon:female} &r");
     public static final ConfigOption<String> PREFIX_GENDERLESS = new ConfigOption<>("chat.genderless-prefix", "");

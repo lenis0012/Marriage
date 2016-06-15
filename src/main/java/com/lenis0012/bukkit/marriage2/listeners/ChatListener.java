@@ -74,6 +74,8 @@ public class ChatListener implements Listener {
 
         if(Settings.FORCE_FORMAT.value()) {
             format = "{marriage_status}" + event.getFormat(); // Enforce marriage format
+        } if(Settings.FORCE_GENDER_FORMAT.value()) {
+            format = "{marriage_gender}" + event.getFormat();
         }
 
         // Marriage status
