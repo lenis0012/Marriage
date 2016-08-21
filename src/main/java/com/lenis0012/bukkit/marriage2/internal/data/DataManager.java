@@ -87,7 +87,7 @@ public class DataManager {
                     long startTime = System.currentTimeMillis();
                     int purged = purge(daysInMillis, purgeMarried);
                     long duration = System.currentTimeMillis() - startTime;
-                    core.getLogger().log(Level.INFO, "Purged " + purged + " player entried in " + duration + "ms");
+                    core.getLogger().log(Level.INFO, "Purged " + purged + " player entries in " + duration + "ms");
                 }
             }, 0L, delayTime);
         }

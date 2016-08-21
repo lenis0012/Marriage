@@ -1,15 +1,17 @@
 {
-  "version": "Marriage v2.0.12",
+  "version": "Marriage v2.0.13",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Added PlotSquared auto-trust",
+      "- Added permission for colored PMs",
       "",
-      "- Added heal commands",
+      "- Added pvp toggle command",
       "",
-      "- Updated API with new events",
+      "- Added gender to chat (optional)",
+      "",
+      "- Added EXP bonus option"
     ],
     [
       "====[ DONATE ]====",

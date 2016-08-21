@@ -51,6 +51,7 @@ public enum Message {
     PVP_ENABLED("&aYou have enabled pvp with your partner!"),
     PVP_DISABLED("&aYou have disabled pvp with your partner!"),
     PARTNER_PVP("&aYour partner has changed pvp rules."),
+    BONUS_EXP("&aYou gained %s extra EXP for leveling with your partner!"),
 
     // COMMANDS
     COMMAND_MARRY("Request a marriage with another player"),
@@ -89,8 +90,8 @@ public enum Message {
         return message;
     }
 
-    public void send(Player player) {
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    public void send(Player player, Object... params) {
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(message, params)));
     }
 
     public static void reloadAll(Marriage marriage) {

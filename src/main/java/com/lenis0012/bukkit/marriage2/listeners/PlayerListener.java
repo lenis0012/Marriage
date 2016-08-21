@@ -2,6 +2,10 @@ package com.lenis0012.bukkit.marriage2.listeners;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.config.Message;
+import com.lenis0012.bukkit.marriage2.config.Settings;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -9,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 public class PlayerListener implements Listener {
@@ -55,5 +60,43 @@ public class PlayerListener implements Listener {
         }
 
         event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.LOW)
+    public void onPlayerGainExp(PlayerExpChangeEvent event) {
+        if(!Settings.EXP_BOOST_ENABLED.value()) {
+            return;
+        }
+
+        final int gained = event.getAmount();
+        if(gained <= 0) {
+            return;
+        }
+
+        final Player player = event.getPlayer();
+        final MPlayer mplayer = marriage.getMPlayer(player.getUniqueId());
+        if(!mplayer.isMarried()) {
+            return;
+        }
+
+        MPlayer mpartner = mplayer.getPartner();
+        Player partner = Bukkit.getPlayer(mpartner.getUniqueId());
+        if(partner == null || !partner.isOnline()) {
+            return;
+        }
+
+        if(!partner.getWorld().equals(player.getWorld())) {
+            return;
+        }
+
+        if(partner.getLocation().distanceSquared(partner.getLocation()) > Settings.EXP_BOOST_DISTANCE.value() * Settings.EXP_BOOST_DISTANCE.value()) {
+            return;
+        }
+
+        event.setAmount((int) Math.round(gained * Settings.EXP_BOOST_MULTIPLIER.value()));
+        final int bonus = event.getAmount() - gained;
+        if(bonus > 0 && Settings.EXP_BOOST_ANNOUNCE.value()) {
+            Message.BONUS_EXP.send(player, bonus);
+        }
     }
 }

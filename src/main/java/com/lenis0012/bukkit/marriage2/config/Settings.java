@@ -54,6 +54,19 @@ public class Settings {
     public static final ConfigOption<Integer> KISSES_AMOUNT_MIN = new ConfigOption<>("kisses.amount-min", 5);
     public static final ConfigOption<Integer> KISSES_AMOUNT_MAX = new ConfigOption<>("kisses.amount-max", 10);
 
+    /**
+     * XP-Boost
+     */
+    @ConfigHeader(path = "exp-boost", value = "Boost EXP gained when married players are near each other.")
+    public static final ConfigOption<Boolean> EXP_BOOST_ENABLED = new ConfigOption<>("exp-boost.enabled", true);
+    public static final ConfigOption<Double> EXP_BOOST_DISTANCE = new ConfigOption<>("exp-boost.distance", 50.0);
+    public static final ConfigOption<Double> EXP_BOOST_MULTIPLIER = new ConfigOption<>("exp-boost.multiplier", 2.0);
+    @ConfigHeader("Announces amount of bonus EXP gaines, set to false to disable.")
+    public static final ConfigOption<Boolean> EXP_BOOST_ANNOUNCE = new ConfigOption<>("exp-boost.announce", true);
+
+    /**
+     * Support
+     */
     @ConfigHeader("Automatically trust married players to each others plot.")
     public static final ConfigOption<Boolean> PLOTSQUARED_AUTO_TRUST = new ConfigOption<>("support.plotsquared-auto-trust", true);
 
