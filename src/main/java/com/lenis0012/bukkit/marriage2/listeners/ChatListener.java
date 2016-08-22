@@ -73,9 +73,9 @@ public class ChatListener implements Listener {
         final MPlayer mplayer = core.getMPlayer(player.getUniqueId());
 
         if(Settings.FORCE_FORMAT.value()) {
-            format = "{marriage_status}" + event.getFormat(); // Enforce marriage format
+            format = "{marriage_status}" + format; // Enforce marriage format
         } if(Settings.FORCE_GENDER_FORMAT.value()) {
-            format = "{marriage_gender}" + event.getFormat();
+            format = "{marriage_gender}" + format;
         }
 
         // Marriage status
