@@ -87,7 +87,7 @@ public enum Message {
 
     @Override
     public String toString() {
-        return message;
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 
     public void send(Player player, Object... params) {
