@@ -5,13 +5,11 @@
     [
       "---[ Changelog ]---",
       "",
-      "- Added permission for colored PMs",
+      "- Compile for 1.11",
       "",
-      "- Added pvp toggle command",
+      "- Fix status formatting",
       "",
-      "- Added gender to chat (optional)",
-      "",
-      "- Added EXP bonus option"
+      "- Allow colors in message formats",
     ],
     [
       "====[ DONATE ]====",

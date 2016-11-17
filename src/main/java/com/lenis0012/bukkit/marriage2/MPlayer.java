@@ -44,8 +44,16 @@ public interface MPlayer {
      * Get current marriage of the player.
      *
      * @return Player's marriage, NULL if not married.
+     * @deprecated Use {@link #getFirstMarriage()} or {@link #getMarriage(UUID)} or {@link #getMarriages()}
      */
+    @Deprecated
     MData getMarriage();
+
+    MData getFirstMarriage();
+
+    MData getMarriage(UUID withPlayer);
+
+    MData getMarriages();
 
     /**
      * Get the last name the player logged on with.
