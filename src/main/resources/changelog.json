@@ -1,15 +1,15 @@
 {
-  "version": "Marriage v2.0.13",
+  "version": "Marriage v2.0.15",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Compile for 1.11",
-      "",
       "- Fix status formatting",
       "",
-      "- Allow colors in message formats",
+      "- Fix typo in config",
+      "",
+      "- Fix help command error"
     ],
     [
       "====[ DONATE ]====",
