@@ -90,7 +90,7 @@ public class ChatListener implements Listener {
 
                 status = ChatColor.translateAlternateColorCodes('&', status);
             }
-            event.setFormat(format.replace("{marriage_status}", status));
+            format = format.replace("{marriage_status}", status);
         }
 
         // Gender format
@@ -98,8 +98,11 @@ public class ChatListener implements Listener {
             String gender = mplayer.getGender().getChatPrefix();
             gender = formatIcons(gender);
             gender = ChatColor.translateAlternateColorCodes('&', gender);
-            event.setFormat(format.replace("{marriage_gender}", gender));
+            format = format.replace("{marriage_gender}", gender);
         }
+
+        // Set format
+        event.setFormat(format);
     }
 
     private String formatIcons(String text) {
