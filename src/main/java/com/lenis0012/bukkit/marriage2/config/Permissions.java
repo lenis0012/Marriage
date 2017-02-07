@@ -21,6 +21,7 @@ public enum Permissions {
     UPDATE("marry.update", 1),
     CHAT_SPY("marry.chatspy", 1),
     MIGRATE("marry.migrate", 1),
+    RELOAD("marry.reload", 1),
     /**
      * Player commands
      */

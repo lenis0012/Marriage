@@ -52,6 +52,7 @@ public enum Message {
     PVP_DISABLED("&aYou have disabled pvp with your partner!"),
     PARTNER_PVP("&aYour partner has changed pvp rules."),
     BONUS_EXP("&aYou gained %s extra EXP for leveling with your partner!"),
+    CONFIG_RELOAD("&aConfiguration settings were reloaded, please note that some settings may not apply until reboot."),
 
     // COMMANDS
     COMMAND_MARRY("Request a marriage with another player"),
