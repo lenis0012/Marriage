@@ -38,7 +38,7 @@ public class MarriagePlayer implements MPlayer {
             this.lastLogout = data.getLong("lastlogin");
         }
         this.lastLogin = System.currentTimeMillis();
-        this.requests = new Cooldown<>(Settings.REQUEST_EXPRY.value(), TimeUnit.SECONDS);
+        this.requests = new Cooldown<>(Settings.REQUEST_EXPIRY.value(), TimeUnit.SECONDS);
     }
 
     public void addMarriage(MarriageData data) {

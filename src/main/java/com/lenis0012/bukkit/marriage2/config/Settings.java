@@ -10,7 +10,7 @@ public class Settings {
     /**
      * Uncatagorized ConfigOption
      */
-    public static final ConfigOption<Integer> REQUEST_EXPRY = new ConfigOption<>("requestExpiry", 60);
+    public static final ConfigOption<Integer> REQUEST_EXPIRY = new ConfigOption<>("requestExpiry", 60);
     public static final ConfigOption<Boolean> ENABLE_PRIEST = new ConfigOption<>("enable-priests", false);
 
     /**
@@ -89,7 +89,7 @@ public class Settings {
             "Updater settings, checks for updates. We recommend to keep this enabled.",
             "Available channels: RELEASE, BETA, ALPHA"
     })
-    public static final ConfigOption<Boolean> ENABLE_UPDATE_CHACKER = new ConfigOption<>("updater.enabled", true);
+    public static final ConfigOption<Boolean> ENABLE_UPDATE_CHECKER = new ConfigOption<>("updater.enabled", true);
     public static final ConfigOption<Boolean> ENABLE_CHANGELOG = new ConfigOption<>("updater.changelog", true);
     public static final ConfigOption<String> UPDATER_CHANNEL = new ConfigOption<>("updater.channel", "BETA");
 
