@@ -33,7 +33,11 @@ public class CommandHelp extends Command {
 
             String alias = command instanceof CommandMarry ? "" : command.getAliases()[0] + " ";
             String text = "&a/marry " + alias + command.getUsage() + " &f- &7" + command.getDescription();
-            if(command.getExecutionFee() == 0.0 || !Bukkit.getVersion().contains("Spigot") || !marriage.dependencies().isEconomyEnabled()) {
+            if(command.getExecutionFee() == 0.0 || !Bukkit.getVersion().contains("Spigot") || !marriage.dependencies().isEconomyEnabled() || player == null) {
+                reply(text);
+                continue;
+            }
+            if(player.spigot() == null) {
                 reply(text);
                 continue;
             }
