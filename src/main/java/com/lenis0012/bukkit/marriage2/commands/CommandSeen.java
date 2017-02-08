@@ -35,7 +35,7 @@ public class CommandSeen extends Command {
             reply(Message.ONLINE_SINCE, format(time));
         } else {
             long time = System.currentTimeMillis() - mp.getLastLogout();
-            ((MarriageCore) this.marriage).unloadPlayer(marriage.getOtherPlayer(player.getUniqueId()));
+//            ((MarriageCore) this.marriage).unloadPlayer(marriage.getOtherPlayer(player.getUniqueId()));
             reply(Message.OFFLINE_SINCE, format(time));
         }
     }
