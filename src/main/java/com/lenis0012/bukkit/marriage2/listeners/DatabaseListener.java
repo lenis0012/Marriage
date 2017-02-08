@@ -51,7 +51,7 @@ public class DatabaseListener implements Listener {
         }
 
         // Something went wrong (unusually long login?)
-        core.getLogger().log(Level.WARNING, "Player " + event.getPlayer().getName() + " was not in cache");
+        core.getLogger().log(Level.WARNING, "Player " + event.getPlayer().getName() + " was not in cache, and will be loaded on the main thread.");
         core.getLogger().log(Level.INFO, "If this message shows often, report to dev");
         mplayer = core.getDataManager().loadPlayer(userId);
         mplayer.setLastName(player.getName());

@@ -46,7 +46,7 @@ public class KissListener implements Listener {
             return;
         }
 
-        MPlayer mp = core.getMPlayer(player.getUniqueId());
+        MPlayer mp = core.getMPlayer(player);
         if(!mp.isMarried()) {
             return;
         }

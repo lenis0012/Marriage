@@ -13,7 +13,7 @@ public class CommandChat extends Command {
 
     @Override
     public void execute() {
-        MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
+        MPlayer mPlayer = marriage.getMPlayer(player);
         if(!mPlayer.isMarried()) {
             reply(Message.NOT_MARRIED);
             return;

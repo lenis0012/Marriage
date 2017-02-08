@@ -15,7 +15,7 @@ public class CommandChatSpy extends Command {
 
     @Override
     public void execute() {
-        MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
+        MPlayer mPlayer = marriage.getMPlayer(player);
         boolean mode = !mPlayer.isChatSpy();
         mPlayer.setChatSpy(mode);
         reply(mode ? Message.CHAT_SPY_ENABLED : Message.CHAT_SPY_DISABLED);

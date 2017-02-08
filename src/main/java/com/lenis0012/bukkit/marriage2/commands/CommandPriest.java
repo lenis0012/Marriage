@@ -33,7 +33,7 @@ public class CommandPriest extends Command {
             return;
         }
 
-        MPlayer mp = marriage.getMPlayer(player.getUniqueId());
+        MPlayer mp = marriage.getMPlayer(player);
         if(type.equalsIgnoreCase("add")) {
             mp.setPriest(true);
             reply(Message.PRIEST_ADDED);

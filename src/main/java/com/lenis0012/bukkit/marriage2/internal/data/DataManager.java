@@ -288,7 +288,7 @@ public class DataManager {
             MarriageData data;
             if(partner != null && partner.isOnline() && core.isMPlayerSet(partner.getUniqueId())) {
                 // Copy marriage data from partner to ensure a match.
-                data = (MarriageData) core.getMPlayer(partnerId).getMarriage();
+                data = (MarriageData) core.getMPlayer(partner).getMarriage();
             } else if((data = marriageDataCache.getIfPresent(player.getUniqueId())) == null) {
                 data = new MarriageData(this, result);
                 marriageDataCache.put(data.getPlayer1Id(), data);

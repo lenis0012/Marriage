@@ -15,7 +15,7 @@ public class CommandHome extends Command {
 
     @Override
     public void execute() {
-        MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
+        MPlayer mPlayer = marriage.getMPlayer(player);
         MData marriage = mPlayer.getMarriage();
         if(marriage == null) {
             reply(Message.NOT_MARRIED);

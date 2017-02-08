@@ -40,13 +40,13 @@ public class CommandMarry extends Command {
                 return;
             }
 
-            MPlayer mp1 = marriage.getMPlayer(player1.getUniqueId());
-            MPlayer mp2 = marriage.getMPlayer(player2.getUniqueId());
+            MPlayer mp1 = marriage.getMPlayer(player1);
+            MPlayer mp2 = marriage.getMPlayer(player2);
             if(mp1.isMarried() || mp2.isMarried()) {
                 reply(Message.ALREADY_MARRIED);
                 return;
             }
-            MPlayer mp = marriage.getMPlayer(player.getUniqueId());
+            MPlayer mp = marriage.getMPlayer(player);
             if(!mp.isPriest()) {
                 reply(Message.NOT_A_PRIEST);
                 return;
@@ -70,14 +70,14 @@ public class CommandMarry extends Command {
             }
 
             // Check if self married
-            MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
+            MPlayer mPlayer = marriage.getMPlayer(player);
             if(mPlayer.isMarried()) {
                 reply(Message.ALREADY_MARRIED);
                 return;
             }
 
             // Check if player married
-            MPlayer mTarget = marriage.getMPlayer(target.getUniqueId());
+            MPlayer mTarget = marriage.getMPlayer(target);
             if(mTarget.isMarried()) {
                 reply(Message.TARGET_ALREADY_MARRIED, getArg(-1));
                 return;

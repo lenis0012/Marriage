@@ -4,6 +4,7 @@ import com.lenis0012.bukkit.marriage2.commands.Command;
 import com.lenis0012.bukkit.marriage2.internal.Dependencies;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
 import com.lenis0012.bukkit.marriage2.misc.ListQuery;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
@@ -20,12 +21,21 @@ public interface Marriage {
     BConfig getBukkitConfig(String file);
 
     /**
-     * Return a {@link com.lenis0012.bukkit.marriage2.MPlayer} instance of a player.
+     * Return a {@link com.lenis0012.bukkit.marriage2.MPlayer MPlayer} instance of a player.
+     * If the requested player is not online, their data will be loaded from the database, but it will NOT be cached.
      *
-     * @param uuid Unique user id of the wanted player.
-     * @return {@link com.lenis0012.bukkit.marriage2.MPlayer} of the wanted player.
+     * @param uuid Unique user id of the wanted player
+     * @return {@link com.lenis0012.bukkit.marriage2.MPlayer MPlayer} of the wanted player
      */
     MPlayer getMPlayer(UUID uuid);
+
+    /**
+     * Return a {@link com.lenis0012.bukkit.marriage2.MPlayer MPlayer} instance of an online player.
+     *
+     * @param player Player who'se data is being requested, must be online
+     * @return {@link com.lenis0012.bukkit.marriage2.MPlayer MPlayer}, or null if not online
+     */
+    MPlayer getMPlayer(Player player);
 
     /**
      * Get a list of all married players.

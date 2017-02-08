@@ -22,7 +22,7 @@ public class ChatListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
-        MPlayer mp = core.getMPlayer(player.getUniqueId());
+        MPlayer mp = core.getMPlayer(player);
         if(mp.isInChat()) {
             // Private chat
             if(!mp.isMarried() || !isOnline(mp.getPartner())) {
@@ -48,7 +48,7 @@ public class ChatListener implements Listener {
             String adminMessage = null; // No need to format message if we're not going to send it.
             for(Player admin : Bukkit.getOnlinePlayers()) {
                 if(admin.equals(player) || admin.equals(partner)) continue;
-                final MPlayer mAdmin = core.getMPlayer(admin.getUniqueId());
+                final MPlayer mAdmin = core.getMPlayer(admin);
                 if(!mAdmin.isChatSpy()) continue;
                 if(adminMessage == null) {
                     // Format message
@@ -70,7 +70,7 @@ public class ChatListener implements Listener {
     public void onPlayerChatLate(AsyncPlayerChatEvent event) {
         String format = event.getFormat();
         final Player player = event.getPlayer();
-        final MPlayer mplayer = core.getMPlayer(player.getUniqueId());
+        final MPlayer mplayer = core.getMPlayer(player);
 
         if(Settings.FORCE_FORMAT.value()) {
             format = "{marriage_status}" + format; // Enforce marriage format

@@ -123,13 +123,29 @@ public class MarriageCore extends MarriageBase {
 
     @Override
     public MPlayer getMPlayer(UUID uuid) {
-        MarriagePlayer player = players.get(uuid);
-        if(player == null) {
-            player = dataManager.loadPlayer(uuid);
-            players.put(uuid, player);
+        Player player = Bukkit.getPlayer(uuid);
+        if(player != null && player.isOnline()) {
+            return getMPlayer(player);
         }
 
-        return player;
+        MarriagePlayer mp = players.get(uuid);
+        if(mp == null) {
+            // Load from database, but don't save.
+            mp = dataManager.loadPlayer(uuid);
+        }
+
+        return mp;
+    }
+
+    @Override
+    public MPlayer getMPlayer(Player player) {
+        MarriagePlayer mp = players.get(player.getUniqueId());
+        if(mp == null) {
+            mp = dataManager.loadPlayer(player.getUniqueId());
+            players.put(player.getUniqueId(), mp);
+        }
+
+        return mp;
     }
 
     @Override

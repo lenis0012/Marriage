@@ -49,7 +49,7 @@ public class PlayerListener implements Listener {
         }
 
         // Verify marriage
-        MPlayer mplayer = marriage.getMPlayer(player.getUniqueId());
+        MPlayer mplayer = marriage.getMPlayer(player);
         if(!mplayer.isMarried() || mplayer.getMarriage().getOtherPlayer(player.getUniqueId()) != damager.getUniqueId()) {
             return;
         }
@@ -74,7 +74,7 @@ public class PlayerListener implements Listener {
         }
 
         final Player player = event.getPlayer();
-        final MPlayer mplayer = marriage.getMPlayer(player.getUniqueId());
+        final MPlayer mplayer = marriage.getMPlayer(player);
         if(!mplayer.isMarried()) {
             return;
         }

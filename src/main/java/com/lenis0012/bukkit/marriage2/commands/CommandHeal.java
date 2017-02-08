@@ -17,7 +17,7 @@ public class CommandHeal extends Command {
 
     @Override
     public void execute() {
-        MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
+        MPlayer mPlayer = marriage.getMPlayer(player);
         MData marriage = mPlayer.getMarriage();
 
         // Check if marries

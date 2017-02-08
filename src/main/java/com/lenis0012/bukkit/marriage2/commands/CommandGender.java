@@ -24,7 +24,7 @@ public class CommandGender extends Command {
             return;
         }
 
-        MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
+        MPlayer mPlayer = marriage.getMPlayer(player);
         mPlayer.setGender(gender);
         reply(Message.GENDER_SET, gender.toString().toLowerCase());
     }

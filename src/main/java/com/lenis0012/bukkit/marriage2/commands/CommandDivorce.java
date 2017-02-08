@@ -17,7 +17,7 @@ public class CommandDivorce extends Command {
 
     @Override
     public void execute() {
-        MPlayer mPlayer = marriage.getMPlayer(player.getUniqueId());
+        MPlayer mPlayer = marriage.getMPlayer(player);
         MPlayer partner = mPlayer.getPartner();
         if(partner == null) {
             reply(Message.NOT_MARRIED);
