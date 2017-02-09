@@ -12,6 +12,8 @@ public class Settings {
      */
     public static final ConfigOption<Integer> REQUEST_EXPIRY = new ConfigOption<>("requestExpiry", 60);
     public static final ConfigOption<Boolean> ENABLE_PRIEST = new ConfigOption<>("enable-priests", false);
+    @ConfigHeader("Allow a player's gender to be changed multiple times.")
+    public static final ConfigOption<Boolean> ALLOW_GENDER_CHANGE = new ConfigOption<>("enable-gender-change", true);
 
     /**
      * Cooldown

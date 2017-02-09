@@ -53,6 +53,7 @@ public enum Message {
     PARTNER_PVP("&aYour partner has changed pvp rules."),
     BONUS_EXP("&aYou gained %s extra EXP for leveling with your partner!"),
     CONFIG_RELOAD("&aConfiguration settings were reloaded, please note that some settings may not apply until reboot."),
+    GENDER_ALREADY_CHANGED("&cYou have already specified your gender, you can only do this once."),
 
     // COMMANDS
     COMMAND_MARRY("Request a marriage with another player"),
