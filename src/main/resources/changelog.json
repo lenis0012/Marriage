@@ -1,15 +1,19 @@
 {
-  "version": "Marriage v2.0.15",
+  "version": "Marriage v2.0.16",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Fix status formatting",
+      "- Corrected permission nodes",
       "",
-      "- Fix typo in config",
+      "- Fixed /marry seen",
       "",
-      "- Fix help command error"
+      "- Added option to disable gender swap",
+      "",
+      "- Added option to set chat format for unmarried players",
+      "",
+      "- More bug fixes"
     ],
     [
       "====[ DONATE ]====",
