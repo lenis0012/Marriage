@@ -32,9 +32,7 @@ public abstract class Command {
     public Command(Marriage marriage, String command, String... aliases) {
         this.marriage = marriage;
         this.aliases = Lists.asList(command, aliases).toArray(new String[0]);
-        if(this.aliases.length > 0) {
-            this.permission = Permissions.getByNode("marry." + aliases[0]);
-        }
+        this.permission = Permissions.getByNode("marry." + command);
     }
 
     public abstract void execute();
