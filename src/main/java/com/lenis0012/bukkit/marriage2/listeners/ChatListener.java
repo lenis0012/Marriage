@@ -80,7 +80,7 @@ public class ChatListener implements Listener {
 
         // Marriage status
         if(format.contains("{marriage_status}")) {
-            String status = "";
+            String status = Settings.CHAT_FORMAT_UNMARRIED.value();
             if(mplayer.isMarried()) {
                 String partner = player.hasMetadata("marriedTo") ? player.getMetadata("marriedTo").get(0).asString() : "";
                 status = Settings.CHAT_FORMAT.value()
