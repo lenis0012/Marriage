@@ -87,9 +87,11 @@ public class ChatListener implements Listener {
                         .replace("{heart}", "\u2764")
                         .replace("{partner}", partner);
                 status = formatIcons(status);
-
+            }
+            if(!status.isEmpty()) {
                 status = ChatColor.translateAlternateColorCodes('&', status);
             }
+
             format = format.replace("{marriage_status}", status);
         }
 
