@@ -2,7 +2,7 @@ package com.lenis0012.bukkit.marriage2.internal;
 
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.commands.Command;
+import com.lenis0012.bukkit.marriage2.commands.*;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
@@ -95,9 +95,29 @@ public class MarriageCore extends MarriageBase {
 
     @Register(name = "commands", type = Register.Type.ENABLE)
     public void registerCommands() {
-        for(Class<? extends Command> command : findClasses("com.lenis0012.bukkit.marriage2.commands", Command.class)) {
-            register(command);
-        }
+        register(
+                CommandChat.class,
+                CommandChatSpy.class,
+                CommandDivorce.class,
+                CommandGender.class,
+                CommandGift.class,
+                CommandHeal.class,
+                CommandHelp.class,
+                CommandHome.class,
+                CommandList.class,
+                CommandMarry.class,
+                CommandMigrate.class,
+                CommandPriest.class,
+                CommandPVP.class,
+                CommandReload.class,
+                CommandSeen.class,
+                CommandSethome.class,
+                CommandTeleport.class,
+                CommandUpdate.class
+        );
+//        for(Class<? extends Command> command : findClasses("com.lenis0012.bukkit.marriage2.commands", Command.class)) {
+//            register(command);
+//        }
     }
 
     @Register(name = "updater", type = Type.ENABLE, priority = 9)

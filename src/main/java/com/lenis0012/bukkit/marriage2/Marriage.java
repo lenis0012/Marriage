@@ -77,8 +77,9 @@ public interface Marriage {
      * Register a subcommand to the /marry command.
      *
      * @param commandClass Class of the sub command to be registered.
+     * @param commandClasses Additional command classes
      */
-    void register(Class<? extends Command> commandClass);
+    void register(Class<? extends Command> commandClass, Class<? extends Command>... commandClasses);
 
     /**
      * Get the plugin logger instance.
