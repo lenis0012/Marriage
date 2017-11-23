@@ -61,14 +61,14 @@ public class DataManager {
     }
 
     private void loadWithDriver(Driver driver, FileConfiguration config) {
-        String url;
+        String url, user = "", password = "";
         if(driver == Driver.MYSQL) {
-            String user = config.getString("MySQL.user", "root");
-            String pswd = config.getString("MySQL.password", "");
+            user = config.getString("MySQL.user", "root");
+            password = config.getString("MySQL.password", "");
             String host = config.getString("MySQL.host", "localhost:3306");
             String database = config.getString("MySQL.database", "myserver");
             this.prefix = config.getString("MySQL.prefix", "marriage_");
-            url = String.format("jdbc:mysql://%s/%s?user=%s&password=%s", host, database, user, pswd);
+            url = String.format("jdbc:mysql://%s/%s", host, database);
             driver = Driver.MYSQL;
         } else {
             url = String.format("jdbc:sqlite:%s", new File(core.getPlugin().getDataFolder(), "database.db").getPath());
@@ -99,7 +99,7 @@ public class DataManager {
         }
 
         // Create cached connection supplier.
-        this.supplier = new LockedReference(new ConnectionSupplier(url), 30L, TimeUnit.SECONDS, new ConnectionInvalidator());
+        this.supplier = new LockedReference(new ConnectionSupplier(url, user, password), 30L, TimeUnit.SECONDS, new ConnectionInvalidator());
 
         DBUpgrade upgrade = new DBUpgrade();
         Connection connection = supplier.access();
@@ -385,14 +385,22 @@ public class DataManager {
 
     public static final class ConnectionSupplier {
         private final String url;
+        private final String user;
+        private final String password;
 
         private ConnectionSupplier(String url) {
+            this(url, "", "");
+        }
+
+        private ConnectionSupplier(String url, String user, String password) {
             this.url = url;
+            this.user = user;
+            this.password = password;
         }
 
         public Connection get() {
             try {
-                return DriverManager.getConnection(url);
+                return DriverManager.getConnection(url, user, password);
             } catch(SQLException e) {
                 return null;
             }
