@@ -53,8 +53,8 @@ public class ChatListener implements Listener {
                 if(adminMessage == null) {
                     // Format message
                     adminMessage = Settings.CHATSPY_FORMAT.value()
-                            .replace("{sender}", player.getDisplayName())
-                            .replace("{receiver}", partner.getDisplayName());
+                            .replace("{sender}", player.getName())
+                            .replace("{receiver}", partner.getName());
                     adminMessage = formatIcons(adminMessage);
                     adminMessage = ChatColor.translateAlternateColorCodes('&', adminMessage)
                             .replace("{message}", event.getMessage());
