@@ -52,7 +52,7 @@ public class CommandTeleport extends Command {
 
         if(!payFee()) return;
 
-        player.teleport(partner);
+        player.teleport(destination);
         reply(Message.TELEPORTED);
         partner.sendMessage(ChatColor.translateAlternateColorCodes('&', Message.TELEPORTED_2.toString()));
     }
@@ -69,7 +69,7 @@ public class CommandTeleport extends Command {
         }
 
         // Find next potentially safe block
-        while(!block.getType().isSolid() && block.getY() > 0) {
+        while(!(block.getType().isSolid() || block.isLiquid()) && block.getY() > 0) {
             block = block.getRelative(BlockFace.DOWN);
             if(UNSAFE_TYPES.contains(block.getType())) {
                 return null; // Obstructed by unsafe block
@@ -87,8 +87,8 @@ public class CommandTeleport extends Command {
     }
 
     private boolean isSafeGround(Block block) {
-        return block.getType().isSolid()
+        return (block.getType().isSolid() || block.getType() == Material.WATER || block.getType() == Material.STATIONARY_WATER)
                 && !UNSAFE_TYPES.contains(block.getRelative(0, 1, 0).getType())
-                && !UNSAFE_TYPES.contains(block.getRelative(0, 2, 0).getType()
+                && !UNSAFE_TYPES.contains(block.getRelative(0, 2, 0).getType());
     }
 }

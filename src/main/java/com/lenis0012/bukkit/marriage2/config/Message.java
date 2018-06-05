@@ -54,7 +54,7 @@ public enum Message {
     BONUS_EXP("&aYou gained %s extra EXP for leveling with your partner!"),
     CONFIG_RELOAD("&aConfiguration settings were reloaded, please note that some settings may not apply until reboot."),
     GENDER_ALREADY_CHANGED("&cYou have already specified your gender, you can only do this once."),
-    TELEPORT_UNSAFE("The location you are trying to teleport to is unsafe or obstructed"),
+    TELEPORT_UNSAFE("&cThe location you are trying to teleport to is unsafe or obstructed"),
 
     // COMMANDS
     COMMAND_MARRY("Request a marriage with another player"),
