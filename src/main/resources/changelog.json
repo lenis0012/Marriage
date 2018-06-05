@@ -1,11 +1,14 @@
 {
-  "version": "Marriage v2.0.17",
+  "version": "Marriage v2.0.18",
   "data":
   [
     [
       "---[ Changelog ]---",
+      "It's been a while, but here's an update",
       "",
-      "- Resolved command error some users were having",
+      "- Added safe teleportation when not in creative",
+      "",
+      "- Fixed reported errors"
     ],
     [
       "====[ DONATE ]====",
