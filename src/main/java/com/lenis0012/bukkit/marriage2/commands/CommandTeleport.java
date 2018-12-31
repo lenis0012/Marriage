@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Lennart on 7/9/2015.
  */
 public class CommandTeleport extends Command {
-    private static final List<Material> UNSAFE_TYPES = Arrays.asList(Material.LAVA, Material.STATIONARY_LAVA, Material.CACTUS);
+    private static final List<Material> UNSAFE_TYPES = Arrays.asList(Material.LAVA, Material.CACTUS);
 
     public CommandTeleport(Marriage marriage) {
         super(marriage, "tp");
@@ -87,7 +87,7 @@ public class CommandTeleport extends Command {
     }
 
     private boolean isSafeGround(Block block) {
-        return (block.getType().isSolid() || block.getType() == Material.WATER || block.getType() == Material.STATIONARY_WATER)
+        return (block.getType().isSolid() || block.getType() == Material.WATER)
                 && !UNSAFE_TYPES.contains(block.getRelative(0, 1, 0).getType())
                 && !UNSAFE_TYPES.contains(block.getRelative(0, 2, 0).getType());
     }
