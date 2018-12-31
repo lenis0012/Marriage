@@ -5,11 +5,6 @@ import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.misc.Cooldown;
-import com.lenis0012.pluginutils.misc.Reflection;
-import com.lenis0012.pluginutils.modules.packets.Packet;
-import com.lenis0012.pluginutils.modules.packets.PacketModule;
-import net.minecraft.server.v1_13_R2.Particles;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
@@ -18,7 +13,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
-import java.lang.reflect.Method;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -28,8 +22,6 @@ public class KissListener implements Listener {
     private final Random random = new Random();
 
     public KissListener(MarriageCore core) {
-//        Particles
-//        Particle.HEART
 
         this.core = core;
         this.cooldown = new Cooldown<>(Settings.COOLDOWN_KISS.value(), TimeUnit.SECONDS);
