@@ -8,7 +8,10 @@ import com.lenis0012.bukkit.marriage2.misc.Cooldown;
 import com.lenis0012.pluginutils.misc.Reflection;
 import com.lenis0012.pluginutils.modules.packets.Packet;
 import com.lenis0012.pluginutils.modules.packets.PacketModule;
+import net.minecraft.server.v1_13_R2.Particles;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,13 +23,14 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class KissListener implements Listener {
-    private final Method GET_PARTICLE_BY_ID = Reflection.getNMSMethod("EnumParticle", "a", int.class);
-
     private final Cooldown<String> cooldown;
     private final MarriageCore core;
     private final Random random = new Random();
 
     public KissListener(MarriageCore core) {
+//        Particles
+//        Particle.HEART
+
         this.core = core;
         this.cooldown = new Cooldown<>(Settings.COOLDOWN_KISS.value(), TimeUnit.SECONDS);
     }
@@ -62,26 +66,15 @@ public class KissListener implements Listener {
 
         Location l1 = player.getEyeLocation();
         Location l2 = clicked.getEyeLocation();
-        sendPacket(l1, l2);
+        spawnParticles(l1, l2);
     }
 
-    private void sendPacket(Location eye1, Location eye2) {
-        Location l = eye1.clone().add((eye2.getX() - eye1.getX()) / 2, (eye2.getY() - eye1.getY()) / 2, (eye2.getZ() - eye1.getZ()) / 2);
+    private void spawnParticles(Location eye1, Location eye2) {
+        Location middle = eye1.clone().add((eye2.getX() - eye1.getX()) / 2, (eye2.getY() - eye1.getY()) / 2, (eye2.getZ() - eye1.getZ()) / 2);
         int min = Settings.KISSES_AMOUNT_MIN.value();
         int max = Settings.KISSES_AMOUNT_MAX.value();
         int amount = min + random.nextInt(max - min + 1);
 
-        PacketModule module = core.getPlugin().getModule(PacketModule.class);
-        Packet packet = module.createPacket("PacketPlayOutWorldParticles");
-        packet.write("a", Reflection.invokeMethod(GET_PARTICLE_BY_ID, null, 34));
-        packet.write("b", (float) l.getX());
-        packet.write("c", (float) l.getY());
-        packet.write("d", (float) l.getZ());
-        packet.write("e", 0.3F);
-        packet.write("f", 0.3F);
-        packet.write("g", 0.3F);
-        packet.write("h", 1F);
-        packet.write("i", amount);
-        module.broadcastPacket(l.getWorld(), packet);
+        eye1.getWorld().spawnParticle(Particle.HEART, middle, amount, 0.3f, 0.3f, 0.3f, 1f);
     }
 }

@@ -4,7 +4,7 @@
 
     <groupId>com.lenis0012.bukkit</groupId>
     <artifactId>marriage2</artifactId>
-    <version>2.0.18</version>
+    <version>2.0.19-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Marriage</name>
     <url>http://dev.bukkit.org/server-mods/marriage-reloaded/</url>
@@ -32,8 +32,8 @@
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <artifactId>spigot</artifactId>
+            <version>1.13.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -46,13 +46,13 @@
         <dependency>
             <groupId>com.lenis0012.bukkit</groupId>
             <artifactId>lenisutils</artifactId>
-            <version>1</version>
+            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.lenis0012.updater</groupId>
             <artifactId>updater-api</artifactId>
-            <version>1</version>
+            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -76,7 +76,7 @@
                 <dependency>
                     <groupId>com.lenis0012.updater</groupId>
                     <artifactId>updater-bukkit</artifactId>
-                    <version>1</version>
+                    <version>1.0</version>
                     <scope>compile</scope>
                 </dependency>
             </dependencies>
@@ -84,7 +84,7 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-shade-plugin</artifactId>
-                        <version>2.4</version>
+                        <version>3.7.0</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
@@ -124,7 +124,7 @@
                 <dependency>
                     <groupId>com.lenis0012.updater</groupId>
                     <artifactId>updater-spigot</artifactId>
-                    <version>1</version>
+                    <version>1.0</version>
                     <scope>compile</scope>
                 </dependency>
             </dependencies>
