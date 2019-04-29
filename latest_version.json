@@ -1,6 +1,6 @@
 {
-  "name": "Marriage v2.0.18",
+  "name": "Marriage v2.0.19",
   "type": "release",
-  "gameVersion": "1.8 - 1.12",
-  "downloadURL": "http://ci.lenis0012.com/job/Marriage/17/artifact/target/Marriage-Spigot-2.0.18.jar"
+  "gameVersion": "1.8 - 1.13",
+  "downloadURL": "https://github.com/lenis0012/BukkitUpdater/releases/download/v2.0.19/Marriage-Spigot-2.0.19.jar"
 }
