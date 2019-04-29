@@ -1,14 +1,13 @@
 {
-  "version": "Marriage v2.0.18",
+  "version": "Marriage v2.0.19",
   "data":
   [
     [
       "---[ Changelog ]---",
-      "It's been a while, but here's an update",
       "",
-      "- Added safe teleportation when not in creative",
+      "- Added 1.13 support",
       "",
-      "- Fixed reported errors"
+      "More updates coming soon"
     ],
     [
       "====[ DONATE ]====",
