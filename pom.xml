@@ -33,7 +33,7 @@
         </repository>
         <repository>
             <id>plotsquared-repo</id>
-            <url>http://ci.athion.net/job/PlotSquared-Releases/ws/mvn/</url>
+            <url>https://ci.athion.net/job/PlotSquared-Releases/ws/mvn/</url>
         </repository>
     </repositories>
 
