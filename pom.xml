@@ -29,7 +29,7 @@
         </repository>
         <repository>
             <id>lenis0012-repo</id>
-            <url>http://ci.lenis0012.com/plugin/repository/everything/</url>
+            <url>https://dl.bintray.com/lenis0012/maven-releases/</url>
         </repository>
         <repository>
             <id>plotsquared-repo</id>
