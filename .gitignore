@@ -1,5 +1,17 @@
-## Custom
-.idea/
+#################
+## IntelliJ
+#################
+.idea/workspace.xml
+.idea/usage.statistics.xml
+.idea/tasks.xml
+.idea/shelf/
+.idea/dictionaries/
+*.iws
+### Maven/Gradle Specific
+.idea/modules.xml
+*.iml
+gradle.xml
+.idea/libraries/*.xml
 
 #################
 ## Eclipse
