@@ -24,8 +24,16 @@
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
         <repository>
+            <id>enginehub-repo</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+        <repository>
             <id>lenis0012-repo</id>
             <url>http://ci.lenis0012.com/plugin/repository/everything/</url>
+        </repository>
+        <repository>
+            <id>plotsquared-repo</id>
+            <url>http://ci.athion.net/job/PlotSquared-Releases/ws/mvn/</url>
         </repository>
     </repositories>
 
@@ -35,13 +43,6 @@
             <artifactId>spigot-api</artifactId>
             <version>1.13.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.plotsquared.bukkit</groupId>
-            <artifactId>PlotSquared</artifactId>
-            <version>3.3.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/PlotSquared.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.lenis0012.bukkit</groupId>
@@ -54,6 +55,12 @@
             <artifactId>updater-api</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.intellectualsites.plotsquared</groupId>
+            <artifactId>PlotSquared-API</artifactId>
+            <version>latest</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>

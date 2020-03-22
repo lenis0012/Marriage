@@ -1,7 +1,7 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
-import com.intellectualcrafters.plot.PS;
-import com.intellectualcrafters.plot.object.Plot;
+import com.github.intellectualsites.plotsquared.plot.PlotSquared;
+import com.github.intellectualsites.plotsquared.plot.object.Plot;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent;
 import com.lenis0012.bukkit.marriage2.events.PlayerMarryEvent;
@@ -12,10 +12,10 @@ import org.bukkit.event.Listener;
 import java.util.UUID;
 
 public class PlotSquaredListener implements Listener {
-    private final PS plotSquared;
+    private final PlotSquared plotSquared;
 
     public PlotSquaredListener() {
-        this.plotSquared = PS.get();
+        this.plotSquared = PlotSquared.get();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
