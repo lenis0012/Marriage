@@ -35,6 +35,10 @@
             <id>plotsquared-repo</id>
             <url>https://ci.athion.net/job/PlotSquared-Releases/ws/mvn/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
