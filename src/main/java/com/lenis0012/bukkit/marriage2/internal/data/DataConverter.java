@@ -52,6 +52,7 @@ public class DataConverter {
                 reportStatus(progress);
             }
 
+            @SuppressWarnings("deprecation")
             // Pull from cache
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
             if(offlinePlayer != null) {
