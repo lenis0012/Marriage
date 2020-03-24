@@ -11,32 +11,38 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.bukkit-api-version>1.13</project.bukkit-api-version>
     </properties>
 
     <repositories>
-        <!-- Repo for access to CraftBukkit -->
         <repository>
-            <id>md5-repo</id>
+            <id>spigot-repo</id>
+            <name>SpigotMC</name>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>vault-repo</id>
+            <name>VaultAPI</name>
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
         <repository>
             <id>enginehub-repo</id>
+            <name>EngineHub</name>
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
         <repository>
             <id>lenis0012-repo</id>
+            <name>LenisUtils</name>
             <url>https://dl.bintray.com/lenis0012/maven-releases/</url>
         </repository>
         <repository>
             <id>plotsquared-repo</id>
+            <name>PlotSquared Release API</name>
             <url>https://ci.athion.net/job/PlotSquared-Releases/ws/mvn/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
+            <name>JitPack</name>
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
