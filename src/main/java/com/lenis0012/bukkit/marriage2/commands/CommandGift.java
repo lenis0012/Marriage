@@ -31,14 +31,14 @@ public class CommandGift extends Command {
             return;
         }
 
-        ItemStack item = player.getItemInHand();
+        ItemStack item = player.getInventory().getItemInMainHand();
         if(item == null || item.getType() == Material.AIR) {
             reply(Message.NO_ITEM);
             return;
         }
 
         partner.getInventory().addItem(item.clone());
-        player.setItemInHand(null);
+        player.getInventory().setItemInMainHand(null);
         reply(Message.ITEM_GIFTED, item.getAmount(), item.getType().toString().toLowerCase());
         reply(partner, Message.GIFT_RECEIVED, item.getAmount(), item.getType().toString().toLowerCase());
     }

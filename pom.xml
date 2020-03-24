@@ -205,7 +205,7 @@
                     <source>1.8</source>
                     <target>1.8</target>
                     <showWarnings>true</showWarnings>
-                    <showDeprecation>false</showDeprecation> <!-- TODO: Change back to true when setItemInHand fixed -->
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
             <plugin>

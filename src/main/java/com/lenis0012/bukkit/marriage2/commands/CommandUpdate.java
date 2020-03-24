@@ -44,8 +44,8 @@ public class CommandUpdate extends Command {
                             return;
                         }
 
-                        ItemStack inHand = player.getItemInHand();
-                        player.setItemInHand(changelog);
+                        ItemStack inHand = player.getInventory().getItemInMainHand();
+                        player.getInventory().setItemInMainHand(changelog);
                         if(inHand != null) {
                             player.getInventory().addItem(inHand);
                         }
