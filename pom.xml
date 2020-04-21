@@ -38,7 +38,7 @@
         <repository>
             <id>plotsquared-repo</id>
             <name>PlotSquared Release API</name>
-            <url>https://ci.athion.net/job/PlotSquared-Releases/ws/mvn/</url>
+            <url>https://plotsquared.com/mvn/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
@@ -67,9 +67,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.intellectualsites.plotsquared</groupId>
-            <artifactId>PlotSquared-API</artifactId>
-            <version>latest</version>
+            <groupId>com.plotsquared</groupId>
+            <artifactId>PlotSquared</artifactId>
+            <version>5.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

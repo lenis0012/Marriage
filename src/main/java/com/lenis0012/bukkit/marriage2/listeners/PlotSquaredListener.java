@@ -1,10 +1,10 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
-import com.github.intellectualsites.plotsquared.plot.PlotSquared;
-import com.github.intellectualsites.plotsquared.plot.object.Plot;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent;
 import com.lenis0012.bukkit.marriage2.events.PlayerMarryEvent;
+import com.plotsquared.core.PlotSquared;
+import com.plotsquared.core.plot.Plot;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
