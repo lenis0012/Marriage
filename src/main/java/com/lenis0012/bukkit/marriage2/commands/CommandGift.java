@@ -36,6 +36,11 @@ public class CommandGift extends Command {
             reply(Message.NO_ITEM);
             return;
         }
+        
+        if(partner.getInventory().firstEmpty() == -1) {
+            reply(Message.PARTNER_INVENTORY_FULL);
+            return;
+        }
 
         partner.getInventory().addItem(item.clone());
         player.setItemInHand(null);
