@@ -66,6 +66,11 @@ public class MarriageCore extends MarriageBase {
     @Register(name = "dependencies", type = Type.ENABLE, priority = 1)
     public void loadDependencies() {
         this.dependencies = new Dependencies(this);
+        if(Settings.PLOTSQUARED_AUTO_TRUST.value() && Bukkit.getPluginManager().isPluginEnabled("PlotSquared")) {
+            Plugin plotSquared = Bukkit.getPluginManager().getPlugin("PlotSquared");
+            getLogger().log(Level.INFO, "Detected PlotSquared v" + plotSquared.getDescription().getVersion() + ". Attempting to hook.");
+            hookPlotSquared();
+        }
     }
 
     @Register(name = "database", type = Register.Type.ENABLE)
@@ -86,16 +91,11 @@ public class MarriageCore extends MarriageBase {
         register(new DatabaseListener(this));
         register(new KissListener(this));
         register(new UpdateListener(this));
-        if(Settings.PLOTSQUARED_AUTO_TRUST.value() && Bukkit.getPluginManager().isPluginEnabled("PlotSquared")) {
-            Plugin plotSquared = Bukkit.getPluginManager().getPlugin("PlotSquared");
-            getLogger().log(Level.INFO, "Hooking with PlotSquared v" + plotSquared.getDescription().getVersion());
-            hookPlotSquared();
-        }
     }
 
     private void hookPlotSquared() {
         try {
-            getLogger().log(Level.INFO, "Attempting to hook with PlotSquared v5.");
+            getLogger().log(Level.INFO, "Attempting to hook using PlotSquared v5 API.");
             Class.forName("com.plotsquared.core.api.PlotAPI");
             register(new V5PlotSquaredListener());
             getLogger().log(Level.INFO, "Success! Auto-trust has been enabled.");
@@ -104,7 +104,7 @@ public class MarriageCore extends MarriageBase {
         }
 
         try {
-            getLogger().log(Level.INFO, "Attempting to hook with PlotSquared legacy.");
+            getLogger().log(Level.INFO, "Attempting to hook using PlotSquared legacy API.");
             Class.forName("com.intellectualcrafters.plot.PS");
             register(new LegacyPlotSquaredListener());
             getLogger().log(Level.INFO, "Success! Auto-trust has been enabled.");
