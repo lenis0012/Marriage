@@ -19,13 +19,25 @@
             <id>md5-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <!-- Vault -->
         <repository>
             <id>vault-repo</id>
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
+        <!-- CodeMC -->
         <repository>
-            <id>lenis0012-repo</id>
-            <url>http://ci.lenis0012.com/plugin/repository/everything/</url>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
+        </repository>
+        <!-- WorldEdit -->
+        <repository>
+            <id>enginehub</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+        <!-- PlotSquared -->
+        <repository>
+            <id>IntellectualSites</id>
+            <url>https://mvn.intellectualsites.com/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -37,16 +49,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.plotsquared.bukkit</groupId>
-            <artifactId>PlotSquared</artifactId>
-            <version>3.3.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/PlotSquared.jar</systemPath>
-        </dependency>
-        <dependency>
             <groupId>com.lenis0012.bukkit</groupId>
             <artifactId>lenisutils</artifactId>
-            <version>1.0</version>
+            <version>1.0.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -58,7 +63,22 @@
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
             <artifactId>VaultAPI</artifactId>
-            <version>1.5</version>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- PlotSquared Legacy (before v4)-->
+        <dependency>
+            <groupId>com.plotsquared.bukkit</groupId>
+            <artifactId>PlotSquared</artifactId>
+            <version>3.3.3</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/PlotSquared.jar</systemPath>
+        </dependency>
+        <!-- PlotSquared v5 -->
+        <dependency>
+            <groupId>com.plotsquared</groupId>
+            <artifactId>PlotSquared</artifactId>
+            <version>5.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -81,35 +101,7 @@
                 </dependency>
             </dependencies>
             <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-shade-plugin</artifactId>
-                        <version>3.2.1</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>shade</goal>
-                                </goals>
-                                <configuration>
-                                    <finalName>${project.name}-Bukkit-${project.version}</finalName>
-                                    <artifactSet>
-                                        <includes>
-                                            <include>com.lenis0012.updater:updater-api</include>
-                                            <include>com.lenis0012.updater:updater-bukkit</include>
-                                        </includes>
-                                    </artifactSet>
-                                    <relocations>
-                                        <relocation>
-                                            <pattern>com.lenis0012.updater</pattern>
-                                            <shadedPattern>com.lenis0012.bukkit.marriage2.libs.updater</shadedPattern>
-                                        </relocation>
-                                    </relocations>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
+                <finalName>${project.name}-Bukkit-${project.version}</finalName>
             </build>
         </profile>
         <profile>
@@ -129,35 +121,7 @@
                 </dependency>
             </dependencies>
             <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-shade-plugin</artifactId>
-                        <version>3.2.1</version>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>shade</goal>
-                                </goals>
-                                <configuration>
-                                    <finalName>${project.name}-Spigot-${project.version}</finalName>
-                                    <artifactSet>
-                                        <includes>
-                                            <include>com.lenis0012.updater:updater-api</include>
-                                            <include>com.lenis0012.updater:updater-spigot</include>
-                                        </includes>
-                                    </artifactSet>
-                                    <relocations>
-                                        <relocation>
-                                            <pattern>com.lenis0012.updater</pattern>
-                                            <shadedPattern>com.lenis0012.bukkit.marriage2.libs.updater</shadedPattern>
-                                        </relocation>
-                                    </relocations>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
+                <finalName>${project.name}-Spigot-${project.version}</finalName>
             </build>
         </profile>
     </profiles>
@@ -183,7 +147,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -193,7 +157,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.2.3</version>
                 <executions>
                     <execution>
                         <id>general</id>
@@ -203,15 +167,14 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <artifactSet>
-                                <includes>
-                                    <include>com.lenis0012.bukkit:lenisutils</include>
-                                </includes>
-                            </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>com.lenis0012.pluginutils</pattern>
                                     <shadedPattern>com.lenis0012.bukkit.marriage2.libs.pluginutils</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.lenis0012.updater</pattern>
+                                    <shadedPattern>com.lenis0012.bukkit.marriage2.libs.updater</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
