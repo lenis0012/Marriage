@@ -11,6 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <updater.version>1.1</updater.version>
     </properties>
 
     <repositories>
@@ -57,7 +58,7 @@
         <dependency>
             <groupId>com.lenis0012.updater</groupId>
             <artifactId>updater-api</artifactId>
-            <version>1.0</version>
+            <version>${updater.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -96,7 +97,7 @@
                 <dependency>
                     <groupId>com.lenis0012.updater</groupId>
                     <artifactId>updater-bukkit</artifactId>
-                    <version>1.0</version>
+                    <version>${updater.version}</version>
                     <scope>compile</scope>
                 </dependency>
             </dependencies>
@@ -116,7 +117,7 @@
                 <dependency>
                     <groupId>com.lenis0012.updater</groupId>
                     <artifactId>updater-spigot</artifactId>
-                    <version>1.0</version>
+                    <version>${updater.version}</version>
                     <scope>compile</scope>
                 </dependency>
             </dependencies>

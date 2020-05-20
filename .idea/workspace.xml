@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f053dcdb-5af2-49cb-86ae-0ae3e6974408" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/lenis0012/bukkit/marriage2/listeners/V5PlotSquaredListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lenis0012/bukkit/marriage2/internal/MarriageCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lenis0012/bukkit/marriage2/internal/MarriageCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/lenis0012/bukkit/marriage2/listeners/PlotSquaredListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/lenis0012/bukkit/marriage2/listeners/LegacyPlotSquaredListener.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +20,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="downloadDocsAutomatically" value="true" />
+        <option name="downloadSourcesAutomatically" value="true" />
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
+  </component>
   <component name="ProjectId" id="1cB29FyB0u0N1sQBBgxCRoyoLmg" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -39,6 +42,10 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -51,7 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1556527215114</updated>
       <workItem from="1556527218811" duration="1549000" />
-      <workItem from="1589987513901" duration="2087000" />
+      <workItem from="1589987513901" duration="4304000" />
     </task>
     <servers />
   </component>
@@ -84,6 +91,10 @@
       <screen x="72" y="28" width="2488" height="1412" />
     </state>
     <state x="1060" y="477" width="502" height="520" key="FileChooserDialogImpl/72.28.2488.1412/2560.0.2560.1440@72.28.2488.1412" timestamp="1589988962406" />
+    <state x="805" y="369" width="1022" height="737" key="SettingsEditor" timestamp="1589992192275">
+      <screen x="72" y="28" width="2488" height="1412" />
+    </state>
+    <state x="805" y="369" width="1022" height="737" key="SettingsEditor/72.28.2488.1412/2560.0.2560.1440@72.28.2488.1412" timestamp="1589992192275" />
     <state x="1007" y="473" width="652" height="522" key="find.popup" timestamp="1589988148983">
       <screen x="72" y="28" width="2488" height="1412" />
     </state>
@@ -96,21 +107,5 @@
       <screen x="72" y="28" width="2488" height="1412" />
     </state>
     <state x="979" y="350" width="672" height="678" key="search.everywhere.popup/72.28.2488.1412/2560.0.2560.1440@72.28.2488.1412" timestamp="1589989339828" />
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>11</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>
