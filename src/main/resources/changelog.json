@@ -1,13 +1,17 @@
 {
-  "version": "Marriage v2.0.19",
+  "version": "Marriage v2.0.20",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Added 1.13 support",
+      "- Fixed AAC support (thanks Janmm14)",
       "",
-      "More updates coming soon"
+      "- Added PlotSquared v5 support (1.13+)",
+      "",
+      "- Disallow gifting to a full inventory",
+      "",
+      "Full changelog on spigotmc.org"
     ],
     [
       "====[ DONATE ]====",

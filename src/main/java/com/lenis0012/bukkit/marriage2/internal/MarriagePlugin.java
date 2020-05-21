@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.pluginutils.PluginHolder;
 import com.lenis0012.pluginutils.modules.configuration.ConfigurationModule;
-import com.lenis0012.pluginutils.modules.packets.PacketModule;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -22,8 +21,7 @@ public class MarriagePlugin extends PluginHolder {
     private final List<Method>[] methods = new List[Register.Type.values().length];
 
     public MarriagePlugin() {
-        super(PacketModule.class,
-                ConfigurationModule.class);
+        super(ConfigurationModule.class);
         core = new MarriageCore(this);
 
         //Scan methods

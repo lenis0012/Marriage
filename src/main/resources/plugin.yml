@@ -3,8 +3,9 @@ version: ${project.version}
 main: com.lenis0012.bukkit.marriage2.internal.MarriagePlugin
 author: lenis0012
 description: A plugin wich provides the function to start a relationship in minecraft.
-dev-url: http://dev.bukkit.org/bukkit-mods/marriage-reloaded/
+website: https://www.spigotmc.org/resources/marriage-reloaded-1-15-1-8.18998/
 softdepend: [Vault, PlotSquared]
+api-version: '1.13'
 commands:
   marry:
     description: Marriage main command.
