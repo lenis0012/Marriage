@@ -39,7 +39,7 @@ public abstract class MarriageBase implements Marriage {
     }
 
     @Override
-    public void register(Class<? extends Command> commandClass, Class<? extends Command>... commandClasses) {
+    public void register(Class<? extends Command> commandClass, @SuppressWarnings("unchecked") Class<? extends Command>... commandClasses) {
         commandExecutor.register(commandClass);
         for(Class<? extends Command> cmdclass : commandClasses) {
             commandExecutor.register(cmdclass);

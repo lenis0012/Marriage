@@ -119,4 +119,12 @@ public class MarriageData implements MData {
             }
         });
     }
+
+	public boolean isSaved() {
+		return saved;
+	}
+
+	public void setSaved(boolean saved) {
+		this.saved = saved;
+	}
 }

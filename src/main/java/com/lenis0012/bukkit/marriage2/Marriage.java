@@ -79,7 +79,7 @@ public interface Marriage {
      * @param commandClass Class of the sub command to be registered.
      * @param commandClasses Additional command classes
      */
-    void register(Class<? extends Command> commandClass, Class<? extends Command>... commandClasses);
+    void register(Class<? extends Command> commandClass, @SuppressWarnings("unchecked") Class<? extends Command>... commandClasses);
 
     /**
      * Get the plugin logger instance.

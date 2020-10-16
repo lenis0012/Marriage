@@ -5,15 +5,22 @@
     [
       "---[ Changelog ]---",
       "",
-      "- Fixed AAC support (thanks Janmm14)",
+      "- Updated to 1.16.3",
       "",
-      "- Added PlotSquared v5 support (1.13+)",
+      "- Updated PlotSquared v5 support (1.13+)",
       "",
-      "- Disallow gifting to a full inventory",
+      "- Edited deprecated give and take item methods",
       "",
-      "Full changelog on spigotmc.org"
+      "Full changelog on my GitHub"
     ],
     [
+      "====[ INFO ]====",
+      "",
+      "This version is edited by Tirco",
+      ""
+    ],
+    [
+	  "===[ OLD INFO ]===",
       "====[ DONATE ]====",
       "",
       "Donate if you enjoy this update.",

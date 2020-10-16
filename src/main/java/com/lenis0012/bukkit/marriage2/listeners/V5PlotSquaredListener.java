@@ -19,7 +19,8 @@ public class V5PlotSquaredListener implements Listener {
         this.plotSquared = new PlotAPI();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @SuppressWarnings("rawtypes")
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerMarry(PlayerMarryEvent event) {
         final UUID player = event.getRequesing().getUniqueId();
         final UUID partner = event.getRequested().getUniqueId();
@@ -41,7 +42,8 @@ public class V5PlotSquaredListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @SuppressWarnings("rawtypes")
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerDivorce(PlayerDivorceEvent event) {
         final MData marriage = event.getMarriage();
         final UUID player = marriage.getPlayer1Id();

@@ -20,7 +20,8 @@ public class MarriagePlugin extends PluginHolder {
     @SuppressWarnings("unchecked")
     private final List<Method>[] methods = new List[Register.Type.values().length];
 
-    public MarriagePlugin() {
+    @SuppressWarnings("unchecked")
+	public MarriagePlugin() {
         super(ConfigurationModule.class);
         core = new MarriageCore(this);
 

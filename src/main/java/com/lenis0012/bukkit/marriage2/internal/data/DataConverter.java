@@ -3,7 +3,6 @@ package com.lenis0012.bukkit.marriage2.internal.data;
 import com.google.common.collect.Maps;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
-import com.lenis0012.bukkit.marriage2.misc.UUIDFetcher;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -12,7 +11,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -38,8 +36,7 @@ public class DataConverter {
 
         // Retrieve UUIDs from mojang
         Map<String, UUID> uuidMap = Maps.newHashMap();
-        UUIDFetcher uuidFetcher = new UUIDFetcher(new ArrayList<String>());
-        int ranThroughMojang = 0;
+        //UUIDFetcher uuidFetcher = new UUIDFetcher(new ArrayList<String>());
         int failed = 0;
         for(int completed = 0; completed < totalFiles; completed++) {
             File file = files[completed];
@@ -53,7 +50,7 @@ public class DataConverter {
             }
 
             // Pull from cache
-            @SuppressWarnings("deprecation") //Not much to do about this one, unless we want to cache all players.
+			@SuppressWarnings("deprecation")
 			OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
             if(offlinePlayer != null) {
                 UUID userId = offlinePlayer.getUniqueId();
@@ -62,27 +59,30 @@ public class DataConverter {
                     continue;
                 }
             }
-
-            // Pull from mojang
-            if(ranThroughMojang >= 50000) { // Max 500 requests
-                failed += 1;
-                continue;
-            }
-
-            uuidFetcher.addName(name);
-            ranThroughMojang += 1;
-            if(uuidFetcher.size() == 100) {
-                try {
-                    uuidMap.putAll(uuidFetcher.call());
-                } catch(Exception e) {
-                    core.getLogger().log(Level.WARNING, "Failed to retrieve UUID for 100 players!");
-                }
-                uuidFetcher = new UUIDFetcher(new ArrayList<String>());
-            }
+            
+            //Not stored on server? Failed then.
+            failed += 1;
+//
+//            // Pull from mojang
+//            if(ranThroughMojang >= 50000) { // Max 500 requests
+//                failed += 1;
+//                continue;
+//            }
+//
+//            uuidFetcher.addName(name);
+//            ranThroughMojang += 1;
+//            if(uuidFetcher.size() == 100) {
+//                try {
+//                    uuidMap.putAll(uuidFetcher.call());
+//                } catch(Exception e) {
+//                    core.getLogger().log(Level.WARNING, "Failed to retrieve UUID for 100 players!");
+//                }
+//                uuidFetcher = new UUIDFetcher(new ArrayList<String>());
+//            }
         }
 
-        core.getLogger().log(Level.INFO, String.format("Converted %s entries. %s locally, %s through mojang, %s failed.",
-                totalFiles, totalFiles - ranThroughMojang - failed, ranThroughMojang, failed));
+        core.getLogger().log(Level.INFO, String.format("Converted %s entries. %s locally, %s failed.",
+                totalFiles, totalFiles - failed, failed));
         core.getLogger().log(Level.INFO, "Failed entries are likely from inactive players.");
 
 //        for(int completed = 0; completed < totalFiles; completed++) {

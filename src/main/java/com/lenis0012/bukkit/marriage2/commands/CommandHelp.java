@@ -8,6 +8,8 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.HoverEvent.Action;
+import net.md_5.bungee.api.chat.hover.content.Text;
+
 import org.bukkit.Bukkit;
 
 public class CommandHelp extends Command {
@@ -23,7 +25,8 @@ public class CommandHelp extends Command {
     @Override
     public void execute() {
         MarriageCommandExecutor commandExecutor = ((MarriageBase) marriage).getCommandExecutor();
-//		reply("Author: &alenis0012");
+		reply("Author: &alenis0012");
+		reply("Edited by: &aTirco");
         reply("Version: &a" + marriage.getPlugin().getDescription().getVersion());
         reply("&2&m---------&2< &a&lMarriage Command Help &2>&2&m---------"); // Play around with the amount of dashes later
         for(Command command : commandExecutor.getSubCommands()) {
@@ -42,14 +45,14 @@ public class CommandHelp extends Command {
                 continue;
             }
             ComponentBuilder builder = new ComponentBuilder("/marry " + alias + command.getUsage()).color(ChatColor.GREEN)
-                    .event(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("Cost: "
-                            + marriage.dependencies().getEconomyService().format(command.getExecutionFee())).create()))
+                    .event(new HoverEvent(Action.SHOW_TEXT, new Text("Cost: "
+                            + marriage.dependencies().getEconomyService().format(command.getExecutionFee()))))
                     .append(" - ").color(ChatColor.WHITE)
-                    .event(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("Cost: "
-                            + marriage.dependencies().getEconomyService().format(command.getExecutionFee())).create()))
+                    .event(new HoverEvent(Action.SHOW_TEXT, new Text("Cost: "
+                            + marriage.dependencies().getEconomyService().format(command.getExecutionFee()))))
                     .append(command.getDescription()).color(ChatColor.GRAY)
-                    .event(new HoverEvent(Action.SHOW_TEXT, new ComponentBuilder("Cost: "
-                            + marriage.dependencies().getEconomyService().format(command.getExecutionFee())).create()));
+                    .event(new HoverEvent(Action.SHOW_TEXT, new Text("Cost: "
+                            + marriage.dependencies().getEconomyService().format(command.getExecutionFee()))));
             player.spigot().sendMessage(builder.create());
         }
 
