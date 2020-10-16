@@ -53,7 +53,8 @@ public class DataConverter {
             }
 
             // Pull from cache
-            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
+            @SuppressWarnings("deprecation") //Not much to do about this one, unless we want to cache all players.
+			OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(name);
             if(offlinePlayer != null) {
                 UUID userId = offlinePlayer.getUniqueId();
                 if(userId != null) {

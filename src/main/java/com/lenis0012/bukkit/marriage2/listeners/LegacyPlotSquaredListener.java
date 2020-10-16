@@ -1,7 +1,6 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
 import com.intellectualcrafters.plot.PS;
-import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent;
