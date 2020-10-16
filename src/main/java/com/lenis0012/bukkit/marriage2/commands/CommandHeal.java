@@ -6,6 +6,7 @@ import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 
 public class CommandHeal extends Command {
@@ -40,7 +41,7 @@ public class CommandHeal extends Command {
         }
 
         // Check health of partner
-        double give = Math.min(partner.getMaxHealth() - partner.getHealth(), player.getHealth() - 0.5);
+        double give = Math.min(partner.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() - partner.getHealth(), player.getHealth() - 0.5);
         if(give == 0.0) {
             reply(Message.NO_HEALTH);
             return;
