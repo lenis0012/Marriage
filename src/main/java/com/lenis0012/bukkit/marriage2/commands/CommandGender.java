@@ -19,7 +19,8 @@ public class CommandGender extends Command {
     public void execute() {
         Gender gender;
         try {
-            gender = Gender.valueOf(getArg(0).toUpperCase());
+            if Gender.valueOf(getArg(0).toUpperCase()) == "NONBINARY" || Gender.valueOf(getArg(0).toUpperCase()) == "NONE" || Gender.valueOf(getArg(0).toUpperCase()) == "BINARY" || Gender.valueOf(getArg(0).toUpperCase()) == "AGENDER" { gender = "UNKNOWN" }
+            else {gender = Gender.valueOf(getArg(0).toUpperCase());}
         } catch(Exception e) {
             reply(Message.INVALID_GENDER);
             return;
