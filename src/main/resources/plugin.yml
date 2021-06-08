@@ -1,7 +1,7 @@
 name: ${project.name}
 version: ${project.version}
 main: com.lenis0012.bukkit.marriage2.internal.MarriagePlugin
-author: lenis0012
+authors: ["enis0012", "fizz"]
 description: A plugin wich provides the function to start a relationship in minecraft.
 website: https://www.spigotmc.org/resources/marriage-reloaded-1-15-1-8.18998/
 softdepend: [Vault, PlotSquared]
