@@ -1,4 +1,4 @@
-![Marriage Reloaded](https://media-elerium.cursecdn.com/attachments/119/347/marriage-banner.png)
+![Marriage Reloaded Reloaded](https://media-elerium.cursecdn.com/attachments/119/347/marriage-banner.png)
 
 ## About
 Marriage reloaded, Your love comes true.
@@ -6,6 +6,9 @@ This is a plugin that allows you to marry in Minecraft to get acces to special f
 Marriage Reloaded was coded in mc 1.2.5 and v1.0 releases on dec 21 2012
 This plugin has multiple commands and it is still growing really fast, it has not been developepd for 4 months and then got picked up again, it is
 completely recoded and still misses alot of features
+
+## Fizz's edits
+- Added nonbinary to gender options
 
 ## Features
 - Marry in Minecraft
