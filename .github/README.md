@@ -5,7 +5,7 @@ Marriage reloaded, Your love comes true.
 This is a plugin that allows you to marry in Minecraft to get acces to special features.
 Marriage Reloaded was coded in mc 1.2.5 and v1.0 releases on dec 21 2012
 This plugin has multiple commands and it is still growing really fast, it has not been developepd for 4 months and then got picked up again, it is
-completely recoded and still misses alot of features
+completely recoded and still misses alot of features. This is fork by Fizz, called `Marriage Reload (Fizz's edits)`, as Marriage reloaded isn't updated anymore.
 
 ## Fizz's edits
 - Added nonbinary to gender options
