@@ -14,7 +14,7 @@ public enum Gender {
     /**
      * Not set
      */
-    UNKNOWN;
+    TRANSGENDER;
 
     /**
      * Get chat prefix for gender.
@@ -28,7 +28,7 @@ public enum Gender {
             case FEMALE:
                 return Settings.PREFIX_FEMALE.value();
             default:
-                return Settings.PREFIX_GENDERLESS.value();
+                return Settings.PREFIX_TRANSGENDER.value();
         }
     }
 }

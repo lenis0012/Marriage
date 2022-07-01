@@ -44,7 +44,7 @@ public class Settings {
     public static final ConfigOption<Boolean> FORCE_GENDER_FORMAT = new ConfigOption<>("chat.force-gender-format", true);
     public static final ConfigOption<String> PREFIX_MALE = new ConfigOption<>("chat.male-prefix", "&b{icon:male} &r");
     public static final ConfigOption<String> PREFIX_FEMALE = new ConfigOption<>("chat.female-prefix", "&d{icon:female} &r");
-    public static final ConfigOption<String> PREFIX_GENDERLESS = new ConfigOption<>("chat.genderless-prefix", "");
+    public static final ConfigOption<String> PREFIX_TRANSGENDER = new ConfigOption<>("chat.transgender-prefix", "&d{icon:transgender} &r");
 
     /**
      * Kissing

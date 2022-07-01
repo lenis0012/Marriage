@@ -87,7 +87,7 @@ public class ListQuery {
                 case FEMALE:
                     color = ChatColor.LIGHT_PURPLE;
                     break;
-                case UNKNOWN:
+                case TRANSGENDER:
                     color = ChatColor.GRAY;
                     break;
             }

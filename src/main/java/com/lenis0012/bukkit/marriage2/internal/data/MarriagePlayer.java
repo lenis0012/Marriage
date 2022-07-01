@@ -22,7 +22,7 @@ public class MarriagePlayer implements MPlayer {
     private final UUID uuid;
     private String lastName;
     private MData marriage;
-    private Gender gender = Gender.UNKNOWN;
+    private Gender gender = Gender.TRANSGENDER;
     private boolean inChat;
     private boolean chatSpy;
     private boolean priest;

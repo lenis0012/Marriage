@@ -117,7 +117,7 @@ public class ChatListener implements Listener {
                 .replace("{icon:heart}", "\u2764")
                 .replace("{icon:male}", "\u2642")
                 .replace("{icon:female}", "\u2640")
-                .replace("{icon:genderless}", "\u26B2");
+                .replace("{icon:transgender}", "\u26A7");
     }
 
     private boolean isOnline(MPlayer mp) {

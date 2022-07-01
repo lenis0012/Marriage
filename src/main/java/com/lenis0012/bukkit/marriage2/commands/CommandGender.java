@@ -26,7 +26,7 @@ public class CommandGender extends Command {
         }
 
         MPlayer mPlayer = marriage.getMPlayer(player);
-        if(mPlayer.getGender() != Gender.UNKNOWN && !Settings.ALLOW_GENDER_CHANGE.value()) {
+        if(mPlayer.getGender() != Gender.TRANSGENDER && !Settings.ALLOW_GENDER_CHANGE.value()) {
             reply(Message.GENDER_ALREADY_CHANGED);
         }
 
