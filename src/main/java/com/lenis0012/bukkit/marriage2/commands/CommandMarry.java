@@ -16,12 +16,12 @@ public class CommandMarry extends Command {
         if(Settings.ENABLE_PRIEST.value()) {
             setDescription(Message.COMMAND_MARRY_PRIEST.toString());
             setUsage("<player1> <player2>");
-            setMinArgs(2);
+            setMinArgs(1);
         } else {
             setDescription(Message.COMMAND_MARRY.toString());
             setExecutionFee(Settings.PRICE_MARRY);
             setUsage("<player>");
-            setMinArgs(1);
+            setMinArgs(0);
         }
 
         setAllowConsole(false);
