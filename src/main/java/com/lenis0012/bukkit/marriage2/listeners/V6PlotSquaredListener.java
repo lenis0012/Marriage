@@ -3,7 +3,7 @@ package com.lenis0012.bukkit.marriage2.listeners;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent;
 import com.lenis0012.bukkit.marriage2.events.PlayerMarryEvent;
-import com.plotsquared.core.api.PlotAPI;
+import com.plotsquared.core.PlotAPI;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
 import org.bukkit.event.EventHandler;
@@ -12,10 +12,10 @@ import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-public class V5PlotSquaredListener implements Listener {
+public class V6PlotSquaredListener implements Listener {
     private final PlotAPI plotSquared;
 
-    public V5PlotSquaredListener() {
+    public V6PlotSquaredListener() {
         this.plotSquared = new PlotAPI();
     }
 

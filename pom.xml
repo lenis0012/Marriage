@@ -11,12 +11,13 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <updater.version>1.1</updater.version>
+        <maven.compiler.release>8</maven.compiler.release>
     </properties>
 
     <repositories>
         <!-- Repo for access to CraftBukkit -->
         <repository>
-            <id>md5-repo</id>
+            <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <!-- Vault -->
@@ -37,7 +38,7 @@
         <!-- PlotSquared -->
         <repository>
             <id>IntellectualSites</id>
-            <url>https://mvn.intellectualsites.com/content/groups/public/</url>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
     </repositories>
 
@@ -74,12 +75,12 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/PlotSquared.jar</systemPath>
         </dependency>
-        <!-- PlotSquared v5 -->
+        <!-- PlotSquared v6 -->
         <dependency>
             <groupId>com.plotsquared</groupId>
-            <artifactId>PlotSquared</artifactId>
-            <version>5.1</version>
+            <artifactId>PlotSquared-Core</artifactId>
             <scope>provided</scope>
+            <version>6.10.8</version>
         </dependency>
     </dependencies>
 
@@ -138,26 +139,17 @@
                 </includes>
             </resource>
         </resources>
-        <!--<defaultGoal>install</defaultGoal>-->
         <finalName>${project.name}</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
         <!-- Plugins -->
         <plugins>
-            <!-- Compiler plugin -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                    <showWarnings>true</showWarnings>
-                    <showDeprecation>false</showDeprecation> <!-- TODO: Change back to true when setItemInHand fixed -->
-                </configuration>
+                <version>3.10.1</version>
             </plugin>
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>3.4.1</version>
                 <executions>
                     <execution>
                         <id>general</id>
@@ -180,15 +172,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <!-- Generate javadoc -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
-                <configuration>
-                    <show>public</show>
-                </configuration>
             </plugin>
         </plugins>
     </build>

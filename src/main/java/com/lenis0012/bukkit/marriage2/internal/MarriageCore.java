@@ -97,7 +97,7 @@ public class MarriageCore extends MarriageBase {
         try {
             getLogger().log(Level.INFO, "Attempting to hook using PlotSquared v5 API.");
             Class.forName("com.plotsquared.core.api.PlotAPI");
-            register(new V5PlotSquaredListener());
+            register(new V6PlotSquaredListener());
             getLogger().log(Level.INFO, "Success! Auto-trust has been enabled.");
             return;
         } catch (Exception e) {
