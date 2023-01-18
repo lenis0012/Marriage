@@ -1,4 +1,5 @@
-![Marriage Reloaded](https://media-elerium.cursecdn.com/attachments/119/347/marriage-banner.png)
+Marriage (Reloaded) [![Build Status](https://ci.codemc.org/job/lenis0012/job/Marriage/badge/icon)](https://ci.codemc.org/job/lenis0012/job/Marriage/)
+===================
 
 ## About
 Marriage reloaded, Your love comes true.
