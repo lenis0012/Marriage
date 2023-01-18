@@ -1,13 +1,13 @@
 {
-  "version": "Marriage v2.1.0",
+  "version": "Marriage v2.1.1",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Added support for PlotSquared v6",
+      "- Fixed bug in PlotSquared detection",
       "",
-      "- Internal API changes in preparation for major update",
+      "- Added anonymous metrics collection using bStats (opt-out available)",
       "",
       "Full changelog on spigotmc.org"
     ],
