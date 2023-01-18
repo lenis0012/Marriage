@@ -1,5 +1,6 @@
 package com.lenis0012.bukkit.marriage2;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 public interface MPlayer {
@@ -22,7 +23,7 @@ public interface MPlayer {
      * Check if marriage with this player is requested by another.
      *
      * @param from Marriage requester.
-     * @return Whether or not marriage is requested by the player.
+     * @return Whether marriage is requested by the player.
      */
     boolean isMarriageRequested(UUID from);
 
@@ -47,6 +48,7 @@ public interface MPlayer {
      */
     //     * @deprecated Use {@link #getFirstMarriage()} or {@link #getMarriage(UUID)} or {@link #getMarriages()}
 //    @Deprecated
+    @Nullable
     MData getMarriage();
 
 //    MData getFirstMarriage();
@@ -60,6 +62,7 @@ public interface MPlayer {
      *
      * @return Last name, can be null
      */
+    @Nullable
     String getLastName();
 
     /**
@@ -77,7 +80,7 @@ public interface MPlayer {
     boolean isInChat();
 
     /**
-     * Whether or not the player is a priest.
+     * Whether the player is a priest.
      *
      * @return True if player ius priest, false otherwise
      */
@@ -91,7 +94,7 @@ public interface MPlayer {
     void setLastName(String name);
 
     /**
-     * Set whether or not this player is a priest.
+     * Set whether this player is a priest.
      *
      * @param priest True if player is priest, false otherwise
      */
@@ -100,7 +103,7 @@ public interface MPlayer {
     /**
      * Set if the player is in marry chat-mode.
      *
-     * @param inChat Whether or not the player is in marry chat-mode.
+     * @param inChat Whether the player is in marry chat-mode.
      */
     void setInChat(boolean inChat);
 
@@ -131,14 +134,14 @@ public interface MPlayer {
     long getLastLogout();
 
     /**
-     * Said whether or not player is spying on marriage private chat.
+     * Said whether player is spying on marriage private chat.
      *
-     * @param enabled True if enables, false otherwise
+     * @param enabled True if enabled, false otherwise
      */
     void setChatSpy(boolean enabled);
 
     /**
-     * Get whether or not player is spying on marriage private chat.
+     * Get whether player is spying on marriage private chat.
      *
      * @return True if enabled, false otherwise
      */

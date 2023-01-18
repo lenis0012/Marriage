@@ -11,7 +11,7 @@ public interface MData {
     UUID getPllayer2Id();
 
     /**
-     * Get player 1 or 2 depending in the current player's UUID.
+     * Get player 1 or 2 depending on the current player's UUID.
      *
      * @param me The current player
      * @return The other player
@@ -35,21 +35,21 @@ public interface MData {
     /**
      * Check if the married players have a home set.
      *
-     * @return Whether or not a home is set for the married players.
+     * @return Whether a home is set for the married players.
      */
     boolean isHomeSet();
 
     /**
      * Check if PVP is enabled between the married players.
      *
-     * @return Whether or not pvp is enabled between the married players.
+     * @return Whether pvp is enabled between the married players.
      */
     boolean isPVPEnabled();
 
     /**
      * Set if pvp is enabled between the married players.
      *
-     * @param pvpEnabled Whether or not pvp is enabled between the married players.
+     * @param pvpEnabled Whether pvp is enabled between the married players.
      */
     void setPVPEnabled(boolean pvpEnabled);
 }
