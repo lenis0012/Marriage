@@ -60,7 +60,7 @@ public class CommandTeleport extends Command {
     private Location getSafeLocation(Location destination) {
         World world = destination.getWorld();
         Block block = destination.getBlock();
-        if(block == null || block.getY() < 0 || block.getY() > world.getMaxHeight()) {
+        if(block == null || block.getY() < -64 || block.getY() > world.getMaxHeight()) {
             return null; // Out of bounds, cant teleport to void or from a bizarre height.
         }
 
@@ -69,7 +69,7 @@ public class CommandTeleport extends Command {
         }
 
         // Find next potentially safe block
-        while(!(block.getType().isSolid() || block.isLiquid()) && block.getY() > 0) {
+        while(!(block.getType().isSolid() || block.isLiquid()) && block.getY() > -64) {
             block = block.getRelative(BlockFace.DOWN);
             if(UNSAFE_TYPES.contains(block.getType())) {
                 return null; // Obstructed by unsafe block
