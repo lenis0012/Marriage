@@ -2,5 +2,5 @@
   "name": "Marriage v2.1.0",
   "type": "release",
   "gameVersion": "1.8 - 1.19",
-  "downloadURL": "https://api.spiget.org/v2/resources/18998/download"
+  "downloadURL": "https://ci.codemc.io/job/lenis0012/job/Marriage/15/artifact/target/Marriage-Spigot-2.1.0.jar"
 }
