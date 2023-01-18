@@ -63,4 +63,9 @@ public interface Relationship {
      * @param pvpEnabled Whether pvp is enabled between the married players.
      */
     void setPVPEnabled(boolean pvpEnabled);
+
+    /**
+     * Dissolve the relationship silently (without sending messages).
+     */
+    void dissolve();
 }

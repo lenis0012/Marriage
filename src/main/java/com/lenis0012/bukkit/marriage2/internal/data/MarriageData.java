@@ -1,6 +1,7 @@
 package com.lenis0012.bukkit.marriage2.internal.data;
 
 import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -104,6 +105,11 @@ public class MarriageData implements MData {
     public void setPVPEnabled(boolean pvpEnabled) {
         this.pvpEnabled = pvpEnabled;
         saveAsync();
+    }
+
+    @Override
+    public void dissolve() {
+        ((MarriageCore) MarriagePlugin.getCore()).removeMarriage(this);
     }
 
     @Override

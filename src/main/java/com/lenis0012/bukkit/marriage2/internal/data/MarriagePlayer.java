@@ -4,12 +4,14 @@ import com.lenis0012.bukkit.marriage2.Gender;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.Cooldown;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -88,6 +90,12 @@ public class MarriagePlayer implements MPlayer {
 
     @Override
     public MData getMarriage() {
+        return marriage;
+    }
+
+    @Nullable
+    @Override
+    public Relationship getActiveRelationship() {
         return marriage;
     }
 

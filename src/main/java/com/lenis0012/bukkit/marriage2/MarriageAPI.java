@@ -25,8 +25,11 @@ import java.util.UUID;
  * MPlayer mp2 = MarriageAPI.getPlayer(player2);
  * Relationship relationship = MarriageAPI.marry(mp1, mp2);
  *
- * // Divorce 2 players
- * relationship.divorce();
+ * // Divorce 2 players (requires initiating player to be online)
+ * mp1.divorce();
+ *
+ * // Dissolve a relationship (can be done offline)
+ * relationship.dissolve();
  *
  * // Get information from a relationship
  * Relationship relationship = MarriageAPI.getPlayer(player1).getActiveRelationship();
