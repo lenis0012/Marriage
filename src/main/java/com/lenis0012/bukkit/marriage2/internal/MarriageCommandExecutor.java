@@ -27,6 +27,7 @@ public class MarriageCommandExecutor implements CommandExecutor {
         Command command = commands.get(subCommand.toLowerCase());
         if(command == null) {
             command = commands.get("marry");
+            subCommand = "marry";
         }
 
         // Assuming that the command is not null now, if it is, then that is a mistake on my side.
@@ -43,6 +44,7 @@ public class MarriageCommandExecutor implements CommandExecutor {
             }
         } else {
             sender.sendMessage(ChatColor.RED + "You have not specified enough arguments for this command.");
+            sender.sendMessage(ChatColor.RED + "Usage: /" + subCommand + " " + command.getUsage());
         }
 
         return true;

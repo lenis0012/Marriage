@@ -13,6 +13,30 @@ import java.util.UUID;
 /**
  * <h1>Marriage API</h1>
  * <p>
+ *   This is the primary interface of the Marriage plugin.
+ *   It exposes a static interface that mirrors the internal Marriage plugin, allowing you to access
+ *   and manage relationships between the players on this server.
+ * </p>
+ * <br/>
+ * Example:
+ * <pre>{@code
+ * // Marry 2 players with each other
+ * MPlayer mp1 = MarriageAPI.getPlayer(player1);
+ * MPlayer mp2 = MarriageAPI.getPlayer(player2);
+ * Relationship relationship = MarriageAPI.marry(mp1, mp2);
+ *
+ * // Divorce 2 players
+ * relationship.divorce();
+ *
+ * // Get information from a relationship
+ * Relationship relationship = MarriageAPI.getPlayer(player1).getActiveRelationship();
+ * Location home = relationship.getHome();
+ * if (home != null) { // Check if home is set
+ *     player1.teleport(home);
+ * }
+ * }</pre>
+ *
+ * <p>
  * <h2>Changelog:</h2>
  * 1.03:
  * <ul>
@@ -37,7 +61,7 @@ import java.util.UUID;
  * </ul>
  */
 public class MarriageAPI {
-    private static final int API_VERSION = 102;
+    private static final int API_VERSION = 103;
 
     /**
      * Get the API main instance.
