@@ -18,6 +18,10 @@ import com.lenis0012.pluginutils.modules.configuration.ConfigurationModule;
 import com.lenis0012.updater.api.ReleaseType;
 import com.lenis0012.updater.api.Updater;
 import com.lenis0012.updater.api.UpdaterFactory;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.CustomChart;
+import org.bstats.charts.SingleLineChart;
+import org.bstats.json.JsonObjectBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -61,6 +65,13 @@ public class MarriageCore extends MarriageBase {
             getLogger().log(Level.INFO, "Vault was not found, if you are having permission issues, please install it!");
             getLogger().log(Level.INFO, "Falling back to bukkit permissions.");
         }
+    }
+
+    @Register(name = "metrics", type = Register.Type.ENABLE, priority = 1)
+    public void loadMetrics() {
+        final int pluginId = 17462;
+        Metrics metrics = new Metrics(plugin, pluginId);
+        metrics.addCustomChart(new SingleLineChart("marriages", () -> dataManager.countMarriages()));
     }
 
     @Register(name = "dependencies", type = Type.ENABLE, priority = 1)

@@ -385,6 +385,20 @@ public class DataManager {
         return false;
     }
 
+    public Integer countMarriages() {
+        Connection connection = supplier.access();
+        try {
+            ResultSet result = connection.createStatement().executeQuery("SELECT COUNT(*) FROM " + prefix + "marriages;");
+
+            return result.getInt(1);
+        } catch(SQLException e) {
+            core.getLogger().log(Level.WARNING, "Failed to count marriages", e);
+            return null;
+        } finally {
+            supplier.finish();
+        }
+    }
+
     public static final class ConnectionSupplier {
         private final String url;
         private final String user;
