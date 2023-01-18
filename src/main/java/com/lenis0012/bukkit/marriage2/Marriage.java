@@ -11,6 +11,10 @@ import org.bukkit.plugin.Plugin;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+/**
+ * @deprecated Use {@link MarriageAPI} instead.
+ */
+@Deprecated
 public interface Marriage {
     /**
      * Return a {@link com.lenis0012.bukkit.marriage2.misc.BConfig} from a YAML file.

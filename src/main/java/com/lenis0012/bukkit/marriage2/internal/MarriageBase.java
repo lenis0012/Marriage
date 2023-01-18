@@ -39,8 +39,13 @@ public abstract class MarriageBase implements Marriage {
     }
 
     @Override
+    @Deprecated
     public void register(Class<? extends Command> commandClass, Class<? extends Command>... commandClasses) {
-        commandExecutor.register(commandClass);
+        registerCommands(commandClass);
+        registerCommands(commandClasses);
+    }
+
+    public void registerCommands(Class<? extends Command>... commandClasses) {
         for(Class<? extends Command> cmdclass : commandClasses) {
             commandExecutor.register(cmdclass);
         }

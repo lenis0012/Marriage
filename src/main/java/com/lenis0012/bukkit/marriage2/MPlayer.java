@@ -3,6 +3,10 @@ package com.lenis0012.bukkit.marriage2;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
+/**
+ * Representation of a player in Marriage.
+ * This class is used to store data about a player, and managing its relationship(s).
+ */
 public interface MPlayer {
 
     /**

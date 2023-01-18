@@ -12,6 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <updater.version>1.1</updater.version>
         <maven.compiler.release>8</maven.compiler.release>
+        <doclint>none</doclint>
     </properties>
 
     <repositories>

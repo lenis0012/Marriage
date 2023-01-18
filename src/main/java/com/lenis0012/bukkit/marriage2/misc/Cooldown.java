@@ -13,7 +13,7 @@ public class Cooldown<T> {
     }
 
     /**
-     * Check whether or not a key is in cooldown.
+     * Check whether a key is in cool-down.
      *
      * @param key to check
      * @return True if in cooldown, False otherwise
@@ -23,19 +23,19 @@ public class Cooldown<T> {
     }
 
     /**
-     * Set key in cooldown
+     * Set key in cool-down
      *
-     * @param key to set in cooldown
+     * @param key to set in cool-down
      */
     public void set(T key) {
         cache.put(key, false);
     }
 
     /**
-     * Simple in-line check method to check if someone is in cooldown, if not set them to be.
+     * Simple in-line check method to check if someone is in cool-down, if not set them to be.
      *
      * @param key to check
-     * @return Whether key is in cooldown or not
+     * @return Whether key is in cool-down or not
      */
     public boolean performCheck(T key) {
         if(isCached(key)) return false;
