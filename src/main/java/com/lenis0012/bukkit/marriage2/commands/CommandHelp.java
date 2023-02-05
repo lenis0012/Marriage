@@ -23,7 +23,6 @@ public class CommandHelp extends Command {
     @Override
     public void execute() {
         MarriageCommandExecutor commandExecutor = ((MarriageBase) marriage).getCommandExecutor();
-//		reply("Author: &alenis0012");
         reply("Version: &a" + marriage.getPlugin().getDescription().getVersion());
         reply("&2&m---------&2< &a&lMarriage Command Help &2>&2&m---------"); // Play around with the amount of dashes later
         for(Command command : commandExecutor.getSubCommands()) {
@@ -33,11 +32,7 @@ public class CommandHelp extends Command {
 
             String alias = command instanceof CommandMarry ? "" : command.getAliases()[0] + " ";
             String text = "&a/marry " + alias + command.getUsage() + " &f- &7" + command.getDescription();
-            if(command.getExecutionFee() == 0.0 || !Bukkit.getVersion().contains("Spigot") || !marriage.dependencies().isEconomyEnabled() || player == null) {
-                reply(text);
-                continue;
-            }
-            if(player.spigot() == null) {
+            if(command.getExecutionFee() == 0.0 || !marriage.dependencies().isEconomyEnabled() || player == null) {
                 reply(text);
                 continue;
             }
