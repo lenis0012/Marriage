@@ -389,8 +389,7 @@ public class DataManager {
         Connection connection = supplier.access();
         try {
             ResultSet result = connection.createStatement().executeQuery("SELECT COUNT(*) FROM " + prefix + "marriages;");
-
-            return result.getInt(1);
+            return result.next() ? result.getInt(1) : 0;
         } catch(SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to count marriages", e);
             return null;
