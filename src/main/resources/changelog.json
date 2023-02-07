@@ -1,13 +1,15 @@
 {
-  "version": "Marriage v2.1.1",
+  "version": "Marriage v2.1.2",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Fixed bug in PlotSquared detection",
+      "- Fixed MySQL error while counting marriages",
       "",
-      "- Added anonymous metrics collection using bStats (opt-out available)",
+      "- Added setting to configure SSL for MySQL",
+      "",
+      "- Show cost of commands on hover",
       "",
       "Full changelog on spigotmc.org"
     ],
