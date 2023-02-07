@@ -69,6 +69,13 @@ public class DataManager {
             String database = config.getString("MySQL.database", "myserver");
             this.prefix = config.getString("MySQL.prefix", "marriage_");
             url = String.format("jdbc:mysql://%s/%s", host, database);
+            if (!database.contains("?")) {
+                if(config.contains("MySQL.ssl")) {
+                    url += "?useSSL=" + config.getBoolean("MySQL.ssl");
+                } else if (!config.contains("MySQL.ssl") && (host.contains("localhost") || host.contains("127.0.0.1"))) {
+                    url += "?useSSL=false";
+                }
+            }
             driver = Driver.MYSQL;
         } else {
             url = String.format("jdbc:sqlite:%s", new File(core.getPlugin().getDataFolder(), "database.db").getPath());
@@ -101,7 +108,7 @@ public class DataManager {
         }
 
         // Create cached connection supplier.
-        this.supplier = new LockedReference(new ConnectionSupplier(url, user, password), 30L, TimeUnit.SECONDS, new ConnectionInvalidator());
+        this.supplier = new LockedReference(new ConnectionSupplier(core, url, user, password), 30L, TimeUnit.SECONDS, new ConnectionInvalidator());
 
         DBUpgrade upgrade = new DBUpgrade();
         Connection connection = supplier.access();
@@ -399,15 +406,17 @@ public class DataManager {
     }
 
     public static final class ConnectionSupplier {
+        private final MarriageCore core;
         private final String url;
         private final String user;
         private final String password;
 
-        private ConnectionSupplier(String url) {
-            this(url, "", "");
+        private ConnectionSupplier(MarriageCore core, String url) {
+            this(core, url, "", "");
         }
 
-        private ConnectionSupplier(String url, String user, String password) {
+        private ConnectionSupplier(MarriageCore core, String url, String user, String password) {
+            this.core = core;
             this.url = url;
             this.user = user;
             this.password = password;
@@ -417,6 +426,7 @@ public class DataManager {
             try {
                 return DriverManager.getConnection(url, user, password);
             } catch(SQLException e) {
+                core.getLogger().log(Level.WARNING, "Failed to connect to database", e);
                 return null;
             }
         }

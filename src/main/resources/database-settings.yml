@@ -13,6 +13,8 @@ MySQL:
   user: root
   password: '1234'
   host: 'localhost:3306'
+  # Use SSL if available, disable if you're using a self-signed certificate
+  ssl: true
   database: 'myserver'
   prefix: 'marriage_'
 auto-purge:
