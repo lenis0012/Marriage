@@ -114,7 +114,7 @@ public class MarriageAPI {
      * @return {@link com.lenis0012.bukkit.marriage2.MPlayer MPlayer} of the wanted player
      */
     public static MPlayer getMPlayer(UUID uuid) {
-        return null;
+        return MarriagePlugin.getCore().getMPlayer(uuid);
     }
 
     /**
@@ -124,7 +124,7 @@ public class MarriageAPI {
      * @return {@link com.lenis0012.bukkit.marriage2.MPlayer MPlayer}, or null if not online
      */
     public static MPlayer getMPlayer(Player player) {
-        return null;
+        return MarriagePlugin.getCore().getMPlayer(player);
     }
 
     /**
@@ -136,7 +136,7 @@ public class MarriageAPI {
      * @return Fetched page of marriages list
      */
     public static ListQuery getMarriageList(int pageSize, int pageIndex) {
-        return null;
+        return MarriagePlugin.getCore().getMarriageList(pageSize, pageIndex);
     }
 
     /**
