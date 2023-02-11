@@ -81,7 +81,11 @@ public class MarriagePlugin extends JavaPlugin {
             if(method != null) {
                 list.remove(method);
                 Register register = method.getAnnotation(Register.class);
-                getLogger().log(Level.INFO, "Loading " + register.name() + "...");
+                if (type == Register.Type.ENABLE) {
+                    getLogger().log(Level.INFO, "Loading " + register.name() + "...");
+                } else if (type == Register.Type.DISABLE) {
+                    getLogger().log(Level.INFO, "Unloading " + register.name() + "...");
+                }
                 try {
                     method.invoke(core);
                 } catch(Exception e) {
