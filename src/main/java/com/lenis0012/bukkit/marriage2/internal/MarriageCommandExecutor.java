@@ -44,7 +44,7 @@ public class MarriageCommandExecutor implements CommandExecutor {
             }
         } else {
             sender.sendMessage(ChatColor.RED + "You have not specified enough arguments for this command.");
-            sender.sendMessage(ChatColor.RED + "Usage: /" + subCommand + " " + command.getUsage());
+            sender.sendMessage(ChatColor.RED + "Usage: /marry " + subCommand + " " + command.getUsage());
         }
 
         return true;
