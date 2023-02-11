@@ -1,15 +1,15 @@
 {
-  "version": "Marriage v2.1.2",
+  "version": "Marriage v2.2.0",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Fixed MySQL error while counting marriages",
+      "- Improve private chat compatability with other plugins",
       "",
-      "- Added setting to configure SSL for MySQL",
+      "- Give players access to use player commands by default",
       "",
-      "- Show cost of commands on hover",
+      "- Bug fixes and performance improvements",
       "",
       "Full changelog on spigotmc.org"
     ],
