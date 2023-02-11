@@ -118,7 +118,9 @@ public interface MPlayer {
      * Get the current player's partner
      *
      * @return Current partner of the player
+     * @deprecated Use {@link #getActiveRelationship()} instead
      */
+    @Deprecated
     MPlayer getPartner();
 
     /**
