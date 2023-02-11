@@ -19,50 +19,58 @@ public class ChatListener implements Listener {
         this.core = core;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         final Player player = event.getPlayer();
         MPlayer mp = core.getMPlayer(player);
-        if(mp.isInChat()) {
-            // Private chat
-            if(!mp.isMarried() || !isOnline(mp.getPartner())) {
-                mp.setInChat(false);
-                return;
-            }
-
-            event.setCancelled(true);
-            String message = Settings.PM_FORMAT.value()
-                    .replace("{name}", player.getDisplayName())
-//                    .replace("{message}", event.getMessage())
-                    .replace("{heart}", "\u2764");
-            message = formatIcons(message);
-            message = ChatColor.translateAlternateColorCodes('&', message);
-            final String msg = Permissions.CHAT_COLOR.has(player) ? ChatColor.translateAlternateColorCodes('&', event.getMessage()) : event.getMessage();
-            message = message.replace("{message}", msg);
-
-            Player partner = Bukkit.getPlayer(mp.getPartner().getUniqueId());
-            player.sendMessage(message);
-            partner.sendMessage(message);
-
-            // Admin chat spy
-            String adminMessage = null; // No need to format message if we're not going to send it.
-            for(Player admin : Bukkit.getOnlinePlayers()) {
-                if(admin.equals(player) || admin.equals(partner)) continue;
-                final MPlayer mAdmin = core.getMPlayer(admin);
-                if(!mAdmin.isChatSpy()) continue;
-                if(adminMessage == null) {
-                    // Format message
-                    adminMessage = Settings.CHATSPY_FORMAT.value()
-                            .replace("{sender}", player.getName())
-                            .replace("{receiver}", partner.getName());
-                    adminMessage = formatIcons(adminMessage);
-                    adminMessage = ChatColor.translateAlternateColorCodes('&', adminMessage)
-                            .replace("{message}", event.getMessage());
-                }
-                admin.sendMessage(adminMessage);
-            }
-
+        if(!mp.isInChat()) {
             return;
+        }
+
+        // Private chat
+        if(!mp.isMarried() || !isOnline(mp.getPartner())) {
+            mp.setInChat(false);
+            return;
+        }
+
+        String message = Settings.PM_FORMAT.value()
+                .replace("{name}", "%1$s")
+                .replace("{heart}", "\u2764");
+        message = formatIcons(message);
+        message = ChatColor.translateAlternateColorCodes('&', message);
+        message = message.replace("{message}", "%2$s");
+
+        Player partner = Bukkit.getPlayer(mp.getPartner().getUniqueId());
+        event.getRecipients().clear();
+        event.getRecipients().add(player);
+        event.getRecipients().add(partner);
+        event.setFormat(message);
+        if (Permissions.CHAT_COLOR.has(player)) {
+            event.setMessage(ChatColor.translateAlternateColorCodes('&', event.getMessage()));
+        }
+
+        if (Settings.CHAT_BYPASS_PLUGINS.value()) {
+            event.setCancelled(true);
+            player.sendMessage(String.format(event.getFormat(), player.getName(), event.getMessage()));
+            partner.sendMessage(String.format(event.getFormat(), player.getName(), event.getMessage()));
+        }
+
+        // Admin chat spy
+        String adminMessage = null; // No need to format message if we're not going to send it.
+        for(Player admin : Bukkit.getOnlinePlayers()) {
+            if(admin.equals(player) || admin.equals(partner)) continue;
+            final MPlayer mAdmin = core.getMPlayer(admin);
+            if(!mAdmin.isChatSpy()) continue;
+            if(adminMessage == null) {
+                // Format message
+                adminMessage = Settings.CHATSPY_FORMAT.value()
+                        .replace("{sender}", player.getName())
+                        .replace("{receiver}", partner.getName());
+                adminMessage = formatIcons(adminMessage);
+                adminMessage = ChatColor.translateAlternateColorCodes('&', adminMessage)
+                        .replace("{message}", event.getMessage());
+            }
+            admin.sendMessage(adminMessage);
         }
     }
 

@@ -45,6 +45,8 @@ public class Settings {
     public static final ConfigOption<String> PREFIX_MALE = new ConfigOption<>("chat.male-prefix", "&b{icon:male} &r");
     public static final ConfigOption<String> PREFIX_FEMALE = new ConfigOption<>("chat.female-prefix", "&d{icon:female} &r");
     public static final ConfigOption<String> PREFIX_GENDERLESS = new ConfigOption<>("chat.genderless-prefix", "");
+    @ConfigHeader("Bypass other chat plugins. Enable this if another chat plugin is breaking marriage private chat.")
+    public static final ConfigOption<Boolean> CHAT_BYPASS_PLUGINS = new ConfigOption<>("chat.pm-bypass-plugins", false);
 
     /**
      * Kissing

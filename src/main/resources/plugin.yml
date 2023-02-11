@@ -10,3 +10,7 @@ commands:
   marry:
     description: Marriage main command.
     usage: /marry <args>
+permissions:
+  marry.default:
+    description: Allows access to marriage player commands
+    default: true
