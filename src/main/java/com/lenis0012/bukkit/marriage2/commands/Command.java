@@ -6,7 +6,7 @@ import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.Dependencies;
-import com.lenis0012.pluginutils.modules.configuration.mapping.ConfigOption;
+import com.lenis0012.pluginutils.config.mapping.ConfigOption;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

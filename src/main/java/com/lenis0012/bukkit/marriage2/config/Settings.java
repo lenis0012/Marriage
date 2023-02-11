@@ -1,7 +1,7 @@
 package com.lenis0012.bukkit.marriage2.config;
 
-import com.lenis0012.pluginutils.modules.configuration.mapping.ConfigHeader;
-import com.lenis0012.pluginutils.modules.configuration.mapping.ConfigOption;
+import com.lenis0012.pluginutils.config.mapping.ConfigHeader;
+import com.lenis0012.pluginutils.config.mapping.ConfigOption;
 
 import java.util.Arrays;
 import java.util.List;

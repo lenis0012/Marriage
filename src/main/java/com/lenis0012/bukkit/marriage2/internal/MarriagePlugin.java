@@ -2,15 +2,14 @@ package com.lenis0012.bukkit.marriage2.internal;
 
 import com.google.common.collect.Lists;
 import com.lenis0012.bukkit.marriage2.Marriage;
-import com.lenis0012.pluginutils.PluginHolder;
-import com.lenis0012.pluginutils.modules.configuration.ConfigurationModule;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.Level;
 
-public class MarriagePlugin extends PluginHolder {
+public class MarriagePlugin extends JavaPlugin {
     private static MarriageCore core;
 
     public static Marriage getCore() {
@@ -21,7 +20,6 @@ public class MarriagePlugin extends PluginHolder {
     private final List<Method>[] methods = new List[Register.Type.values().length];
 
     public MarriagePlugin() {
-        super(ConfigurationModule.class);
         core = new MarriageCore(this);
 
         //Scan methods
@@ -58,12 +56,12 @@ public class MarriagePlugin extends PluginHolder {
     }
 
     @Override
-    public void enable() {
+    public void onEnable() {
         executeMethods(Register.Type.ENABLE);
     }
 
     @Override
-    public void disable() {
+    public void onDisable() {
         executeMethods(Register.Type.DISABLE);
     }
 

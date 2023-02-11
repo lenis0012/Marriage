@@ -14,18 +14,19 @@ import com.lenis0012.bukkit.marriage2.internal.data.MarriageData;
 import com.lenis0012.bukkit.marriage2.internal.data.MarriagePlayer;
 import com.lenis0012.bukkit.marriage2.listeners.*;
 import com.lenis0012.bukkit.marriage2.misc.ListQuery;
-import com.lenis0012.pluginutils.modules.configuration.ConfigurationModule;
+import com.lenis0012.pluginutils.config.AutoSavePolicy;
+import com.lenis0012.pluginutils.config.CommentConfiguration;
+import com.lenis0012.pluginutils.config.mapping.InternalMapper;
 import com.lenis0012.updater.api.ReleaseType;
 import com.lenis0012.updater.api.Updater;
 import com.lenis0012.updater.api.UpdaterFactory;
 import org.bstats.bukkit.Metrics;
-import org.bstats.charts.CustomChart;
 import org.bstats.charts.SingleLineChart;
-import org.bstats.json.JsonObjectBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class MarriageCore extends MarriageBase {
     private DataManager dataManager;
     private Updater updater;
     private Dependencies dependencies;
+    private InternalMapper internalMapper;
 
     public MarriageCore(MarriagePlugin plugin) {
         super(plugin);
@@ -48,9 +50,9 @@ public class MarriageCore extends MarriageBase {
         enable();
 
         // Settings
-        ConfigurationModule module = plugin.getModule(ConfigurationModule.class);
-        module.registerSettings(Settings.class);
-        module.reloadSettings(Settings.class, true);
+        this.internalMapper = new InternalMapper();
+        CommentConfiguration configuration = new CommentConfiguration(new File(plugin.getDataFolder(), "config.yml"));
+        internalMapper.registerSettingsClass(Settings.class, configuration, AutoSavePolicy.ON_CHANGE);
 
         // Messages
         Message.reloadAll(this);
@@ -65,6 +67,10 @@ public class MarriageCore extends MarriageBase {
             getLogger().log(Level.INFO, "Vault was not found, if you are having permission issues, please install it!");
             getLogger().log(Level.INFO, "Falling back to bukkit permissions.");
         }
+    }
+
+    public void reloadSettings() {
+        internalMapper.loadSettings(Settings.class, true);
     }
 
     @Register(name = "metrics", type = Register.Type.ENABLE, priority = 1)
