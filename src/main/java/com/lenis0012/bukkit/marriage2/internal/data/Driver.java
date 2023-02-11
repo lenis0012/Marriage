@@ -4,18 +4,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public enum Driver {
-    MYSQL("com.mysql.jdbc.Driver"),
-    SQLITE("org.sqlite.JDBC");
-
-    private final String className;
-
-    Driver(String className) {
-        this.className = className;
-    }
-
-    public void initiate() throws Exception {
-        Class.forName(className);
-    }
+    MYSQL,
+    SQLITE;
 
     public void runSetup(Statement statement, String prefix) throws SQLException {
         statement.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %splayers ("
