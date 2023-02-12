@@ -1,10 +1,6 @@
 package com.lenis0012.bukkit.marriage2.internal.data;
 
-import com.lenis0012.bukkit.marriage2.Gender;
-import com.lenis0012.bukkit.marriage2.MData;
-import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.Marriage;
-import com.lenis0012.bukkit.marriage2.Relationship;
+import com.lenis0012.bukkit.marriage2.*;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
@@ -16,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +22,7 @@ public class MarriagePlayer implements MPlayer {
     private final UUID uuid;
     private String lastName;
     private MData marriage;
-    private Gender gender = Gender.UNKNOWN;
+    private PlayerGender gender = null;
     private boolean inChat;
     private boolean chatSpy;
     private boolean priest;
@@ -35,7 +33,7 @@ public class MarriagePlayer implements MPlayer {
         this.uuid = uuid;
         if(data.next()) {
             this.lastName = data.getString("last_name");
-            this.gender = Gender.valueOf(data.getString("gender"));
+            this.gender = Genders.getGender(data.getString("gender").toLowerCase(Locale.ROOT));
             this.priest = data.getBoolean("priest");
             this.lastLogout = data.getLong("lastlogin");
         }
@@ -50,7 +48,7 @@ public class MarriagePlayer implements MPlayer {
     void save(PreparedStatement ps) throws SQLException {
         ps.setString(1, uuid.toString());
         ps.setString(2, lastName);
-        ps.setString(3, gender.toString());
+        ps.setString(3, gender.getIdentifier());
         ps.setBoolean(4, priest);
         ps.setLong(5, System.currentTimeMillis());
     }
@@ -80,11 +78,25 @@ public class MarriagePlayer implements MPlayer {
 
     @Override
     public Gender getGender() {
-        return gender;
+        try {
+            return Gender.valueOf(gender.getIdentifier().toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException e) {
+            return Gender.UNKNOWN;
+        }
+    }
+
+    @Override
+    public Optional<PlayerGender> getChosenGender() {
+        return Optional.ofNullable(gender);
     }
 
     @Override
     public void setGender(Gender gender) {
+        this.gender = Genders.getGender(gender.toString().toLowerCase(Locale.ROOT));
+    }
+
+    @Override
+    public void setChosenGender(@Nullable PlayerGender gender) {
         this.gender = gender;
     }
 

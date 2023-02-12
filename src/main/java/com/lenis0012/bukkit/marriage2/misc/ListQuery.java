@@ -4,8 +4,9 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.lenis0012.bukkit.marriage2.Gender;
+import com.lenis0012.bukkit.marriage2.Genders;
 import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.PlayerGender;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
@@ -22,7 +23,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ListQuery {
     private static final JsonParser JSON_PARSER = new JsonParser();
@@ -48,8 +51,11 @@ public class ListQuery {
             public void run() {
                 to.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + "Married players:");
                 to.sendMessage(ChatColor.GOLD + "Page " + (page + 1) + "/" + pages);
-                if(Settings.GENDER_IN_LIST.value()) {
-                    to.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bmale &f- &dfemale &f- &7unknown"));
+                if(Settings.GENDER_IN_LIST.value() && Settings.GENDERS_ENABLED.value()) {
+                    String msg = Genders.getOptions().stream()
+                        .map(gender -> gender.getChatPrefix() + gender.getDisplayName())
+                        .collect(Collectors.joining(ChatColor.RESET + " - "));
+                    to.sendMessage(formatIcons(msg));
                 }
                 for(MData data : marriages) {
                     to.sendMessage(names.get(data.getPlayer1Id()) + ChatColor.WHITE + " + " + names.get(data.getPllayer2Id()));
@@ -76,24 +82,15 @@ public class ListQuery {
             return ChatColor.GREEN + "???";
         }
 
-        ChatColor color = ChatColor.GREEN;
-        if(Settings.GENDER_IN_LIST.value()) {
+        if(Settings.GENDER_IN_LIST.value() && Settings.GENDERS_ENABLED.value()) {
             MarriagePlayer mp = db.loadPlayer(userId);
-            Gender gender = mp == null ? Gender.UNKNOWN : mp.getGender();
-            switch(gender) {
-                case MALE:
-                    color = ChatColor.AQUA;
-                    break;
-                case FEMALE:
-                    color = ChatColor.LIGHT_PURPLE;
-                    break;
-                case UNKNOWN:
-                    color = ChatColor.GRAY;
-                    break;
+            Optional<PlayerGender> gender = mp.getChosenGender();
+            if (gender.isPresent()) {
+                return formatIcons(gender.get().getChatPrefix() + name);
             }
         }
 
-        return color + getName(db, userId);
+        return ChatColor.GREEN + name;
     }
 
     public static String getName(DataManager db, UUID userId) {
@@ -132,5 +129,14 @@ public class ListQuery {
         } catch(Exception e) {
             return null; // Complete failure
         }
+    }
+
+    private static String formatIcons(String text) {
+        text = ChatColor.translateAlternateColorCodes('&', text);
+        return text.replace("{heart}", "\u2764")
+                .replace("{icon:heart}", "\u2764")
+                .replace("{icon:male}", "\u2642")
+                .replace("{icon:female}", "\u2640")
+                .replace("{icon:genderless}", "\u26B2");
     }
 }

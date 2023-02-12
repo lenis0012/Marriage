@@ -1,5 +1,6 @@
 package com.lenis0012.bukkit.marriage2.internal;
 
+import com.lenis0012.bukkit.marriage2.Genders;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.commands.*;
@@ -23,6 +24,8 @@ import com.lenis0012.updater.api.UpdaterFactory;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -46,13 +49,14 @@ public class MarriageCore extends MarriageBase {
 
     @Register(name = "config", type = Register.Type.ENABLE, priority = 0)
     public void loadConfig() {
-//		plugin.saveDefaultConfig();
         enable();
 
         // Settings
         this.internalMapper = new InternalMapper();
         CommentConfiguration configuration = new CommentConfiguration(new File(plugin.getDataFolder(), "config.yml"));
         internalMapper.registerSettingsClass(Settings.class, configuration, AutoSavePolicy.ON_CHANGE);
+        migrateSettings();
+        reloadSettings();
 
         // Messages
         Message.reloadAll(this);
@@ -69,8 +73,30 @@ public class MarriageCore extends MarriageBase {
         }
     }
 
+    public void migrateSettings() {
+        FileConfiguration configuration = plugin.getConfig();
+        if(configuration.isSet("chat.male-prefix")) {
+            configuration.set("genders.male.chat-prefix", configuration.getString("chat.male-prefix"));
+            configuration.set("genders.female.chat-prefix", configuration.getString("chat.female-prefix"));
+            configuration.set("chat.male-prefix", null);
+            configuration.set("chat.female-prefix", null);
+            plugin.saveConfig();
+        }
+    }
+
     public void reloadSettings() {
+        for(String identifier : Settings.GENDER_OPTIONS.value().getKeys(false)) {
+            Genders.removeGenderOption(identifier);
+        }
         internalMapper.loadSettings(Settings.class, true);
+        for(Map.Entry<String, Object> entry : Settings.GENDER_OPTIONS.value().getValues(false).entrySet()) {
+            String identifier = entry.getKey();
+            ConfigurationSection map = (ConfigurationSection) entry.getValue();
+            String displayName = map.get("display-name", "").toString();
+            String chatPrefix = map.get("chat-prefix", "").toString();
+            MarriageGender gender = new MarriageGender(identifier, displayName, chatPrefix);
+            Genders.addGenderOption(gender);
+        }
     }
 
     @Register(name = "metrics", type = Register.Type.ENABLE, priority = 1)
@@ -138,7 +164,6 @@ public class MarriageCore extends MarriageBase {
                 CommandChat.class,
                 CommandChatSpy.class,
                 CommandDivorce.class,
-                CommandGender.class,
                 CommandGift.class,
                 CommandHeal.class,
                 CommandHelp.class,
@@ -154,6 +179,9 @@ public class MarriageCore extends MarriageBase {
                 CommandTeleport.class,
                 CommandUpdate.class
         );
+        if (Settings.GENDERS_ENABLED.value()) {
+            register(CommandGender.class);
+        }
     }
 
     @Register(name = "updater", type = Type.ENABLE, priority = 9)

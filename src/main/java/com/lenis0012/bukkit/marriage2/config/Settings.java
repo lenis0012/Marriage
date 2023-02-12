@@ -1,10 +1,14 @@
 package com.lenis0012.bukkit.marriage2.config;
 
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
+import com.lenis0012.bukkit.marriage2.internal.data.MarriagePlayer;
 import com.lenis0012.pluginutils.config.mapping.ConfigHeader;
 import com.lenis0012.pluginutils.config.mapping.ConfigOption;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemoryConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Settings {
     /**
@@ -42,8 +46,6 @@ public class Settings {
     public static final ConfigOption<String> CHATSPY_FORMAT = new ConfigOption<>("chat.spy-format", "&c[CHAT SPY] &7{sender} -> {receiver}&f: {message}");
     public static final ConfigOption<Boolean> FORCE_FORMAT = new ConfigOption<>("chat.force-status-format", true);
     public static final ConfigOption<Boolean> FORCE_GENDER_FORMAT = new ConfigOption<>("chat.force-gender-format", true);
-    public static final ConfigOption<String> PREFIX_MALE = new ConfigOption<>("chat.male-prefix", "&b{icon:male} &r");
-    public static final ConfigOption<String> PREFIX_FEMALE = new ConfigOption<>("chat.female-prefix", "&d{icon:female} &r");
     public static final ConfigOption<String> PREFIX_GENDERLESS = new ConfigOption<>("chat.genderless-prefix", "");
     @ConfigHeader("Bypass other chat plugins. Enable this if another chat plugin is breaking marriage private chat.")
     public static final ConfigOption<Boolean> CHAT_BYPASS_PLUGINS = new ConfigOption<>("chat.pm-bypass-plugins", false);
@@ -88,6 +90,17 @@ public class Settings {
     public static final ConfigOption<Double> PRICE_DIVORCE = new ConfigOption<>("economy.divorce-price", 0.0);
 
     /**
+     * Genders
+     */
+    @ConfigHeader(path = "genders", value = {
+            "Gender support. When enabled, allows players to choose a gender and see the gender of other players.",
+            "Male and female genders are available by default but can be renamed (for role-playing servers), other genders can be added at liberty.",
+            "If disabled, no genders can be seen or chosen. This leaves the choice up to the server owner."
+    })
+    public static final ConfigOption<Boolean> GENDERS_ENABLED = new ConfigOption<>("genders.enabled", true);
+    public static final ConfigOption<ConfigurationSection> GENDER_OPTIONS = new ConfigOption<>("genders.options", exampleGenderMap());
+
+    /**
      * Updater
      */
     @ConfigHeader(path = "updater", value = {
@@ -103,4 +116,19 @@ public class Settings {
      */
     @ConfigHeader("List of commands that no one can use, for instance 'gift'.")
     public static final ConfigOption<List<String>> DISABLED_COMMANDS = new ConfigOption<>("disabled-commands", Arrays.asList("command1", "command2"));
+
+    private static ConfigurationSection exampleGenderMap() {
+        Map<String, Object> male = new LinkedHashMap<>();
+        male.put("display-name", "Male");
+        male.put("chat-prefix", "&b{icon:male} &r");
+
+        Map<String, Object> female = new LinkedHashMap<>();
+        female.put("display-name", "Female");
+        female.put("chat-prefix", "&d{icon:female} &r");
+
+        Map<String, Object> genders = new LinkedHashMap<>();
+        genders.put("male", male);
+        genders.put("female", female);
+        return JavaPlugin.getPlugin(MarriagePlugin.class).getConfig().createSection("genders.options", genders);
+    }
 }

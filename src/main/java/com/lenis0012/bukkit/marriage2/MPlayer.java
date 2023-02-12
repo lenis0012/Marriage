@@ -1,6 +1,8 @@
 package com.lenis0012.bukkit.marriage2;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -35,15 +37,32 @@ public interface MPlayer {
      * Get the player's gender.
      *
      * @return Player's gender.
+     * @deprecated Use {@link #getChosenGender()} instead
      */
+    @Deprecated
     Gender getGender();
+
+    /**
+     * Get the gender the player has chosen.
+     *
+     * @return Gender
+     */
+    Optional<PlayerGender> getChosenGender();
 
     /**
      * Set the player's gender.
      *
      * @param gender Player's gender.
+     * @deprecated Use {@link #setChosenGender(PlayerGender)} instead
      */
+    @Deprecated
     void setGender(Gender gender);
+
+    /**
+     *
+     * @param gender
+     */
+    void setChosenGender(@Nullable PlayerGender gender);
 
     /**
      * Get current marriage of the player.
