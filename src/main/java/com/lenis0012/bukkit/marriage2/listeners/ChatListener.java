@@ -82,7 +82,7 @@ public class ChatListener implements Listener {
 
         if(Settings.FORCE_FORMAT.value()) {
             format = "{marriage_status}" + format; // Enforce marriage format
-        } if(Settings.FORCE_GENDER_FORMAT.value()) {
+        } if(Settings.FORCE_GENDER_FORMAT.value() && Settings.GENDERS_ENABLED.value()) {
             format = "{marriage_gender}" + format;
         }
 
