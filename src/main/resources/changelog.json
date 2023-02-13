@@ -5,27 +5,20 @@
     [
       "---[ Changelog ]---",
       "",
+      "- Add ability to define custom genders, or disable altogether",
+      "",
       "- Improve private chat compatability with other plugins",
       "",
-      "- Give players access to use player commands by default",
+      "- Default access to marry.default permission",
       "",
-      "- Bug fixes and performance improvements",
-      "",
-      "Full changelog on spigotmc.org"
+      "- Bug fixes and performance improvements"
     ],
     [
-      "====[ DONATE ]====",
+      "---[ Support ]---",
       "",
-      "Donate if you enjoy this update.",
+      "If you are using Marriage, please considering leaving a review on spigotmc.org.",
       "",
-      "paypal.me/lenis0012",
-      "",
-      "=====[ SOCIAL ]=====",
-      "IGN: lenis",
-      "Twitter: @lenis0012",
-      "",
-      "Report bugs!",
-      "-lenis"
+      "Bugs can be reported on github or in the discussion section on the plugin page."
     ]
   ]
 }
