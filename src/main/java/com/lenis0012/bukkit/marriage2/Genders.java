@@ -30,7 +30,7 @@ public class Genders {
      * @return Gender option with the given identifier, or null if none exists
      */
     public static @Nullable PlayerGender getGender(@NotNull String identifier) {
-        return GENDER_OPTIONS.get(identifier.toUpperCase(Locale.ROOT));
+        return GENDER_OPTIONS.get(identifier.toLowerCase(Locale.ROOT));
     }
 
     /**

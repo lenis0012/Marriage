@@ -33,7 +33,9 @@ public class MarriagePlayer implements MPlayer {
         this.uuid = uuid;
         if(data.next()) {
             this.lastName = data.getString("last_name");
-            this.gender = Genders.getGender(data.getString("gender").toLowerCase(Locale.ROOT));
+            if (data.getString("gender") != null) {
+                this.gender = Genders.getGender(data.getString("gender").toLowerCase(Locale.ROOT));
+            }
             this.priest = data.getBoolean("priest");
             this.lastLogout = data.getLong("lastlogin");
         }
@@ -48,7 +50,7 @@ public class MarriagePlayer implements MPlayer {
     void save(PreparedStatement ps) throws SQLException {
         ps.setString(1, uuid.toString());
         ps.setString(2, lastName);
-        ps.setString(3, gender.getIdentifier());
+        ps.setString(3, gender != null ? gender.getIdentifier() : null);
         ps.setBoolean(4, priest);
         ps.setLong(5, System.currentTimeMillis());
     }
