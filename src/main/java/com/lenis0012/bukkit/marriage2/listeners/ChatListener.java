@@ -1,6 +1,7 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.PlayerGender;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
@@ -110,7 +111,7 @@ public class ChatListener implements Listener {
 
         // Gender format
         if(format.contains("{marriage_gender}")) {
-            String gender = mplayer.getGender().getChatPrefix();
+            String gender = mplayer.getChosenGender().map(PlayerGender::getChatPrefix).orElse(Settings.PREFIX_GENDERLESS.value());
             gender = formatIcons(gender);
             gender = ChatColor.translateAlternateColorCodes('&', gender);
             format = format.replace("{marriage_gender}", gender);

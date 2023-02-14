@@ -5,6 +5,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.PlayerGender;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
@@ -216,7 +217,7 @@ public class DataManager {
                 PreparedStatement ps2 = connection.prepareStatement(String.format(
                         "UPDATE %splayers SET last_name=?,gender=?,priest=?,lastlogin=? WHERE unique_user_id=?;", prefix));
                 ps2.setString(1, player.getLastName());
-                ps2.setString(2, player.getGender().toString());
+                ps2.setString(2, player.getChosenGender().map(PlayerGender::getIdentifier).orElse(null));
                 ps2.setBoolean(3, player.isPriest());
                 ps2.setLong(4, System.currentTimeMillis());
                 ps2.setString(5, player.getUniqueId().toString());

@@ -78,6 +78,9 @@ public class MarriagePlayer implements MPlayer {
 
     @Override
     public Gender getGender() {
+        if(gender == null) {
+            return Gender.UNKNOWN;
+        }
         try {
             return Gender.valueOf(gender.getIdentifier().toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException e) {

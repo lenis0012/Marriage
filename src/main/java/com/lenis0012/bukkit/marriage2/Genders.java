@@ -1,10 +1,12 @@
 package com.lenis0012.bukkit.marriage2;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 
 /**
  * A container for the available genders for the players to chose from.
@@ -27,8 +29,8 @@ public class Genders {
      * @param identifier The configuration key associated with this gender
      * @return Gender option with the given identifier, or null if none exists
      */
-    public static @Nullable PlayerGender getGender(String identifier) {
-        return GENDER_OPTIONS.get(identifier);
+    public static @Nullable PlayerGender getGender(@NotNull String identifier) {
+        return GENDER_OPTIONS.get(identifier.toUpperCase(Locale.ROOT));
     }
 
     /**
@@ -37,8 +39,8 @@ public class Genders {
      *
      * @param gender The gender to add
      */
-    public static void addGenderOption(PlayerGender gender) {
-        GENDER_OPTIONS.put(gender.getIdentifier(), gender);
+    public static void addGenderOption(@NotNull PlayerGender gender) {
+        GENDER_OPTIONS.put(gender.getIdentifier().toLowerCase(Locale.ROOT), gender);
     }
 
     /**
@@ -47,7 +49,7 @@ public class Genders {
      *
      * @param identifier The configuration key identifying the gender
      */
-    public static void removeGenderOption(String identifier) {
-        GENDER_OPTIONS.remove(identifier);
+    public static void removeGenderOption(@NotNull String identifier) {
+        GENDER_OPTIONS.remove(identifier.toLowerCase(Locale.ROOT));
     }
 }
