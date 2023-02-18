@@ -3,6 +3,7 @@ package com.lenis0012.bukkit.marriage2.config;
 import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public enum Message {
@@ -73,6 +74,9 @@ public enum Message {
     COMMAND_HEAL("Send your health to your partner"),
     COMMAND_PVP("Enable/disable pvping with your partner"),
 
+    LIST_HEADER("&6&lMarried Players:"),
+    LIST_PAGE("&6Page %s of %s"),
+
     // WORDS
     STATUS("&aStatus: %s"),
     SINGLE("&fsingle"),
@@ -95,7 +99,7 @@ public enum Message {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    public void send(Player player, Object... params) {
+    public void send(CommandSender player, Object... params) {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(message, params)));
     }
 

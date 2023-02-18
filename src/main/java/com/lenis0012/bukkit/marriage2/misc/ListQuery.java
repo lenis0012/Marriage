@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import com.lenis0012.bukkit.marriage2.Genders;
 import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.PlayerGender;
+import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
@@ -49,8 +50,8 @@ public class ListQuery {
         new BukkitRunnable() {
             @Override
             public void run() {
-                to.sendMessage(ChatColor.GOLD + ChatColor.BOLD.toString() + "Married players:");
-                to.sendMessage(ChatColor.GOLD + "Page " + (page + 1) + "/" + pages);
+                Message.LIST_HEADER.send(to);
+                Message.LIST_PAGE.send(to, page + 1, pages);
                 if(Settings.GENDER_IN_LIST.value() && Settings.GENDERS_ENABLED.value()) {
                     String msg = Genders.getOptions().stream()
                         .map(gender -> gender.getChatPrefix() + gender.getDisplayName())
@@ -90,7 +91,7 @@ public class ListQuery {
             }
         }
 
-        return ChatColor.GREEN + name;
+        return ChatColor.translateAlternateColorCodes('&', Settings.PREFIX_GENDERLESS.value()) + name;
     }
 
     public static String getName(DataManager db, UUID userId) {
