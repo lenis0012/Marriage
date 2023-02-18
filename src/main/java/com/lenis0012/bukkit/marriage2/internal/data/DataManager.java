@@ -85,7 +85,7 @@ public class DataManager {
                     .password(config.getString("MySQL.password", ""))
                     .build();
         } else {
-            this.dataSource = DataSourceBuilder.sqlite(new File(core.getPlugin().getDataFolder(), "database.db"));
+            this.dataSource = DataSourceBuilder.sqlite(core.getPlugin(), new File(core.getPlugin().getDataFolder(), "database.db"));
             this.prefix = "";
         }
 
