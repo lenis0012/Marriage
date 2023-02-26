@@ -172,17 +172,7 @@ public class MarriagePlugin extends JavaPlugin {
             // ignore
         }
 
-        try {
-            getLogger().log(Level.INFO, "Attempting to hook using PlotSquared legacy API.");
-            Class.forName("com.intellectualcrafters.plot.PS");
-            register(new LegacyPlotSquaredListener());
-            getLogger().log(Level.INFO, "Success! Auto-trust has been enabled.");
-            return;
-        } catch (Exception e) {
-            // ignore
-        }
-
-        getLogger().log(Level.WARNING, "Failed to hook with PlotSquared, please use v5 for full support.");
+        getLogger().log(Level.WARNING, "Failed to hook with PlotSquared, please use v6 for full support.");
     }
 
     @Register(name = "commands", type = Register.Type.ENABLE)

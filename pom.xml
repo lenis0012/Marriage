@@ -78,14 +78,6 @@
             <version>1.7</version>
             <scope>provided</scope>
         </dependency>
-        <!-- PlotSquared Legacy (before v4)-->
-        <dependency>
-            <groupId>com.plotsquared.bukkit</groupId>
-            <artifactId>PlotSquared</artifactId>
-            <version>3.3.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/PlotSquared.jar</systemPath>
-        </dependency>
         <!-- PlotSquared v6 -->
         <dependency>
             <groupId>com.plotsquared</groupId>
