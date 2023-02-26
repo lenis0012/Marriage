@@ -1,7 +1,7 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
-import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.misc.Cooldown;
@@ -47,7 +47,7 @@ public class KissListener implements Listener {
             return;
         }
 
-        MData data = mp.getMarriage();
+        Relationship data = mp.getMarriage();
         if(!clicked.getUniqueId().toString().equalsIgnoreCase(data.getOtherPlayer(player.getUniqueId()).toString())) {
             return;
         }

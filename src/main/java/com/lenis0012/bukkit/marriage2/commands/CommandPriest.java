@@ -1,10 +1,10 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import org.bukkit.entity.Player;
 
 /**
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
  */
 public class CommandPriest extends Command {
 
-    public CommandPriest(Marriage marriage) {
+    public CommandPriest(MarriageCore marriage) {
         super(marriage, "priest");
         setDescription("Set whether or not a player should be priest.");
         setUsage("add/remove <player>");

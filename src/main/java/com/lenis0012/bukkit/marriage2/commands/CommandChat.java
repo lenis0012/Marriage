@@ -1,12 +1,12 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 
 public class CommandChat extends Command {
 
-    public CommandChat(Marriage marriage) {
+    public CommandChat(MarriageCore marriage) {
         super(marriage, "chat");
         setDescription(Message.COMMAND_CHAT.toString());
     }

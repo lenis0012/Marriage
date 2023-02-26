@@ -1,7 +1,7 @@
 package com.lenis0012.bukkit.marriage2.internal.data;
 
 import com.google.common.collect.Maps;
-import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.misc.UUIDFetcher;
 import org.bukkit.Bukkit;
@@ -132,7 +132,7 @@ public class DataConverter {
                     UUID uuid = uuidMap.get(cnf.getString("partner"));
                     if(uuid != null) {
                         MarriagePlayer mp2 = core.getDataManager().loadPlayer(uuid);
-                        MData mdata = core.marry(mp, mp2);
+                        Relationship mdata = core.marry(mp, mp2);
 
                         if(cnf.contains("home")) {
                             World world = Bukkit.getWorld(cnf.getString("home.world"));

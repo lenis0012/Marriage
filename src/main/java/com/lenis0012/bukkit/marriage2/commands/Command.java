@@ -1,11 +1,11 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
 import com.google.common.collect.Lists;
-import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.Dependencies;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.pluginutils.config.mapping.ConfigOption;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public abstract class Command {
-    protected final Marriage marriage;
+    protected final MarriageCore marriage;
     private final String[] aliases;
 
     private String description = "No description available";
@@ -29,7 +29,7 @@ public abstract class Command {
     protected Player player;
     private String[] args;
 
-    public Command(Marriage marriage, String command, String... aliases) {
+    public Command(MarriageCore marriage, String command, String... aliases) {
         this.marriage = marriage;
         this.aliases = Lists.asList(command, aliases).toArray(new String[0]);
         this.permission = Permissions.getByNode("marry." + command);

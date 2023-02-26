@@ -1,7 +1,6 @@
 package com.lenis0012.bukkit.marriage2.internal;
 
 import com.google.common.collect.Maps;
-import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.commands.Command;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import org.bukkit.ChatColor;
@@ -52,7 +51,7 @@ public class MarriageCommandExecutor implements CommandExecutor {
 
     public void register(Class<? extends Command> commandClass) {
         try {
-            Command command = commandClass.getConstructor(Marriage.class).newInstance(core);
+            Command command = commandClass.getConstructor(MarriageCore.class).newInstance(core);
             if(Settings.DISABLED_COMMANDS.value().contains(command.getAliases()[0])) {
                 // Command was disabled in config...
                 return;

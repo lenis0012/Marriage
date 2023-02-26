@@ -1,8 +1,9 @@
 package com.lenis0012.bukkit.marriage2.internal;
 
 import com.lenis0012.bukkit.marriage2.Genders;
-import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.Relationship;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.commands.*;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
@@ -213,7 +214,6 @@ public class MarriageCore extends MarriageBase {
         dataManager.close();
     }
 
-    @Override
     public MPlayer getMPlayer(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         if(player != null && player.isOnline()) {
@@ -229,7 +229,6 @@ public class MarriageCore extends MarriageBase {
         return mp;
     }
 
-    @Override
     public MPlayer getMPlayer(Player player) {
         MarriagePlayer mp = players.get(player.getUniqueId());
         if(mp == null) {
@@ -240,13 +239,11 @@ public class MarriageCore extends MarriageBase {
         return mp;
     }
 
-    @Override
-    public MData marry(MPlayer player1, MPlayer player2) {
+    public Relationship marry(MPlayer player1, MPlayer player2) {
         return marry(player1, player2, null);
     }
 
-    @Override
-    public MData marry(MPlayer player1, MPlayer player2, MPlayer priest) {
+    public Relationship marry(MPlayer player1, MPlayer player2, MPlayer priest) {
         PlayerMarryEvent event = new PlayerMarryEvent(player1, player2, priest);
         Bukkit.getPluginManager().callEvent(event);
         if(event.isCancelled()) {
@@ -260,7 +257,6 @@ public class MarriageCore extends MarriageBase {
         return mdata;
     }
 
-    @Override
     public ListQuery getMarriageList(int scale, int page) {
         return dataManager.listMarriages(scale, page);
     }
@@ -281,7 +277,7 @@ public class MarriageCore extends MarriageBase {
         return updater;
     }
 
-    public void removeMarriage(final MData mdata) {
+    public void removeMarriage(final Relationship mdata) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             dataManager.deleteMarriage(mdata.getPlayer1Id(), mdata.getPllayer2Id());
         });
@@ -314,7 +310,6 @@ public class MarriageCore extends MarriageBase {
         players.clear();
     }
 
-    @Override
     public Dependencies dependencies() {
         return dependencies;
     }

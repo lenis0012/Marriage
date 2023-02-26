@@ -4,8 +4,8 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.PlayerGender;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
@@ -316,7 +316,7 @@ public class DataManager {
             //"SELECT * FROM %sdata ORDER BY id DESC LIMIT %s OFFSET %s;", prefix, scale, scale * page));
             result = ps.executeQuery();
 
-            List<MData> list = Lists.newArrayList();
+            List<Relationship> list = Lists.newArrayList();
             while(result.next()) {
                 list.add(new MarriageData(this, result));
             }
@@ -325,7 +325,7 @@ public class DataManager {
             return new ListQuery(this, pages, page, list);
         } catch(SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to load marriage list", e);
-            return new ListQuery(this, 0, 0, new ArrayList<MData>());
+            return new ListQuery(this, 0, 0, new ArrayList<>());
         }
     }
 

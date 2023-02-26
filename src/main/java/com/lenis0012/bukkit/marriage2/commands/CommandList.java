@@ -1,13 +1,13 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
-import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import org.bukkit.Bukkit;
 
 public class CommandList extends Command {
 
-    public CommandList(Marriage marriage) {
+    public CommandList(MarriageCore marriage) {
         super(marriage, "list");
         setDescription(Message.COMMAND_LIST.toString());
         setUsage("[page]");

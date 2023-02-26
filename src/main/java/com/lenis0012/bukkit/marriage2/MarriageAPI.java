@@ -67,17 +67,6 @@ public class MarriageAPI {
     private static final int API_VERSION = 103;
 
     /**
-     * Get the API main instance.
-     *
-     * @return API instance
-     * @deprecated Use {@link MarriageAPI} directly
-     */
-    @Deprecated
-    public static Marriage getInstance() {
-        return MarriagePlugin.getCore();
-    }
-
-    /**
      * Get current API version.
      *
      * @return API Version

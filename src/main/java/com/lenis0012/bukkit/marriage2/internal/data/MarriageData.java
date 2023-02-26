@@ -1,6 +1,6 @@
 package com.lenis0012.bukkit.marriage2.internal.data;
 
-import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import org.bukkit.Bukkit;
@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class MarriageData implements MData {
+public class MarriageData implements Relationship {
     private final DataManager dataManager;
     private final UUID player1;
     private final UUID player2;

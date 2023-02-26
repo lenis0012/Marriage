@@ -1,10 +1,10 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
-import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -19,7 +19,7 @@ import java.util.List;
 public class CommandTeleport extends Command {
     private static final List<Material> UNSAFE_TYPES = Arrays.asList(Material.LAVA, Material.CACTUS);
 
-    public CommandTeleport(Marriage marriage) {
+    public CommandTeleport(MarriageCore marriage) {
         super(marriage, "tp");
         setDescription(Message.COMMAND_TELEPORT.toString());
         setExecutionFee(Settings.PRICE_TELEPORT);
@@ -28,7 +28,7 @@ public class CommandTeleport extends Command {
     @Override
     public void execute() {
         MPlayer mPlayer = marriage.getMPlayer(player);
-        MData marriage = mPlayer.getMarriage();
+        Relationship marriage = mPlayer.getMarriage();
         if(marriage == null) {
             reply(Message.NOT_MARRIED);
             return;

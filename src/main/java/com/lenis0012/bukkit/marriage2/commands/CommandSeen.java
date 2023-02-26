@@ -1,8 +1,7 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
-import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import org.bukkit.Bukkit;
@@ -14,7 +13,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Lennart on 7/9/2015.
  */
 public class CommandSeen extends Command {
-    public CommandSeen(Marriage marriage) {
+    public CommandSeen(MarriageCore marriage) {
         super(marriage, "seen");
         setDescription(Message.COMMAND_SEEN.toString());
     }
@@ -22,7 +21,7 @@ public class CommandSeen extends Command {
     @Override
     public void execute() {
         MPlayer mPlayer = marriage.getMPlayer(player);
-        MData marriage = mPlayer.getMarriage();
+        Relationship marriage = mPlayer.getMarriage();
         if(marriage == null) {
             reply(Message.NOT_MARRIED);
             return;

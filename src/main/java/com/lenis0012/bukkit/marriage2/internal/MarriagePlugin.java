@@ -1,7 +1,6 @@
 package com.lenis0012.bukkit.marriage2.internal;
 
 import com.google.common.collect.Lists;
-import com.lenis0012.bukkit.marriage2.Marriage;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -12,7 +11,7 @@ import java.util.logging.Level;
 public class MarriagePlugin extends JavaPlugin {
     private static MarriageCore core;
 
-    public static Marriage getCore() {
+    public static MarriageCore getCore() {
         return core;
     }
 

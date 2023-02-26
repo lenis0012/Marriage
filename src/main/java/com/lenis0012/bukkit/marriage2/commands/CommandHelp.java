@@ -1,18 +1,17 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
-import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.internal.MarriageBase;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCommandExecutor;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.HoverEvent.Action;
-import org.bukkit.Bukkit;
 
 public class CommandHelp extends Command {
 
-    public CommandHelp(Marriage marriage) {
+    public CommandHelp(MarriageCore marriage) {
         super(marriage, "help");
         setMinArgs(-1);
         setHidden(true);

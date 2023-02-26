@@ -1,9 +1,9 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,7 +11,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 public class CommandMarry extends Command {
 
-    public CommandMarry(Marriage marriage) {
+    public CommandMarry(MarriageCore marriage) {
         super(marriage, "marry");
         if(Settings.ENABLE_PRIEST.value()) {
             setDescription(Message.COMMAND_MARRY_PRIEST.toString());

@@ -1,15 +1,15 @@
 package com.lenis0012.bukkit.marriage2.commands;
 
-import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class CommandHeal extends Command {
-    public CommandHeal(Marriage marriage) {
+    public CommandHeal(MarriageCore marriage) {
         super(marriage, "heal");
         setExecutionFee(Settings.PRICE_HEAL);
         setDescription(Message.COMMAND_HEAL.toString());
@@ -18,7 +18,7 @@ public class CommandHeal extends Command {
     @Override
     public void execute() {
         MPlayer mPlayer = marriage.getMPlayer(player);
-        MData marriage = mPlayer.getMarriage();
+        Relationship marriage = mPlayer.getMarriage();
 
         // Check if marries
         if(marriage == null) {

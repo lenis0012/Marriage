@@ -34,29 +34,11 @@ public interface MPlayer {
     boolean isMarriageRequested(UUID from);
 
     /**
-     * Get the player's gender.
-     *
-     * @return Player's gender.
-     * @deprecated Use {@link #getChosenGender()} instead
-     */
-    @Deprecated
-    Gender getGender();
-
-    /**
      * Get the gender the player has chosen.
      *
      * @return Gender
      */
     Optional<PlayerGender> getChosenGender();
-
-    /**
-     * Set the player's gender.
-     *
-     * @param gender Player's gender.
-     * @deprecated Use {@link #setChosenGender(PlayerGender)} instead
-     */
-    @Deprecated
-    void setGender(Gender gender);
 
     /**
      *
@@ -68,12 +50,11 @@ public interface MPlayer {
      * Get current marriage of the player.
      *
      * @return Player's marriage, NULL if not married.
-     * @deprecated Use
+     * @deprecated Use {@link #getActiveRelationship()} instead
      */
-    //     * @deprecated Use {@link #getFirstMarriage()} or {@link #getMarriage(UUID)} or {@link #getMarriages()}
-//    @Deprecated
+    @Deprecated
     @Nullable
-    MData getMarriage();
+    Relationship getMarriage();
 
     /**
      * Retrieve the (first) current active relationship of the player.

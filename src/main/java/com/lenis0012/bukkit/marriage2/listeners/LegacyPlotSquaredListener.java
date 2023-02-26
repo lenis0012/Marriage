@@ -1,9 +1,8 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
 import com.intellectualcrafters.plot.PS;
-import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
-import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent;
 import com.lenis0012.bukkit.marriage2.events.PlayerMarryEvent;
 import org.bukkit.event.EventHandler;
@@ -41,7 +40,7 @@ public class LegacyPlotSquaredListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerDivorce(PlayerDivorceEvent event) {
-        final MData marriage = event.getMarriage();
+        final Relationship marriage = event.getMarriage();
         final UUID player = marriage.getPlayer1Id();
         final UUID partner = marriage.getPllayer2Id();
 

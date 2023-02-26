@@ -1,10 +1,9 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
 import com.lenis0012.bukkit.marriage2.MPlayer;
-import com.lenis0012.bukkit.marriage2.Marriage;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
-import net.md_5.bungee.api.ChatColor;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -17,9 +16,9 @@ import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 public class PlayerListener implements Listener {
-    private final Marriage marriage;
+    private final MarriageCore marriage;
 
-    public PlayerListener(Marriage marriage) {
+    public PlayerListener(MarriageCore marriage) {
         this.marriage = marriage;
     }
 

@@ -3,6 +3,7 @@ package com.lenis0012.bukkit.marriage2.commands;
 import com.lenis0012.bukkit.marriage2.*;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import org.bukkit.ChatColor;
 
 import java.util.Locale;
@@ -10,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class CommandGender extends Command {
 
-    public CommandGender(Marriage marriage) {
+    public CommandGender(MarriageCore marriage) {
         super(marriage, "gender");
         setDescription(Message.COMMAND_GENDER.toString());
         setUsage("[gender]");

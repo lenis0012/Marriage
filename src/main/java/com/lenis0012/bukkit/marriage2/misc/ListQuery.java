@@ -5,8 +5,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.lenis0012.bukkit.marriage2.Genders;
-import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.PlayerGender;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
@@ -33,14 +33,14 @@ public class ListQuery {
 
     private final int pages;
     private final int page;
-    private final List<MData> marriages;
+    private final List<Relationship> marriages;
     private final Map<UUID, String> names = Maps.newHashMap();
 
-    public ListQuery(DataManager db, int pages, int page, List<MData> marriages) {
+    public ListQuery(DataManager db, int pages, int page, List<Relationship> marriages) {
         this.pages = pages;
         this.page = page;
         this.marriages = marriages;
-        for(MData marriage : marriages) {
+        for(Relationship marriage : marriages) {
             names.put(marriage.getPlayer1Id(), getNameFormat(db, marriage.getPlayer1Id()));
             names.put(marriage.getPllayer2Id(), getNameFormat(db, marriage.getPllayer2Id()));
         }
@@ -58,7 +58,7 @@ public class ListQuery {
                         .collect(Collectors.joining(ChatColor.RESET + " - "));
                     to.sendMessage(formatIcons(msg));
                 }
-                for(MData data : marriages) {
+                for(Relationship data : marriages) {
                     to.sendMessage(names.get(data.getPlayer1Id()) + ChatColor.WHITE + " + " + names.get(data.getPllayer2Id()));
                 }
             }

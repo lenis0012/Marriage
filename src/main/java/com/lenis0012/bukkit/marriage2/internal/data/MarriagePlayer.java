@@ -22,7 +22,7 @@ public class MarriagePlayer implements MPlayer {
     private final Cooldown<UUID> requests;
     private final UUID uuid;
     private String lastName;
-    private MData marriage;
+    private Relationship marriage;
     private PlayerGender gender = null;
     private boolean inChat;
     private boolean chatSpy;
@@ -80,25 +80,8 @@ public class MarriagePlayer implements MPlayer {
     }
 
     @Override
-    public Gender getGender() {
-        if(gender == null) {
-            return Gender.UNKNOWN;
-        }
-        try {
-            return Gender.valueOf(gender.getIdentifier().toUpperCase(Locale.ROOT));
-        } catch (IllegalArgumentException e) {
-            return Gender.UNKNOWN;
-        }
-    }
-
-    @Override
     public Optional<PlayerGender> getChosenGender() {
         return Optional.ofNullable(gender);
-    }
-
-    @Override
-    public void setGender(Gender gender) {
-        this.gender = Genders.getGender(gender.toString().toLowerCase(Locale.ROOT));
     }
 
     @Override
@@ -108,7 +91,7 @@ public class MarriagePlayer implements MPlayer {
     }
 
     @Override
-    public MData getMarriage() {
+    public Relationship getMarriage() {
         return marriage;
     }
 
@@ -135,7 +118,7 @@ public class MarriagePlayer implements MPlayer {
 
     @Override
     public MPlayer getPartner() {
-        Marriage core = MarriagePlugin.getCore();
+        MarriageCore core = MarriagePlugin.getCore();
         if(marriage != null) {
             UUID id = uuid.equals(marriage.getPlayer1Id()) ? marriage.getPllayer2Id() : marriage.getPlayer1Id();
             return core.getMPlayer(id);

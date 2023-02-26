@@ -1,7 +1,7 @@
 package com.lenis0012.bukkit.marriage2.events;
 
-import com.lenis0012.bukkit.marriage2.MData;
 import com.lenis0012.bukkit.marriage2.MPlayer;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -15,9 +15,9 @@ public class PlayerDivorceEvent extends Event implements Cancellable {
     private static final HandlerList handlerList = new HandlerList();
 
     private MPlayer player;
-    private MData marriage;
+    private Relationship marriage;
 
-    public PlayerDivorceEvent(MPlayer player, MData marriage) {
+    public PlayerDivorceEvent(MPlayer player, Relationship marriage) {
         super(false);
         this.player = player;
         this.marriage = marriage;
@@ -37,7 +37,7 @@ public class PlayerDivorceEvent extends Event implements Cancellable {
      *
      * @return Marriage
      */
-    public MData getMarriage() {
+    public Relationship getMarriage() {
         return marriage;
     }
 

@@ -1,10 +1,9 @@
 package com.lenis0012.bukkit.marriage2.config;
 
-import com.lenis0012.bukkit.marriage2.Marriage;
+import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public enum Message {
     PLAYER_NOT_FOUND("&cNo player named %s was found!"),
@@ -104,7 +103,7 @@ public enum Message {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(message, params)));
     }
 
-    public static void reloadAll(Marriage marriage) {
+    public static void reloadAll(MarriageCore marriage) {
         BConfig config = marriage.getBukkitConfig("messages.yml");
         for(Message message : values()) {
             message.reload(config);

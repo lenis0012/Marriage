@@ -1,13 +1,11 @@
 package com.lenis0012.bukkit.marriage2.listeners;
 
-import com.lenis0012.bukkit.marriage2.MData;
+import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.events.PlayerDivorceEvent;
 import com.lenis0012.bukkit.marriage2.events.PlayerMarryEvent;
-import com.plotsquared.bukkit.events.PlayerEnterPlotEvent;
 import com.plotsquared.core.PlotAPI;
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -45,7 +43,7 @@ public class V6PlotSquaredListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerDivorce(PlayerDivorceEvent event) {
-        final MData marriage = event.getMarriage();
+        final Relationship marriage = event.getMarriage();
         final UUID player = marriage.getPlayer1Id();
         final UUID partner = marriage.getPllayer2Id();
         PlotPlayer plotPlayer = plotSquared.wrapPlayer(player);
