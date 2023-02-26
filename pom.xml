@@ -48,7 +48,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13.2-R0.1-SNAPSHOT</version>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -122,11 +122,8 @@
         <!-- Resources -->
         <resources>
             <resource>
-                <directory>src/main/resources/</directory>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
-                <includes>
-                    <include>*</include>
-                </includes>
             </resource>
         </resources>
         <finalName>${project.name}</finalName>

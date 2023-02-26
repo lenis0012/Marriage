@@ -5,7 +5,6 @@ import com.lenis0012.bukkit.marriage2.commands.*;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
-import com.lenis0012.bukkit.marriage2.internal.data.DataConverter;
 import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
 import com.lenis0012.bukkit.marriage2.internal.data.MarriagePlayer;
 import com.lenis0012.bukkit.marriage2.listeners.*;
@@ -67,7 +66,6 @@ public class MarriagePlugin extends JavaPlugin {
         registerListeners();
         registerCommands();
         loadUpdater();
-        loadConverter();
     }
 
     @Override
@@ -223,14 +221,6 @@ public class MarriagePlugin extends JavaPlugin {
                 .getUpdater(this);
         } catch (Exception e) {
             getLogger().log(Level.WARNING, "Failed to load update checker", e);
-        }
-    }
-
-    @Register(name = "converter", type = Register.Type.ENABLE, priority = 10)
-    public void loadConverter() {
-        DataConverter converter = new DataConverter(this, core);
-        if(converter.isOutdated()) {
-            converter.convert();
         }
     }
 
