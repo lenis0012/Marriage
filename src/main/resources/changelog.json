@@ -1,17 +1,13 @@
 {
-  "version": "Marriage v2.2.2",
+  "version": "Marriage v2.2.3",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Add ability to define custom genders, or disable altogether",
+      "- Fixed some bugs in database handling",
       "",
-      "- Improve private chat compatability with other plugins",
-      "",
-      "- Default access to marry.default permission",
-      "",
-      "- Bug fixes and performance improvements"
+      "- Add options to configure list message format"
     ],
     [
       "---[ Support ]---",
