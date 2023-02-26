@@ -85,6 +85,7 @@ public class MarriageCore extends MarriageBase {
     }
 
     public void reloadSettings() {
+        Message.reloadAll(this);
         for(String identifier : Settings.GENDER_OPTIONS.value().getKeys(false)) {
             Genders.removeGenderOption(identifier);
         }
