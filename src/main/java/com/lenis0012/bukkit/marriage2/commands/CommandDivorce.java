@@ -4,8 +4,10 @@ import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandDivorce extends Command {
 
@@ -28,10 +30,11 @@ public class CommandDivorce extends Command {
         mPlayer.divorce();
 
         // Clear metadata
-        player.removeMetadata("marriedTo", marriage.getPlugin());
+        MarriagePlugin plugin = JavaPlugin.getPlugin(MarriagePlugin.class);
+        player.removeMetadata("marriedTo", plugin);
         Player target = Bukkit.getPlayer(partner.getUniqueId());
         if(target != null) {
-            target.removeMetadata("marriedTo", marriage.getPlugin());
+            target.removeMetadata("marriedTo", plugin);
         }
 
         broadcast(Message.DIVORCED, player.getName(), Bukkit.getOfflinePlayer(partner.getUniqueId()).getName());

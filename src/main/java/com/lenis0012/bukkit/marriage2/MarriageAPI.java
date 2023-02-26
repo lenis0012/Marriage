@@ -7,6 +7,7 @@ import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
 
@@ -157,7 +158,7 @@ public class MarriageAPI {
      * @param commandClasses Classes of the sub commands to be registered.
      */
     public static void registerCommands(Class<? extends Command>... commandClasses) {
-        ((MarriageCore)MarriagePlugin.getCore()).registerCommands(commandClasses);
+        JavaPlugin.getPlugin(MarriagePlugin.class).registerCommands(commandClasses);
     }
 
     /**

@@ -2,8 +2,10 @@ package com.lenis0012.bukkit.marriage2.commands;
 
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandList extends Command {
 
@@ -23,12 +25,9 @@ public class CommandList extends Command {
             reply(Message.NEGATIVE_NUMBER);
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(marriage.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                final ListQuery list = marriage.getMarriageList(10, page - 1);
-                list.send(sender);
-            }
+        Bukkit.getScheduler().runTaskAsynchronously(JavaPlugin.getPlugin(MarriagePlugin.class), () -> {
+            final ListQuery list = marriage.getMarriageList(10, page - 1);
+            list.send(sender);
         });
     }
 }

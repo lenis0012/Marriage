@@ -7,6 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collection;
 import java.util.Map;
@@ -16,8 +17,8 @@ public class MarriageCommandExecutor implements CommandExecutor {
     private final MarriageCore core;
     private final Map<String, Command> commands = Maps.newHashMap();
 
-    public MarriageCommandExecutor(MarriageBase core) {
-        this.core = (MarriageCore) core;
+    public MarriageCommandExecutor(MarriageCore core) {
+        this.core = core;
     }
 
     @Override
@@ -61,7 +62,7 @@ public class MarriageCommandExecutor implements CommandExecutor {
                 commands.put(alias.toLowerCase(), command);
             }
         } catch(Exception e) {
-            core.getLogger().log(Level.SEVERE, "Failed to register sub command", e);
+            JavaPlugin.getPlugin(MarriagePlugin.class).getLogger().log(Level.SEVERE, "Failed to register sub command", e);
         }
     }
 

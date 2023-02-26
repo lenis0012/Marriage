@@ -1,8 +1,8 @@
 package com.lenis0012.bukkit.marriage2.misc;
 
-import com.lenis0012.bukkit.marriage2.internal.MarriageBase;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,11 +15,11 @@ import java.util.logging.Level;
  * Allows saving and reloading without throwing exceptions or needing the specify a file.
  */
 public class BConfig extends YamlConfiguration {
-    private final MarriageBase core;
+    private final MarriagePlugin plugin;
     private final File file;
 
-    public BConfig(MarriageBase core, File file) {
-        this.core = core;
+    public BConfig(MarriagePlugin plugin, File file) {
+        this.plugin = plugin;
         this.file = file;
         file.getParentFile().mkdirs();
         if(!file.exists()) {
@@ -37,7 +37,7 @@ public class BConfig extends YamlConfiguration {
         try {
             load(file);
         } catch(Exception e) {
-            core.getLogger().log(Level.WARNING, "Failed to reload configuration file", e);
+            plugin.getLogger().log(Level.WARNING, "Failed to reload configuration file", e);
         }
     }
 
@@ -45,7 +45,7 @@ public class BConfig extends YamlConfiguration {
         try {
             save(file);
         } catch(Exception e) {
-            core.getLogger().log(Level.WARNING, "Failed to save configuration file", e);
+            plugin.getLogger().log(Level.WARNING, "Failed to save configuration file", e);
         }
     }
 
@@ -78,7 +78,7 @@ public class BConfig extends YamlConfiguration {
                 output.write(buffer, 0, length);
             }
         } catch(Exception e) {
-            MarriagePlugin.getCore().getLogger().log(Level.WARNING, "Failed to copy file", e);
+            JavaPlugin.getPlugin(MarriagePlugin.class).getLogger().log(Level.WARNING, "Failed to copy file", e);
         } finally {
             if(input != null) {
                 try {

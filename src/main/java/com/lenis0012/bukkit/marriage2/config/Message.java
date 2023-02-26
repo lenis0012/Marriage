@@ -1,6 +1,7 @@
 package com.lenis0012.bukkit.marriage2.config;
 
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -103,8 +104,8 @@ public enum Message {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(message, params)));
     }
 
-    public static void reloadAll(MarriageCore marriage) {
-        BConfig config = marriage.getBukkitConfig("messages.yml");
+    public static void reloadAll(MarriagePlugin plugin) {
+        BConfig config = plugin.getBukkitConfig("messages.yml");
         for(Message message : values()) {
             message.reload(config);
         }

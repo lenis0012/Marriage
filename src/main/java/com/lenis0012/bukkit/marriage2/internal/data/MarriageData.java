@@ -5,6 +5,7 @@ import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -118,11 +119,7 @@ public class MarriageData implements Relationship {
     }
 
     public void saveAsync() {
-        Bukkit.getScheduler().runTaskAsynchronously(MarriagePlugin.getCore().getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                dataManager.saveMarriage(MarriageData.this);
-            }
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(JavaPlugin.getPlugin(MarriagePlugin.class),
+                () -> dataManager.saveMarriage(MarriageData.this));
     }
 }

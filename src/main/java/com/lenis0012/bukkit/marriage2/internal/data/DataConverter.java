@@ -3,6 +3,7 @@ package com.lenis0012.bukkit.marriage2.internal.data;
 import com.google.common.collect.Maps;
 import com.lenis0012.bukkit.marriage2.Relationship;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.UUIDFetcher;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -18,15 +19,17 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class DataConverter {
+    private final MarriagePlugin plugin;
     private final MarriageCore core;
     private File dir;
 
-    public DataConverter(MarriageCore core) {
+    public DataConverter(MarriagePlugin plugin, MarriageCore core) {
+        this.plugin = plugin;
         this.core = core;
     }
 
     public boolean isOutdated() {
-        this.dir = new File(core.getPlugin().getDataFolder(), "playerdata");
+        this.dir = new File(plugin.getDataFolder(), "playerdata");
         return dir.exists();
     }
 
@@ -34,7 +37,7 @@ public class DataConverter {
         long lastMessage = 0;
         File[] files = dir.listFiles();
         int totalFiles = files.length;
-        core.getLogger().log(Level.INFO, "Converting " + totalFiles + " old database entries...");
+        plugin.getLogger().log(Level.INFO, "Converting " + totalFiles + " old database entries...");
 
         // Retrieve UUIDs from mojang
         Map<String, UUID> uuidMap = Maps.newHashMap();
@@ -74,15 +77,15 @@ public class DataConverter {
                 try {
                     uuidMap.putAll(uuidFetcher.call());
                 } catch(Exception e) {
-                    core.getLogger().log(Level.WARNING, "Failed to retrieve UUID for 100 players!");
+                    plugin.getLogger().log(Level.WARNING, "Failed to retrieve UUID for 100 players!");
                 }
                 uuidFetcher = new UUIDFetcher(new ArrayList<String>());
             }
         }
 
-        core.getLogger().log(Level.INFO, String.format("Converted %s entries. %s locally, %s through mojang, %s failed.",
+        plugin.getLogger().log(Level.INFO, String.format("Converted %s entries. %s locally, %s through mojang, %s failed.",
                 totalFiles, totalFiles - ranThroughMojang - failed, ranThroughMojang, failed));
-        core.getLogger().log(Level.INFO, "Failed entries are likely from inactive players.");
+        plugin.getLogger().log(Level.INFO, "Failed entries are likely from inactive players.");
 
 //        for(int completed = 0; completed < totalFiles; completed++) {
 //            File file = files[completed];
@@ -117,7 +120,7 @@ public class DataConverter {
 //        }
 
         // Insert data into new DB...
-        core.getLogger().log(Level.INFO, "Inserting user data into new database...");
+        plugin.getLogger().log(Level.INFO, "Inserting user data into new database...");
         int completed = 0;
         for(Map.Entry<String, UUID> entry : uuidMap.entrySet()) {
             try {
@@ -152,7 +155,7 @@ public class DataConverter {
                     }
                 }
             } catch(Exception e) {
-                core.getLogger().log(Level.WARNING, "Failed to convert data for player " + entry.getKey(), e);
+                plugin.getLogger().log(Level.WARNING, "Failed to convert data for player " + entry.getKey(), e);
             }
 
             double progress = ++completed / (double) uuidMap.size();
@@ -163,15 +166,15 @@ public class DataConverter {
         }
 
         // Reset old data
-        core.getLogger().log(Level.INFO, "Renaming playerdata file...");
+        plugin.getLogger().log(Level.INFO, "Renaming playerdata file...");
         int remainingTries = 60; // Try 60 times
-        while(!dir.renameTo(new File(core.getPlugin().getDataFolder(), "playerdata_backup"))) {
+        while(!dir.renameTo(new File(plugin.getDataFolder(), "playerdata_backup"))) {
             long sleepTime = 500L;
 
             // Limit to take 30 seconds max
             if(remainingTries-- <= 0) {
-                core.getLogger().log(Level.WARNING, "Failed to rename old playerdata file, please do manually!");
-                core.getLogger().log(Level.INFO, "Server starting normally in 10 seconds.");
+                plugin.getLogger().log(Level.WARNING, "Failed to rename old playerdata file, please do manually!");
+                plugin.getLogger().log(Level.INFO, "Server starting normally in 10 seconds.");
                 sleepTime = 10000L;
             }
 
@@ -193,6 +196,6 @@ public class DataConverter {
             bar.append('_');
         }
         bar.append("] (").append(percent).append("%)");
-        core.getLogger().log(Level.INFO, bar.toString());
+        plugin.getLogger().log(Level.INFO, bar.toString());
     }
 }

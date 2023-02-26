@@ -16,6 +16,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.BufferedReader;
@@ -62,7 +63,7 @@ public class ListQuery {
                     to.sendMessage(names.get(data.getPlayer1Id()) + ChatColor.WHITE + " + " + names.get(data.getPllayer2Id()));
                 }
             }
-        }.runTask(MarriagePlugin.getCore().getPlugin());
+        }.runTask(JavaPlugin.getPlugin(MarriagePlugin.class));
     }
 
     public int getPages() {
@@ -73,7 +74,7 @@ public class ListQuery {
         return page;
     }
 
-    public List<MData> getMarriages() {
+    public List<Relationship> getMarriages() {
         return marriages;
     }
 

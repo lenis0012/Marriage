@@ -10,23 +10,23 @@ import java.util.logging.Level;
 public class Dependencies {
     private static Economy economyService;
 
-    public Dependencies(MarriageCore core) {
+    public Dependencies(MarriagePlugin plugin) {
         boolean useEconomy = Settings.ECONOMY_ENABLED.value();
         if(!useEconomy) {
             return;
         }
 
         if(!Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-            core.getLogger().log(Level.WARNING, "Couldn't detect Vault, economy settings will not work");
+            plugin.getLogger().log(Level.WARNING, "Couldn't detect Vault, economy settings will not work");
             return;
         }
 
         RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager().getRegistration(Economy.class);
         if(economyProvider != null) {
             economyService = economyProvider.getProvider();
-            core.getLogger().log(Level.INFO, "Hooked with " + economyService.getName() + " using Vault");
+            plugin.getLogger().log(Level.INFO, "Hooked with " + economyService.getName() + " using Vault");
         } else {
-            core.getLogger().log(Level.WARNING, "Vault is present, but no economy provider was found");
+            plugin.getLogger().log(Level.WARNING, "Vault is present, but no economy provider was found");
         }
     }
 

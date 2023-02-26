@@ -6,7 +6,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.lenis0012.bukkit.marriage2.PlayerGender;
 import com.lenis0012.bukkit.marriage2.Relationship;
-import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
 import com.lenis0012.bukkit.marriage2.misc.ListQuery;
@@ -39,25 +38,25 @@ public class DataManager {
 
     // Create a data cache to overlap with the pre join event cache
     private final Cache<UUID, MarriageData> marriageDataCache = CacheBuilder.newBuilder().expireAfterWrite(60L, TimeUnit.SECONDS).build();
-    private final MarriageCore core;
+    private final MarriagePlugin plugin;
     private DataSource dataSource;
     private String prefix;
 
-    public DataManager(MarriageCore core) {
-        this.core = core;
-        File configFile = new File(core.getPlugin().getDataFolder(), "database-settings.yml");
+    public DataManager(MarriagePlugin plugin) {
+        this.plugin = plugin;
+        File configFile = new File(plugin.getDataFolder(), "database-settings.yml");
         if(!configFile.exists()) {
-            BConfig.copyFile(core.getPlugin().getResource("database-settings.yml"), configFile);
+            BConfig.copyFile(plugin.getResource("database-settings.yml"), configFile);
         }
 
-        FileConfiguration config = core.getBukkitConfig("database-settings.yml");
+        FileConfiguration config = plugin.getBukkitConfig("database-settings.yml");
         Driver driver = config.getBoolean("MySQL.enabled") ? Driver.MYSQL : Driver.SQLITE;
         loadWithDriver(driver, config);
     }
 
-    public DataManager(MarriageCore core, Driver driver) {
-        this.core = core;
-        FileConfiguration config = core.getBukkitConfig("database-settings.yml");
+    public DataManager(MarriagePlugin plugin, Driver driver) {
+        this.plugin = plugin;
+        FileConfiguration config = plugin.getBukkitConfig("database-settings.yml");
         loadWithDriver(driver, config);
     }
 
@@ -66,7 +65,7 @@ public class DataManager {
             try {
                 ((Closeable) dataSource).close();
             } catch (Exception e) {
-                core.getLogger().log(Level.SEVERE, "Failed to close data source", e);
+                plugin.getLogger().log(Level.SEVERE, "Failed to close data source", e);
             }
         }
     }
@@ -85,7 +84,7 @@ public class DataManager {
                     .password(config.getString("MySQL.password", ""))
                     .build();
         } else {
-            this.dataSource = DataSourceBuilder.sqlite(core.getPlugin(), new File(core.getPlugin().getDataFolder(), "database.db"));
+            this.dataSource = DataSourceBuilder.sqlite(plugin, new File(plugin.getDataFolder(), "database.db"));
             this.prefix = "";
         }
 
@@ -95,15 +94,12 @@ public class DataManager {
             final int days = config.getInt("auto-purge.purge-after-days", 45);
             final boolean purgeMarried = config.getBoolean("auto-purge.purge-married-players", false);
             final long daysInMillis = days * 24 * 60 * 60 * 1000L;
-            Bukkit.getScheduler().runTaskTimerAsynchronously(MarriagePlugin.getCore().getPlugin(), new Runnable() {
-                @Override
-                public void run() {
-                    long startTime = System.currentTimeMillis();
-                    int purged = purge(daysInMillis, purgeMarried);
-                    long duration = System.currentTimeMillis() - startTime;
-                    if(purged > 0) {
-                        core.getLogger().log(Level.INFO, "Purged " + purged + " player entries in " + duration + "ms");
-                    }
+            Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+                long startTime = System.currentTimeMillis();
+                int purged = purge(daysInMillis, purgeMarried);
+                long duration = System.currentTimeMillis() - startTime;
+                if(purged > 0) {
+                    plugin.getLogger().log(Level.INFO, "Purged " + purged + " player entries in " + duration + "ms");
                 }
             }, 0L, delayTime);
         }
@@ -135,7 +131,7 @@ public class DataManager {
                 statement.executeUpdate(String.format("INSERT INTO %sversion (version_id) VALUES(%s);", prefix, upgrade.getVersionId()));
             }
         } catch(SQLException e) {
-            core.getLogger().log(Level.WARNING, "Failed to initiate database", e);
+            plugin.getLogger().log(Level.WARNING, "Failed to initiate database", e);
         }
     }
 
@@ -184,7 +180,7 @@ public class DataManager {
             ps.close();
             return removeList.size();
         } catch(SQLException e) {
-            core.getLogger().log(Level.WARNING, "Failed to purge user data", e);
+            plugin.getLogger().log(Level.WARNING, "Failed to purge user data", e);
             return 0;
         }
     }
@@ -199,7 +195,7 @@ public class DataManager {
             ps.close(); // Release statement
             loadMarriages(connection, player, false);
         } catch(SQLException e) {
-            core.getLogger().log(Level.WARNING, "Failed to load player data", e);
+            plugin.getLogger().log(Level.WARNING, "Failed to load player data", e);
         }
 
         return player;
@@ -233,7 +229,7 @@ public class DataManager {
             }
             ps.close();
         } catch(SQLException e) {
-            core.getLogger().log(Level.WARNING, "Failed to save player data", e);
+            plugin.getLogger().log(Level.WARNING, "Failed to save player data", e);
         }
     }
 
@@ -259,7 +255,7 @@ public class DataManager {
                 ps2.close();
             }
         } catch(SQLException e) {
-            core.getLogger().log(Level.WARNING, "Failed to save marriage data", e);
+            plugin.getLogger().log(Level.WARNING, "Failed to save marriage data", e);
         }
     }
 
@@ -272,9 +268,9 @@ public class DataManager {
             UUID partnerId = UUID.fromString(result.getString(alt ? "player1" : "player2"));
             Player partner = Bukkit.getPlayer(partnerId);
             MarriageData data;
-            if(partner != null && partner.isOnline() && core.isMPlayerSet(partner.getUniqueId())) {
+            if(partner != null && partner.isOnline() && MarriagePlugin.getCore().isMPlayerSet(partner.getUniqueId())) {
                 // Copy marriage data from partner to ensure a match.
-                data = (MarriageData) core.getMPlayer(partner).getMarriage();
+                data = (MarriageData) MarriagePlugin.getCore().getMPlayer(partner).getMarriage();
             } else if((data = marriageDataCache.getIfPresent(player.getUniqueId())) == null) {
                 data = new MarriageData(this, result);
                 marriageDataCache.put(data.getPlayer1Id(), data);
@@ -298,7 +294,7 @@ public class DataManager {
             ps.executeUpdate();
             ps.close();
         } catch(SQLException e) {
-            core.getLogger().log(Level.WARNING, "Failed to load player data", e);
+            plugin.getLogger().log(Level.WARNING, "Failed to load player data", e);
         }
     }
 
@@ -324,7 +320,7 @@ public class DataManager {
 
             return new ListQuery(this, pages, page, list);
         } catch(SQLException e) {
-            core.getLogger().log(Level.WARNING, "Failed to load marriage list", e);
+            plugin.getLogger().log(Level.WARNING, "Failed to load marriage list", e);
             return new ListQuery(this, 0, 0, new ArrayList<>());
         }
     }
@@ -332,7 +328,7 @@ public class DataManager {
     public boolean migrateTo(DataManager db, boolean migrateUnmarriedPlayers) {
         try(Connection connection = dataSource.getConnection()) {
             // Migrate players
-            core.getLogger().log(Level.INFO, "Migrating player data... (may take A WHILE)");
+            plugin.getLogger().log(Level.INFO, "Migrating player data... (may take A WHILE)");
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + prefix + "players;");
             ResultSet result = ps.executeQuery();
             while(result.next()) {
@@ -343,7 +339,7 @@ public class DataManager {
             }
             ps.close();
 
-            core.getLogger().log(Level.INFO, "Migrating marriage data...");
+            plugin.getLogger().log(Level.INFO, "Migrating marriage data...");
             ps = connection.prepareStatement("SELECT * FROM " + prefix + "marriages;");
             result = ps.executeQuery();
             while(result.next()) {
@@ -352,10 +348,10 @@ public class DataManager {
             }
             ps.close();
 
-            core.getLogger().log(Level.INFO, "Migration complete!");
+            plugin.getLogger().log(Level.INFO, "Migration complete!");
             return true;
         } catch(SQLException e) {
-            core.getLogger().log(Level.WARNING, "Failed to load migrate database", e);
+            plugin.getLogger().log(Level.WARNING, "Failed to load migrate database", e);
         }
         return false;
     }
@@ -365,7 +361,7 @@ public class DataManager {
             ResultSet result = connection.createStatement().executeQuery("SELECT COUNT(*) FROM " + prefix + "marriages;");
             return result.next() ? result.getInt(1) : 0;
         } catch(SQLException e) {
-            core.getLogger().log(Level.WARNING, "Failed to count marriages", e);
+            plugin.getLogger().log(Level.WARNING, "Failed to count marriages", e);
             return null;
         }
     }

@@ -5,6 +5,7 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
 
@@ -48,7 +49,7 @@ public enum Permissions {
         if(permissionProvider != null) {
             permissionService = permissionProvider.getProvider();
             vaultEnabled = true;
-            MarriagePlugin.getCore().getLogger().log(Level.INFO, "Hooked with " + permissionService.getName() + " using Vault!");
+            JavaPlugin.getPlugin(MarriagePlugin.class).getLogger().log(Level.INFO, "Hooked with " + permissionService.getName() + " using Vault!");
         }
         return permissionService != null;
     }

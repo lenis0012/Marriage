@@ -6,6 +6,7 @@ import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.Dependencies;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.pluginutils.config.mapping.ConfigOption;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -176,7 +177,7 @@ public abstract class Command {
             return;
         }
 
-        Dependencies dependencies = marriage.dependencies();
+        Dependencies dependencies = MarriagePlugin.dependencies();
         if(!dependencies.isEconomyEnabled()) {
             return;
         }
@@ -190,18 +191,18 @@ public abstract class Command {
 
     protected boolean hasFee() {
         if(executionFee <= 0 || player == null) return true; // Success!
-        return marriage.dependencies().getEconomyService().has(player, executionFee);
+        return MarriagePlugin.dependencies().getEconomyService().has(player, executionFee);
     }
 
     protected boolean payFee() {
         if(executionFee <= 0 || player == null) return true; // Success!
 
-        if(marriage.dependencies().getEconomyService().has(player, executionFee)) {
-            EconomyResponse response = marriage.dependencies().getEconomyService().withdrawPlayer(player, executionFee);
-            reply(Message.PAID_FEE, marriage.dependencies().getEconomyService().format(executionFee));
+        if(MarriagePlugin.dependencies().getEconomyService().has(player, executionFee)) {
+            EconomyResponse response = MarriagePlugin.dependencies().getEconomyService().withdrawPlayer(player, executionFee);
+            reply(Message.PAID_FEE, MarriagePlugin.dependencies().getEconomyService().format(executionFee));
             return response.transactionSuccess();
         } else {
-            reply(Message.INSUFFICIENT_MONEY, marriage.dependencies().getEconomyService().format(executionFee));
+            reply(Message.INSUFFICIENT_MONEY, MarriagePlugin.dependencies().getEconomyService().format(executionFee));
             return false;
         }
     }

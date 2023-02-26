@@ -2,9 +2,11 @@ package com.lenis0012.bukkit.marriage2.commands;
 
 import com.lenis0012.bukkit.marriage2.config.Permissions;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
 import com.lenis0012.bukkit.marriage2.internal.data.Driver;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandMigrate extends Command {
     public CommandMigrate(MarriageCore marriage) {
@@ -28,16 +30,13 @@ public class CommandMigrate extends Command {
         }
 
         final boolean fastMode = getArgLength() <= 2 || !getArg(2).equalsIgnoreCase("false");
-        final DataManager oldDatabase = new DataManager(marriage, driver);
+        final DataManager oldDatabase = new DataManager(JavaPlugin.getPlugin(MarriagePlugin.class), driver);
 
         reply("&aStarting migration process (might take a while)");
-        Bukkit.getScheduler().runTaskAsynchronously(marriage.getPlugin(), new Runnable() {
-            @Override
-            public void run() {
-                boolean success = oldDatabase.migrateTo(newDatabase, !fastMode);
-                oldDatabase.close(); // Disconnect from old db
-                reply(success ? "&aSuccessfully migrated database!" : "&cSomething went wrong while migrating, check log.");
-            }
+        Bukkit.getScheduler().runTaskAsynchronously(JavaPlugin.getPlugin(MarriagePlugin.class), () -> {
+            boolean success = oldDatabase.migrateTo(newDatabase, !fastMode);
+            oldDatabase.close(); // Disconnect from old db
+            reply(success ? "&aSuccessfully migrated database!" : "&cSomething went wrong while migrating, check log.");
         });
     }
 }

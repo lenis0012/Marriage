@@ -4,10 +4,12 @@ import com.lenis0012.bukkit.marriage2.MPlayer;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Settings;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
+import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandMarry extends Command {
 
@@ -86,7 +88,7 @@ public class CommandMarry extends Command {
             // Request or accept
             if(mPlayer.isMarriageRequested(target.getUniqueId())) {
                 if(getExecutionFee() > 0.0) {
-                    EconomyResponse response = marriage.dependencies().getEconomyService().withdrawPlayer(target, getExecutionFee());
+                    EconomyResponse response = MarriagePlugin.dependencies().getEconomyService().withdrawPlayer(target, getExecutionFee());
                     if(!response.transactionSuccess()) {
                         reply(Message.PARTNER_FEE);
                         target.sendMessage(response.errorMessage);
@@ -95,12 +97,12 @@ public class CommandMarry extends Command {
                 }
 
                 marriage.marry(mTarget, mPlayer);
-                player.setMetadata("marriedTo", new FixedMetadataValue(marriage.getPlugin(), target.getName()));
-                target.setMetadata("marriedTo", new FixedMetadataValue(marriage.getPlugin(), player.getName()));
+                player.setMetadata("marriedTo", new FixedMetadataValue(JavaPlugin.getPlugin(MarriagePlugin.class), target.getName()));
+                target.setMetadata("marriedTo", new FixedMetadataValue(JavaPlugin.getPlugin(MarriagePlugin.class), player.getName()));
                 broadcast(Message.MARRIED, player.getName(), target.getName());
             } else if(!mTarget.isMarriageRequested(player.getUniqueId())) {
                 if(!hasFee()) {
-                    reply(Message.INSUFFICIENT_MONEY, marriage.dependencies().getEconomyService().format(getExecutionFee()));
+                    reply(Message.INSUFFICIENT_MONEY, MarriagePlugin.dependencies().getEconomyService().format(getExecutionFee()));
                     return;
                 }
 
