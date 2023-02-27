@@ -18,9 +18,8 @@ import com.lenis0012.bukkit.marriage2.misc.ListQuery;
 import com.lenis0012.pluginutils.config.AutoSavePolicy;
 import com.lenis0012.pluginutils.config.CommentConfiguration;
 import com.lenis0012.pluginutils.config.mapping.InternalMapper;
-import com.lenis0012.updater.api.ReleaseType;
-import com.lenis0012.updater.api.Updater;
-import com.lenis0012.updater.api.UpdaterFactory;
+import com.lenis0012.pluginutils.updater.Updater;
+import com.lenis0012.pluginutils.updater.UpdaterFactory;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
@@ -42,9 +41,11 @@ public class MarriageCore extends MarriageBase {
     private Updater updater;
     private Dependencies dependencies;
     private InternalMapper internalMapper;
+    private ClassLoader classLoader;
 
-    public MarriageCore(MarriagePlugin plugin) {
+    public MarriageCore(MarriagePlugin plugin, ClassLoader classLoader) {
         super(plugin);
+        this.classLoader = classLoader;
     }
 
     @Register(name = "config", type = Register.Type.ENABLE, priority = 0)
@@ -177,8 +178,7 @@ public class MarriageCore extends MarriageBase {
                 CommandReload.class,
                 CommandSeen.class,
                 CommandSethome.class,
-                CommandTeleport.class,
-                CommandUpdate.class
+                CommandTeleport.class
         );
         if (Settings.GENDERS_ENABLED.value()) {
             register(CommandGender.class);
@@ -187,9 +187,16 @@ public class MarriageCore extends MarriageBase {
 
     @Register(name = "updater", type = Type.ENABLE, priority = 9)
     public void loadUpdater() {
-        UpdaterFactory factory = new UpdaterFactory(plugin, "com.lenis0012.bukkit.marriage2.libs.updater");
-        this.updater = factory.newUpdater(plugin.getPluginFile(), Settings.ENABLE_UPDATE_CHECKER.value());
-        updater.setChannel(ReleaseType.valueOf(Settings.UPDATER_CHANNEL.value().toUpperCase()));
+        if(!Settings.ENABLE_UPDATE_CHECKER.value()) {
+            this.updater = null;
+            return;
+        }
+        try {
+            this.updater = UpdaterFactory.provideBest(plugin, classLoader)
+                .getUpdater(plugin);
+        } catch (Exception e) {
+            getLogger().log(Level.WARNING, "Failed to load update checker", e);
+        }
     }
 
     @Register(name = "converter", type = Register.Type.ENABLE, priority = 10)

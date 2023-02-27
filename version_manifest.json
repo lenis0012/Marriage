@@ -1,0 +1,10 @@
+[
+  {
+    "version": "2.2.3",
+    "channel": "STABLE",
+    "downloadUrl": "https://ci.codemc.io/job/lenis0012/job/Marriage/67/artifact/target/Marriage-Spigot-2.2.3.jar",
+    "changelogUrl": "https://www.spigotmc.org/resources/marriage-reloaded.18998/update?update=490859",
+    "minMcVersion": "1.8",
+    "maxiMcVersion": "1.19.3"
+  }
+]

@@ -6,6 +6,7 @@ description: A plugin wich provides the function to start a relationship in mine
 website: https://www.spigotmc.org/resources/marriage-reloaded-1-15-1-8.18998/
 softdepend: [Vault, PlotSquared]
 api-version: '1.13'
+manifest-url: ${updater.manifestUrl}
 commands:
   marry:
     description: Marriage main command.

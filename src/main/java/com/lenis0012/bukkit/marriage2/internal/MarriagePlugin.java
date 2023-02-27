@@ -20,7 +20,7 @@ public class MarriagePlugin extends JavaPlugin {
     private final List<Method>[] methods = new List[Register.Type.values().length];
 
     public MarriagePlugin() {
-        core = new MarriageCore(this);
+        core = new MarriageCore(this, getClassLoader());
 
         //Scan methods
         for(int i = 0; i < methods.length; i++) {

@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <lenisutils.version>2.2.2</lenisutils.version>
+        <lenisutils.version>2.4.1</lenisutils.version>
         <updater.version>1.1</updater.version>
         <maven.compiler.release>8</maven.compiler.release>
         <doclint>none</doclint>
@@ -62,10 +62,9 @@
             <version>${lenisutils.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.lenis0012.updater</groupId>
-            <artifactId>updater-api</artifactId>
-            <version>${updater.version}</version>
-            <scope>compile</scope>
+            <groupId>com.lenis0012.pluginutils</groupId>
+            <artifactId>lenisutils-updater-api</artifactId>
+            <version>${lenisutils.version}</version>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
@@ -98,39 +97,18 @@
 
     <profiles>
         <profile>
-            <id>bukkit</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <project.updaterInfo>44364</project.updaterInfo>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.lenis0012.updater</groupId>
-                    <artifactId>updater-bukkit</artifactId>
-                    <version>${updater.version}</version>
-                    <scope>compile</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <finalName>${project.name}-Bukkit-${project.version}</finalName>
-            </build>
-        </profile>
-        <profile>
             <id>spigot</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
-                <project.updaterInfo>https://raw.githubusercontent.com/lenis0012/Marriage/master/latest_version.json</project.updaterInfo>
+                <updater.manifestUrl>https://raw.githubusercontent.com/lenis0012/Marriage/feature/updater/version_manifest.json</updater.manifestUrl>
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>com.lenis0012.updater</groupId>
-                    <artifactId>updater-spigot</artifactId>
-                    <version>${updater.version}</version>
-                    <scope>compile</scope>
+                    <groupId>com.lenis0012.pluginutils</groupId>
+                    <artifactId>lenisutils-updater-manifest</artifactId>
+                    <version>${lenisutils.version}</version>
                 </dependency>
             </dependencies>
             <build>
@@ -190,6 +168,9 @@
                                     <shadedPattern>com.lenis0012.bukkit.marriage2.libs.bstats</shadedPattern>
                                 </relocation>
                             </relocations>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
                         </configuration>
                     </execution>
                 </executions>
