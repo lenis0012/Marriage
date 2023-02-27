@@ -100,6 +100,7 @@ public enum Message {
     }
 
     public void send(CommandSender player, Object... params) {
+        if (message.isEmpty()) return;
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(message, params)));
     }
 

@@ -104,6 +104,7 @@ public abstract class Command {
     }
 
     protected void reply(CommandSender sender, String message, Object... args) {
+        if (message.isEmpty()) return;
         message = ChatColor.translateAlternateColorCodes('&', String.format(message, args));
         sender.sendMessage(message);
     }
@@ -113,6 +114,7 @@ public abstract class Command {
     }
 
     protected void broadcast(String message, Object... args) {
+        if (message.isEmpty()) return;
         message = ChatColor.translateAlternateColorCodes('&', String.format(message, args));
         Bukkit.broadcastMessage(message);
     }
