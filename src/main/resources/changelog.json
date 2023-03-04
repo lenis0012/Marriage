@@ -1,13 +1,15 @@
 {
-  "version": "Marriage v2.2.3",
+  "version": "Marriage v2.2.4",
   "data":
   [
     [
       "---[ Changelog ]---",
       "",
-      "- Fixed some bugs in database handling",
+      "- Improved update checker",
       "",
-      "- Add options to configure list message format"
+      "- Added ability to dismiss update notifications",
+      "",
+      "- Bug fixes and improvements by Altruiis"
     ],
     [
       "---[ Support ]---",
