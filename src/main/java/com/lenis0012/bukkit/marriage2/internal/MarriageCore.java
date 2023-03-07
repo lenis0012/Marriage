@@ -282,12 +282,9 @@ public class MarriageCore extends MarriageBase {
     }
 
     public void removeMarriage(final MData mdata) {
-        new Thread() {
-            @Override
-            public void run() {
-                dataManager.deleteMarriage(mdata.getPlayer1Id(), mdata.getPllayer2Id());
-            }
-        }.start();
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            dataManager.deleteMarriage(mdata.getPlayer1Id(), mdata.getPllayer2Id());
+        });
     }
 
     /**
@@ -298,13 +295,16 @@ public class MarriageCore extends MarriageBase {
     public void unloadPlayer(UUID uuid) {
         final MarriagePlayer mPlayer = players.remove(uuid);
         if(mPlayer != null) {
-            new Thread() {
-                @Override
-                public void run() {
-                    dataManager.savePlayer(mPlayer);
-                }
-            }.start();
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+                dataManager.savePlayer(mPlayer);
+            });
         }
+    }
+
+    public void savePlayer(final MarriagePlayer mPlayer) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            dataManager.savePlayer(mPlayer);
+        });
     }
 
     public void unloadAll() {

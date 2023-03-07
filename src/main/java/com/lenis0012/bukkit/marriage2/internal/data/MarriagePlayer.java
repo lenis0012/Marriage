@@ -7,6 +7,7 @@ import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.Cooldown;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
@@ -103,6 +104,9 @@ public class MarriagePlayer implements MPlayer {
     @Override
     public void setChosenGender(@Nullable PlayerGender gender) {
         this.gender = gender;
+        Bukkit.getScheduler().runTaskAsynchronously(JavaPlugin.getPlugin(MarriagePlugin.class), () -> {
+            ((MarriageCore) MarriagePlugin.getCore()).savePlayer(this);
+        });
     }
 
     @Override
