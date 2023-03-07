@@ -104,9 +104,7 @@ public class MarriagePlayer implements MPlayer {
     @Override
     public void setChosenGender(@Nullable PlayerGender gender) {
         this.gender = gender;
-        Bukkit.getScheduler().runTaskAsynchronously(JavaPlugin.getPlugin(MarriagePlugin.class), () -> {
-            ((MarriageCore) MarriagePlugin.getCore()).savePlayer(this);
-        });
+        ((MarriageCore) MarriagePlugin.getCore()).savePlayer(this);
     }
 
     @Override
