@@ -4,6 +4,7 @@ import com.lenis0012.bukkit.marriage2.commands.Command;
 import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.ListQuery;
+import com.lenis0012.pluginutils.command.CommandRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -156,9 +157,25 @@ public class MarriageAPI {
      * Register a subcommand to the /marry command.
      *
      * @param commandClasses Classes of the sub commands to be registered.
+     * @deprecated Old command system is no longer used. Use {@link #registerSubCommands(Object...)} instead.
      */
+    @Deprecated
     public static void registerCommands(Class<? extends Command>... commandClasses) {
-        JavaPlugin.getPlugin(MarriagePlugin.class).registerCommands(commandClasses);
+    }
+
+    /**
+     * Register a {@link com.lenis0012.pluginutils.command.api.Command}, {@link com.lenis0012.pluginutils.command.api.Resolver} or {@link com.lenis0012.pluginutils.command.api.Completion}
+     * to the /marry command.
+     * This will recalculate the command tree, so it is recommended to register all custom sources at once.
+     *
+     * @param sources List of objects containing new commands, resolvers or completions
+     */
+    public static void registerSubCommands(Object... sources) {
+        final CommandRegistry commandRegistry = JavaPlugin.getPlugin(MarriagePlugin.class).getCommandRegistry();
+        for(Object commandSource : sources) {
+            commandRegistry.register(commandSource);
+        }
+        commandRegistry.finishAndApply();
     }
 
     /**

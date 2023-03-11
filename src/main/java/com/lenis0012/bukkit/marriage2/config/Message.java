@@ -1,12 +1,11 @@
 package com.lenis0012.bukkit.marriage2.config;
 
-import com.lenis0012.bukkit.marriage2.internal.MarriageCore;
 import com.lenis0012.bukkit.marriage2.internal.MarriagePlugin;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public enum Message {
+public enum Message implements com.lenis0012.pluginutils.command.api.Message {
     PLAYER_NOT_FOUND("&cNo player named %s was found!"),
     TARGET_ALREADY_MARRIED("&cPlayers %s is already married to someone!"),
     ALREADY_MARRIED("&cYou are already married to someone!"),
@@ -111,5 +110,10 @@ public enum Message {
         }
 
         config.save();
+    }
+
+    @Override
+    public String getTemplate() {
+        return message;
     }
 }

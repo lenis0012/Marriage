@@ -1,6 +1,9 @@
 package com.lenis0012.bukkit.marriage2.internal;
 
 import com.lenis0012.bukkit.marriage2.Genders;
+import com.lenis0012.bukkit.marriage2.command.HomeCommand;
+import com.lenis0012.bukkit.marriage2.command.ListCommand;
+import com.lenis0012.bukkit.marriage2.command.MarryCommand;
 import com.lenis0012.bukkit.marriage2.commands.*;
 import com.lenis0012.bukkit.marriage2.config.Message;
 import com.lenis0012.bukkit.marriage2.config.Permissions;
@@ -9,11 +12,16 @@ import com.lenis0012.bukkit.marriage2.internal.data.DataManager;
 import com.lenis0012.bukkit.marriage2.internal.data.MarriagePlayer;
 import com.lenis0012.bukkit.marriage2.listeners.*;
 import com.lenis0012.bukkit.marriage2.misc.BConfig;
+import com.lenis0012.pluginutils.command.CommandRegistry;
+import com.lenis0012.pluginutils.command.api.CommandContext;
+import com.lenis0012.pluginutils.command.api.HelpMessage;
+import com.lenis0012.pluginutils.command.api.MessageProcessor;
 import com.lenis0012.pluginutils.config.AutoSavePolicy;
 import com.lenis0012.pluginutils.config.CommentConfiguration;
 import com.lenis0012.pluginutils.config.mapping.InternalMapper;
 import com.lenis0012.pluginutils.updater.Updater;
 import com.lenis0012.pluginutils.updater.UpdaterFactory;
+import net.md_5.bungee.api.ChatColor;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
@@ -23,6 +31,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.units.qual.C;
 
 import java.io.File;
 import java.util.Map;
@@ -44,10 +53,7 @@ public class MarriagePlugin extends JavaPlugin {
     private Dependencies dependencies;
     private InternalMapper internalMapper;
     private MarriageCommandExecutor commandExecutor;
-
-    protected File getPluginFile() {
-        return getFile();
-    }
+    private CommandRegistry commandRegistry;
 
     @Override
     public void onLoad() {
@@ -177,27 +183,18 @@ public class MarriagePlugin extends JavaPlugin {
 
     @Register(name = "commands", type = Register.Type.ENABLE)
     public void registerCommands() {
-        registerCommands(
-                CommandChat.class,
-                CommandChatSpy.class,
-                CommandDivorce.class,
-                CommandGift.class,
-                CommandHeal.class,
-                CommandHelp.class,
-                CommandHome.class,
-                CommandList.class,
-                CommandMarry.class,
-                CommandMigrate.class,
-                CommandPriest.class,
-                CommandPVP.class,
-                CommandReload.class,
-                CommandSeen.class,
-                CommandSethome.class,
-                CommandTeleport.class
-        );
-        if (Settings.GENDERS_ENABLED.value()) {
-            registerCommands(CommandGender.class);
-        }
+        CommandRegistry registry = new CommandRegistry(this)
+                .setMessageProcessor((commandContext, message, objects) -> {
+                    if(message.isHelpMessage()) {
+                        commandContext.getSender().spigot().sendMessage(commandContext.getHelpContext().serialize(ChatColor.GREEN, ChatColor.DARK_GREEN));
+                        return;
+                    }
+                    commandContext.getSender().sendMessage(ChatColor.translateAlternateColorCodes('&', String.format(message.getTemplate(), objects)));
+                })
+                .register(new MarryCommand(core))
+                .register(new ListCommand(this, core))
+                .register(new HomeCommand())
+                .finishAndApply();
     }
 
     @Register(name = "updater", type = Register.Type.ENABLE, priority = 9)
@@ -224,12 +221,6 @@ public class MarriagePlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(listener, this);
     }
 
-    public void registerCommands(Class<? extends Command>... commandClasses) {
-        for(Class<? extends Command> cmdclass : commandClasses) {
-            commandExecutor.register(cmdclass);
-        }
-    }
-
     public BConfig getBukkitConfig(String fileName) {
         File file = new File(getDataFolder(), fileName);
         return new BConfig(this, file);
@@ -245,5 +236,9 @@ public class MarriagePlugin extends JavaPlugin {
 
     public Updater getUpdater() {
         return updater;
+    }
+
+    public CommandRegistry getCommandRegistry() {
+        return commandRegistry;
     }
 }
