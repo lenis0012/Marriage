@@ -140,36 +140,34 @@ public class DataManager {
     }
 
     private int purge(long daysInMillis, boolean purgeMarried) {
-        try {
-            return getInTransaction(dataSource, connection -> {
-                if (purgeMarried) {
-                    // First remove the marriages of the players that are going to be removed
-                    try(PreparedStatement ps = connection.prepareStatement(
-                        (
-                            "DELETE FROM marriage_marriages\n" +
-                            "WHERE player1 IN (SELECT unique_user_id FROM marriage_players WHERE lastlogin < ?)\n" +
-                            "OR player2 IN (SELECT unique_user_id FROM marriage_players WHERE lastlogin < ?);"
-                        ).replace("marriage_", prefix)
-                    )) {
-                        ps.setLong(1, System.currentTimeMillis() - daysInMillis);
-                        ps.setLong(2, System.currentTimeMillis() - daysInMillis);
-                        ps.executeUpdate();
-                    }
-                }
-
+        try(Connection connection = dataSource.getConnection()) {
+            if (purgeMarried) {
+                // First remove the marriages of the players that are going to be removed
                 try(PreparedStatement ps = connection.prepareStatement(
-                    ("DELETE FROM marriage_players\n" +
-                    "WHERE lastlogin < ?\n" +
-                    "AND unique_user_id NOT IN (\n" +
-                    "    SELECT player1 FROM marriage_marriages\n" +
-                    "    UNION\n" +
-                    "    SELECT player2 FROM marriage_marriages\n" +
-                    ");\n").replace("marriage_", prefix)
+                    (
+                        "DELETE FROM marriage_marriages\n" +
+                        "WHERE player1 IN (SELECT unique_user_id FROM marriage_players WHERE lastlogin < ?)\n" +
+                        "OR player2 IN (SELECT unique_user_id FROM marriage_players WHERE lastlogin < ?);"
+                    ).replace("marriage_", prefix)
                 )) {
                     ps.setLong(1, System.currentTimeMillis() - daysInMillis);
-                    return ps.executeUpdate();
+                    ps.setLong(2, System.currentTimeMillis() - daysInMillis);
+                    ps.executeUpdate();
                 }
-            });
+            }
+
+            try(PreparedStatement ps = connection.prepareStatement(
+                ("DELETE FROM marriage_players\n" +
+                "WHERE lastlogin < ?\n" +
+                "AND unique_user_id NOT IN (\n" +
+                "    SELECT player1 FROM marriage_marriages\n" +
+                "    UNION\n" +
+                "    SELECT player2 FROM marriage_marriages\n" +
+                ");\n").replace("marriage_", prefix)
+            )) {
+                ps.setLong(1, System.currentTimeMillis() - daysInMillis);
+                return ps.executeUpdate();
+            }
         } catch(SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to purge user data", e);
             return 0;
@@ -371,7 +369,11 @@ public class DataManager {
             throw e;
         } finally {
             if(connection != null) {
-                connection.setAutoCommit(true);
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    // ignore
+                }
                 connection.close();
             }
         }
@@ -392,7 +394,11 @@ public class DataManager {
             throw e;
         } finally {
             if(connection != null) {
-                connection.setAutoCommit(true);
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    // ignore
+                }
                 connection.close();
             }
         }
