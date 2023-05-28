@@ -102,7 +102,7 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
             <properties>
-                <updater.manifestUrl>https://raw.githubusercontent.com/lenis0012/Marriage/feature/updater/version_manifest.json</updater.manifestUrl>
+                <updater.manifestUrl>https://raw.githubusercontent.com/lenis0012/Marriage/master/version_manifest.json</updater.manifestUrl>
             </properties>
             <dependencies>
                 <dependency>
