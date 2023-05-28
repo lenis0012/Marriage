@@ -140,49 +140,36 @@ public class DataManager {
     }
 
     private int purge(long daysInMillis, boolean purgeMarried) {
-        String query = String.format("SELECT * FROM %splayers WHERE lastlogin < ?;", prefix);
-        try(Connection connection = dataSource.getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setLong(1, System.currentTimeMillis() - daysInMillis);
-            ResultSet result = ps.executeQuery();
-            Set<String> removeList = Sets.newHashSet();
-            Set<Integer> removeList2 = Sets.newHashSet();
-            while(result.next()) {
-                removeList.add(result.getString("unique_user_id"));
-            }
-
-            ps.close(); // Release statement
-            if(!purgeMarried) {
-                ps = connection.prepareStatement("SELECT * FROM " + prefix + "marriages;");
-                result = ps.executeQuery();
-                while(result.next()) {
-                    boolean remove = removeList.remove(result.getString("player1"));
-                    remove = remove || removeList.remove(result.getString("player2"));
-                    if(remove) {
-                        removeList2.add(result.getInt("id"));
+        try {
+            return getInTransaction(dataSource, connection -> {
+                if (purgeMarried) {
+                    // First remove the marriages of the players that are going to be removed
+                    try(PreparedStatement ps = connection.prepareStatement(
+                        (
+                            "DELETE FROM marriage_marriages\n" +
+                            "WHERE player1 IN (SELECT unique_user_id FROM marriage_players WHERE lastlogin < ?)\n" +
+                            "OR player2 IN (SELECT unique_user_id FROM marriage_players WHERE lastlogin < ?);"
+                        ).replace("marriage_", prefix)
+                    )) {
+                        ps.setLong(1, System.currentTimeMillis() - daysInMillis);
+                        ps.setLong(2, System.currentTimeMillis() - daysInMillis);
+                        ps.executeUpdate();
                     }
                 }
-                ps.close(); // Release statement
-            }
 
-            // Delete player entries
-            ps = connection.prepareStatement("DELETE FROM " + prefix + "players WHERE unique_user_id=?;");
-            for(String uuid : removeList) {
-                ps.setString(1, uuid);
-                ps.addBatch();
-            }
-            ps.executeBatch();
-            ps.close();
-
-            // Remove marriage entries
-            ps = connection.prepareStatement("DELETE FROM " + prefix + "marriages WHERE id=?;");
-            for(int id : removeList2) {
-                ps.setInt(1, id);
-                ps.addBatch();
-            }
-            ps.executeBatch();
-            ps.close();
-            return removeList.size();
+                try(PreparedStatement ps = connection.prepareStatement(
+                    ("DELETE FROM marriage_players\n" +
+                    "WHERE lastlogin < ?\n" +
+                    "AND unique_user_id NOT IN (\n" +
+                    "    SELECT player1 FROM marriage_marriages\n" +
+                    "    UNION\n" +
+                    "    SELECT player2 FROM marriage_marriages\n" +
+                    ");\n").replace("marriage_", prefix)
+                )) {
+                    ps.setLong(1, System.currentTimeMillis() - daysInMillis);
+                    return ps.executeUpdate();
+                }
+            });
         } catch(SQLException e) {
             core.getLogger().log(Level.WARNING, "Failed to purge user data", e);
             return 0;
@@ -368,5 +355,56 @@ public class DataManager {
             core.getLogger().log(Level.WARNING, "Failed to count marriages", e);
             return null;
         }
+    }
+
+    private static void runInTransaction(DataSource source, SqlRunnable runnable) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = source.getConnection();
+            connection.setAutoCommit(false);
+            runnable.run(connection);
+            connection.commit();
+        } catch(SQLException e) {
+            if(connection != null) {
+                connection.rollback();
+            }
+            throw e;
+        } finally {
+            if(connection != null) {
+                connection.setAutoCommit(true);
+                connection.close();
+            }
+        }
+    }
+
+    private static <T> T getInTransaction(DataSource source, SqlSupplier<T> runnable) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = source.getConnection();
+            connection.setAutoCommit(false);
+            T result = runnable.get(connection);
+            connection.commit();
+            return result;
+        } catch(SQLException e) {
+            if(connection != null) {
+                connection.rollback();
+            }
+            throw e;
+        } finally {
+            if(connection != null) {
+                connection.setAutoCommit(true);
+                connection.close();
+            }
+        }
+    }
+
+    @FunctionalInterface
+    private interface SqlRunnable {
+        void run(Connection connection) throws SQLException;
+    }
+
+    @FunctionalInterface
+    private interface SqlSupplier<T> {
+        T get(Connection connection) throws SQLException;
     }
 }
